@@ -102,7 +102,7 @@ const securityHeaders = [
   },
   {
     key: "Content-Security-Policy",
-    value: "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com https://www.youtube.com https://s.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; media-src 'self' https: blob: data:; frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com https://calendly.com; connect-src 'self' https: wss:;",
+    value: "default-src 'self' https: data: blob: 'unsafe-inline' 'unsafe-eval'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://static.cloudflareinsights.com https://www.youtube.com https://s.ytimg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' https: data: blob:; media-src 'self' https: blob: data:; frame-src 'self' https://www.youtube.com https://youtube.com https://www.youtube-nocookie.com https://calendly.com https://playcanv.as https://playcanvas.com; connect-src 'self' https: wss:;",
   },
 ];
 
@@ -171,6 +171,12 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "mediumseagreen-crocodile-699024.hostingersite.com",
+        pathname: "/**",
+      },
+      // Cloudinary Global CDN
+      {
+        protocol: "https",
+        hostname: "res.cloudinary.com",
         pathname: "/**",
       },
     ],

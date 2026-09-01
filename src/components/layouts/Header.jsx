@@ -6,12 +6,31 @@ import { useRouter } from 'next/navigation';
 
 const logo = '/assets/logo.webp';
 
+const LOCATIONS = [
+  { name: 'Global', href: '/' },
+  { name: 'United Kingdom', href: '/uk/services' },
+];
+
 const Header = () => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [isLightSection, setIsLightSection] = useState(false);
+  const [locationOpen, setLocationOpen] = useState(false);
+  const [mobileLocationOpen, setMobileLocationOpen] = useState(false);
   const headerRef = useRef(null);
+  const locationRef = useRef(null);
+
+  useEffect(() => {
+    if (!locationOpen) return;
+    const handleClickOutside = (e) => {
+      if (locationRef.current && !locationRef.current.contains(e.target)) {
+        setLocationOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [locationOpen]);
 
   useEffect(() => {
     const sections = document.querySelectorAll('[data-nav]');
@@ -101,6 +120,35 @@ const Header = () => {
         </Link>
 
         <div className="flex items-center gap-6 relative z-50">
+          <div className="hidden md:block relative" ref={locationRef}>
+            <button
+              onClick={() => setLocationOpen((prev) => !prev)}
+              className={`flex items-center gap-1.5 border ${
+                isLightSection
+                  ? 'border-black/20 hover:border-[#4169E1] text-black hover:text-[#4169E1]'
+                  : 'border-white/20 hover:border-[#4169E1] text-white hover:text-[#4169E1]'
+              } bg-transparent px-5 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 backdrop-blur-md`}
+              aria-haspopup="true"
+              aria-expanded={locationOpen}
+            >
+              Location
+              <span className={`text-[10px] transition-transform duration-200 ${locationOpen ? 'rotate-180' : ''}`}>▾</span>
+            </button>
+            {locationOpen && (
+              <div className="absolute top-full right-0 mt-2 w-56 rounded-2xl border border-white/10 bg-black/70 backdrop-blur-xl overflow-hidden">
+                {LOCATIONS.map((loc) => (
+                  <Link
+                    key={loc.href}
+                    href={loc.href}
+                    onClick={() => setLocationOpen(false)}
+                    className="block px-5 py-3.5 text-sm font-semibold text-white/90 hover:bg-white/10 hover:text-[#4169E1] transition-colors"
+                  >
+                    {loc.name}
+                  </Link>
+                ))}
+              </div>
+            )}
+          </div>
           <button
             onClick={() => {
               setIsMenuOpen(false);
@@ -148,6 +196,36 @@ const Header = () => {
         )}
 
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-20 mt-auto mb-auto">
+          <div className="md:hidden mb-8">
+            <button
+              onClick={() => setMobileLocationOpen((prev) => !prev)}
+              className="flex items-center gap-2 border border-white/20 text-white/90 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:border-[#4169E1] hover:text-[#4169E1] transition-colors"
+            >
+              Location
+              <span className={`text-[10px] transition-transform duration-200 ${mobileLocationOpen ? 'rotate-180' : ''}`}>▾</span>
+            </button>
+            <div
+              className={`overflow-hidden transition-all duration-300 ${
+                mobileLocationOpen ? 'max-h-40 opacity-100 mt-3' : 'max-h-0 opacity-0'
+              }`}
+            >
+              <div className="flex flex-col gap-1 pl-1">
+                {LOCATIONS.map((loc) => (
+                  <Link
+                    key={loc.href}
+                    href={loc.href}
+                    onClick={() => {
+                      setIsMenuOpen(false);
+                      setMobileLocationOpen(false);
+                    }}
+                    className="text-white/80 text-sm font-medium hover:text-[#4169E1] transition-colors py-1"
+                  >
+                    {loc.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
           <ul className="grid grid-cols-1 max-h-[900px]:grid-cols-2 gap-x-16 gap-y-1 max-h-[900px]:gap-y-0.5">
             {menuItems.map((item, index) => (
               <li key={index} className="group">
