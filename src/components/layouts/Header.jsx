@@ -9,6 +9,7 @@ const logo = '/assets/logo.webp';
 const LOCATIONS = [
   { name: 'Global', href: '/' },
   { name: 'United Kingdom', href: '/uk/services' },
+  { name: 'Australia', href: '/au/services' },
 ];
 
 const Header = () => {
