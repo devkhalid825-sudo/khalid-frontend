@@ -86,7 +86,7 @@ const SERVICE_ITEMS = [
 ];
 
 export const WHY_US_ITEMS = [
-  { icon: <FaMapMarkerAlt />, title: 'Sydney & Melbourne — AEST Account Management', desc: 'Direct Australian contact, AEST hours, +61 2 8880 7954. No timezone lag, no overseas delays. Every project managed in your working day.' },
+  { icon: <FaMapMarkerAlt />, title: 'Sydney & Melbourne — AEST Account Management', desc: 'Direct Australian contact, AEST working hours. No timezone lag, no overseas delays. Every project managed in your working day.' },
   { icon: <FaDollarSign />, title: 'AUD Pricing — GST Included', desc: 'All estimates include GST at the current rate. AUD pricing throughout. No currency conversion surprises on your invoice.' },
   { icon: <FaLink />, title: 'One Studio — Every Capability', desc: '3D configurator, AR, VR, animation, and architectural visualisation — all from one team. No coordination between agencies. Your 3D assets reused across every deliverable.' },
   { icon: <FaRulerCombined />, title: 'CAD-Accurate Production', desc: 'Every 3D model built from your actual CAD files or technical drawings. What we produce matches exactly what your Australian factory or supplier manufactures.' },
@@ -115,10 +115,10 @@ const AuServicesPage = () => {
     navLinks: NAV_LINKS_AU,
     navCta: 'Get My Free AUD Estimate →',
     navCtaHref: '#contact',
-    navPhoneBadge: <><FaMapMarkerAlt className="inline -mt-0.5 mr-1" /> Australia · +61 2 8880 7954</>,
+    navPhoneBadge: <><FaMapMarkerAlt className="inline -mt-0.5 mr-1" /> Australia · AEST Hours</>,
     announcement: (
       <>
-        <FaMapMarkerAlt className="inline -mt-0.5 mr-1" /> <strong>Australian studio · AEST hours · AUD pricing</strong> · <a href="tel:+61288807954">+61 2 8880 7954</a> · <a href="#contact"><strong>Free estimate in 24hrs</strong> <FaArrowRight className="inline -mt-0.5" /></a>
+        <FaMapMarkerAlt className="inline -mt-0.5 mr-1" /> <strong>Australian studio · AEST hours · AUD pricing</strong> · <a href="#contact"><strong>Free estimate in 24hrs</strong> <FaArrowRight className="inline -mt-0.5" /></a>
       </>
     ),
     hero: {
@@ -207,7 +207,7 @@ const AuServicesPage = () => {
           q: 'How is working with an Australian-based Elipse Studio team different?',
           a: (
             <>
-              The difference is operational, not just geographic. AEST hours mean your project is never waiting overnight for a decision or revision. AUD pricing means no invoice surprises. A Sydney and Melbourne-based account manager means direct phone access at <a href="tel:+61288807954">+61 2 8880 7954</a> during your working day. And because we understand Australian ecommerce platforms (Shopify AU, WooCommerce), Australian manufacturing supply chains, and Australian buyer behaviour specifically, the strategic advice we give is calibrated to your actual market — not a global average.
+              The difference is operational, not just geographic. AEST hours mean your project is never waiting overnight for a decision or revision. AUD pricing means no invoice surprises. A Sydney and Melbourne-focused account manager means direct communication during your working day. And because we understand Australian ecommerce platforms (Shopify AU, WooCommerce), Australian manufacturing supply chains, and Australian buyer behaviour specifically, the strategic advice we give is calibrated to your actual market — not a global average.
             </>
           ),
         },
@@ -223,7 +223,7 @@ const AuServicesPage = () => {
           q: 'How do I get a quote for an Australian project?',
           a: (
             <>
-              Fill in the form at the bottom of this page or call our Australian direct line at <a href="tel:+61288807954"><strong>+61 2 8880 7954</strong></a>. We respond within one AEST business day with a free AUD ballpark estimate. For qualifying projects we also offer a <strong>free sample render</strong> so you can assess visual quality before any commitment. If you&apos;d prefer a call first, book 12 minutes via <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" target="_blank" rel="noopener">Calendly</a> — no obligation, no proposal unless you ask for one.
+              Fill in the form at the bottom of this page. We respond within one AEST business day with a free AUD ballpark estimate. For qualifying projects we also offer a <strong>free sample render</strong> so you can assess visual quality before any commitment. If you&apos;d prefer a call first, book 12 minutes via <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" target="_blank" rel="noopener">Calendly</a> — no obligation, no proposal unless you ask for one.
             </>
           ),
         },

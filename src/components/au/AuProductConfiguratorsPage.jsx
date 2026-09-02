@@ -50,7 +50,7 @@ const AuProductConfiguratorsPage = () => {
         { title: 'Shareable Configuration URLs', desc: 'Every configuration generates a unique URL recreating the exact build for anyone who receives the link — each arriving in your funnel at maximum purchase intent.' },
         { title: 'Shopify & WooCommerce Native', desc: 'SKU, AUD pricing, and GST flow directly into your checkout. No manual re-entry, no export step.' },
         { title: 'Compatibility Rules Engine', desc: 'Invalid option combinations blocked before they reach your OMS — preventing costly misconfigured orders.' },
-        { title: 'Sydney & Melbourne — AEST Account Management', desc: 'Direct Australian contact, AEST hours, +61 2 8880 7954. No timezone lag, no overseas hand-off.' },
+        { title: 'Sydney & Melbourne — AEST Account Management', desc: 'Direct Australian contact, AEST working hours. No timezone lag, no overseas hand-off.' },
       ],
     },
     whyUs: {

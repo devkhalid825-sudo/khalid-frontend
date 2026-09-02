@@ -73,7 +73,7 @@ const AuProductVisualisationPage = () => {
         { title: 'Lifestyle Scene Renders Australia', desc: 'Your product placed in photoreal lifestyle environments — Australian living rooms, outdoor settings, commercial spaces, and native Australian landscape contexts.' },
         { title: 'Detail & Close-Up Renders', desc: 'Macro renders showing material quality, texture detail, stitching, joints, weave structure, and finish quality.' },
         { title: 'Print & Social Formats AU', desc: 'Every render delivered pre-formatted for print (CMYK, high-res) and social (1:1, 9:16, 16:9) — one shoot, every channel.' },
-        { title: 'AU Office — AEST Turnaround', desc: 'Sydney and Melbourne contact, AEST hours, +61 2 8880 7954. Revisions reviewed and returned within the same working day.' },
+        { title: 'AU Focus — AEST Turnaround', desc: 'Sydney and Melbourne contact, AEST working hours. Revisions reviewed and returned within the same working day.' },
       ],
     },
     whyUs: {

@@ -124,11 +124,11 @@ const Header = () => {
           <div className="hidden md:block relative" ref={locationRef}>
             <button
               onClick={() => setLocationOpen((prev) => !prev)}
-              className={`flex items-center gap-1.5 border ${
+              className={`w-[130px] h-11 flex items-center justify-center gap-1.5 border ${
                 isLightSection
                   ? 'border-black/20 hover:border-[#4169E1] text-black hover:text-[#4169E1]'
                   : 'border-white/20 hover:border-[#4169E1] text-white hover:text-[#4169E1]'
-              } bg-transparent px-5 py-3.5 rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 backdrop-blur-md`}
+              } bg-transparent rounded-full text-xs font-bold uppercase tracking-widest transition-all duration-300 backdrop-blur-md`}
               aria-haspopup="true"
               aria-expanded={locationOpen}
             >
@@ -155,11 +155,11 @@ const Header = () => {
               setIsMenuOpen(false);
               router.push('/contact');
             }}
-            className={`hidden md:block border ${
+            className={`hidden md:flex w-[130px] h-11 items-center justify-center border ${
               isLightSection
                 ? 'border-black/20 hover:border-[#4169E1] text-black hover:text-[#4169E1]'
                 : 'border-white/20 hover:border-[#4169E1] text-white hover:text-[#4169E1]'
-            } bg-transparent px-9 py-3.5 rounded-full text-xs md:text-sm font-bold uppercase tracking-widest hover:shadow-[0_0_20px_rgba(65,105,225,0.3)] transition-all duration-300 transform hover:scale-105 active:scale-95 backdrop-blur-md`}
+            } bg-transparent rounded-full text-xs font-bold uppercase tracking-widest hover:shadow-[0_0_20px_rgba(65,105,225,0.3)] transition-all duration-300 backdrop-blur-md`}
           >
             Contact
           </button>

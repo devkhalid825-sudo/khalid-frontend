@@ -53,7 +53,6 @@ const AuFooter = () => {
             <h4>AU Contact <FaMapMarkerAlt className="inline -mt-0.5" /></h4>
             <p className="footer-col-text">Sydney, NSW &amp; Melbourne, VIC, Australia</p>
             <ul className="footer-links">
-              <li><Link href="tel:+61288807954">+61 2 8880 7954</Link></li>
               <li><Link href="mailto:info@elipsestudio.com">info@elipsestudio.com</Link></li>
               <li><a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" target="_blank" rel="noopener">Book a Call ↗</a></li>
               <li><Link href="/portfolio">Portfolio ↗</Link></li>

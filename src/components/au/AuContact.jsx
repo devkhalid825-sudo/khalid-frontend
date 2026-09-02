@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { FaWhatsapp, FaPhoneAlt, FaMapMarkerAlt, FaCheck, FaPaperPlane } from 'react-icons/fa';
+import { FaWhatsapp, FaMapMarkerAlt, FaCheck, FaPaperPlane } from 'react-icons/fa';
 import { SiCalendly } from 'react-icons/si';
 import { apiCall } from '../../utils/api';
 import { servicesList } from '../../data/servicesList';
@@ -157,7 +157,6 @@ const AuContact = ({
             <div className="au-cta-actions">
               <a href="https://wa.me/923471245257" className="au-btn au-btn-outline" target="_blank" rel="noopener"><FaWhatsapp style={{ marginRight: 6, verticalAlign: '-2px' }} /> Message on WhatsApp</a>
               <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="au-btn au-btn-outline" target="_blank" rel="noopener"><SiCalendly style={{ marginRight: 6, verticalAlign: '-2px' }} /> Schedule an Intro Call</a>
-              <a href="tel:+61288807954" className="au-btn au-btn-outline"><FaPhoneAlt style={{ marginRight: 6, verticalAlign: '-2px' }} /> Call AU: +61 2 8880 7954</a>
             </div>
           </div>
         </div>
@@ -166,7 +165,7 @@ const AuContact = ({
           <span className="au-addr-flag"><FaMapMarkerAlt /></span>
           <p>
             <strong>Elipse Studio Australia</strong> — Sydney, NSW &amp; Melbourne, VIC<br />
-            <a href="tel:+61288807954">+61 2 8880 7954</a> · <a href="mailto:info@elipsestudio.com">info@elipsestudio.com</a><br />
+            <a href="mailto:info@elipsestudio.com">info@elipsestudio.com</a><br />
             AEST business hours · AUD pricing (GST included) · Free estimate in 24 hours
           </p>
         </div>
