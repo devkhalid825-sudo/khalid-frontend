@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { apiCall, uploadFile, getYoutubeEmbed } from '../utils/api';
+import { apiCall, API_BASE_URL, BACKEND_ORIGIN, getYoutubeEmbed } from '../utils/api';
 import { getAdminToken } from '../utils/auth';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiImage, FiSave, FiUpload, FiChevronUp, FiChevronDown, FiMove } from 'react-icons/fi';
 import HtmlEditor from './ui/HtmlEditor';
@@ -23,13 +23,23 @@ const SortableBlogItem = ({ blog, onEdit, onDelete, onMoveUp, onMoveDown, isFirs
     position: 'relative',
   };
 
+  const blogImgSrc = blog.image
+    ? (blog.image.startsWith('http') || blog.image.startsWith('blob:')
+        ? blog.image
+        : `${BACKEND_ORIGIN}${blog.image}`)
+    : '';
+
   return (
     <div ref={setNodeRef} style={style} className={`bg-white border border-[#0D0D0D]/20 p-3 md:p-5 rounded-[1rem] md:rounded-[1.5rem] hover:border-[#0D0D0D]/30 transition-all flex items-center gap-2 md:gap-4 group ${isDragging ? 'shadow-[0_0_30px_rgba(65,105,225,0.15)]' : ''}`}>
       <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing p-1 md:p-1.5 text-[#0D0D0D]/60 hover:text-[#4169E1] transition-colors shrink-0">
         <FiMove className="text-sm md:text-lg" />
       </div>
-      <div className="w-10 h-10 md:w-16 md:h-16 rounded-lg md:rounded-xl overflow-hidden bg-[#0D0D0D]/10 shrink-0">
-        <img src={blog.image} alt="" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+      <div className="w-10 h-10 md:w-16 md:h-16 rounded-lg md:rounded-xl overflow-hidden bg-[#0D0D0D]/10 shrink-0 flex items-center justify-center">
+        {blogImgSrc ? (
+          <img src={blogImgSrc} alt="" className="w-full h-full object-cover" onError={(e) => { e.target.style.display = 'none'; }} />
+        ) : (
+          <FiImage className="text-lg text-[#0D0D0D]/40" />
+        )}
       </div>
       <div className="flex-1 min-w-0">
         <h4 className="text-xs md:text-base font-black tracking-tight text-[#0D0D0D] truncate">{blog.title}</h4>
@@ -67,9 +77,10 @@ const BlogDashboard = () => {
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
   const [form, setForm] = useState({ title: '', metaTitle: '', metaDescription: '', slug: '', excerpt: '', content: '', sections: [], image: '', image2: '', image3: '', image4: '', video: '', heroType: 'image', category: '', date: '' });
+  const [selectedFiles, setSelectedFiles] = useState({ image: null, image2: null, image3: null, image4: null });
+  const [selectedSectionFiles, setSelectedSectionFiles] = useState({});
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
-  const [uploadingSection, setUploadingSection] = useState(null);
   const [msg, setMsg] = useState('');
 
   const token = getAdminToken();
@@ -82,9 +93,6 @@ const BlogDashboard = () => {
     setLoading(false);
   };
 
-  // Standard fetch-on-mount: fetchBlogs's setState calls only run after its
-  // awaited request settles, not synchronously within this effect.
-  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { fetchBlogs(); }, []);
 
   const sensors = useSensors(
@@ -141,7 +149,9 @@ const BlogDashboard = () => {
 
   const openNewForm = () => {
     setEditing(null);
-    setForm({ title: '', metaTitle: '', metaDescription: '', slug: '', excerpt: '', content: '', sections: [{ content: '', image: '' }, { content: '', image: '' }, { content: '', image: '' }, { content: '', image: '' }, { content: '', image: '' }], image: '', image2: '', image3: '', image4: '', video: '', heroType: 'image', category: '', date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase() });
+    setForm({ title: '', metaTitle: '', metaDescription: '', slug: '', excerpt: '', content: '', sections: [{ content: '', image: '', video: '' }, { content: '', image: '', video: '' }], image: '', image2: '', image3: '', image4: '', video: '', heroType: 'image', category: '', date: new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }).toUpperCase() });
+    setSelectedFiles({ image: null, image2: null, image3: null, image4: null });
+    setSelectedSectionFiles({});
     setShowForm(true);
   };
 
@@ -149,9 +159,25 @@ const BlogDashboard = () => {
     setEditing(blog);
     let sections = blog.sections;
     if (typeof sections === 'string') { try { sections = JSON.parse(sections); } catch (e) { sections = []; } }
-    if (!sections || sections.length === 0) sections = [{ content: '', image: '' }, { content: '', image: '' }, { content: '', image: '' }, { content: '', image: '' }, { content: '', image: '' }];
-    setForm({ title: blog.title, metaTitle: blog.metaTitle || '', metaDescription: blog.metaDescription || '', slug: blog.slug, excerpt: blog.excerpt, content: blog.content, sections, image: blog.image, image2: blog.image2 || '', image3: blog.image3 || '', image4: blog.image4 || '', video: blog.video || '', heroType: (blog.video && !blog.image) ? 'video' : 'image', category: blog.category, date: blog.date });
+    if (!sections || sections.length === 0) sections = [{ content: '', image: '', video: '' }, { content: '', image: '', video: '' }];
+    setForm({ title: blog.title || '', metaTitle: blog.metaTitle || '', metaDescription: blog.metaDescription || '', slug: blog.slug || '', excerpt: blog.excerpt || '', content: blog.content || '', sections, image: blog.image || '', image2: blog.image2 || '', image3: blog.image3 || '', image4: blog.image4 || '', video: blog.video || '', heroType: (blog.video && !blog.image) ? 'video' : 'image', category: blog.category || '', date: blog.date || '' });
+    setSelectedFiles({ image: null, image2: null, image3: null, image4: null });
+    setSelectedSectionFiles({});
     setShowForm(true);
+  };
+
+  const uploadSingleFile = async (file, type = 'blogs') => {
+    const fd = new FormData();
+    fd.append('image', file);
+    fd.append('type', type);
+    const res = await fetch(`${API_BASE_URL}/upload?type=${encodeURIComponent(type)}`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}` },
+      body: fd,
+    });
+    const data = await res.json();
+    if (!res.ok || !data.url) throw new Error(data.message || 'Upload failed');
+    return data.url;
   };
 
   const handleSave = async (e) => {
@@ -159,40 +185,88 @@ const BlogDashboard = () => {
     setSaving(true);
     setMsg('');
 
-    const { heroType, ...formWithoutToggle } = form;
-    const payload = { ...formWithoutToggle, video: form.heroType === 'video' ? form.video : '', sections: JSON.stringify(form.sections) };
-    let res;
-    if (editing) {
-      res = await apiCall(`/blogs/${editing.id}`, 'PUT', payload, token);
-    } else {
-      res = await apiCall('/blogs', 'POST', payload, token);
-    }
+    try {
+      // 1. Upload main and secondary images if newly selected
+      const finalImages = {
+        image: form.image,
+        image2: form.image2,
+        image3: form.image3,
+        image4: form.image4,
+      };
 
-    if (res.status === 200 || res.status === 201) {
-      setMsg(editing ? 'Blog updated successfully!' : 'Blog created successfully!');
-      setShowForm(false);
-      setEditing(null);
-      fetchBlogs();
-    } else {
-      setMsg(res.data?.message || 'Failed to save blog');
-    }
-    setSaving(false);
-    setTimeout(() => setMsg(''), 3000);
-  };
+      for (const imgKey of ['image', 'image2', 'image3', 'image4']) {
+        const file = selectedFiles[imgKey];
+        if (file) {
+          setUploading(true);
+          try {
+            const uploadedUrl = await uploadSingleFile(file, 'blogs');
+            finalImages[imgKey] = uploadedUrl;
+          } catch (err) {
+            console.error(`Upload failed for ${imgKey}:`, err);
+            setMsg(`Failed to upload ${imgKey}`);
+            setSaving(false);
+            setUploading(false);
+            return;
+          }
+        }
+      }
 
-  const handleImageUpload = async (file, imgKey) => {
-    if (!file) return;
-    setUploading(true);
-    setMsg('');
+      // 2. Upload section images if newly selected
+      let updatedSections = [...(form.sections || [])];
+      for (let i = 0; i < updatedSections.length; i++) {
+        const sectionFile = selectedSectionFiles[i];
+        if (sectionFile) {
+          setUploading(true);
+          try {
+            const uploadedUrl = await uploadSingleFile(sectionFile, 'blogs');
+            updatedSections[i] = { ...updatedSections[i], image: uploadedUrl };
+          } catch (err) {
+            console.error(`Upload failed for section ${i + 1}:`, err);
+            setMsg(`Failed to upload image for section ${i + 1}`);
+            setSaving(false);
+            setUploading(false);
+            return;
+          }
+        }
+      }
+      setUploading(false);
 
-    const res = await uploadFile('/upload', file, 'blogs', token);
-    if (res.status === 200 && res.data.url) {
-      setForm(f => ({ ...f, [imgKey]: res.data.url }));
-    } else {
-      setMsg('Upload failed');
-      setTimeout(() => setMsg(''), 3000);
+      const { heroType, ...formWithoutToggle } = form;
+      const payload = {
+        ...formWithoutToggle,
+        image: finalImages.image,
+        image2: finalImages.image2 || null,
+        image3: finalImages.image3 || null,
+        image4: finalImages.image4 || null,
+        video: heroType === 'video' ? form.video : '',
+        sections: JSON.stringify(updatedSections),
+      };
+
+      let res;
+      if (editing) {
+        res = await apiCall(`/blogs/${editing.id}`, 'PUT', payload, token);
+      } else {
+        res = await apiCall('/blogs', 'POST', payload, token);
+      }
+
+      if (res.status === 200 || res.status === 201) {
+        setMsg(editing ? 'Blog updated successfully!' : 'Blog created successfully!');
+        setShowForm(false);
+        setEditing(null);
+        setSelectedFiles({ image: null, image2: null, image3: null, image4: null });
+        setSelectedSectionFiles({});
+        fetchBlogs();
+      } else {
+        setMsg(res.data?.message || 'Failed to save blog');
+      }
+    } catch (error) {
+      console.error('Save error:', error);
+      setMsg('An error occurred while saving.');
+    } finally {
+      setSaving(false);
+      setUploading(false);
+      setTimeout(() => setMsg(''), 4000);
     }
-    setUploading(false);
   };
 
   const handleDelete = async (id) => {
@@ -290,32 +364,57 @@ const BlogDashboard = () => {
                   <input type="text" required value={form.date} onChange={(e) => setForm(f => ({ ...f, date: e.target.value }))} className="w-full bg-[#0D0D0D]/10 border border-[#0D0D0D]/20 rounded-xl px-4 py-3 text-[#0D0D0D] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#0D0D0D]/30" placeholder="JUNE 09, 2026" />
                 </div>
                 <div className="md:col-span-2">
-                  <label className="block text-[#0D0D0D]/60 text-[8px] uppercase tracking-widest mb-3">Images</label>
+                  <label className="block text-[#0D0D0D]/60 text-[8px] uppercase tracking-widest mb-3">Images (Main & Gallery)</label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-3">
-                    {['image', 'image2', 'image3', 'image4'].map((imgKey, idx) => (
-                      <div key={imgKey}>
-                        <div className="flex items-center gap-1.5 md:gap-2">
-                          <label className={`flex-1 flex items-center justify-center gap-1.5 md:gap-2 border border-dashed border-[#0D0D0D]/20 rounded-lg md:rounded-xl px-2 md:px-3 py-2 md:py-3 cursor-pointer hover:border-[#4169E1]/50 transition-all ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
-                            <FiUpload className={`${uploading ? 'animate-bounce text-[#4169E1]' : 'text-[#0D0D0D]/60'} text-[8px] md:text-[10px]`} />
-                            <span className="text-[#0D0D0D]/60 text-[6px] md:text-[7px] font-bold uppercase tracking-widest">{uploading ? '...' : `Img ${idx + 1}`}</span>
-                            <input type="file" accept="image/*" onChange={async (e) => {
-                              const file = e.target.files[0];
-                              await handleImageUpload(file, imgKey);
-                            }} className="hidden" disabled={uploading} />
-                          </label>
-                          {form[imgKey] && (
-                            <button type="button" onClick={() => setForm(f => ({ ...f, [imgKey]: '' }))} className="p-1.5 text-red-500/40 hover:text-red-500 transition-all shrink-0">
-                              <FiX size={12} />
-                            </button>
+                    {['image', 'image2', 'image3', 'image4'].map((imgKey, idx) => {
+                      const displaySrc = form[imgKey]
+                        ? (form[imgKey].startsWith('http') || form[imgKey].startsWith('blob:')
+                            ? form[imgKey]
+                            : `${BACKEND_ORIGIN}${form[imgKey]}`)
+                        : '';
+                      return (
+                        <div key={imgKey}>
+                          <div className="flex items-center gap-1.5 md:gap-2">
+                            <label className={`flex-1 flex items-center justify-center gap-1.5 md:gap-2 border border-dashed border-[#0D0D0D]/20 rounded-lg md:rounded-xl px-2 md:px-3 py-2 md:py-3 cursor-pointer hover:border-[#4169E1]/50 transition-all ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                              <FiUpload className={`${uploading ? 'animate-bounce text-[#4169E1]' : 'text-[#0D0D0D]/60'} text-[8px] md:text-[10px]`} />
+                              <span className="text-[#0D0D0D]/60 text-[6px] md:text-[7px] font-bold uppercase tracking-widest">
+                                {idx === 0 ? 'Main Img' : `Img ${idx + 1}`}
+                              </span>
+                              <input
+                                type="file"
+                                accept="image/*"
+                                onChange={(e) => {
+                                  const file = e.target.files[0];
+                                  if (!file) return;
+                                  const previewUrl = URL.createObjectURL(file);
+                                  setForm(f => ({ ...f, [imgKey]: previewUrl }));
+                                  setSelectedFiles(prev => ({ ...prev, [imgKey]: file }));
+                                }}
+                                className="hidden"
+                                disabled={uploading || saving}
+                              />
+                            </label>
+                            {form[imgKey] && (
+                              <button
+                                type="button"
+                                onClick={() => {
+                                  setForm(f => ({ ...f, [imgKey]: '' }));
+                                  setSelectedFiles(prev => ({ ...prev, [imgKey]: null }));
+                                }}
+                                className="p-1.5 text-red-500/40 hover:text-red-500 transition-all shrink-0"
+                              >
+                                <FiX size={12} />
+                              </button>
+                            )}
+                          </div>
+                          {displaySrc && (
+                            <div className="mt-2 relative w-full h-20 rounded-lg overflow-hidden border border-[#0D0D0D]/20">
+                              <img src={displaySrc} alt="" className="w-full h-full object-cover" />
+                            </div>
                           )}
                         </div>
-                        {form[imgKey] && (
-                          <div className="mt-2 relative w-full h-20 rounded-lg overflow-hidden border border-[#0D0D0D]/20">
-                            <img src={form[imgKey]} alt="" className="w-full h-full object-cover" />
-                          </div>
-                        )}
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </div>
 
@@ -376,25 +475,23 @@ const BlogDashboard = () => {
                   <SectionBuilder
                     sections={form.sections}
                     onChange={(val) => setForm(f => ({ ...f, sections: val }))}
-                    onImageUpload={async (index, file) => {
-                      setUploadingSection(index);
-                      const res = await uploadFile('/upload', file, 'blogs', token);
-                      if (res.status === 200 && res.data.url) {
-                        const updated = [...form.sections];
-                        if (!updated[index]) updated[index] = { content: '', image: '' };
-                        updated[index] = { ...updated[index], image: res.data.url };
-                        setForm(f => ({ ...f, sections: updated }));
-                      }
-                      setUploadingSection(null);
+                    onImageUpload={(index, file) => {
+                      if (!file) return;
+                      const previewUrl = URL.createObjectURL(file);
+                      const updated = [...(form.sections || [])];
+                      if (!updated[index]) updated[index] = { content: '', image: '', video: '' };
+                      updated[index] = { ...updated[index], image: previewUrl };
+                      setForm(f => ({ ...f, sections: updated }));
+                      setSelectedSectionFiles(prev => ({ ...prev, [index]: file }));
                     }}
-                    uploading={uploadingSection !== null}
+                    uploading={uploading}
                   />
                 </div>
               </div>
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => setShowForm(false)} className="flex-1 border border-[#0D0D0D]/20 text-[#0D0D0D]/60 font-black py-3.5 rounded-xl hover:bg-[#0D0D0D]/10 transition-all text-[8px] uppercase tracking-[0.2em]">Cancel</button>
-                <button type="submit" disabled={saving} className="flex-1 bg-[#4169E1] text-white font-black py-3.5 rounded-xl hover:bg-[#0D0D0D] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em]">
-                  {saving ? 'Saving...' : editing ? 'Update Blog' : 'Publish Blog'}
+                <button type="submit" disabled={saving || uploading} className="flex-1 bg-[#4169E1] text-white font-black py-3.5 rounded-xl hover:bg-[#0D0D0D] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em]">
+                  {saving || uploading ? 'Saving...' : editing ? 'Update Blog' : 'Publish Blog'}
                 </button>
               </div>
             </form>

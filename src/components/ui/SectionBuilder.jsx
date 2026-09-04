@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { FiUpload, FiX, FiChevronUp, FiChevronDown, FiVideo } from 'react-icons/fi';
 import { BACKEND_ORIGIN } from '../../utils/api';
@@ -81,7 +81,7 @@ const SectionBuilder = ({ sections = [], onChange, onImageUpload, uploading }) =
               <div className="flex items-center gap-3">
                 {sec.image && (
                   <div className="relative w-16 h-16 rounded-lg overflow-hidden border border-[#333] shrink-0 group">
-                    <img src={sec.image.startsWith('http') ? sec.image : `${BACKEND_ORIGIN}${sec.image}`} alt="" className="w-full h-full object-cover" />
+                    <img src={sec.image.startsWith('http') || sec.image.startsWith('blob:') ? sec.image : `${BACKEND_ORIGIN}${sec.image}`} alt="" className="w-full h-full object-cover" />
                     <button type="button" onClick={() => removeImage(i)} className="absolute inset-0 bg-[#0D0D0D]/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all">
                       <FiX className="text-white text-xs" />
                     </button>
