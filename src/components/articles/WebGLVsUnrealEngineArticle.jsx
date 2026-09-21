@@ -30,7 +30,7 @@ import _technology from '../../assets/About-page/technology.webp';
 import _jetour from '../../assets/About-page/Jetour.webp';
 import _kia from '../../assets/About-page/kia.webp';
 import _shark from '../../assets/About-page/shark.webp';
-import _steering from '../../assets/ElipseImages/projects/Steering-1.webp';
+import _steering from '../../assets/ElipseImages/projects/Streeing-1.webp';
 import _leapPartner from '../../assets/ElipseImages/personal/leap-partner.webp';
 import _digitalTwins from '../../assets/ElipseImages/personal/Digital twins.webp';
 import _enterpriseValidation from '../../assets/ElipseImages/personal/Enterprise validation.webp';
@@ -201,16 +201,16 @@ const WebGLVsUnrealEngineArticle = () => {
     <div data-nav="light" className="w-full min-h-screen overflow-x-hidden bg-white text-zinc-900 selection:bg-[#2563EB]/30 selection:text-white">
       <Header />
 
-      <main className="px-3 sm:px-6 md:px-10 lg:px-14 xl:px-16 pt-16 sm:pt-20 md:pt-22 pb-12 sm:pb-16">
+      <main className="px-3 sm:px-6 md:px-10 lg:px-14 xl:px-16 pt-24 sm:pt-28 md:pt-32 pb-12 sm:pb-16">
 
         {/* ══════ HERO SECTION ══════ */}
-        <section className="relative bg-white text-neutral-900 py-3 sm:py-6 lg:py-8 overflow-hidden mb-4 sm:mb-8">
+        <section className="relative bg-white text-neutral-900 pt-2 pb-6 sm:py-6 lg:py-8 overflow-hidden mb-6 sm:mb-8 min-h-[calc(100vh-7.5rem)] min-h-[calc(100svh-7.5rem)] md:min-h-0 flex flex-col justify-center md:block">
           {/* Decorative ✦ top-left */}
-          <div className="absolute top-4 left-8 text-[#2563EB] text-2xl font-bold select-none pointer-events-none" aria-hidden="true">
+          <div className="hidden lg:block absolute top-4 left-8 text-[#2563EB] text-2xl font-bold select-none pointer-events-none" aria-hidden="true">
             ✦
           </div>
           {/* Decorative arrow top-right */}
-          <div className="absolute top-4 right-10 text-[#2563EB] text-base font-bold select-none pointer-events-none opacity-70" aria-hidden="true">
+          <div className="hidden lg:block absolute top-4 right-10 text-[#2563EB] text-base font-bold select-none pointer-events-none opacity-70" aria-hidden="true">
             <svg width="32" height="20" viewBox="0 0 60 40" fill="none">
               <path d="M4 20 Q20 4 40 16 Q52 22 54 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
               <path d="M48 6 L54 10 L50 16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -220,7 +220,7 @@ const WebGLVsUnrealEngineArticle = () => {
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
 
             {/* ── Main Center Headline (Single <h1>) ── */}
-            <h1 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[44px] font-bold tracking-tight text-neutral-900 max-w-3xl leading-snug mb-5 sm:mb-7 px-2">
+            <h1 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[44px] font-bold tracking-tight text-neutral-900 max-w-3xl leading-snug mb-5 sm:mb-7 px-2">
               WebGL vs. Unreal Engine <span className="whitespace-nowrap">3D Configurator:</span>{' '}
               <span className="text-[#2563EB]">Which Technology is Right</span> for Your Business?
             </h1>
@@ -228,8 +228,8 @@ const WebGLVsUnrealEngineArticle = () => {
             {/* ── 3-Column Content Grid ── */}
             <div className="w-full grid grid-cols-1 md:grid-cols-[1fr_1.25fr_1fr] gap-5 sm:gap-6 md:gap-6 items-center relative">
 
-              {/* Left Column: Intro / Quick Summary (Mobile: Order 2, Desktop: Order 1) */}
-              <div className="order-2 md:order-1 flex flex-col justify-center text-left space-y-3 md:pr-2 px-3 sm:px-0 max-w-sm mx-auto md:mx-0 w-full">
+              {/* Left Column: Intro / Quick Summary (Hidden on mobile, Desktop: Order 1) */}
+              <div className="hidden md:flex order-2 md:order-1 flex-col justify-center text-left space-y-3 md:pr-2 px-3 sm:px-0 max-w-sm mx-auto md:mx-0 w-full">
                 <FaRegLightbulb className="text-[#2563EB] text-xl" />
                 <p className="text-neutral-600 text-xs sm:text-[13px] md:text-sm leading-relaxed font-sans">
                   Interactive 3D product configurators are transforming modern e-commerce and automotive sales. Compare graphics fidelity, recurring pixel streaming costs, latency, and checkout integration to make the right investment.
@@ -285,8 +285,8 @@ const WebGLVsUnrealEngineArticle = () => {
                 </div>
               </div>
 
-              {/* Right Column: Key Takeaway Box (Mobile: Order 3, Desktop: Order 3) */}
-              <div className="order-3 md:order-3 text-center md:text-left flex flex-col items-center md:items-start justify-center space-y-1.5 md:pl-2 px-3 sm:px-0 max-w-sm mx-auto md:mx-0 w-full">
+              {/* Right Column: Key Takeaway Box (Hidden on mobile, Desktop: Order 3) */}
+              <div className="hidden md:flex order-3 md:order-3 text-center md:text-left flex-col items-center md:items-start justify-center space-y-1.5 md:pl-2 px-3 sm:px-0 max-w-sm mx-auto md:mx-0 w-full">
                 <div className="flex gap-0.5 text-[#2563EB] justify-center text-base">
                   {[...Array(5)].map((_, i) => <span key={i}>★</span>)}
                 </div>
@@ -329,7 +329,7 @@ const WebGLVsUnrealEngineArticle = () => {
         </section>
 
         {/* ══════ ANIMATED MARQUEE ══════ */}
-        <section className="my-10 overflow-hidden border-y border-zinc-200 py-5 bg-black -mx-3 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-16">
+        <section className="mt-6 sm:mt-10 mb-10 overflow-hidden border-y border-zinc-200 py-5 bg-black -mx-3 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-16">
           <div className="flex space-x-12 animate-marquee-custom whitespace-nowrap text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white">
             {[...marqueeItems, ...marqueeItems].map((item, i) => (
               <span key={i} className={item === '✦' ? 'text-[#3B82F6]' : ''}>

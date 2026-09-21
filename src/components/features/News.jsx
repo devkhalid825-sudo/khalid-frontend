@@ -14,12 +14,20 @@ import articleImg6Raw from '../../assets/ElipseImages/projects/Artictecture.webp
 import vrHeroRaw from '../../assets/images/1 (1).webp';
 import configuratorCardRaw from '../../assets/ElipseImages/personal/leap-hero.webp';
 import volvoHeroRaw from '../../assets/ElipseImages/hero/volve-configrator.webp';
+import techBgRaw from '../../assets/ElipseImages/blogs/blogs-Ar.webp';
+import steeringImgRaw from '../../assets/ElipseImages/projects/Streeing-1.webp';
+import vfxImgRaw from '../../assets/About-page/QORDEN.webp';
+import ahmedFoodRaw from '../../assets/Ahmed-food/jam&spread/15.webp';
 
 const articleImg1 = getImgSrc(articleImg1Raw);
 const articleImg6 = getImgSrc(articleImg6Raw);
 const vrHero = getImgSrc(vrHeroRaw);
 const configuratorCard = getImgSrc(configuratorCardRaw);
 const volvoHero = getImgSrc(volvoHeroRaw);
+const techBg = getImgSrc(techBgRaw);
+const steeringImg = getImgSrc(steeringImgRaw);
+const vfxImg = getImgSrc(vfxImgRaw);
+const ahmedFoodImg = getImgSrc(ahmedFoodRaw);
 
 const getImageSrc = (image) => {
   if (!image) return articleImg1;
@@ -80,6 +88,33 @@ const News = ({ initialBlogs = null }) => {
 
   const staticPosts = [
     {
+      id: 21,
+      title: '3D Animation Services UK (2026): Commercial, Product & Architectural CGI',
+      image: ahmedFoodImg,
+      date: 'SEPTEMBER 21, 2026',
+      category: '3D Animation',
+      readTime: '11 min read',
+      url: '/blog/3d-animation-services-uk-2026',
+    },
+    {
+      id: 22,
+      title: 'Interactive Web Experiences Australia (2026): WebGL & 3D Brand Sites',
+      image: steeringImg,
+      date: 'SEPTEMBER 21, 2026',
+      category: '3D Configurators',
+      readTime: '10 min read',
+      url: '/blog/interactive-web-experiences-au-2026',
+    },
+    {
+      id: 23,
+      title: 'Commercial VFX & CGI Services USA (2026): Photoreal Environments & Product Integration',
+      image: vfxImg,
+      date: 'SEPTEMBER 21, 2026',
+      category: 'Commercial VFX',
+      readTime: '12 min read',
+      url: '/blog/vfx-services-us-2026',
+    },
+    {
       id: 19,
       title: 'LEAP 2026 Wrap Up: Five Ground Lessons From Riyadh',
       image: configuratorCard,
@@ -126,18 +161,31 @@ const News = ({ initialBlogs = null }) => {
     },
   ];
 
-  const apiUrls = new Set(apiBlogs.map((b) => b.url));
-  const mergedApiBlogs = apiBlogs.map((b) => ({ ...b, _key: `api-${b.id}` }));
+  const isExcluded = (post) => {
+    const t = (post.title || '').toLowerCase();
+    const u = (post.url || '').toLowerCase();
+    return (
+      t.includes('shopify plus') ||
+      t.includes('threekit') ||
+      t.includes('sketchfab') ||
+      u.includes('shopify') ||
+      u.includes('threekit')
+    );
+  };
+
+  const filteredApiBlogs = apiBlogs.filter((b) => !isExcluded(b));
+  const apiUrls = new Set(filteredApiBlogs.map((b) => b.url));
+  const mergedApiBlogs = filteredApiBlogs.map((b) => ({ ...b, _key: `api-${b.id}` }));
   const mergedStaticPosts = staticPosts
-    .filter((p) => !apiUrls.has(p.url))
+    .filter((p) => !isExcluded(p) && !apiUrls.has(p.url))
     .map((p) => ({ ...p, _key: `static-${p.id}` }));
   const allPosts = [...mergedStaticPosts, ...mergedApiBlogs];
 
-  // Pick top 4 curated featured blogs and create an auto-loop sequence
-  const baseFour = allPosts.slice(0, 4);
-  const featuredLoopPosts = baseFour.length >= 4 
-    ? [...baseFour, ...baseFour.map((p, idx) => ({ ...p, _key: `${p._key}-loop-${idx}` }))]
-    : allPosts.slice(0, 8);
+  // Pick top 5 curated featured blogs (UK, AU, US, LEAP 2026, WebGL vs Unreal) and create an auto-loop sequence
+  const basePosts = allPosts.slice(0, 5);
+  const featuredLoopPosts = basePosts.length >= 3 
+    ? [...basePosts, ...basePosts.map((p, idx) => ({ ...p, _key: `${p._key}-loop-${idx}` }))]
+    : allPosts;
 
   return (
     <section

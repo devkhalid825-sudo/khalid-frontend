@@ -12,7 +12,7 @@ import leapHeroRaw from '../assets/ElipseImages/personal/leap-hero.webp';
 import ceoImgRaw from '../assets/ElipseImages/projects/ceo.webp';
 import cofounderImgRaw from '../assets/ElipseImages/projects/co-founder.webp';
 import clubproImgRaw from '../assets/ElipseImages/projects/clubpro-1.webp';
-import steeringImgRaw from '../assets/ElipseImages/projects/Steering-1.webp';
+import steeringImgRaw from '../assets/ElipseImages/projects/Streeing-1.webp';
 import ahmedImgRaw from '../assets/ElipseImages/hero/15.webp';
 import zooImgRaw from '../assets/ElipseImages/projects/0.webp';
 

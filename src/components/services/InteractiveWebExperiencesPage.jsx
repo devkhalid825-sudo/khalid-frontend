@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useEffect, useState } from "react";
 import Link from 'next/link';
@@ -12,7 +12,7 @@ import ClientReviews from "../features/ClientReviews";
 
 import _heroImg from "../../assets/ElipseImages/projects/3601.webp";
 
-import _solutionsImg from "../../assets/ElipseImages/projects/Steering-1.webp";
+import _solutionsImg from "../../assets/ElipseImages/projects/Streeing-1.webp";
 import _whyUsImg from "../../assets/ElipseImages/projects/2.webp";
 import _stackImg from "../../assets/ElipseImages/projects/capabilities-sec.webp";
 import { getImgSrc } from "../../utils/api";

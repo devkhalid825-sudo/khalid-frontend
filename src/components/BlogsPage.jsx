@@ -32,8 +32,14 @@ import vrHeroRaw from '../assets/images/1 (1).webp';
 import articleImg1Raw from '../assets/article-img/A (3) .webp';
 import articleImg2Raw from '../assets/article-img/A (5) .webp';
 import leapCardRaw from '../assets/ElipseImages/personal/leap-hero.webp';
+import steeringImgRaw from '../assets/ElipseImages/projects/Streeing-1.webp';
+import vfxImgRaw from '../assets/About-page/QORDEN.webp';
+import ahmedFoodRaw from '../assets/Ahmed-food/jam&spread/15.webp';
 
 const leapCard = getImgSrc(leapCardRaw);
+const steeringImg = getImgSrc(steeringImgRaw);
+const vfxImg = getImgSrc(vfxImgRaw);
+const ahmedFoodImg = getImgSrc(ahmedFoodRaw);
 const elephantImg = getImgSrc(elephantImgRaw);
 const configuratorHero = getImgSrc(configuratorHeroRaw);
 const arThumbnail = getImgSrc(arThumbnailRaw);
@@ -53,10 +59,37 @@ const articleImg2 = getImgSrc(articleImg2Raw);
 const staticImages = {
     elephantImg, configuratorHero, arThumbnail, hero, hero4, techBg, volveImg,
     questImg, mainHeroImage, animationMainImg, furnitureImg, edu1, vrHero,
-    articleImg1, articleImg2
+    articleImg1, articleImg2, steeringImg, vfxImg, ahmedFoodImg
 };
 
 const staticPosts = [
+    {
+        id: 'static-uk-animation-2026',
+        title: '3D Animation Services UK (2026): Commercial, Product & Architectural CGI',
+        excerpt: 'High-fidelity 3D animation for UK brands. CAD-accurate product animations, commercial brand films, and architectural walkthroughs. Transparent GBP pricing.',
+        image: ahmedFoodImg,
+        date: 'SEPTEMBER 21, 2026',
+        category: '3D Animation',
+        url: '/blog/3d-animation-services-uk-2026',
+    },
+    {
+        id: 'static-au-interactive-web-2026',
+        title: 'Interactive Web Experiences Australia (2026): WebGL & 3D Brand Sites',
+        excerpt: 'Discover how Australian brands use WebGL 3D product experiences to increase session duration and online sales. Fast mobile loading. AUD pricing.',
+        image: steeringImg,
+        date: 'SEPTEMBER 21, 2026',
+        category: '3D Configurators',
+        url: '/blog/interactive-web-experiences-au-2026',
+    },
+    {
+        id: 'static-us-vfx-2026',
+        title: 'Commercial VFX & CGI Services USA (2026): Photoreal Environments & Product Integration',
+        excerpt: 'High-end visual effects and commercial CGI for US brand campaigns. Photoreal product integration and virtual environment replacement. Transparent USD pricing.',
+        image: vfxImg,
+        date: 'SEPTEMBER 21, 2026',
+        category: 'Commercial VFX',
+        url: '/blog/vfx-services-us-2026',
+    },
     {
         id: 'static-leap-2026',
         title: 'LEAP 2026 Wrap Up: Five Ground Lessons From Riyadh',
@@ -317,41 +350,57 @@ const BlogCardSkeleton = () => (
 );
 
 const BlogsPage = ({ initialBlogs }) => {
+    const isExcluded = (post) => {
+        const t = (post.title || '').toLowerCase();
+        const u = (post.url || '').toLowerCase();
+        return (
+            t.includes('shopify plus') ||
+            t.includes('threekit') ||
+            t.includes('sketchfab') ||
+            u.includes('shopify') ||
+            u.includes('threekit')
+        );
+    };
+
+    const cleanInitial = (initialBlogs || []).filter(b => !isExcluded(b));
     const [searchTerm, setSearchTerm] = useState('');
-    const [apiBlogs, setApiBlogs] = useState(initialBlogs || []);
+    const [apiBlogs, setApiBlogs] = useState(cleanInitial);
     const pinLeapFirst = (list) => {
-        const leapIdx = list.findIndex(p => p.url === '/blog/leap-2026-wrap-up');
+        const cleanList = list.filter(p => !isExcluded(p));
+        const leapIdx = cleanList.findIndex(p => p.url === '/blog/leap-2026-wrap-up');
         if (leapIdx > 0) {
-            const [leap] = list.splice(leapIdx, 1);
-            list.unshift(leap);
+            const [leap] = cleanList.splice(leapIdx, 1);
+            cleanList.unshift(leap);
         }
-        return list;
+        return cleanList;
     };
     const [filteredPosts, setFilteredPosts] = useState(() => {
-        if (initialBlogs && initialBlogs.length) {
-            const apiUrls = new Set(initialBlogs.map(b => b.url));
-            return pinLeapFirst([...initialBlogs, ...staticPosts.filter(p => !apiUrls.has(p.url))].sort((a, b) => new Date(b.date) - new Date(a.date)));
+        if (cleanInitial && cleanInitial.length) {
+            const apiUrls = new Set(cleanInitial.map(b => b.url));
+            return pinLeapFirst([...cleanInitial, ...staticPosts.filter(p => !apiUrls.has(p.url))].sort((a, b) => new Date(b.date) - new Date(a.date)));
         }
         return staticPosts;
     });
-    const [loading, setLoading] = useState(!(initialBlogs && initialBlogs.length));
+    const [loading, setLoading] = useState(!(cleanInitial && cleanInitial.length));
     const [error, setError] = useState('');
 
     useEffect(() => {
-        if (initialBlogs && initialBlogs.length) return;
+        if (cleanInitial && cleanInitial.length) return;
         const fetchBlogs = async () => {
             try {
                 const { data, status } = await apiCall('/blogs', 'GET');
                 if (status === 200 && Array.isArray(data)) {
-                    const mapped = data.map(b => ({
-                        id: b.id,
-                        title: b.title,
-                        excerpt: b.excerpt,
-                        image: b.image,
-                        date: b.date,
-                        category: b.category,
-                        url: '/blog/' + b.slug
-                    }));
+                    const mapped = data
+                        .filter(b => !isExcluded(b))
+                        .map(b => ({
+                            id: b.id,
+                            title: b.title,
+                            excerpt: b.excerpt,
+                            image: b.image,
+                            date: b.date,
+                            category: b.category,
+                            url: '/blog/' + b.slug
+                        }));
                     const sorted = mapped.sort((a, b) => new Date(b.date) - new Date(a.date));
                     setApiBlogs(sorted);
                     const apiUrls = new Set(sorted.map(b => b.url));
@@ -371,9 +420,10 @@ const BlogsPage = ({ initialBlogs }) => {
     }, []);
 
     const allPosts = (() => {
-        const apiUrls = new Set(apiBlogs.map(b => b.url));
-        const uniqueStatic = staticPosts.filter(p => !apiUrls.has(p.url));
-        return pinLeapFirst([...apiBlogs, ...uniqueStatic].sort((a, b) => new Date(b.date) - new Date(a.date)));
+        const cleanApi = apiBlogs.filter(b => !isExcluded(b));
+        const apiUrls = new Set(cleanApi.map(b => b.url));
+        const uniqueStatic = staticPosts.filter(p => !isExcluded(p) && !apiUrls.has(p.url));
+        return pinLeapFirst([...cleanApi, ...uniqueStatic].sort((a, b) => new Date(b.date) - new Date(a.date)));
     })();
 
     const [currentPage, setCurrentPage] = useState(1);

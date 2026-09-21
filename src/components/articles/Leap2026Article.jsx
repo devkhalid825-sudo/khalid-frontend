@@ -85,9 +85,6 @@ const leapCards = [
 const Frame = ({ src, cap }) => (
   <figure className="relative aspect-video overflow-hidden rounded-md bg-zinc-900">
     <img alt={cap} src={src} loading="lazy" decoding="async" className="w-full h-full object-cover" />
-    <figcaption className="absolute left-2.5 bottom-2.5 right-2.5 font-serif italic text-[11px] text-white/70 leading-snug">
-      {cap}
-    </figcaption>
   </figure>
 );
 
@@ -217,11 +214,11 @@ const Leap2026Article = () => {
         <section className="relative bg-white text-neutral-900 py-10 sm:py-16 overflow-hidden mb-8 sm:mb-12">
 
           {/* Decorative ✦ top-left */}
-          <div className="absolute top-8 left-10 text-[#2563EB] text-3xl font-bold select-none pointer-events-none" aria-hidden="true">
+          <div className="hidden lg:block absolute top-8 left-10 text-[#2563EB] text-3xl font-bold select-none pointer-events-none" aria-hidden="true">
             ✦
           </div>
           {/* Decorative arrow top-right */}
-          <div className="absolute top-8 right-12 text-[#2563EB] text-lg font-bold select-none pointer-events-none opacity-70" aria-hidden="true">
+          <div className="hidden lg:block absolute top-8 right-12 text-[#2563EB] text-lg font-bold select-none pointer-events-none opacity-70" aria-hidden="true">
             <svg width="36" height="24" viewBox="0 0 60 40" fill="none">
               <path d="M4 20 Q20 4 40 16 Q52 22 54 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
               <path d="M48 6 L54 10 L50 16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
@@ -393,9 +390,6 @@ const Leap2026Article = () => {
                     preload="auto"
                     className="absolute inset-0 w-full h-full object-contain"
                   />
-                  <figcaption className="absolute left-2.5 bottom-2.5 right-2.5 font-serif italic text-[11px] text-white/70 leading-snug">
-                    Touchless Configurator
-                  </figcaption>
                 </figure>
               </div>
             </article>

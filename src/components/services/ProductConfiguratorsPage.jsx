@@ -9,7 +9,7 @@ import ClientReviews from '../features/ClientReviews';
 import { getImgSrc } from '../../utils/api';
 
 // Project Images
-import steeringImgRaw from '../../assets/ElipseImages/projects/Steering-1.webp';
+import steeringImgRaw from '../../assets/ElipseImages/projects/Streeing-1.webp';
 import volvoImgRaw from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import inverexImgRaw from '../../assets/ElipseImages/projects/G-1.webp';
 import seatImgRaw from '../../assets/ElipseImages/projects/seat-2-1.webp';

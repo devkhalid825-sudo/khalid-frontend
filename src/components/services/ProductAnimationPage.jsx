@@ -25,7 +25,7 @@ import _g8 from "../../assets/ElipseImages/projects/clubpro.webp";
 import _g9 from "../../assets/ElipseImages/projects/clubpro-1.webp";
 import _g10 from "../../assets/ElipseImages/projects/clubpro-2.webp";
 import _g11 from "../../assets/ElipseImages/projects/TOWEL.webp";
-import _g12 from "../../assets/ElipseImages/projects/Steering-1.webp";
+import _g12 from "../../assets/ElipseImages/projects/Streeing-1.webp";
 import _g13 from "../../assets/ElipseImages/projects/motion-graphics.webp";
 import _g14 from "../../assets/ElipseImages/projects/3D-rendering.webp";
 import { getImgSrc } from "../../utils/api";

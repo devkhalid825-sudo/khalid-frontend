@@ -8,9 +8,9 @@ const schema = {
   '@type': 'WebPage',
   '@id': `${SITE_URL}/capabilities#webpage`,
   url: `${SITE_URL}/capabilities`,
-  name: 'Our Capabilities | Elipse Studio',
+  name: 'Enterprise 3D Configurator, WebGL & AR/VR Services | Elipse Studio',
   description:
-    'Full range of creative technology capabilities including 3D visualization, interactive configurators, AR/VR, CGI animation, web development, and digital marketing.',
+    'Custom 3D web configurators, architectural VR walkthroughs, and enterprise WebGL development. Discover how Elipse Studio powers real-time 3D experiences.',
   isPartOf: { '@id': `${SITE_URL}/#website` },
   about: { '@id': `${SITE_URL}/#organization` },
   breadcrumb: { '@id': `${SITE_URL}/capabilities#breadcrumb` },
@@ -29,12 +29,12 @@ const breadcrumb = {
 
 export function generateMetadata() {
   return buildMetadata({
-    title: 'Capabilities & Tools',
+    title: 'Enterprise 3D Configurator, WebGL & AR/VR Services | Elipse Studio',
     description:
-      'Explore our full range of creative technology capabilities including 3D rendering, interactive web configurators, and AR/VR development.',
+      'Custom 3D web configurators, architectural VR walkthroughs, and enterprise WebGL development. Discover how Elipse Studio powers real-time 3D experiences.',
     canonical: `${SITE_URL}/capabilities`,
     ogImage: `${SITE_URL}/assets/logo-og.webp`,
-    ogImageAlt: 'Elipse Studio — Full Range of Creative Technology Capabilities',
+    ogImageAlt: 'Elipse Studio — Enterprise 3D Configurator, WebGL & AR/VR Services',
   });
 }
 

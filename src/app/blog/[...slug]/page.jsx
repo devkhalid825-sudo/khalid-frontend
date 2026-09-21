@@ -24,9 +24,30 @@ const staticArticles = {
   '3d-real-time-configurators-real-estate-dubai': dynamic(() => import('@/components/articles/RealEstateConfiguratorArticle')),
   'architectural-visualization-guide': dynamic(() => import('@/components/articles/ArchitecturalVisualization')),
   'apparel-configurator-fashion-brands-2026': dynamic(() => import('@/components/articles/ApparelConfiguratorArticle')),
+  '3d-animation-services-uk-2026': dynamic(() => import('@/components/articles/UkAnimationServicesArticle')),
+  'interactive-web-experiences-au-2026': dynamic(() => import('@/components/articles/AuInteractiveWebArticle')),
+  'vfx-services-us-2026': dynamic(() => import('@/components/articles/UsVfxServicesArticle')),
 };
 
 const staticArticleMetadata = {
+  '3d-animation-services-uk-2026': {
+    title: '3D Animation Services UK (2026): Commercial, Product & Architectural CGI | Elipse Studio',
+    description: 'High-fidelity 3D animation for UK brands. CAD-accurate product animations, commercial brand films, and architectural walkthroughs. Transparent GBP pricing.',
+    keywords: ['3D animation services UK', 'commercial 3D animation', 'product animation London', 'architectural CGI UK', 'CAD animation UK', 'Clearcast animation', 'Elipse Studio'],
+    ogImage: `${SITE_URL}/assets/Ahmed-food/jam&spread/15.webp`,
+  },
+  'interactive-web-experiences-au-2026': {
+    title: 'Interactive Web Experiences Australia (2026): WebGL & 3D Brand Sites | Elipse Studio',
+    description: 'Discover how Australian brands use WebGL 3D product experiences to increase session duration and online sales. Fast mobile loading. AUD pricing.',
+    keywords: ['interactive web experiences Australia', 'WebGL Australia', '3D product configurator Australia', 'Three.js development Sydney', 'e-commerce 3D Australia', 'Elipse Studio'],
+    ogImage: `${SITE_URL}/assets/ElipseImages/projects/Streeing-1.webp`,
+  },
+  'vfx-services-us-2026': {
+    title: 'Commercial VFX & CGI Services USA (2026): Photoreal Environments & Product Integration | Elipse Studio',
+    description: 'High-end visual effects and commercial CGI for US brand campaigns. Photoreal product integration and virtual environment replacement. Transparent USD pricing.',
+    keywords: ['commercial VFX USA', 'commercial CGI services', 'photoreal product integration', 'virtual environment replacement', 'Unreal Engine virtual production USA', 'Elipse Studio'],
+    ogImage: `${SITE_URL}/assets/About-page/QORDEN.webp`,
+  },
   'leap-2026-wrap-up': {
     title: 'LEAP 2026 Wrap Up: Social Posts and In-Depth Insights | Bilal Lania',
     description: 'Ground reality lessons from LEAP Riyadh for creative tech founders. 3D interactive configurators, enterprise VR, digital twins, and anamorphic 3D in Saudi Arabia.',

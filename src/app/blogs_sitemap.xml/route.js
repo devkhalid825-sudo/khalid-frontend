@@ -19,6 +19,9 @@ const staticBlogSlugs = [
   '3d-real-time-configurators-real-estate-dubai',
   'architectural-visualization-guide',
   'apparel-configurator-fashion-brands-2026',
+  '3d-animation-services-uk-2026',
+  'interactive-web-experiences-au-2026',
+  'vfx-services-us-2026',
 ];
 
 export async function GET() {

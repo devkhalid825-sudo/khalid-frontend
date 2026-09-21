@@ -69,9 +69,6 @@ const Reveal = ({ children, delay = 0, className = '' }) => {
 const Frame = ({ src, cap }) => (
   <figure className="relative aspect-video overflow-hidden rounded-md border border-zinc-800 bg-zinc-900">
     <img alt={cap} src={src} loading="lazy" decoding="async" className="w-full h-full object-cover" />
-    <figcaption className="absolute left-2.5 bottom-2.5 right-2.5 italic text-[11px] text-white/70 leading-snug">
-      {cap}
-    </figcaption>
   </figure>
 );
 
@@ -461,7 +458,7 @@ const IndustrialAnimationArticle = () => {
           <section id="journal" className="py-10 sm:py-16 border-t border-zinc-800">
             <div className="max-w-none space-y-0">
               <Reveal>
-                <div className="flex items-baseline justify-between border-b border-zinc-800 pb-6 mb-2">
+                <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 border-b border-zinc-800 pb-3 sm:pb-6 mb-2">
                   <span className="italic text-[#2563EB] text-base">The industrial animation playbook</span>
                   <span className="italic text-xs text-zinc-400 uppercase tracking-widest">Elipse Studio · UK</span>
                 </div>
@@ -541,7 +538,7 @@ const IndustrialAnimationArticle = () => {
           {/* ══════ ONE ASSET, MANY EXPERIENCES ══════ */}
           <section className="py-12 sm:py-16 border-t border-zinc-800">
             <Reveal>
-              <div className="flex items-baseline justify-between border-b border-zinc-800 pb-6 mb-8">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 border-b border-zinc-800 pb-3 sm:pb-6 mb-8">
                 <span className="italic text-[#2563EB] text-base">From CAD model to multiple digital experiences</span>
                 <span className="italic text-xs text-zinc-400 uppercase tracking-widest">Asset strategy</span>
               </div>
@@ -566,7 +563,7 @@ const IndustrialAnimationArticle = () => {
           {/* ══════ PROCESS ══════ */}
           <section className="py-12 sm:py-16 border-t border-zinc-800">
             <Reveal>
-              <div className="flex items-baseline justify-between border-b border-zinc-800 pb-6 mb-8">
+              <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 border-b border-zinc-800 pb-3 sm:pb-6 mb-8">
                 <span className="italic text-[#2563EB] text-base">Our industrial animation process</span>
                 <span className="italic text-xs text-zinc-400 uppercase tracking-widest">6 steps</span>
               </div>
