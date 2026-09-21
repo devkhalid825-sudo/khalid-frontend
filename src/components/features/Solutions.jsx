@@ -20,7 +20,7 @@ const solutionsCards = [
     id: 'configurators',
     type: 'dark',
     category: '3D CONFIGURATORS',
-    title: 'High-Converting 3D Commerce.',
+    title: 'HIGH-CONVERTING 3D COMMERCE',
     description:
       'Interactive WebGL & Unreal Engine 5 product configurators engineered to eliminate pre-purchase friction and increase conversion rates.',
     image: steeringImg,
@@ -34,7 +34,7 @@ const solutionsCards = [
     id: 'archviz',
     type: 'light',
     category: 'ARCHVIZ & SPATIAL',
-    title: 'Pre-Sales Before Groundbreaking.',
+    title: 'PRE-SALES BEFORE GROUNDBREAKING',
     description:
       'Unreal Engine 5 virtual walkthroughs, dynamic daylight cycles, and luxury architectural visualization.',
     image: zenithImg,
@@ -48,7 +48,7 @@ const solutionsCards = [
     id: 'commercials',
     type: 'dark',
     category: 'BRAND STORYTELLING & CGI PRODUCTION',
-    title: 'Cinematic 3D Product & Commercial Visuals',
+    title: 'CINEMATIC 3D PRODUCT & COMMERCIAL VISUALS',
     description:
       'We craft cinema-caliber CGI that commands audience attention and elevates brand value. High-end photoreal 3D animation, complex fluid dynamics, and broadcast-ready commercials.',
     image: cgiJellyImg,
@@ -166,14 +166,14 @@ const SolutionsSection = () => {
                     className="!w-[88vw] xs:!w-[360px] sm:!w-[400px] md:!w-[420px] lg:!w-[520px] py-2 md:py-4 !h-auto flex"
                   >
                     <div
-                      className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[24px] md:rounded-[36px] p-5 md:p-6 lg:p-7 flex flex-col justify-between select-none relative overflow-hidden shadow-xl bg-gradient-to-b from-[#ffffff] via-[#f7f8fa] to-[#eef1f5] text-neutral-900 border border-neutral-300/80 ring-[4px] ring-neutral-200/50"
+                      className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[16px] md:rounded-[24px] p-5 md:p-6 lg:p-7 flex flex-col justify-between select-none relative overflow-hidden shadow-xl bg-gradient-to-b from-[#ffffff] via-[#f7f8fa] to-[#eef1f5] text-neutral-900 border border-neutral-300/80 ring-[4px] ring-neutral-200/50"
                       style={{ boxShadow: 'rgba(0,0,0,0.12) 0px 10px 30px -5px' }}
                     >
                       <div className="h-[125px] sm:h-[130px] md:h-[135px] lg:h-[140px] flex flex-col justify-start shrink-0">
                         <div className="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase text-neutral-500 font-semibold mb-1">
                           {card.category}
                         </div>
-                        <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-neutral-900 leading-tight mb-2">
+                        <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-neutral-900 leading-tight mb-2 uppercase">
                           {card.title}
                         </h3>
                         <p className="text-xs sm:text-[13px] text-neutral-600 leading-relaxed font-sans line-clamp-2">
@@ -229,14 +229,14 @@ const SolutionsSection = () => {
                     className="!w-[88vw] xs:!w-[360px] sm:!w-[400px] md:!w-[420px] lg:!w-[520px] py-2 md:py-4 !h-auto flex"
                   >
                     <div
-                      className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[24px] md:rounded-[36px] p-5 md:p-6 lg:p-7 flex flex-col justify-between select-none relative overflow-hidden shadow-xl bg-gradient-to-b from-[#ffffff] via-[#f7f8fa] to-[#eef1f5] text-neutral-900 border border-neutral-300/80 ring-[4px] ring-neutral-200/50"
+                      className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[16px] md:rounded-[24px] p-5 md:p-6 lg:p-7 flex flex-col justify-between select-none relative overflow-hidden shadow-xl bg-gradient-to-b from-[#ffffff] via-[#f7f8fa] to-[#eef1f5] text-neutral-900 border border-neutral-300/80 ring-[4px] ring-neutral-200/50"
                       style={{ boxShadow: 'rgba(0,0,0,0.12) 0px 10px 30px -5px' }}
                     >
                       <div className="h-[125px] sm:h-[130px] md:h-[135px] lg:h-[140px] flex flex-col justify-start shrink-0">
                         <div className="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase text-neutral-500 font-semibold mb-1">
                           {card.category}
                         </div>
-                        <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-neutral-900 leading-tight mb-1.5">
+                        <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-neutral-900 leading-tight mb-1.5 uppercase">
                           {card.title}
                         </h3>
                         <p className="text-xs sm:text-[13px] text-neutral-600 leading-relaxed font-sans line-clamp-2">
@@ -245,7 +245,7 @@ const SolutionsSection = () => {
                       </div>
 
                       {/* Visual Container */}
-                      <div className="relative w-full h-[185px] sm:h-[200px] md:h-[210px] lg:h-[225px] mt-2 mb-3 shrink-0 rounded-[18px] md:rounded-[22px] overflow-hidden bg-white border border-neutral-300/80 shadow-inner flex items-center justify-center">
+                      <div className="relative w-full h-[185px] sm:h-[200px] md:h-[210px] lg:h-[225px] mt-2 mb-3 shrink-0 rounded-[12px] md:rounded-[16px] overflow-hidden bg-white border border-neutral-300/80 shadow-inner flex items-center justify-center">
                         <Image
                           src={card.image}
                           alt={card.alt}
@@ -294,14 +294,14 @@ const SolutionsSection = () => {
                   className="!w-[88vw] xs:!w-[360px] sm:!w-[400px] md:!w-[420px] lg:!w-[520px] py-2 md:py-4 !h-auto flex"
                 >
                   <div
-                    className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[24px] md:rounded-[36px] p-5 md:p-6 lg:p-7 flex flex-col justify-between select-none relative overflow-hidden shadow-2xl bg-[#0d0f12] text-white border border-white/10 ring-[4px] ring-[#2b2b2d]"
+                    className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[16px] md:rounded-[24px] p-5 md:p-6 lg:p-7 flex flex-col justify-between select-none relative overflow-hidden shadow-2xl bg-[#0d0f12] text-white border border-white/10 ring-[4px] ring-[#2b2b2d]"
                     style={{ boxShadow: 'rgba(0,0,0,0.3) 0px 10px 30px -5px' }}
                   >
                     <div className="h-[125px] sm:h-[130px] md:h-[135px] lg:h-[140px] flex flex-col justify-start shrink-0">
                       <div className="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase text-neutral-400 font-semibold mb-1">
                         {card.category}
                       </div>
-                      <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-white leading-tight mb-1.5">
+                      <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-white leading-tight mb-1.5 uppercase">
                         {card.title}
                       </h3>
                       <p className="text-xs sm:text-[13px] text-neutral-400 leading-relaxed font-sans line-clamp-2">
@@ -310,7 +310,7 @@ const SolutionsSection = () => {
                     </div>
 
                     {/* Visual Container */}
-                    <div className="relative w-full h-[185px] sm:h-[200px] md:h-[210px] lg:h-[225px] mt-2 mb-3 shrink-0 rounded-[18px] md:rounded-[22px] overflow-hidden bg-neutral-950/80 border border-white/10 flex items-center justify-center shadow-md">
+                    <div className="relative w-full h-[185px] sm:h-[200px] md:h-[210px] lg:h-[225px] mt-2 mb-3 shrink-0 rounded-[12px] md:rounded-[16px] overflow-hidden bg-neutral-950/80 border border-white/10 flex items-center justify-center shadow-md">
                       <Image
                         src={card.image}
                         alt={card.alt}
