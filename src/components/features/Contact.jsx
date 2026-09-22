@@ -3,6 +3,8 @@
 import React, { useState, useRef } from 'react';
 import { SiCalendly } from '@/components/ui/Icons';
 import { apiCall } from '@/utils/api';
+import ReCaptcha from '@/components/common/ReCaptcha';
+import { useRateLimitTimer } from '@/hooks/useRateLimitTimer';
 
 const PILLARS = [
   { id: 'configurators', label: 'Interactive 3D Web & Product Configurators' },
@@ -12,8 +14,16 @@ const PILLARS = [
 
 const Contact = () => {
   const form = useRef();
+  const recaptchaRef = useRef(null);
+  const [recaptchaToken, setRecaptchaToken] = useState('');
+  const { isLocked, formattedTime, recordAttempt, triggerCooldown } = useRateLimitTimer({
+    maxAttempts: 5,
+    cooldownMs: 15 * 60 * 1000,
+  });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
   const [errors, setErrors] = useState({});
   const [touched, setTouched] = useState({});
   const [selectedPillars, setSelectedPillars] = useState([]);
@@ -23,6 +33,7 @@ const Contact = () => {
     user_email: '',
     user_company: '',
     message: '',
+    website_hp: '', // Honeypot field
   });
 
   const togglePillar = (id) => {
@@ -58,6 +69,11 @@ const Contact = () => {
       const error = validateField(key, formData[key]);
       if (error) newErrors[key] = error;
     });
+
+    if (!recaptchaToken) {
+      newErrors.recaptcha = 'Please tick the reCAPTCHA checkbox to confirm you are human';
+    }
+
     setErrors(newErrors);
     const allTouched = {};
     Object.keys(formData).forEach((key) => {
@@ -77,8 +93,13 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setErrors({});
-    setTouched({});
+    setSubmitStatus(null);
+    setErrorMessage('');
+
+    if (isLocked) {
+      setErrorMessage(`Too many attempts. Please wait ${formattedTime} before trying again.`);
+      return;
+    }
 
     if (!validateForm()) return;
 
@@ -90,10 +111,10 @@ const Contact = () => {
     const payload = {
       ...formData,
       interest: pillarsJoined,
+      recaptchaToken,
     };
 
     setIsSubmitting(true);
-    setSubmitStatus(null);
 
     try {
       const { data, status } = await apiCall('/contact/contact', 'POST', payload);
@@ -105,17 +126,32 @@ const Contact = () => {
           user_email: '',
           user_company: '',
           message: '',
+          website_hp: '',
         });
         setSelectedPillars([]);
         setErrors({});
         setTouched({});
+        setRecaptchaToken('');
+        recaptchaRef.current?.reset();
+      } else if (status === 429) {
+        triggerCooldown(data?.retryAfter || 900);
+        setSubmitStatus('error');
+        setErrorMessage(data?.error || 'Rate limit exceeded. Please wait 15 minutes.');
       } else {
         console.error('Backend Error:', data?.message || data?.error);
         setSubmitStatus('error');
+        setErrorMessage(data?.error || data?.message || 'Failed to submit form.');
+        recordAttempt();
+        setRecaptchaToken('');
+        recaptchaRef.current?.reset();
       }
     } catch (error) {
       console.error('Network Error:', error);
       setSubmitStatus('error');
+      setErrorMessage('Network error. Please try again.');
+      recordAttempt();
+      setRecaptchaToken('');
+      recaptchaRef.current?.reset();
     } finally {
       setIsSubmitting(false);
     }
@@ -262,15 +298,68 @@ const Contact = () => {
                 )}
               </div>
 
+              {/* Honeypot Bot Trap (Invisible to humans) */}
+              <div className="hidden" aria-hidden="true" style={{ display: 'none' }}>
+                <input
+                  type="text"
+                  name="website_hp"
+                  value={formData.website_hp}
+                  onChange={handleInputChange}
+                  tabIndex={-1}
+                  autoComplete="off"
+                />
+              </div>
+
+              {/* Google reCAPTCHA v2 Widget */}
+              <div className="pt-2">
+                <ReCaptcha
+                  ref={recaptchaRef}
+                  theme="dark"
+                  onVerify={(token) => {
+                    setRecaptchaToken(token);
+                    setErrors((prev) => ({ ...prev, recaptcha: '' }));
+                  }}
+                  onExpired={() => setRecaptchaToken('')}
+                />
+                {errors.recaptcha && (
+                  <p className="text-red-400 text-xs mt-1">{errors.recaptcha}</p>
+                )}
+              </div>
+
+              {/* Cooldown Timer Alert */}
+              {isLocked && (
+                <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-300 text-xs sm:text-sm flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                    <span>Too many attempts. Submissions locked for security.</span>
+                  </div>
+                  <span className="font-mono font-bold bg-amber-500/20 text-amber-200 px-2.5 py-1 rounded-md text-xs sm:text-sm border border-amber-500/30">
+                    {formattedTime}
+                  </span>
+                </div>
+              )}
+
+              {errorMessage && (
+                <p className="text-red-400 text-xs sm:text-sm text-center bg-red-500/10 border border-red-500/30 p-2.5 rounded-xl">
+                  {errorMessage}
+                </p>
+              )}
+
               <div className="space-y-4">
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className={`w-full bg-[#4169E1] hover:bg-[#8ab4ff] text-black md:font-bold py-3.5 md:py-4 rounded-full text-sm md:text-base transition-all transform active:scale-[0.98] ${
-                    isSubmitting ? 'opacity-50 cursor-not-allowed' : ''
+                  disabled={isSubmitting || isLocked}
+                  className={`w-full bg-white hover:bg-neutral-200 text-black font-bold py-3.5 md:py-4 rounded-full text-sm md:text-base transition-all shadow-lg shadow-white/10 hover:shadow-white/20 transform active:scale-[0.98] ${
+                    isSubmitting || isLocked
+                      ? 'opacity-50 cursor-not-allowed pointer-events-none'
+                      : ''
                   }`}
                 >
-                  {isSubmitting ? 'Sending...' : 'Submit Inquiry'}
+                  {isLocked
+                    ? `Locked · Wait ${formattedTime}`
+                    : isSubmitting
+                    ? 'Sending...'
+                    : 'Submit Inquiry'}
                 </button>
               </div>
             </form>

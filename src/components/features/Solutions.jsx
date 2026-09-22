@@ -166,38 +166,47 @@ const SolutionsSection = () => {
                     className="!w-[88vw] xs:!w-[360px] sm:!w-[400px] md:!w-[420px] lg:!w-[520px] py-2 md:py-4 !h-auto flex"
                   >
                     <div
-                      className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[16px] md:rounded-[24px] p-5 md:p-6 lg:p-7 flex flex-col justify-between select-none relative overflow-hidden shadow-xl bg-gradient-to-b from-[#ffffff] via-[#f7f8fa] to-[#eef1f5] text-neutral-900 border border-neutral-300/80 ring-[4px] ring-neutral-200/50"
-                      style={{ boxShadow: 'rgba(0,0,0,0.12) 0px 10px 30px -5px' }}
+                      className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[16px] md:rounded-[24px] p-6 md:p-7 lg:p-8 flex flex-col justify-between select-none relative overflow-hidden shadow-2xl bg-[#090b10] text-white border border-white/10 ring-[1px] ring-white/10 group hover:border-[#4169E1]/50 transition-all duration-300"
+                      style={{ boxShadow: 'rgba(0,0,0,0.3) 0px 10px 30px -5px' }}
                     >
-                      <div className="h-[125px] sm:h-[130px] md:h-[135px] lg:h-[140px] flex flex-col justify-start shrink-0">
-                        <div className="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase text-neutral-500 font-semibold mb-1">
+                      {/* Rich Dark Gradient & Glow Background */}
+                      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none bg-gradient-to-b from-[#0f1422] via-[#090b10] to-[#040507]">
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(65,105,225,0.25)_0%,transparent_65%)]" />
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_left,rgba(59,130,246,0.12)_0%,transparent_55%)]" />
+                        <div className="absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:28px_28px] opacity-35" />
+                      </div>
+
+                      {/* Header Content */}
+                      <div className="relative z-10 flex flex-col justify-start shrink-0">
+                        <div className="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase text-[#60A5FA] font-semibold mb-2 flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />
                           {card.category}
                         </div>
-                        <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-neutral-900 leading-tight mb-2 uppercase">
+                        <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-white leading-tight mb-2 uppercase">
                           {card.title}
                         </h3>
-                        <p className="text-xs sm:text-[13px] text-neutral-600 leading-relaxed font-sans line-clamp-2">
+                        <p className="text-xs sm:text-[13px] text-zinc-300 leading-relaxed font-sans line-clamp-3">
                           {card.description}
                         </p>
                       </div>
 
                       {/* Capabilities List */}
-                      <div className="space-y-3 my-auto">
+                      <div className="space-y-3 my-auto relative z-10 py-2">
                         {card.capabilities.map((cap, cIdx) => {
                           const IconComponent = cap.icon;
                           return (
                             <div
                               key={cIdx}
-                              className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/95 border border-neutral-200/90 shadow-sm flex items-center gap-3.5 hover:bg-white hover:border-blue-300 transition-all"
+                              className="p-3 sm:p-3.5 rounded-xl sm:rounded-2xl bg-white/[0.05] hover:bg-white/[0.09] border border-white/10 hover:border-[#4169E1]/40 transition-all duration-200 flex items-center gap-3.5 shadow-sm"
                             >
-                              <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-100 flex items-center justify-center text-[#2563EB] shrink-0">
+                              <div className="w-10 h-10 rounded-xl bg-[#4169E1]/20 border border-[#4169E1]/30 flex items-center justify-center text-[#60A5FA] shrink-0">
                                 <IconComponent className="text-base" />
                               </div>
                               <div className="min-w-0">
-                                <div className="text-xs sm:text-sm font-semibold text-neutral-900 leading-snug truncate">
+                                <div className="text-xs sm:text-sm font-semibold text-white leading-snug truncate">
                                   {cap.title}
                                 </div>
-                                <div className="text-[11px] sm:text-xs text-neutral-500 leading-tight mt-0.5 line-clamp-1">
+                                <div className="text-[11px] sm:text-xs text-zinc-400 leading-tight mt-0.5 line-clamp-1">
                                   {cap.desc}
                                 </div>
                               </div>
@@ -207,13 +216,13 @@ const SolutionsSection = () => {
                       </div>
 
                       {/* Footer Link */}
-                      <div className="pt-3.5 border-t border-neutral-200/80 flex items-center justify-between gap-3 shrink-0">
+                      <div className="relative z-10 pt-3.5 border-t border-white/10 flex items-center justify-between gap-3 shrink-0">
                         <Link
                           href={card.linkHref}
-                          className="text-xs sm:text-sm font-semibold text-neutral-900 hover:text-[#2563EB] transition-colors flex items-center gap-1.5 group/link"
+                          className="text-xs sm:text-sm font-semibold text-white hover:text-[#60A5FA] transition-colors flex items-center gap-1.5 group/link"
                         >
                           <span>{card.linkText}</span>
-                          <span className="inline-block transition-transform group-hover/link:translate-x-1">→</span>
+                          <span className="inline-block transition-transform group-hover/link:translate-x-1 text-[#60A5FA]">→</span>
                         </Link>
                       </div>
                     </div>
@@ -221,115 +230,64 @@ const SolutionsSection = () => {
                 );
               }
 
-              // ─── CARD TYPE: LIGHT FROSTED (ARCHVIZ) ───
-              if (card.type === 'light') {
-                return (
-                  <SwiperSlide
-                    key={card.id}
-                    className="!w-[88vw] xs:!w-[360px] sm:!w-[400px] md:!w-[420px] lg:!w-[520px] py-2 md:py-4 !h-auto flex"
-                  >
-                    <div
-                      className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[16px] md:rounded-[24px] p-5 md:p-6 lg:p-7 flex flex-col justify-between select-none relative overflow-hidden shadow-xl bg-gradient-to-b from-[#ffffff] via-[#f7f8fa] to-[#eef1f5] text-neutral-900 border border-neutral-300/80 ring-[4px] ring-neutral-200/50"
-                      style={{ boxShadow: 'rgba(0,0,0,0.12) 0px 10px 30px -5px' }}
-                    >
-                      <div className="h-[125px] sm:h-[130px] md:h-[135px] lg:h-[140px] flex flex-col justify-start shrink-0">
-                        <div className="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase text-neutral-500 font-semibold mb-1">
-                          {card.category}
-                        </div>
-                        <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-neutral-900 leading-tight mb-1.5 uppercase">
-                          {card.title}
-                        </h3>
-                        <p className="text-xs sm:text-[13px] text-neutral-600 leading-relaxed font-sans line-clamp-2">
-                          {card.description}
-                        </p>
-                      </div>
-
-                      {/* Visual Container */}
-                      <div className="relative w-full h-[185px] sm:h-[200px] md:h-[210px] lg:h-[225px] mt-2 mb-3 shrink-0 rounded-[12px] md:rounded-[16px] overflow-hidden bg-white border border-neutral-300/80 shadow-inner flex items-center justify-center">
-                        <Image
-                          src={card.image}
-                          alt={card.alt}
-                          fill
-                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-cover"
-                        />
-                      </div>
-
-                      <div className="flex-1 flex flex-col justify-end shrink-0">
-                        {/* Meta Label & Pills */}
-                        <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-neutral-500 font-semibold mb-1.5">
-                          {card.metaLabel}
-                        </div>
-                        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3">
-                          {card.pills.map((pill, pIdx) => (
-                            <span
-                              key={pIdx}
-                              className="px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium bg-black/5 border border-black/10 text-neutral-700"
-                            >
-                              {pill}
-                            </span>
-                          ))}
-                        </div>
-
-                        {/* Footer Link */}
-                        <div className="pt-3.5 border-t border-neutral-200/80 flex items-center justify-between gap-3">
-                          <Link
-                            href={card.linkHref}
-                            className="text-xs sm:text-sm font-semibold text-neutral-900 hover:text-[#2563EB] transition-colors flex items-center gap-1.5 group/link"
-                          >
-                            <span>{card.linkText}</span>
-                            <span className="inline-block transition-transform group-hover/link:translate-x-1">→</span>
-                          </Link>
-                        </div>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                );
-              }
-
-              // ─── CARD TYPE: DARK SLEEK (3D CONFIGURATORS / CINEMATIC CGI / SHOWROOMS) ───
+              // ─── CARD TYPE: FULL BACKGROUND IMAGE WITH FILL & GRADIENT OVERLAY ───
               return (
                 <SwiperSlide
                   key={card.id}
                   className="!w-[88vw] xs:!w-[360px] sm:!w-[400px] md:!w-[420px] lg:!w-[520px] py-2 md:py-4 !h-auto flex"
                 >
                   <div
-                    className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[16px] md:rounded-[24px] p-5 md:p-6 lg:p-7 flex flex-col justify-between select-none relative overflow-hidden shadow-2xl bg-[#0d0f12] text-white border border-white/10 ring-[4px] ring-[#2b2b2d]"
+                    className="w-full h-[550px] sm:h-[570px] md:h-[580px] lg:h-[600px] rounded-[16px] md:rounded-[24px] p-6 md:p-7 lg:p-8 flex flex-col justify-between select-none relative overflow-hidden shadow-2xl bg-[#090b10] text-white border border-white/10 ring-[1px] ring-white/10 group hover:border-[#4169E1]/50 transition-all duration-300"
                     style={{ boxShadow: 'rgba(0,0,0,0.3) 0px 10px 30px -5px' }}
                   >
-                    <div className="h-[125px] sm:h-[130px] md:h-[135px] lg:h-[140px] flex flex-col justify-start shrink-0">
-                      <div className="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase text-neutral-400 font-semibold mb-1">
+                    {/* Full Card Background Image with Fill and Gradient Overlays */}
+                    {card.image && (
+                      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+                        <Image
+                          src={card.image}
+                          alt={card.alt || card.title}
+                          fill
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          className="object-cover object-center group-hover:scale-105 transition-transform duration-700 ease-out will-change-transform"
+                        />
+                        {/* Top dark gradient for heading legibility */}
+                        <div className="absolute inset-0 bg-gradient-to-b from-[#090b10]/95 via-[#090b10]/60 to-transparent h-[50%]" />
+                        {/* Bottom dark gradient for pills & actions legibility */}
+                        <div className="absolute inset-0 top-auto bg-gradient-to-t from-[#090b10] via-[#090b10]/90 to-transparent h-[60%]" />
+                        {/* Overall ambient darkening and brand glow */}
+                        <div className="absolute inset-0 bg-black/30" />
+                        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(65,105,225,0.18)_0%,transparent_60%)]" />
+                      </div>
+                    )}
+
+                    {/* Header Content */}
+                    <div className="relative z-10 flex flex-col justify-start shrink-0">
+                      <div className="text-[10px] sm:text-[11px] font-mono tracking-widest uppercase text-[#60A5FA] font-semibold mb-2 flex items-center gap-2">
+                        <span className="w-1.5 h-1.5 rounded-full bg-[#3B82F6]" />
                         {card.category}
                       </div>
-                      <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-white leading-tight mb-1.5 uppercase">
+                      <h3 className="text-xl sm:text-2xl md:text-[24px] font-bold tracking-tight text-white leading-tight mb-2 uppercase">
                         {card.title}
                       </h3>
-                      <p className="text-xs sm:text-[13px] text-neutral-400 leading-relaxed font-sans line-clamp-2">
+                      <p className="text-xs sm:text-[13px] text-zinc-200/90 leading-relaxed font-sans line-clamp-3">
                         {card.description}
                       </p>
                     </div>
 
-                    {/* Visual Container */}
-                    <div className="relative w-full h-[185px] sm:h-[200px] md:h-[210px] lg:h-[225px] mt-2 mb-3 shrink-0 rounded-[12px] md:rounded-[16px] overflow-hidden bg-neutral-950/80 border border-white/10 flex items-center justify-center shadow-md">
-                      <Image
-                        src={card.image}
-                        alt={card.alt}
-                        fill
-                        sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                        className="object-cover"
-                      />
-                    </div>
+                    {/* Open Breathing Middle Area to Showcase 3D Render */}
+                    <div className="flex-1" />
 
-                    <div className="flex-1 flex flex-col justify-end shrink-0">
+                    {/* Bottom Section: Deliverable / Pills / CTA */}
+                    <div className="relative z-10 flex flex-col justify-end shrink-0 pt-4">
                       {/* Meta Label & Pills */}
-                      <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-neutral-500 font-semibold mb-1.5">
-                        {card.metaLabel}
+                      <div className="text-[9px] sm:text-[10px] font-mono uppercase tracking-widest text-zinc-300 font-semibold mb-2 flex items-center gap-2">
+                        <span>{card.metaLabel}</span>
                       </div>
-                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-3">
+                      <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4">
                         {card.pills.map((pill, pIdx) => (
                           <span
                             key={pIdx}
-                            className="px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium bg-white/5 border border-white/10 text-neutral-300"
+                            className="px-3 py-1.5 rounded-full text-[11px] sm:text-xs font-medium bg-black/60 backdrop-blur-md border border-white/20 text-white/95 shadow-sm"
                           >
                             {pill}
                           </span>
@@ -337,13 +295,13 @@ const SolutionsSection = () => {
                       </div>
 
                       {/* Footer Link */}
-                      <div className="pt-3.5 border-t border-white/10 flex items-center justify-between gap-3">
+                      <div className="pt-3.5 border-t border-white/15 flex items-center justify-between gap-3">
                         <Link
                           href={card.linkHref}
-                          className="text-xs sm:text-sm font-semibold text-white hover:text-blue-400 transition-colors flex items-center gap-1.5 group/link"
+                          className="text-xs sm:text-sm font-semibold text-white hover:text-[#60A5FA] transition-colors flex items-center gap-1.5 group/link"
                         >
                           <span>{card.linkText}</span>
-                          <span className="inline-block transition-transform group-hover/link:translate-x-1">→</span>
+                          <span className="inline-block transition-transform group-hover/link:translate-x-1 text-[#60A5FA]">→</span>
                         </Link>
                       </div>
                     </div>

@@ -1,10 +1,12 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { FaWhatsapp, FaPhoneAlt, FaMapMarkerAlt, FaCheck, FaPaperPlane } from '@/components/ui/Icons';
 import { SiCalendly } from '@/components/ui/Icons';
 import { apiCall } from '../../utils/api';
 import { servicesList } from '../../data/servicesList';
+import ReCaptcha from '../common/ReCaptcha';
+import { useRateLimitTimer } from '@/hooks/useRateLimitTimer';
 
 const validators = {
   first_name: (v) => '',
@@ -21,6 +23,13 @@ const UkContact = ({
   title = 'Not ready for a full proposal?',
   sub = 'Get a free sample render or a ballpark estimate for your project — no commitment required.',
 }) => {
+  const recaptchaRef = useRef(null);
+  const [recaptchaToken, setRecaptchaToken] = useState('');
+  const { isLocked, formattedTime, recordAttempt, triggerCooldown } = useRateLimitTimer({
+    maxAttempts: 5,
+    cooldownMs: 15 * 60 * 1000,
+  });
+
   const [status, setStatus] = useState({ text: '', cls: '' });
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -36,8 +45,18 @@ const UkContact = ({
 
   async function handleSubmit(e) {
     e.preventDefault();
+    if (isLocked) {
+      setStatus({ text: `Too many attempts. Please wait ${formattedTime} before trying again.`, cls: 'uk-error' });
+      return;
+    }
+
+    if (!recaptchaToken) {
+      setStatus({ text: 'Please verify that you are not a robot by clicking reCAPTCHA.', cls: 'uk-error' });
+      return;
+    }
+
     const form = e.currentTarget;
-    const payload = {};
+    const payload = { recaptchaToken };
     const nextErrors = {};
     let valid = true;
 
@@ -62,16 +81,27 @@ const UkContact = ({
     setIsSubmitting(true);
 
     try {
-      const { status: httpStatus } = await apiCall('/contact/contact', 'POST', payload);
+      const { status: httpStatus, data } = await apiCall('/contact/contact', 'POST', payload);
       if (httpStatus === 200) {
         form.reset();
         setErrors({});
+        setRecaptchaToken('');
+        recaptchaRef.current?.reset();
         setStatus({ text: 'Thank you! Your message has been sent successfully.', cls: 'uk-success' });
+      } else if (httpStatus === 429) {
+        triggerCooldown(data?.retryAfter || 900);
+        setStatus({ text: data?.error || 'Rate limit exceeded. Please wait 15 minutes.', cls: 'uk-error' });
       } else {
-        setStatus({ text: 'Something went wrong. Please try again or message us on WhatsApp.', cls: 'uk-error' });
+        recordAttempt();
+        setRecaptchaToken('');
+        recaptchaRef.current?.reset();
+        setStatus({ text: data?.error || 'Something went wrong. Please try again or message us on WhatsApp.', cls: 'uk-error' });
       }
     } catch (err) {
       console.error(err);
+      recordAttempt();
+      setRecaptchaToken('');
+      recaptchaRef.current?.reset();
       setStatus({ text: 'Something went wrong. Please try again or message us on WhatsApp.', cls: 'uk-error' });
     } finally {
       setIsSubmitting(false);
@@ -136,12 +166,56 @@ const UkContact = ({
                   onChange={(e) => handleField('message', e.target.value)} />
                 <small className="uk-field-error" data-for="message">{errors.message || ''}</small>
               </div>
+
+              {/* Honeypot Bot Trap */}
+              <div className="hidden" aria-hidden="true" style={{ display: 'none' }}>
+                <input type="text" name="website_hp" tabIndex={-1} autoComplete="off" />
+              </div>
             </div>
 
+            {/* Google reCAPTCHA v2 Widget */}
+            <div className="my-2">
+              <ReCaptcha
+                ref={recaptchaRef}
+                theme="dark"
+                onVerify={(token) => {
+                  setRecaptchaToken(token);
+                  setStatus({ text: '', cls: '' });
+                }}
+                onExpired={() => setRecaptchaToken('')}
+              />
+            </div>
+
+            {/* Cooldown Timer Alert */}
+            {isLocked && (
+              <div style={{ padding: '10px 14px', borderRadius: 8, background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)', color: '#fbbf24', fontSize: '13px', display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
+                <span>Too many attempts. Submissions locked.</span>
+                <strong style={{ fontFamily: 'monospace', fontSize: '14px', background: 'rgba(245, 158, 11, 0.2)', padding: '2px 8px', borderRadius: 4 }}>
+                  {formattedTime}
+                </strong>
+              </div>
+            )}
+
             <div className="uk-contact-submit">
-              <button type="submit" className="uk-btn uk-btn-primary" id="uk_submit" disabled={isSubmitting}>
+              <button
+                type="submit"
+                className="uk-btn uk-btn-primary"
+                id="uk_submit"
+                disabled={isSubmitting || isLocked}
+                style={{
+                  backgroundColor: '#ffffff',
+                  color: '#000000',
+                  fontWeight: 'bold',
+                  opacity: (isSubmitting || isLocked) ? 0.6 : 1,
+                  cursor: (isSubmitting || isLocked) ? 'not-allowed' : 'pointer'
+                }}
+              >
                 <FaPaperPlane style={{ marginRight: 8, verticalAlign: '-2px' }} />
-                {isSubmitting ? 'Sending...' : 'Get a Free Estimate'}
+                {isLocked
+                  ? `Locked · Wait ${formattedTime}`
+                  : isSubmitting
+                  ? 'Sending...'
+                  : 'Get a Free Estimate'}
               </button>
               <p className={`uk-form-status ${status.cls}`} id="uk_status" role="status">{status.text}</p>
               <p className="uk-contact-trustline">
