@@ -43,9 +43,9 @@ const staticArticleMetadata = {
     ogImage: `${SITE_URL}/assets/ElipseImages/projects/Streeing-1.webp`,
   },
   'vfx-services-us-2026': {
-    title: 'Commercial VFX & CGI Services USA (2026): Photoreal Environments & Product Integration | Elipse Studio',
-    description: 'High-end visual effects and commercial CGI for US brand campaigns. Photoreal product integration and virtual environment replacement. Transparent USD pricing.',
-    keywords: ['commercial VFX USA', 'commercial CGI services', 'photoreal product integration', 'virtual environment replacement', 'Unreal Engine virtual production USA', 'Elipse Studio'],
+    title: 'Anamorphic 3D Animation Services & LED Billboard Content USA (2026) | Elipse Studio',
+    description: 'Forced-perspective anamorphic 3D animation and LED billboard content for US brands. Product breakouts, full-scene environments & real-time OOH loops. Transparent USD pricing.',
+    keywords: ['anamorphic animation USA', 'anamorphic 3D content', 'LED billboard animation', 'forced perspective animation', 'DOOH content USA', 'OOH advertising 3D', 'Elipse Studio'],
     ogImage: `${SITE_URL}/assets/About-page/QORDEN.webp`,
   },
   'leap-2026-wrap-up': {

@@ -579,4 +579,706 @@ body {
   .animate-gpu-marquee {
     animation-duration: 25s;
   }
-}
+}
+
+/* ==========================================================================
+   DAY / NIGHT (LIGHT / DARK) THEME SYSTEM
+   ========================================================================== */
+
+/* Smooth theme transition */
+html,
+body,
+.site-shell-container,
+header,
+nav,
+section,
+footer {
+  transition: background-color 0.35s ease, color 0.35s ease, border-color 0.35s ease;
+}
+
+/* 1. Day Mode (Light) Root & Shell */
+html.light,
+body.light,
+html[data-theme="light"],
+html[data-theme="light"] body {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+html.light .site-shell-container,
+html[data-theme="light"] .site-shell-container,
+html.light main,
+html.light #main-content {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+}
+
+/* 2. All Headings Everywhere in Day Mode */
+html.light h1,
+html.light h2,
+html.light h3,
+html.light h4,
+html.light h5,
+html.light h6 {
+  color: #0a0f1d !important;
+}
+
+/* 3. Base Paragraphs, Lists, Labels, and Div text in Day Mode */
+html.light p,
+html.light li {
+  color: #334155;
+}
+
+/* 4. Complete Typography Overrides for White & Light Text */
+html.light .text-white,
+html.light .text-zinc-100,
+html.light .text-zinc-200,
+html.light .text-neutral-100,
+html.light .text-neutral-200,
+html.light .text-gray-100,
+html.light .text-gray-200,
+html.light .text-slate-100,
+html.light .text-slate-200,
+html.light .text-\[\#fff\],
+html.light .text-\[\#ffffff\],
+html.light .text-\[\#F2F0EB\],
+html.light .text-\[\#f2f0eb\] {
+  color: #0f172a !important;
+}
+
+/* 5. Subtitle & Secondary Text in Day Mode (Clear Slate-700 / Slate-600, never washed out) */
+html.light [class*="text-white\/"],
+html.light .text-zinc-300,
+html.light .text-zinc-400,
+html.light .text-gray-300,
+html.light .text-gray-400,
+html.light .text-neutral-300,
+html.light .text-neutral-400,
+html.light .text-slate-300,
+html.light .text-slate-400,
+html.light .text-\[\#d4d4d4\],
+html.light .text-\[\#a3a3a3\],
+html.light .text-\[\#e0e0e0\],
+html.light .text-\[\#e5e5e5\] {
+  color: #334155 !important;
+}
+
+/* 6. Low-opacity text variants (e.g. text-white/35, text-white/20, text-white/15) become dark slate */
+html.light .text-white\/50,
+html.light .text-white\/45,
+html.light .text-white\/40,
+html.light .text-white\/35,
+html.light .text-white\/30,
+html.light .text-white\/25,
+html.light .text-white\/20,
+html.light .text-white\/15,
+html.light .text-white\/10 {
+  color: #64748b !important;
+}
+
+/* 7. Hover States: NEVER turn text white on white background on hover */
+html.light .hover\:text-white:hover,
+html.light .group:hover .group-hover\:text-white {
+  color: #4169e1 !important;
+}
+
+/* 8. Background Overrides for Day Mode */
+html.light .bg-black,
+html.light .bg-\[\#000\],
+html.light .bg-\[\#000000\],
+html.light .bg-\[\#050505\],
+html.light .bg-\[\#080808\],
+html.light .bg-\[\#0a0a0a\],
+html.light .bg-\[\#0b0c10\],
+html.light .bg-\[\#0c0c0c\],
+html.light .bg-\[\#0d0d0d\],
+html.light .bg-\[\#0D0D0D\],
+html.light .bg-\[\#0e0e0e\],
+html.light .bg-\[\#0E0E10\],
+html.light .bg-\[\#0d0f1c\],
+html.light .bg-\[\#0D0F14\],
+html.light .bg-\[\#111\],
+html.light .bg-\[\#111111\],
+html.light .bg-\[\#121212\],
+html.light .bg-\[\#141414\],
+html.light .bg-\[\#151517\],
+html.light .bg-\[\#161616\],
+html.light .bg-\[\#181818\],
+html.light .bg-\[\#1a1a1a\],
+html.light .bg-\[\#1A1A1A\],
+html.light .bg-\[\#1a1a1c\],
+html.light .bg-\[\#222\],
+html.light .bg-\[\#2b2b2d\],
+html.light .bg-\[\#323235\],
+html.light .bg-neutral-900,
+html.light .bg-neutral-950,
+html.light .bg-zinc-900,
+html.light .bg-zinc-950,
+html.light .bg-stone-900,
+html.light .bg-stone-950 {
+  background-color: #ffffff !important;
+}
+
+/* 9. Secondary Surfaces & Card Backgrounds */
+html.light .bg-neutral-900\/50,
+html.light .bg-neutral-900\/40,
+html.light .bg-zinc-900\/50,
+html.light .bg-zinc-900\/40,
+html.light .bg-zinc-900\/60,
+html.light .bg-zinc-900\/90,
+html.light .bg-white\/\[0\.02\],
+html.light .bg-white\/\[0\.03\],
+html.light .bg-white\/\[0\.04\],
+html.light .bg-white\/5,
+html.light .bg-white\/10,
+html.light .bg-white\/15 {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+/* 10. Borders in Day Mode */
+html.light .border-white\/5,
+html.light .border-white\/10,
+html.light .border-white\/15,
+html.light .border-white\/20,
+html.light .border-white\/30,
+html.light .border-white\/40,
+html.light .border-white\/50,
+html.light .border-zinc-800,
+html.light .border-neutral-800,
+html.light .border-stone-800,
+html.light .border-\[\#333\],
+html.light .border-\[\#1A1A1A\],
+html.light .border-\[\#1a1a1a\] {
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
+/* 11. Card Shadows & Elevation */
+html.light .rounded-2xl.border,
+html.light .rounded-3xl.border,
+html.light .rounded-xl.border,
+html.light .rounded-\[28px\].border,
+html.light .rounded-\[2rem\].border {
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 6px -1px rgba(0, 0, 0, 0.02) !important;
+  border-color: rgba(15, 23, 42, 0.09) !important;
+}
+
+/* 12. Primary Action Buttons & Accents - MUST KEEP WHITE TEXT */
+html.light .bg-\[\#4169E1\],
+html.light .bg-\[\#4169E1\] *,
+html.light .bg-\[\#3158D4\],
+html.light .bg-\[\#3158D4\] *,
+html.light .bg-\[\#3558c8\],
+html.light .bg-\[\#3558c8\] *,
+html.light .bg-\[\#2563EB\],
+html.light .bg-\[\#2563EB\] *,
+html.light .bg-\[\#25D366\],
+html.light .bg-\[\#25D366\] *,
+html.light .bg-\[\#1ebe5b\],
+html.light .bg-\[\#1ebe5b\] *,
+html.light .bg-blue-600,
+html.light .bg-blue-600 *,
+html.light .bg-blue-500,
+html.light .bg-blue-500 *,
+html.light button.bg-\[\#4169E1\],
+html.light a.bg-\[\#4169E1\],
+html.light .btn-primary,
+html.light .btn-primary * {
+  color: #ffffff !important;
+}
+
+/* 13. Text Over Dark Image / Video Overlays MUST KEEP WHITE TEXT */
+html.light [class*="from-black"] h1,
+html.light [class*="from-black"] h2,
+html.light [class*="from-black"] h3,
+html.light [class*="from-black"] h4,
+html.light [class*="from-black"] p,
+html.light [class*="from-black"] span,
+html.light [class*="from-black"] a,
+html.light [class*="bg-black/90"] *,
+html.light [class*="bg-black/80"] *,
+html.light [class*="bg-black/70"] *,
+html.light .dark-overlay-content * {
+  color: #ffffff !important;
+}
+
+/* Hide unnatural black-fade gradients at bottom of sections in Day Mode */
+html.light .from-transparent.to-black {
+  display: none !important;
+}
+
+/* 14. Scrolled Header in Day Mode */
+html.light header {
+  color: #0f172a;
+}
+
+html.light header.bg-black\/40,
+html.light header.bg-black {
+  background-color: rgba(255, 255, 255, 0.9) !important;
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+}
+
+html.light header nav a,
+html.light header nav button {
+  color: #0f172a;
+}
+
+html.light header nav a:hover,
+html.light header nav button:hover {
+  color: #4169e1;
+}
+
+/* 15. Mobile Drawer in Day Mode */
+html.light .site-header-drawer,
+html.light .site-header-drawer.bg-black,
+html.light .fixed.inset-0.bg-black {
+  background-color: #ffffff !important;
+}
+
+html.light .site-header-drawer a,
+html.light .site-header-drawer button,
+html.light .fixed.inset-0.bg-black a,
+html.light .fixed.inset-0.bg-black button {
+  color: #0f172a !important;
+}
+
+html.light .site-header-drawer a:hover,
+html.light .site-header-drawer button:hover,
+html.light .fixed.inset-0.bg-black a:hover,
+html.light .fixed.inset-0.bg-black button:hover {
+  color: #4169e1 !important;
+}
+
+/* 16. Forms & Inputs in Day Mode */
+html.light input,
+html.light textarea,
+html.light select {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.18) !important;
+}
+
+html.light input::placeholder,
+html.light textarea::placeholder {
+  color: #94a3b8 !important;
+}
+
+html.light input:focus,
+html.light textarea:focus {
+  background-color: #ffffff !important;
+  border-color: #4169e1 !important;
+  color: #0f172a !important;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(65, 105, 225, 0.15) !important;
+}
+
+/* Footer must always stay in signature dark blue (night effect), even in day mode */
+html.light .site-main-footer,
+html.light footer.site-main-footer {
+  background: linear-gradient(180deg, #0a1628 0%, #1a2a6e 100%) !important;
+  color: #ffffff !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+html.light .site-main-footer .footer-heading {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+html.light .site-main-footer .footer-col-title {
+  color: #ffffff !important;
+}
+
+html.light .site-main-footer ul li a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+html.light .site-main-footer p,
+html.light .site-main-footer p a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+html.light .site-main-footer .footer-email-input,
+html.light .site-main-footer .footer-email-input:focus {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+  box-shadow: none !important;
+}
+
+html.light .site-main-footer .footer-email-input::placeholder {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+html.light .site-main-footer .back-to-top-btn {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+html.light .site-main-footer .footer-divider,
+html.light .site-main-footer .footer-copyright {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+html.light .site-main-footer .site-logo {
+  filter: none !important;
+}
+
+/* Industries Section in Day Mode - clean light cards */
+html.light .industries-card {
+  background-color: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  color: #0f172a !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light .industries-card:hover,
+html.light .industries-card.active {
+  border-color: rgba(65, 105, 225, 0.4) !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 12px 28px -8px rgba(65, 105, 225, 0.18) !important;
+}
+
+html.light .industries-card h3 {
+  color: #0a0f1d !important;
+}
+
+html.light .industries-card p,
+html.light .industries-card .text-gray-400,
+html.light .industries-card .text-gray-300 {
+  color: #475569 !important;
+}
+
+html.light .industries-card .bg-white\/\[0\.03\],
+html.light .industries-card .bg-white\/\[0\.02\],
+html.light .industries-card .bg-white\/\[0\.04\],
+html.light .industries-card .bg-white\/5,
+html.light .industries-card [class*="bg-white/"] {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* 17. Logo Inversion in Day Mode */
+html.light .site-logo {
+  filter: invert(1) brightness(0.15) !important;
+}
+
+/* Brands Marquee & White Brand Logos in Day Mode */
+html.light .brands-marquee-section {
+  background-color: #ffffff !important;
+  border-top: 1px solid rgba(15, 23, 42, 0.08);
+  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
+}
+
+html.light .brand-logo-white,
+html.light img.brand-logo-white,
+html.light .brands-marquee-section img.brightness-0.invert,
+html.light .brightness-0.invert {
+  filter: brightness(0) !important;
+  opacity: 0.85;
+}
+
+html.light .brand-logo-white:hover,
+html.light img.brand-logo-white:hover,
+html.light .brands-marquee-section img.brightness-0.invert:hover {
+  opacity: 1;
+}
+
+/* 18. Swiper Pagination Bullets in Day Mode */
+html.light .mobile-review-pagination .swiper-pagination-bullet,
+html.light .mobile-social-pagination .swiper-pagination-bullet {
+  background: rgba(15, 23, 42, 0.25) !important;
+}
+html.light .mobile-review-pagination .swiper-pagination-bullet-active,
+html.light .mobile-social-pagination .swiper-pagination-bullet-active {
+  background: #4169e1 !important;
+}
+
+/* Social Media Icons in Day Mode (was invisible on white bg) */
+html.light .social-icon-btn {
+  background: rgba(15, 23, 42, 0.05) !important;
+  border-color: rgba(15, 23, 42, 0.14) !important;
+}
+html.light .social-icon-btn:hover {
+  background: rgba(65, 105, 225, 0.12) !important;
+  border-color: rgba(65, 105, 225, 0.45) !important;
+}
+html.light .social-icon-inner {
+  color: rgba(15, 23, 42, 0.7) !important;
+}
+html.light .social-icon-btn:hover .social-icon-inner {
+  color: #4169e1 !important;
+}
+
+/* 19. Blog and Articles in Day Mode */
+html.light .blog-content h2,
+html.light .blog-content h3,
+html.light .blog-content-dark h1,
+html.light .blog-content-dark h2,
+html.light .blog-content-dark h3,
+html.light .blog-content-dark strong {
+  color: #0f172a !important;
+}
+
+html.light .blog-content p,
+html.light .blog-content-dark p,
+html.light .blog-content-dark li {
+  color: #334155 !important;
+}
+
+html.light .blog-content-dark code {
+  background: #f1f5f9 !important;
+  color: #2563eb !important;
+}
+
+html.light .blog-content-dark pre {
+  background: #f8fafc !important;
+  border-color: #e2e8f0 !important;
+}
+
+html.light .blog-content-dark pre code {
+  color: #1e293b !important;
+}
+
+/* ==========================================================================
+   FOOTER STYLING (SIGNATURE DEEP BLUE GRADIENT PRESERVED)
+   ========================================================================== */
+
+.site-main-footer,
+footer.site-main-footer {
+  background: linear-gradient(180deg, #0a1628 0%, #1a2a6e 100%) !important;
+  color: #ffffff !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
+}
+
+.site-main-footer .footer-heading {
+  color: rgba(255, 255, 255, 0.95) !important;
+}
+
+.site-main-footer .footer-col-title {
+  color: #ffffff !important;
+}
+
+.site-main-footer ul li a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.site-main-footer ul li a:hover {
+  color: #ffffff !important;
+}
+
+.site-main-footer p,
+.site-main-footer p a {
+  color: rgba(255, 255, 255, 0.8) !important;
+}
+
+.site-main-footer p a:hover {
+  color: #4169e1 !important;
+}
+
+.site-main-footer .footer-email-input {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  color: #ffffff !important;
+}
+
+.site-main-footer .footer-email-input::placeholder {
+  color: rgba(255, 255, 255, 0.45) !important;
+}
+
+.site-main-footer .footer-divider {
+  border-color: rgba(255, 255, 255, 0.12) !important;
+}
+
+.site-main-footer .back-to-top-btn {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  color: #ffffff !important;
+}
+
+.site-main-footer .back-to-top-btn:hover {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  color: #ffffff !important;
+}
+
+.site-main-footer .footer-copyright {
+  color: rgba(255, 255, 255, 0.65) !important;
+}
+
+/* Ensure the footer logo remains crisp white on blue in day mode */
+html.light .site-main-footer .site-logo {
+  filter: none !important;
+}
+
+/* ==========================================================================
+   SOLUTIONS SECTION ("WHAT WE DO") - DAY MODE (LIGHT)
+   ========================================================================== */
+
+html.light .solutions-section {
+  background-color: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+  color: #0f172a !important;
+}
+
+/* Hide corner glow gradients in day mode */
+html.light .solutions-corner-glow {
+  display: none !important;
+}
+
+html.light .solutions-header-label {
+  color: #64748b !important;
+}
+
+html.light .solutions-nav-btn {
+  background-color: #f8fafc !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.15) !important;
+}
+
+html.light .solutions-nav-btn:hover {
+  background-color: #f1f5f9 !important;
+  border-color: rgba(15, 23, 42, 0.3) !important;
+}
+
+html.light .solutions-cta-btn {
+  background-color: #0a0f1d !important;
+  color: #ffffff !important;
+}
+
+html.light .solutions-cta-btn:hover {
+  background-color: #1e293b !important;
+  color: #ffffff !important;
+}
+
+/* Solutions Cards in Day Mode */
+html.light .solution-card {
+  background-color: #ffffff !important;
+  background-image: none !important;
+  color: #0f172a !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.06), 0 4px 12px -2px rgba(0, 0, 0, 0.03) !important;
+}
+
+html.light .solution-card:hover {
+  border-color: rgba(65, 105, 225, 0.4) !important;
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.1) !important;
+}
+
+html.light .solution-card-category {
+  color: #4169e1 !important;
+}
+
+html.light .solution-card-title {
+  color: #0a0f1d !important;
+}
+
+html.light .solution-card-desc {
+  color: #475569 !important;
+}
+
+html.light .solution-card-meta {
+  color: #0f172a !important;
+  font-weight: 700 !important;
+  text-shadow: 0 1px 2px rgba(255, 255, 255, 0.8) !important;
+}
+
+html.light .solution-card-pill {
+  background-color: rgba(241, 245, 249, 0.95) !important;
+  color: #0f172a !important;
+  border-color: rgba(203, 213, 225, 0.9) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05) !important;
+}
+
+html.light .solution-card-link {
+  color: #0a0f1d !important;
+}
+
+html.light .solution-card-footer {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+html.light .solution-card-link:hover {
+  color: #4169e1 !important;
+}
+
+html.light .solution-card-plus-btn {
+  background-color: #f1f5f9 !important;
+  color: #0f172a !important;
+  border-color: rgba(203, 213, 225, 0.8) !important;
+}
+
+html.light .solution-card-plus-btn:hover {
+  background-color: #e2e8f0 !important;
+  color: #4169e1 !important;
+}
+
+html.light .solution-card-divider {
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+
+/* Tech Stack capabilities inside Solution Card */
+html.light .solution-tech-item {
+  background-color: #f8fafc !important;
+  border-color: rgba(203, 213, 225, 0.7) !important;
+}
+
+html.light .solution-tech-item:hover {
+  background-color: #f1f5f9 !important;
+  border-color: rgba(203, 213, 225, 0.95) !important;
+}
+
+html.light .solution-tech-icon {
+  background-color: #eff6ff !important;
+  color: #2563eb !important;
+  border-color: #bfdbfe !important;
+}
+
+html.light .solution-tech-title {
+  color: #0a0f1d !important;
+}
+
+html.light .solution-tech-desc {
+  color: #64748b !important;
+}
+
+/* ==========================================================================
+   PERMANENT DARK HEROES (Portfolio & Case Studies)
+   Light/Day Mode toggle must NOT affect these hero sections.
+   ========================================================================== */
+html.light .keep-dark-hero,
+html.light section.portfolio-hero-section,
+html.light section.case-studies-hero-section {
+  background-color: #000000 !important;
+  color: #ffffff !important;
+}
+
+html.light .keep-dark-hero h1,
+html.light .keep-dark-hero h2,
+html.light .keep-dark-hero h3,
+html.light .keep-dark-hero p,
+html.light .keep-dark-hero span,
+html.light .portfolio-hero-section h1,
+html.light .case-studies-hero-section h1 {
+  color: #ffffff !important;
+}
+
+html.light .keep-dark-hero .bg-black,
+html.light .portfolio-hero-section .bg-black,
+html.light .case-studies-hero-section .bg-black {
+  background-color: #000000 !important;
+}
+
+html.light .keep-dark-hero [class*="bg-black/"],
+html.light .portfolio-hero-section [class*="bg-black/"],
+html.light .case-studies-hero-section [class*="bg-black/"] {
+  background-color: rgba(0, 0, 0, 0.45) !important;
+}
+
+html.light .keep-dark-hero [class*="from-black"],
+html.light .portfolio-hero-section [class*="from-black"],
+html.light .case-studies-hero-section [class*="from-black"] {
+  display: block !important;
+}
+

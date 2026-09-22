@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import logoRaw from '@/assets/images/khalid.png';
 import { getImgSrc } from '@/utils/api';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 const logo = getImgSrc(logoRaw);
 
@@ -146,7 +147,7 @@ const ConfiguratorHeader = () => {
               alt="Elipse Studio"
               width="230"
               height="105"
-              className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 block self-center ${isLightSection ? 'invert' : ''
+              className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 block self-center site-logo ${isLightSection ? 'invert' : ''
                 }`}
             />
           </Link>
@@ -183,6 +184,7 @@ const ConfiguratorHeader = () => {
             >
               Contact
             </button>
+            <ThemeToggle />
             <button
               onClick={toggleMenu}
               className={`focus:outline-none hover:scale-110 active:scale-95 p-1.5 flex items-center justify-center rounded-full transition-transform ${isLightSection ? 'text-black' : 'text-white'
@@ -282,6 +284,9 @@ const ConfiguratorHeader = () => {
                 </li>
               ))}
             </ul>
+            <div className="mt-8 pt-6 border-t border-white/15 max-w-xs">
+              <ThemeToggle variant="menu-item" />
+            </div>
           </div>
         </div>
       </nav>

@@ -243,8 +243,8 @@ const CapabilitiesPage = () => {
                 >
                   <div className="grid grid-cols-2 sm:flex sm:flex-wrap gap-4 md:gap-x-14 md:gap-y-5">
                     {statsData.map((stat) => (
-                      <div key={stat.label}>
-                        <span className="text-xl md:text-[2rem] font-bold text-white tabular-nums tracking-tight">
+                      <div key={stat.label} className="min-w-[90px]">
+                        <span className="text-xl md:text-[2rem] font-bold text-white tabular-nums tracking-tight leading-normal inline-block">
                           <AnimatedCounter value={stat.value} />
                         </span>
                         <p className="mt-1 text-[10px] tracking-[0.2em] uppercase text-white/35 font-medium">{stat.label}</p>
@@ -424,12 +424,8 @@ const CapabilitiesPage = () => {
                   transition={{ duration: 0.6, delay: index * 0.15 }}
                   className="relative h-full"
                 >
-                  <div className="text-[3rem] md:text-[5rem] font-bold text-white/[0.04] leading-none -mb-4 md:-mb-6 select-none">
-                    {step.number}
-                  </div>
-                  <div className="relative bg-[#111111] rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 border border-white/5 hover:border-[#4169E1]/30 transition-all duration-500 min-h-[200px] md:min-h-[220px] h-full flex flex-col">
-                    <span className="text-[#4169E1] text-sm font-bold tracking-widest">{step.number}</span>
-                    <h3 className="mt-3 md:mt-4 text-lg md:text-2xl font-semibold text-white">{step.title}</h3>
+                  <div className="relative bg-[#111111] rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 border border-white/5 hover:border-[#4169E1]/30 transition-all duration-500 min-h-[200px] md:min-h-[220px] h-full flex flex-col overflow-hidden group">
+                    <h3 className="text-lg md:text-2xl font-semibold text-white">{step.title}</h3>
                     <p className="mt-3 md:mt-4 text-white/70 text-sm md:text-base font-light leading-relaxed flex-1">{step.description}</p>
                   </div>
                   {index < processData.length - 1 && (

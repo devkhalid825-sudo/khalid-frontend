@@ -169,7 +169,7 @@ export default function AuInteractiveWebArticle() {
                   <span className="absolute bottom-4 text-neutral-400 text-xl select-none">✦</span>
                 </div>
 
-                <div className="relative w-full max-w-[16rem] sm:max-w-[19rem] md:max-w-[21rem] lg:max-w-[23rem] h-[21rem] sm:h-[24rem] md:h-[26rem] lg:h-[28rem] xl:h-[29.5rem] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-black group z-10">
+                <div className="relative w-full max-w-[15rem] sm:max-w-[17rem] md:max-w-[18rem] lg:max-w-[20rem] aspect-[9/16] rounded-3xl overflow-hidden shadow-2xl border-4 border-white bg-black group z-10">
                   <div className="absolute inset-0 overflow-hidden flex items-center justify-center pointer-events-none">
                     <iframe
                       ref={iframeRef}
@@ -177,7 +177,7 @@ export default function AuInteractiveWebArticle() {
                       title="Interactive Web Experiences Australia - WebGL Reel"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
-                      className="w-[155%] h-[155%] max-w-none border-0 object-cover scale-[1.18]"
+                      className="w-full h-full object-contain border-0"
                     />
                   </div>
 
@@ -472,11 +472,11 @@ export default function AuInteractiveWebArticle() {
               </div>
               <div className="md:order-1">
                 <Frame
-                  src={volvoHero}
-                  badge="WebGL Configurator"
-                  cap="Volvo Cars — Interactive 3D WebGL Configurator"
-                  actionLink="https://www.behance.net/gallery/249430145/Volvo-Cars-Configurator"
-                  actionText="View on Behance"
+                  src={kiaImg}
+                  badge="Pixel Streaming & WebGL"
+                  cap="Kia Sportage"
+                  actionLink="https://legacy.elipsestudio.com/Kia/"
+                  actionText="View Configurator"
                 />
               </div>
             </article>
@@ -488,7 +488,7 @@ export default function AuInteractiveWebArticle() {
                   04
                 </div>
                 <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 max-w-[24ch] leading-tight mb-4">
-                  Unreal Engine 5 Cloud Pixel Streaming & Lightweight Three.js
+                  Unreal Engine 5 Cloud Pixel Streaming
                 </h3>
                 <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
                   Full Unreal Engine 5 builds featuring hardware ray-tracing and Nanite geometry streamed via cloud GPUs (Arcware/PureWeb), alongside sub-2MB lightweight Three.js promotional campaign portals.
@@ -496,10 +496,10 @@ export default function AuInteractiveWebArticle() {
               </div>
               <div className="md:order-2">
                 <Frame
-                  src={kiaImg}
-                  badge="Pixel Streaming & WebGL"
-                  cap="Kia Sportage — Unreal Engine 5 Cloud Pixel Streaming Configurator"
-                  actionLink="https://legacy.elipsestudio.com/Kia/"
+                  src="/au-assets/golf-cart.webp"
+                  badge="WebGL Configurator"
+                  cap="Golf Cart Configurator"
+                  actionLink="https://costa-carts.netlify.app/"
                   actionText="View Configurator"
                 />
               </div>

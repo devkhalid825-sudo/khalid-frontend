@@ -83,11 +83,11 @@ const staticPosts = [
     },
     {
         id: 'static-us-vfx-2026',
-        title: 'Commercial VFX & CGI Services USA (2026): Photoreal Environments & Product Integration',
-        excerpt: 'High-end visual effects and commercial CGI for US brand campaigns. Photoreal product integration and virtual environment replacement. Transparent USD pricing.',
+        title: 'Anamorphic 3D Animation Services & LED Billboard Content USA (2026)',
+        excerpt: 'Forced-perspective anamorphic 3D animation and LED billboard content for US brands. Product breakouts, full-scene environments & real-time OOH loops. Transparent USD pricing.',
         image: vfxImg,
         date: 'SEPTEMBER 21, 2026',
-        category: 'Commercial VFX',
+        category: 'Anamorphic Animation',
         url: '/blog/vfx-services-us-2026',
     },
     {

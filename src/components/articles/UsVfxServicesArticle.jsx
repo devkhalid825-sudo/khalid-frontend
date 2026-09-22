@@ -41,17 +41,17 @@ const arcImg = getImgSrc(_arcImg);
 const techImg = getImgSrc(_techImg);
 
 const marqueeItems = [
-  'COMMERCIAL VFX USA',
+  'ANAMORPHIC 3D ANIMATION',
   '✦',
-  'CGI PRODUCT INTEGRATION',
+  'LED BILLBOARD CONTENT',
   '✦',
-  'VIRTUAL ENVIRONMENTS',
+  'FORCED PERSPECTIVE',
   '✦',
   'UNREAL ENGINE 5',
   '✦',
   'NEW YORK · EST',
   '✦',
-  'BROADCAST COMPLIANT',
+  'DOOH CAMPAIGNS',
   '✦',
 ];
 
@@ -141,9 +141,9 @@ export default function UsVfxServicesArticle() {
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
             {/* ── Main Center Headline ── */}
             <h1 className="text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[44px] font-bold tracking-tight text-neutral-900 max-w-3xl leading-snug mb-5 sm:mb-7 px-2">
-              Commercial VFX & CGI in the USA:{' '}
-              <span className="text-[#2563EB]">Visualizing What Physical Cameras</span>{' '}
-              Cannot Capture
+              Anamorphic 3D Animation in the USA:{' '}
+              <span className="text-[#2563EB]">Turning Urban Screens Into</span>{' '}
+              Impossible Experiences
             </h1>
 
             {/* ── 3-Column Content Grid ── */}
@@ -153,13 +153,13 @@ export default function UsVfxServicesArticle() {
               <div className="hidden md:flex order-2 md:order-1 text-center md:text-left space-y-3 md:pr-2 px-3 sm:px-0 max-w-sm mx-auto md:mx-0 w-full flex-col items-center md:items-start">
                 <FaRegLightbulb className="text-[#2563EB] text-xl" />
                 <p className="text-neutral-600 text-xs sm:text-[13px] md:text-sm leading-relaxed font-sans">
-                  For US brand directors and commercial agencies, visual effects in 2026 are about solving costly production bottlenecks: CGI environment replacement and digital product integration.
+                  For US brand directors and commercial agencies, anamorphic animation in 2026 is about commanding attention in crowded streets: forced-perspective 3D content on LED billboards that stops foot traffic and resets expectations of what a screen can do.
                 </p>
                 <button
                   onClick={handleScrollToJournal}
                   className="w-full sm:w-auto px-5 py-2.5 rounded-full border border-neutral-300 text-xs font-semibold text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900 transition-all shadow-sm cursor-pointer text-center"
                 >
-                  Explore VFX Pipelines ↓
+                  Explore Anamorphic Formats ↓
                 </button>
               </div>
 
@@ -174,7 +174,7 @@ export default function UsVfxServicesArticle() {
                     <iframe
                       ref={iframeRef}
                       src="https://www.youtube.com/embed/L8LtmNhavc8?autoplay=1&mute=1&loop=1&playlist=L8LtmNhavc8&playsinline=1&controls=0&modestbranding=1&rel=0&showinfo=0&iv_load_policy=3&disablekb=1&fs=0&enablejsapi=1"
-                      title="Commercial VFX USA - CGI & Virtual Production Reel"
+                      title="Anamorphic 3D Animation USA - LED Billboard & OOH Reel"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
                       className="w-[155%] h-[155%] max-w-none border-0 object-cover scale-[1.18]"
@@ -207,11 +207,11 @@ export default function UsVfxServicesArticle() {
                   USA 2026
                 </div>
                 <p className="text-xs sm:text-sm text-neutral-500 uppercase tracking-wider font-medium">
-                  COMMERCIAL VFX & ENVIRONMENTS
+                  ANAMORPHIC & DOOH CONTENT
                 </p>
                 <div className="mt-3 bg-blue-50 border border-blue-100 p-4 rounded-2xl text-center md:text-left w-full">
                   <p className="text-[11px] sm:text-xs text-zinc-700 font-medium leading-snug">
-                    &ldquo;Create cinematic commercial campaigns without physical set construction, multi-city travel, or prototype delays.&rdquo;
+                    &ldquo;Create immersive anamorphic brand moments without full-scale sets, location crews, or extended in-camera build requirements.&rdquo;
                   </p>
                 </div>
               </div>
@@ -259,16 +259,16 @@ export default function UsVfxServicesArticle() {
           <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr] lg:grid-cols-[0.9fr_1.1fr] gap-8 sm:gap-12 items-start">
             <div className="md:pt-8">
               <div className="italic text-[#2563EB] text-base mb-4 font-serif">
-                A dispatch on US commercial production, 2026
+                A dispatch on anamorphic advertising, 2026
               </div>
               <p className="font-serif font-normal text-xl sm:text-2xl md:text-[28px] leading-snug text-zinc-900 max-w-[38ch]">
-                Securing shoot permits in Manhattan or transporting fragile prototype hardware is expensive and unpredictable. High-end CGI environment replacement gives directors total environmental control.
+                A billboard that makes a product burst out of a screen mid-sidewalk is worth more than a thousand flat impressions. Anamorphic 3D replaces passive viewing with cinematic, impossible moments engineered for a specific camera angle.
               </p>
               <a
                 href="#journal"
                 className="mt-7 inline-flex items-center gap-2 font-serif italic text-base border-b border-zinc-900 pb-1 hover:text-[#2563EB] hover:border-[#2563EB] transition-colors"
               >
-                Read the three core VFX formats below ↓
+                Read the three core anamorphic formats below ↓
               </a>
             </div>
             <div className="bg-zinc-50 border border-zinc-200 p-3 sm:p-4 rounded-2xl shadow-xl flex flex-col gap-3">
@@ -302,8 +302,8 @@ export default function UsVfxServicesArticle() {
         {/* ══════ PRODUCTION & BROADCAST STANDARDS CARDS ══════ */}
         <section className="py-10 sm:py-16 border-t border-zinc-200">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2 sm:gap-4 border-b border-zinc-200 pb-3 sm:pb-4 mb-6 sm:mb-8">
-            <span className="font-serif italic text-[#2563EB] text-base sm:text-lg font-medium">Production & Broadcast Standards</span>
-            <span className="font-mono text-[10px] sm:text-xs text-zinc-500 uppercase tracking-widest bg-zinc-100 px-2.5 py-1 rounded-full border border-zinc-200 w-fit">US Compliance 2026</span>
+            <span className="font-serif italic text-[#2563EB] text-base sm:text-lg font-medium">Anamorphic Production & Display Standards</span>
+            <span className="font-mono text-[10px] sm:text-xs text-zinc-500 uppercase tracking-widest bg-zinc-100 px-2.5 py-1 rounded-full border border-zinc-200 w-fit">US OOH Compliance 2026</span>
           </div>
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 xs:gap-3 sm:gap-6">
@@ -319,13 +319,13 @@ export default function UsVfxServicesArticle() {
                   </span>
                 </div>
                 <h3 className="text-lg xs:text-xl font-bold tracking-tight text-zinc-900 group-hover:text-[#2563EB] transition-colors leading-tight">
-                  US Broadcast
+                  LED Native
                 </h3>
                 <p className="text-[10px] xs:text-xs uppercase tracking-wider font-semibold text-zinc-500 mt-1 mb-1.5 sm:mb-3">
-                  Network & OTT Standards
+                  Billboard-Safe Masters
                 </p>
                 <p className="text-[10.5px] xs:text-xs text-zinc-600 leading-snug sm:leading-relaxed">
-                  Color graded and mastered to strict technical specs for NBC, CBS, ESPN, Netflix, and 4K HDR.
+                  Content mastered to LED-panel pixel pitches and native resolution for NBC, ESPN, and OOH networks in 4K HDR.
                 </p>
               </div>
             </div>
@@ -338,17 +338,17 @@ export default function UsVfxServicesArticle() {
                     <FiLayers className="text-base sm:text-xl" />
                   </div>
                   <span className="text-[9px] xs:text-[10px] font-mono font-semibold uppercase tracking-wider text-blue-700 bg-blue-50/80 border border-blue-100 px-1.5 xs:px-2 py-0.5 rounded-full truncate">
-                    Ray-Traced
+                    Perspective
                   </span>
                 </div>
                 <h3 className="text-lg xs:text-xl font-bold tracking-tight text-zinc-900 group-hover:text-[#2563EB] transition-colors leading-tight">
-                  100% Studio
+                  Forced-Perspective
                 </h3>
                 <p className="text-[10px] xs:text-xs uppercase tracking-wider font-semibold text-zinc-500 mt-1 mb-1.5 sm:mb-3">
-                  Physical Light Matching
+                  Lens-Accurate Projection
                 </p>
                 <p className="text-[10.5px] xs:text-xs text-zinc-600 leading-snug sm:leading-relaxed">
-                  Ray-traced lighting and dynamic reflections matching live-action plates with accuracy.
+                  Camera-matched vanishing points and skew so the illusion holds from the exact pedestrian viewing angle.
                 </p>
               </div>
             </div>
@@ -361,17 +361,17 @@ export default function UsVfxServicesArticle() {
                     <FiBox className="text-base sm:text-xl" />
                   </div>
                   <span className="text-[9px] xs:text-[10px] font-mono font-semibold uppercase tracking-wider text-blue-700 bg-blue-50/80 border border-blue-100 px-1.5 xs:px-2 py-0.5 rounded-full truncate">
-                    CAD Pipeline
+                    Seamless Loops
                   </span>
                 </div>
                 <h3 className="text-lg xs:text-xl font-bold tracking-tight text-zinc-900 group-hover:text-[#2563EB] transition-colors leading-tight">
-                  CAD-to-Camera
+                  Loop-Ready
                 </h3>
                 <p className="text-[10px] xs:text-xs uppercase tracking-wider font-semibold text-zinc-500 mt-1 mb-1.5 sm:mb-3">
-                  Direct Ingestion
+                  Infinite Playback
                 </p>
                 <p className="text-[10.5px] xs:text-xs text-zinc-600 leading-snug sm:leading-relaxed">
-                  Direct ingestion of Maya, 3ds Max, Blender, and SolidWorks data without remodeling.
+                  Frame-perfect looping so big-format animations hold on-premise for hours without interruption or lag.
                 </p>
               </div>
             </div>
@@ -405,7 +405,7 @@ export default function UsVfxServicesArticle() {
         <section id="journal" className="py-10 sm:py-16 border-t border-zinc-200">
           <div className="max-w-none space-y-0">
             <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 border-b border-zinc-200 pb-3 sm:pb-6 mb-2">
-              <span className="font-serif italic text-[#2563EB] text-base">Three Core Commercial VFX Formats</span>
+              <span className="font-serif italic text-[#2563EB] text-base">Three Core Anamorphic Formats</span>
               <span className="font-serif italic text-xs text-zinc-400 uppercase tracking-widest">Driving US Campaigns</span>
             </div>
 
@@ -416,19 +416,19 @@ export default function UsVfxServicesArticle() {
                   01
                 </div>
                 <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 max-w-[24ch] leading-tight mb-4">
-                  Photoreal CGI Product Integration
+                  LED Billboard Product Breakouts
                 </h3>
                 <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
-                  A physically accurate 3D model of your product is composited into filmed real-world plates. We replicate camera lens distortion, chromatic aberration, sensor grain, and dynamic light bounces so the digital model is indistinguishable from physical reality.
+                  A product breaks out of the LED plane in perfect forced perspective. We engineer the 3D scene so its vanishing point aligns with the pedestrian camera angle, then composite product, motion, and environment into a seamless loop that reads as real at sidewalk level.
                 </p>
                 <div className="p-3 bg-blue-50/70 border border-blue-100 rounded-xl text-xs text-blue-900 font-medium">
-                  ✦ Widely deployed across US automotive, beverage packaging, consumer tech, and luxury cosmetics.
+                  ✦ Widely deployed across US automotive, beverage, consumer tech, and luxury retail campaigns.
                 </div>
               </div>
               <div className="md:order-1">
                 <Frame
                   src={autoImg}
-                  badge="CGI Compositing"
+                  badge="Anamorphic CGI"
                   cap="Qorden — Anamorphic 3D LED Billboard & VFX Production"
                   behanceUrl="https://www.behance.net/gallery/199204861/Qorden-Anamorphic-Animation"
                   behanceLabel="View on Behance"
@@ -443,13 +443,13 @@ export default function UsVfxServicesArticle() {
                   02
                 </div>
                 <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 max-w-[24ch] leading-tight mb-4">
-                  Virtual Environment Replacement
+                  Full-Scene Anamorphic Environments
                 </h3>
                 <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
-                  Talent or products filmed on clean studio soundstages have their backgrounds replaced with photorealistic 3D environments. From luxury penthouse interiors to sprawling futuristic landscapes, the entire world is rendered in post-production with complete depth-of-field control.
+                  Entire worlds burst through the screen — cities collapsing, ocean waves breaking, wildlife leaping off the panel. We build the full 3D environment with per-object camera-matched distortion so the whole frame deepens the illusion rather than flattening it.
                 </p>
                 <div className="p-3 bg-zinc-100 border border-zinc-200 rounded-xl text-xs text-zinc-800 font-medium">
-                  ✦ Eliminates the logistical costs and delays of flying production crews to overseas or extreme locations.
+                  ✦ Eliminates the cost of physical set dressing and location shoots for large-format brand moments.
                 </div>
               </div>
               <div className="md:order-2">
@@ -470,16 +470,16 @@ export default function UsVfxServicesArticle() {
                   03
                 </div>
                 <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 max-w-[24ch] leading-tight mb-4">
-                  Real-Time Virtual Production Asset Prep
+                  Real-Time OOH & In-Store Displays
                 </h3>
                 <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
-                  Creating production-ready 3D environments and photoreal props specifically optimized for Unreal Engine 5. Assets are pre-configured with Nanite geometry and Lumen lighting, ready to drop into virtual production pipelines, real-time previz, or interactive brand worlds.
+                  Anamorphic loops optimized for Unreal Engine 5 that run live on curved, corner, and in-store LED panels. Assets are pre-configured with Nanite geometry and Lumen lighting so environments react in real time to surroundings, dwell campaigns, or interactive triggers.
                 </p>
               </div>
               <div className="md:order-1">
                 <Frame
                   src={jetourImg}
-                  badge="Unreal Engine 5 Asset"
+                  badge="Real-Time Anamorphic"
                   cap="Rooh Afza — Anamorphic 3D Billboard Animation"
                   behanceUrl="https://www.behance.net/gallery/221757889/Rooh-Afza-Bill-Board-Animation"
                   behanceLabel="View on Behance"
@@ -492,7 +492,7 @@ export default function UsVfxServicesArticle() {
         {/* ══════ BENCHMARK PRICING TABLE (USA) ══════ */}
         <section className="py-12 border-t border-zinc-200">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1 sm:gap-4 border-b border-zinc-200 pb-3 sm:pb-4 mb-6 sm:mb-8">
-            <span className="font-serif italic text-[#2563EB] text-base">Commercial VFX Cost & Timeline Benchmarks</span>
+            <span className="font-serif italic text-[#2563EB] text-base">Anamorphic Animation Cost & Timeline Benchmarks</span>
             <span className="font-serif italic text-xs text-zinc-400 uppercase tracking-widest">USA 2026</span>
           </div>
 
@@ -500,22 +500,22 @@ export default function UsVfxServicesArticle() {
           <div className="grid grid-cols-1 gap-3.5 sm:hidden">
             {[
               {
-                scope: 'CGI Product Integration (30s TVC)',
+                scope: 'LED Billboard Product Breakout (30s Loop)',
                 price: '$8,000 – $28,000',
                 time: '4–8 Weeks',
-                deliverables: 'Full 3D product tracking, lighting integration & grade',
+                deliverables: 'Forced-perspective 3D scene, camera-matched distortion, seamless loop',
               },
               {
-                scope: 'Complete Virtual Environment TVC',
+                scope: 'Full-Scene Anamorphic Environment',
                 price: '$22,000 – $75,000',
                 time: '8–14 Weeks',
-                deliverables: 'Full 3D environment build, camera moves & final composite',
+                deliverables: 'Complete 3D world build, per-object perspective matches & final render',
               },
               {
-                scope: 'Asset Prep for Unreal Engine Real-Time',
+                scope: 'Real-Time OOH / In-Store Display Loop',
                 price: '$5,000 – $18,000',
                 time: '3–6 Weeks',
-                deliverables: 'Real-time optimized PBR assets, LODs & material setup',
+                deliverables: 'UE5-optimized anamorphic assets, LODs & live playback setup',
               },
             ].map((item, idx) => (
               <div key={idx} className="p-4 rounded-2xl bg-zinc-50 border border-zinc-200 shadow-sm flex flex-col gap-2">
@@ -544,22 +544,22 @@ export default function UsVfxServicesArticle() {
               </thead>
               <tbody className="divide-y divide-zinc-200 text-zinc-700">
                 <tr className="hover:bg-zinc-50/80 transition-colors">
-                  <td className="py-4 px-6 font-semibold text-zinc-900">CGI Product Integration (30s TVC)</td>
+                  <td className="py-4 px-6 font-semibold text-zinc-900">LED Billboard Product Breakout (30s Loop)</td>
                   <td className="py-4 px-6 font-mono text-[#2563EB] font-bold">$8,000 – $28,000</td>
                   <td className="py-4 px-6 font-mono text-zinc-500">4–8 Weeks</td>
-                  <td className="py-4 px-6 text-xs text-zinc-600">Full 3D product tracking, lighting integration & grade</td>
+                  <td className="py-4 px-6 text-xs text-zinc-600">Forced-perspective 3D scene, camera-matched distortion, seamless loop</td>
                 </tr>
                 <tr className="hover:bg-zinc-50/80 transition-colors">
-                  <td className="py-4 px-6 font-semibold text-zinc-900">Complete Virtual Environment TVC</td>
+                  <td className="py-4 px-6 font-semibold text-zinc-900">Full-Scene Anamorphic Environment</td>
                   <td className="py-4 px-6 font-mono text-[#2563EB] font-bold">$22,000 – $75,000</td>
                   <td className="py-4 px-6 font-mono text-zinc-500">8–14 Weeks</td>
-                  <td className="py-4 px-6 text-xs text-zinc-600">Full 3D environment build, camera moves & final composite</td>
+                  <td className="py-4 px-6 text-xs text-zinc-600">Complete 3D world build, per-object perspective matches & final render</td>
                 </tr>
                 <tr className="hover:bg-zinc-50/80 transition-colors">
-                  <td className="py-4 px-6 font-semibold text-zinc-900">Asset Prep for Unreal Engine Real-Time</td>
+                  <td className="py-4 px-6 font-semibold text-zinc-900">Real-Time OOH / In-Store Display Loop</td>
                   <td className="py-4 px-6 font-mono text-[#2563EB] font-bold">$5,000 – $18,000</td>
                   <td className="py-4 px-6 font-mono text-zinc-500">3–6 Weeks</td>
-                  <td className="py-4 px-6 text-xs text-zinc-600">Real-time optimized PBR assets, LODs & material setup</td>
+                  <td className="py-4 px-6 text-xs text-zinc-600">UE5-optimized anamorphic assets, LODs & live playback setup</td>
                 </tr>
               </tbody>
             </table>
@@ -570,11 +570,11 @@ export default function UsVfxServicesArticle() {
         <section className="mt-16 sm:mt-20 p-8 sm:p-14 rounded-3xl bg-zinc-50 text-zinc-900 text-center shadow-xl border border-zinc-200">
           <div className="max-w-3xl mx-auto flex flex-col items-center">
             <h2 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-normal tracking-tight text-zinc-900 mb-4 max-w-2xl leading-snug">
-              Plan Your Next Commercial Campaign
+              Plan Your Next Anamorphic Campaign
             </h2>
 
             <p className="text-zinc-600 font-sans text-sm sm:text-base leading-relaxed mb-8 max-w-2xl">
-              Have an upcoming broadcast spot, product launch, or CGI integration brief? Share your treatment or storyboard with our team. Within 24 US business hours, we’ll provide a technical feasibility breakdown and sprint estimate.
+              Have an upcoming OOH activation, product launch, or LED billboard moment? Share your concept or brand book with our team. Within 24 US business hours, we’ll provide a feasibility breakdown for the viewing angle and a sprint estimate.
             </p>
 
             <div className="flex flex-row items-center justify-center gap-2.5 sm:gap-4 w-full max-w-lg sm:max-w-none mx-auto sm:w-auto">
@@ -592,7 +592,7 @@ export default function UsVfxServicesArticle() {
                 className="flex-1 sm:flex-none inline-flex items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-8 py-3 sm:py-3.5 rounded-full border border-zinc-300 bg-white hover:bg-zinc-100 text-zinc-800 font-medium text-[11px] xs:text-xs sm:text-sm whitespace-nowrap transition-all shadow-sm"
               >
                 <FiMail className="text-xs sm:text-sm" />
-                <span>Submit Treatment</span>
+                <span>Submit Concept</span>
               </Link>
             </div>
           </div>

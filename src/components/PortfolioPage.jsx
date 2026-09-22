@@ -23,9 +23,9 @@ const PortfolioPage = () => {
       <Header />
 
       {/* ══════════════════════════════════════════════════════════
-          HERO SECTION WITH FULL-WIDTH BACKGROUND IMAGE
+          HERO SECTION WITH FULL-WIDTH BACKGROUND IMAGE (PERMANENT DARK)
       ══════════════════════════════════════════════════════════ */}
-      <section className="relative w-full min-h-[55vh] sm:min-h-[65vh] md:min-h-[75vh] flex items-center justify-center overflow-hidden bg-black">
+      <section className="portfolio-hero-section keep-dark-hero relative w-full min-h-[55vh] sm:min-h-[65vh] md:min-h-[75vh] flex items-center justify-center overflow-hidden bg-black !bg-black text-white !text-white">
         {/* Full-width background image */}
         <div className="absolute inset-0 w-full h-full">
           <img
@@ -49,7 +49,7 @@ const PortfolioPage = () => {
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
             className="max-w-4xl"
           >
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white leading-[1.12] uppercase">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white !text-white leading-[1.12] uppercase">
               Transforming Ideas<br />
               Into Immersive<br />
               3D Realities.

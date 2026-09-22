@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import logoRaw from '@/assets/images/khalid.png';
 import { getImgSrc } from '@/utils/api';
+import ThemeToggle from '@/components/ui/ThemeToggle';
 
 const logo = getImgSrc(logoRaw);
 
@@ -23,6 +24,7 @@ const Header = () => {
   const [locationOpen, setLocationOpen] = useState(false);
   const [mobileLocationOpen, setMobileLocationOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [scrollPadding, setScrollPadding] = useState(null);
   const headerRef = useRef(null);
   const locationRef = useRef(null);
 
@@ -30,10 +32,27 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-    handleScroll();
-    window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+handleScroll();
+      const computePadding = () => {
+        const sc = window.scrollY;
+        const vw = window.innerWidth;
+        const maxScroll = 5000;
+        const raw = Math.min(1, Math.max(0, sc / maxScroll));
+        const p = 1 - Math.pow(1 - raw, 3);
+        const isMobile = vw < 768;
+        const heroEdge = isMobile ? 15 : Math.max(0, (vw - 1920) / 2) + 24;
+        const scrolledPad = isMobile ? 28 : 32;
+        const pad = heroEdge + (scrolledPad - heroEdge) * p;
+        setScrollPadding(pad);
+      };
+      computePadding();
+      window.addEventListener('scroll', computePadding, { passive: true });
+      window.addEventListener('resize', computePadding);
+      return () => {
+        window.removeEventListener('scroll', computePadding);
+        window.removeEventListener('resize', computePadding);
+      };
+    }, []);
 
   useEffect(() => {
     if (!locationOpen) return;
@@ -106,11 +125,16 @@ const Header = () => {
         : 'bg-black/40 backdrop-blur-xl'
       : 'bg-transparent';
 
-  const headerPaddingClass = 'px-7 sm:px-6 md:px-8 pt-6 pb-3 sm:py-3.5 md:py-4';
+  const headerPaddingClass = scrollPadding !== null
+    ? 'pt-6 pb-3 sm:py-3.5 md:py-4'
+    : 'px-7 sm:px-6 md:px-8 pt-6 pb-3 sm:py-3.5 md:py-4';
   const logoSizeClass = 'h-6 sm:h-8 md:h-10 lg:h-12';
 
   return (
-    <header className={`fixed top-0 left-0 w-full ${headerPaddingClass} ${headerBgClass} z-50 transition-all duration-300 flex items-center`}>
+    <header
+      className={`fixed top-0 left-0 w-full ${headerPaddingClass} ${headerBgClass} z-50 transition-all duration-300 flex items-center`}
+      style={scrollPadding !== null ? { paddingLeft: scrollPadding, paddingRight: scrollPadding } : undefined}
+    >
       <nav
         ref={headerRef}
         className="w-full flex items-center"
@@ -126,12 +150,12 @@ const Header = () => {
               alt="Elipse Studio"
               width="230"
               height="105"
-              className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 block self-center ${isLightSection ? 'invert' : ''
+              className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 block self-center site-logo ${isLightSection ? 'invert' : ''
                 }`}
             />
           </Link>
 
-          <div className="flex items-center gap-3 sm:gap-5 relative z-50 shrink-0 self-center">
+          <div className="flex items-center gap-2 sm:gap-4 relative z-50 shrink-0 self-center">
             <div className="hidden" ref={locationRef}>
               <button
                 onClick={() => setLocationOpen((prev) => !prev)}
@@ -172,6 +196,7 @@ const Header = () => {
             >
               Contact Us
             </button>
+            <ThemeToggle />
             <button
               onClick={toggleMenu}
               className={`focus:outline-none hover:scale-110 active:scale-95 p-1.5 flex items-center justify-center rounded-full transition-transform ${isLightSection ? 'text-black' : 'text-white'
@@ -194,7 +219,7 @@ const Header = () => {
         </div>
 
         <div
-          className={`fixed inset-0 bg-black transition-all duration-500 ease-in-out z-40 overflow-y-auto flex flex-col pt-24 md:pt-32 pb-8 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+          className={`site-header-drawer fixed inset-0 bg-black transition-all duration-500 ease-in-out z-40 overflow-y-auto flex flex-col pt-24 md:pt-32 pb-8 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
             }`}
         >
           {isMenuOpen && (
@@ -299,6 +324,7 @@ const Header = () => {
                 </li>
               ))}
             </ul>
+            
           </div>
         </div>
       </nav>

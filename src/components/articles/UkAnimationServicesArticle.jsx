@@ -35,6 +35,7 @@ import _emeraldImg from '../../assets/emerled/Reception.webp';
 import _parcoImg from '../../assets/animation/parcho.webp';
 import _gipproImg from '../../assets/animation/gipppro.webp';
 import _explodedImg from '../../assets/ElipseImages/blogs/Arc-3.webp';
+import _jellyImg from '../../assets/Ahmed-food/jelly/01.webp';
 import _filmImg from '../../assets/ElipseImages/blogs/Auto.webp';
 import _archImg from '../../assets/ElipseImages/blogs/Arc-1.webp';
 import _socialImg from '../../assets/ElipseImages/blogs/jetour.webp';
@@ -49,6 +50,7 @@ const emeraldImg = getImgSrc(_emeraldImg);
 const parcoImg = getImgSrc(_parcoImg);
 const gipproImg = getImgSrc(_gipproImg);
 const explodedImg = getImgSrc(_explodedImg);
+const jellyImg = getImgSrc(_jellyImg);
 const filmImg = getImgSrc(_filmImg);
 const archImg = getImgSrc(_archImg);
 const socialImg = getImgSrc(_socialImg);
@@ -506,9 +508,9 @@ export default function UkAnimationServicesArticle() {
               </div>
               <div className="md:order-2">
                 <Frame
-                  src={parcoImg}
-                  cap="Figure 4: 3D mechanical breakdown & technical animation for PARCO."
-                  actionLink="https://www.behance.net/gallery/201090447/Parco-Animation"
+                  src={jellyImg}
+                  cap="Ahmed Foods Crystal Jelly — 3D commercial animation."
+                  actionLink="https://www.behance.net/gallery/251531045/Ahmed-Foods-Crystal-Jelly-3D-Animation"
                   actionText="View on Behance"
                 />
               </div>

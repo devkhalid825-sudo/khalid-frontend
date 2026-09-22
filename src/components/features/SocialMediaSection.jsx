@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, FreeMode, Pagination } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import { apiCall } from '@/utils/api';
 import { useIsMobile } from '@/hooks/useIsMobile';
 import { useInView } from '@/hooks/useInView';
@@ -88,9 +88,12 @@ const SocialIcon = ({ href, title, children, activeBg, activeBorder, activeColor
         justifyContent: 'center',
         borderRadius: '9999px',
       }}
-      className="w-9 h-9 md:w-12 md:h-12"
+      className="social-icon-btn w-9 h-9 md:w-12 md:h-12"
     >
-      <span style={{ color: h ? activeColor : 'rgba(255,255,255,0.55)', transition: 'color 0.25s', display: 'flex' }}>
+      <span
+        className="social-icon-inner"
+        style={{ color: h ? activeColor : 'rgba(255,255,255,0.55)', transition: 'color 0.25s', display: 'flex' }}
+      >
         {children}
       </span>
     </a>
@@ -111,6 +114,7 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
   const isMobile = useIsMobile();
   const [activeMobileIndex, setActiveMobileIndex] = useState(0);
   const mobileSwiperRef = useRef(null);
+  const marqueeSwiperRef = useRef(null);
   const sectionRef = useRef(null);
   const [sectionVisible, setSectionVisible] = useState(false);
 
@@ -163,14 +167,14 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
   if (items.length === 0) return null;
 
   return (
-    <section ref={sectionRef} className="hidden md:flex w-full bg-black py-8 md:py-14 overflow-hidden font-sans flex-col justify-center relative">
+    <section ref={sectionRef} className="w-full bg-black py-6 md:py-10 overflow-hidden font-sans flex flex-col justify-center relative">
       <div className="w-full relative">
-        <div className="flex justify-between items-center px-[15px] md:px-[40px] gap-2 mb-6 md:mb-10">
-          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-white">
+        <div className="flex justify-between items-center px-[15px] md:px-[40px] gap-2 mb-4 md:mb-6">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight leading-tight text-white">
             Social Media
           </h2>
 
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="flex items-center gap-2 md:gap-4">
             <SocialIcon
               href="https://www.youtube.com/@officialelipsestudio"
               title="YouTube"
@@ -218,6 +222,27 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
                 <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z" />
               </svg>
             </SocialIcon>
+
+            <div className="hidden md:flex items-center gap-2 ml-1">
+              <button
+                onClick={() => marqueeSwiperRef.current?.slidePrev()}
+                className="w-11 h-11 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all active:scale-95"
+                aria-label="Previous social media"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+              <button
+                onClick={() => marqueeSwiperRef.current?.slideNext()}
+                className="w-11 h-11 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all active:scale-95"
+                aria-label="Next social media"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -232,10 +257,9 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
               onSlideChange={(swiper) => {
                 setActiveMobileIndex(swiper.realIndex);
               }}
-              modules={[Pagination, Autoplay]}
+              modules={[Pagination]}
               loop={true}
               speed={600}
-              autoplay={{ delay: 9000, disableOnInteraction: false }}
               slidesPerView={1}
               spaceBetween={12}
               grabCursor={true}
@@ -271,38 +295,51 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
                 </SwiperSlide>
               ))}
             </Swiper>
-            <div className="mobile-social-pagination flex justify-center gap-1.5 mt-3 md:hidden"></div>
+            <div className="mt-3 md:hidden flex items-center justify-center gap-4">
+              <button
+                onClick={() => mobileSwiperRef.current?.slidePrev()}
+                className="w-8 h-8 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 flex items-center justify-center text-white active:scale-90 transition-all shadow-md"
+                aria-label="Previous social media"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
+                  <polyline points="15 18 9 12 15 6" />
+                </svg>
+              </button>
+              <div className="mobile-social-pagination flex justify-center gap-1.5"></div>
+              <button
+                onClick={() => mobileSwiperRef.current?.slideNext()}
+                className="w-8 h-8 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 flex items-center justify-center text-white active:scale-90 transition-all shadow-md"
+                aria-label="Next social media"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
+                  <polyline points="9 18 15 12 9 6" />
+                </svg>
+              </button>
+            </div>
           </>
         )}
 
-        {/* Desktop Swiper: ONLY rendered on desktop (>=768px). Completely unmounted on mobile to prevent 12+ video decoders */}
+        {/* Desktop Swiper: Button-controlled (no auto-loop, no drag) */}
         {isMobile !== true && (
           <Swiper
-            modules={[Autoplay, FreeMode]}
-            loop={true}
-            speed={8000}
-            autoplay={{
-              delay: 0,
-              disableOnInteraction: true,
-              pauseOnMouseEnter: true,
+            onSwiper={(swiper) => {
+              marqueeSwiperRef.current = swiper;
             }}
+            modules={[]}
+            loop={false}
+            speed={600}
             slidesPerView="auto"
-            spaceBetween={10}
-            freeMode={{
-              enabled: true,
-              momentum: true,
-              sticky: false,
-            }}
-            grabCursor={true}
-            allowTouchMove={true}
-            className="!overflow-visible px-0 marquee-swiper max-md:!hidden"
+            spaceBetween={16}
+            grabCursor={false}
+            allowTouchMove={false}
+            className="!overflow-visible px-0 max-md:!hidden [&>.swiper-wrapper]:!flex [&>.swiper-wrapper]:!justify-center"
           >
-            {[...items, ...items].map((item, index) => (
-              <SwiperSlide key={`${item.id}-${index}`} className="!w-[160px] md:!w-[440px] py-2 md:py-4">
+            {items.map((item) => (
+              <SwiperSlide key={item.id} className="!w-[240px] sm:!w-[270px] md:!w-[290px] lg:!w-[305px] py-2 md:py-3">
                 <div className="block w-full h-full">
                   <div
-                    className="relative w-full h-[280px] md:h-[780px] bg-[#1a1a1c] overflow-hidden group cursor-pointer rounded-[24px]"
-                    style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.7)' }}
+                    className="relative w-full h-[420px] sm:h-[480px] md:h-[515px] lg:h-[540px] bg-[#1a1a1c] overflow-hidden group cursor-pointer rounded-[22px] border border-zinc-800/60 transition-all duration-300 hover:border-zinc-700"
+                    style={{ boxShadow: '0 16px 40px rgba(0,0,0,0.6)' }}
                     onClick={() => item.videoUrl && window.open(item.videoUrl, '_blank', 'noopener,noreferrer')}
                   >
                     {sectionVisible ? (
@@ -314,8 +351,8 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
                     )}
 
                     {item.projectName && (
-                      <div className="absolute bottom-0 left-0 right-0 px-4 md:px-6 py-4 md:py-6 bg-gradient-to-t from-black/90 to-transparent group-hover:bg-gradient-to-t group-hover:from-[#4169E1]/80 transition-all duration-300">
-                        <span className="hidden md:block text-white text-[11px] md:text-sm font-semibold tracking-tight truncate">
+                      <div className="absolute bottom-0 left-0 right-0 px-4 md:px-5 py-3 md:py-4 bg-gradient-to-t from-black/90 via-black/40 to-transparent group-hover:bg-gradient-to-t group-hover:from-[#4169E1]/80 transition-all duration-300">
+                        <span className="block text-white text-xs sm:text-[13px] font-medium tracking-tight truncate">
                           {item.projectName}
                         </span>
                       </div>

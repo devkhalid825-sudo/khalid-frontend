@@ -107,10 +107,10 @@ const News = ({ initialBlogs = null }) => {
     },
     {
       id: 23,
-      title: 'Commercial VFX & CGI Services USA (2026): Photoreal Environments & Product Integration',
+      title: 'Anamorphic 3D Animation Services & LED Billboard Content USA (2026)',
       image: vfxImg,
       date: 'SEPTEMBER 21, 2026',
-      category: 'Commercial VFX',
+      category: 'Anamorphic Animation',
       readTime: '12 min read',
       url: '/blog/vfx-services-us-2026',
     },

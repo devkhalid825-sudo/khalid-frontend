@@ -418,7 +418,7 @@ const ClientReviews = ({ initialReviews = null }) => {
           </div>
         )}
 
-        {/* Desktop Swiper: Smooth manual draggable slider with navigation */}
+        {/* Desktop Swiper: Button-controlled slider (drag disabled) */}
         {isMobile !== true && (
           <div className="max-md:!hidden px-[15px] md:px-[40px]">
             <Swiper
@@ -431,11 +431,11 @@ const ClientReviews = ({ initialReviews = null }) => {
               slidesPerView="auto"
               spaceBetween={20}
               freeMode={{
-                enabled: true,
-                momentum: true,
+                enabled: false,
+                momentum: false,
               }}
-              grabCursor={true}
-              allowTouchMove={true}
+              grabCursor={false}
+              allowTouchMove={false}
               className="!overflow-visible"
             >
               {displayReviews.map((review) => {

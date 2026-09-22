@@ -46,17 +46,19 @@ const MobileMenu = ({ isOpen, onClose }) => {
             {/* --- TOP BAR (Logo & Close) --- */}
             {/* Added px-8 to ensure elements don't touch screen edges */}
             <div className="flex justify-between items-center w-full px-8 pt-10 pb-6 md:p-10 relative z-[110]">
-                <img src={logo} alt="Elipse Studio Logo" width="180" height="40" className="h-5 md:h-8 w-auto grayscale invert brightness-200" />
+                <img src={logo} alt="Elipse Studio Logo" width="180" height="40" className="h-5 md:h-8 w-auto grayscale invert brightness-200 site-logo" />
 
-                <button
-                    onClick={onClose}
-                    className="text-white hover:text-[#4169E1] transition-colors focus:outline-none"
-                    aria-label="Close menu"
-                >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 md:h-10 md:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
+                <div className="flex items-center gap-3">
+                    <button
+                        onClick={onClose}
+                        className="text-white hover:text-[#4169E1] transition-colors focus:outline-none"
+                        aria-label="Close menu"
+                    >
+                        <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 md:h-10 md:w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+                </div>
             </div>
 
             {/* --- BACKGROUND WATERMARK --- */}

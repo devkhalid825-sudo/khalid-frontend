@@ -11,7 +11,7 @@ const FooterColumn = ({ title, sectionKey, as: Tag = 'div', ariaLabel, isOpen, o
   if (alwaysOpen) {
     return (
       <Tag aria-label={ariaLabel} className="flex flex-col space-y-3 sm:space-y-4">
-        <h2 className="text-white text-xs sm:text-sm tracking-[0.2em] uppercase font-medium border-white/50 inline-block w-fit">
+        <h2 className="text-white text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold footer-col-title inline-block w-fit">
           {title}
         </h2>
         {children}
@@ -30,7 +30,7 @@ const FooterColumn = ({ title, sectionKey, as: Tag = 'div', ariaLabel, isOpen, o
         aria-expanded={isOpen}
         className="flex items-center justify-between w-full text-left md:pointer-events-none"
       >
-        <h2 className="text-white text-xs sm:text-sm tracking-[0.2em] uppercase font-medium border-white/50 inline-block w-fit">
+        <h2 className="text-white text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold footer-col-title inline-block w-fit">
           {title}
         </h2>
         <span
@@ -95,10 +95,10 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative bg-gradient-to-b from-[#0a1628] to-[#1a2a6e] text-white pt-4 md:pt-6 pb-12 md:pb-16 font-sans overflow-hidden">
+    <footer className="relative site-main-footer bg-gradient-to-b from-[#0a1628] to-[#1a2a6e] border-t border-white/10 text-white pt-4 md:pt-6 pb-12 md:pb-16 font-sans overflow-hidden transition-colors duration-300">
       <div className="w-full px-6 md:px-12">
         <div className="flex flex-col md:flex-row justify-between w-full lg:w-auto gap-4 items-center py-8 md:py-12">
-          <span className="text-lg font-light tracking-wide text-white/90">Join our mailing list:</span>
+          <span className="text-lg font-light tracking-wide text-white/90 footer-heading">Join our mailing list:</span>
           <input
             type="email"
             aria-label="Email Address for Newsletter"
@@ -106,20 +106,20 @@ const Footer = () => {
             value={footerEmail}
             onChange={(e) => setFooterEmail(e.target.value)}
             suppressHydrationWarning
-            className={`bg-white/5 backdrop-blur-md border border-white/50 rounded-full px-8 py-3 w-full sm:w-[500px] md:w-[850px] lg:w-[1000px] focus:outline-none focus:border-[#4169E1] transition-all placeholder:text-white/30 text-sm shadow-inner ${status === 'success' ? 'border-green-400 text-green-400' : ''
+            className={`bg-white/5 backdrop-blur-md border border-white/20 rounded-full px-8 py-3 w-full sm:w-[500px] md:w-[850px] lg:w-[1000px] focus:outline-none focus:border-[#4169E1] transition-all placeholder:text-white/40 text-sm shadow-inner footer-email-input ${status === 'success' ? 'border-green-400 text-green-400' : ''
               }`}
           />
           <button
             onClick={handleFooterSubmit}
             disabled={status === 'loading'}
             suppressHydrationWarning
-            className="w-full sm:w-auto bg-[#4169E1] text-white font-bold px-12 py-3 rounded-full hover:bg-[#3558c8] hover:scale-105 transition-all duration-300 text-sm md:text-base whitespace-nowrap disabled:opacity-50"
+            className="w-full sm:w-auto bg-[#4169E1] text-white font-bold px-12 py-3 rounded-full hover:bg-[#3558c8] hover:scale-105 transition-all duration-300 text-sm md:text-base whitespace-nowrap disabled:opacity-50 cursor-pointer"
           >
             {status === 'loading' ? 'Sending...' : 'Submit'}
           </button>
         </div>
 
-        <div className="border-t border-white/50 mb-10 w-full"></div>
+        <div className="border-t border-white/10 mb-10 w-full footer-divider"></div>
 
         <div className="w-full flex lg:flex-row flex-col justify-between items-start gap-10 lg:gap-8 py-8">
           {/* Left Group: Logo + Nav Columns */}
@@ -132,7 +132,7 @@ const Footer = () => {
                   alt="Elipse Studio"
                   width="180"
                   height="80"
-                  className="h-9 sm:h-11 md:h-12 w-auto object-contain"
+                  className="h-9 sm:h-11 md:h-12 w-auto object-contain site-logo"
                 />
               </Link>
             </div>
@@ -245,7 +245,7 @@ const Footer = () => {
             <button
               onClick={scrollToTop}
               suppressHydrationWarning
-              className="flex w-fit xl:mt-0 mt-4 items-center gap-3 bg-white/5 backdrop-blur-md border border-white/20 rounded-full px-7 py-2.5 sm:px-8 sm:py-3 text-xs uppercase tracking-widest hover:bg-white/20 transition-all group cursor-pointer text-white"
+              className="flex w-fit xl:mt-0 mt-4 items-center gap-3 bg-white/5 backdrop-blur-md border border-white/20 rounded-full px-7 py-2.5 sm:px-8 sm:py-3 text-xs uppercase tracking-widest hover:bg-white/15 transition-all group cursor-pointer text-white back-to-top-btn"
             >
               Back to top
               <svg
@@ -265,9 +265,9 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-white/50 mt-8 mb-8 w-full"></div>
+        <div className="border-t border-white/10 mt-8 mb-8 w-full footer-divider"></div>
 
-        <div className="text-center text-[11px] md:text-[13px] text-white tracking-[0.2em] md:tracking-[0.3em] font-light uppercase flex flex-col gap-3 md:gap-4">
+        <div className="text-center text-[11px] md:text-[13px] text-white/60 tracking-[0.2em] md:tracking-[0.3em] font-light uppercase flex flex-col gap-3 md:gap-4 footer-copyright">
           <span>© Elipse Studio. All rights reserved.</span>
         </div>
       </div>

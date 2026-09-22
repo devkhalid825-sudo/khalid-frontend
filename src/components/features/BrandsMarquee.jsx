@@ -11,27 +11,26 @@ import brandsImg8 from '@/assets/ElipseImages/logos/logo8.webp';
 import brandsImg9 from '@/assets/ElipseImages/logos/logo9.webp';
 import brandsImg10 from '@/assets/ElipseImages/logos/logo10.webp';
 import brandsImgStudentLife from '@/assets/ElipseImages/logos/SL.webp';
-import brandsImgCarbon from '@/assets/ElipseImages/logos/carbon.webp';
+
 
 const brandsImages = [
   { img: brandsImg1, name: 'Tapal Tea', className: 'h-10 sm:h-14 md:h-16 max-w-[160px] sm:max-w-[220px]' },
   { img: brandsImg2, name: 'Rooh Afza', className: 'h-10 sm:h-14 md:h-16 max-w-[170px] sm:max-w-[240px]' },
   { img: brandsImg3, name: 'Searle Pharmaceuticals', className: 'h-9 sm:h-13 md:h-15 max-w-[170px] sm:max-w-[240px]' },
-  { img: brandsImg4, name: 'Khoj Resorts', className: 'h-12 sm:h-16 md:h-20 max-w-[160px] sm:max-w-[220px]' },
-  { img: brandsImg9, name: 'Amber Developments', className: 'h-12 sm:h-16 md:h-20 brightness-0 invert max-w-[200px] sm:max-w-[280px]' },
+  { img: brandsImg4, name: 'Khoj Resorts', className: 'h-12 sm:h-16 md:h-20 max-w-[160px] sm:max-w-[220px] brand-logo-white' },
+  { img: brandsImg9, name: 'Amber Developments', className: 'h-12 sm:h-16 md:h-20 brightness-0 invert max-w-[200px] sm:max-w-[280px] brand-logo-white' },
   { img: brandsImg6, name: 'Omoré', className: 'h-11 sm:h-15 md:h-18 max-w-[160px] sm:max-w-[220px]' },
   { img: brandsImg7, name: 'ARY Laguna', className: 'h-11 sm:h-15 md:h-18 max-w-[170px] sm:max-w-[240px]' },
   { img: brandsImg8, name: 'Ahmed Foods', className: 'h-12 sm:h-16 md:h-20 max-w-[170px] sm:max-w-[230px]' },
-  { img: brandsImg10, name: 'Hamdard Laboratories', className: 'h-13 sm:h-18 md:h-22 brightness-0 invert max-w-[180px] sm:max-w-[250px]' },
-  { img: brandsImgStudentLife, name: 'Student Life', className: 'h-14 sm:h-20 md:h-24 brightness-0 invert max-w-[200px] sm:max-w-[280px]' },
-  { img: brandsImgCarbon, name: 'Carbon Powered', className: 'h-14 sm:h-20 md:h-24 max-w-[200px] sm:max-w-[280px]' },
+  { img: brandsImg10, name: 'Hamdard Laboratories', className: 'h-13 sm:h-18 md:h-22 brightness-0 invert max-w-[180px] sm:max-w-[250px] brand-logo-white' },
+  { img: brandsImgStudentLife, name: 'Student Life', className: 'h-14 sm:h-20 md:h-24 brightness-0 invert max-w-[200px] sm:max-w-[280px] brand-logo-white' },
 ];
 
 const BrandsMarquee = () => {
   return (
-    <section className="w-full bg-black py-10 md:py-16 overflow-hidden relative z-10">
+    <section className="brands-marquee-section w-full bg-black py-10 md:py-16 overflow-hidden relative z-10 transition-colors duration-300">
       <div className="w-full overflow-hidden">
-        <div className="animate-marquee-custom flex items-center">
+        <div className="animate-marquee-custom flex items-center" style={{ animationDuration: '80s' }}>
           {[...brandsImages, ...brandsImages, ...brandsImages, ...brandsImages].map((brand, index) => (
             <div
               key={index}
