@@ -33,7 +33,7 @@ export function generateMetadata() {
     description:
       'Custom 3D web configurators, architectural VR walkthroughs, and enterprise WebGL development. Discover how Elipse Studio powers real-time 3D experiences.',
     canonical: `${SITE_URL}/capabilities`,
-    ogImage: `${SITE_URL}/assets/logo-og.webp`,
+    ogImage: `${SITE_URL}/assets/logo-og.png`,
     ogImageAlt: 'Elipse Studio — Enterprise 3D Configurator, WebGL & AR/VR Services',
   });
 }

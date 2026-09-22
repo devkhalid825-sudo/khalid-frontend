@@ -305,9 +305,6 @@ const ArchVizHeader = () => {
                 </li>
               ))}
             </ul>
-            <div className="mt-8 pt-6 border-t border-white/15 max-w-xs">
-              <ThemeToggle variant="menu-item" />
-            </div>
           </div>
         </div>
       </nav>

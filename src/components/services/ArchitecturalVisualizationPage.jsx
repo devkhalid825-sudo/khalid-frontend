@@ -448,7 +448,7 @@ const ArchitecturalVisualizationPage = () => {
           </div>
 
           {/* Right: Elipse Studio Edge */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#4169E1]/10 to-[#0E0E10] border border-[#4169E1]/40 shadow-[0_10px_30px_rgba(65,105,225,0.1)]">
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#0E0E10] border border-[#4169E1]/40 shadow-[0_10px_30px_rgba(65,105,225,0.1)]">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase font-mono bg-[#4169E1]/15 text-[#4169E1] mb-3">
               <span>⚡ The Elipse Studio Edge</span>
             </div>
@@ -502,11 +502,10 @@ const ArchitecturalVisualizationPage = () => {
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer whitespace-nowrap ${
-                      isActive
+                    className={`px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer whitespace-nowrap ${isActive
                         ? 'bg-[#4169E1] text-white shadow-[0_4px_20px_rgba(65,105,225,0.45)] scale-[1.02]'
                         : 'text-zinc-400 hover:text-white hover:bg-white/5'
-                    }`}
+                      }`}
                   >
                     {tab.label}
                   </button>
@@ -532,13 +531,12 @@ const ArchitecturalVisualizationPage = () => {
                     {item.tags?.filter((tag) => tag !== 'Architecture' && tag !== 'Master Plan').map((tag, tIdx) => (
                       <span
                         key={tIdx}
-                        className={`px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider backdrop-blur-md shadow-md ${
-                          tag === 'VR'
+                        className={`px-2.5 py-1 rounded-full text-[10px] font-semibold uppercase tracking-wider backdrop-blur-md shadow-md ${tag === 'VR'
                             ? 'bg-purple-600/90 text-white border border-purple-400/40'
                             : tag === '360'
-                            ? 'bg-emerald-600/90 text-white border border-emerald-400/40'
-                            : 'bg-black/70 text-white/90 border border-white/20'
-                        }`}
+                              ? 'bg-emerald-600/90 text-white border border-emerald-400/40'
+                              : 'bg-black/70 text-white/90 border border-white/20'
+                          }`}
                       >
                         {tag === '360' ? '360° Tour' : tag}
                       </span>

@@ -47,7 +47,7 @@ export const metadata = {
       'Elipse Studio delivers premium 3D rendering, walkthrough animation, interactive configurators, and AR/VR experiences for global developers and brands.',
     images: [
       {
-        url: `${SITE_URL}/assets/logo-og.webp`,
+        url: `${SITE_URL}/assets/logo-og.png`,
         width: 1200,
         height: 630,
         alt: 'Elipse Studio',
@@ -61,7 +61,7 @@ export const metadata = {
     title: 'Elipse Studio | 3D Visualization & AR/VR Studio',
     description:
       'Elipse Studio delivers premium 3D rendering, walkthrough animation, interactive configurators, and AR/VR experiences for global developers and brands.',
-    images: [`${SITE_URL}/assets/logo-og.webp`],
+    images: [`${SITE_URL}/assets/logo-og.png`],
   },
   icons: {
     icon: '/favicon.ico',

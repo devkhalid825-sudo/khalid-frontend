@@ -593,7 +593,7 @@ const ProductConfiguratorsPage = () => {
           </div>
 
           {/* Right: Elipse Studio Edge */}
-          <div className="p-6 sm:p-8 rounded-2xl bg-gradient-to-b from-[#4169E1]/10 to-[#0E0E10] border border-[#4169E1]/40 shadow-[0_10px_30px_rgba(65,105,225,0.1)]">
+          <div className="p-6 sm:p-8 rounded-2xl bg-[#0E0E10] border border-[#4169E1]/40 shadow-[0_10px_30px_rgba(65,105,225,0.1)]">
             <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase font-mono bg-[#4169E1]/15 text-[#4169E1] mb-3">
               <span>⚡ The Elipse Studio Edge</span>
             </div>

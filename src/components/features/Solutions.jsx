@@ -11,7 +11,7 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
-import steeringImg from '@/assets/About-page/steering.webp';
+import kiaConfiguratorImg from '@/assets/ElipseImages/projects/configurator-preview.png';
 import zenithImg from '@/assets/About-page/zenith-square.webp';
 import cgiJellyImg from '@/assets/About-page/jelly.webp';
 
@@ -22,8 +22,8 @@ const solutionsCards = [
     title: 'High-Converting 3D Commerce.',
     description:
       'We build the real-time 3D, spatial, and cinematic experiences that turn complex products and unbuilt spaces into revenue.',
-    image: steeringImg,
-    alt: '3D Steering Wheel and Product Configurator Cockpit',
+    image: kiaConfiguratorImg,
+    alt: 'Kia Vehicle 3D Product Configurator',
     metaLabel: 'DELIVERABLES',
     pills: ['Interactive WebGL', 'Photorealistic UE5', 'Configurator Engine'],
     linkText: 'Explore 3D Configurators',
@@ -31,12 +31,13 @@ const solutionsCards = [
   },
   {
     id: 'archviz',
-    category: 'ARCHVIZ & SPATIAL',
+    category: 'ARCHVIZ',
     title: 'Pre-Sales Before Groundbreaking.',
     description:
       'Unreal Engine 5 virtual walkthroughs, dynamic daylight cycles, and luxury architectural visualization.',
     image: zenithImg,
     alt: 'Luxury Architectural Penthouse & Building Visualization',
+    videoUrl: 'https://www.youtube.com/watch?v=Vf6C8e-hLXE',
     metaLabel: 'DELIVERABLES',
     pills: ['UE5 Walkthroughs', 'Dynamic Daylight Cycles', 'Spatial Digital Twins'],
     linkText: 'Explore Spatial ArchViz',
@@ -44,13 +45,14 @@ const solutionsCards = [
   },
   {
     id: 'commercials',
-    category: 'BRAND STORYTELLING & CGI PRODUCTION',
+    category: 'CGI PRODUCTION',
     title: 'Cinematic 3D Product & Commercial Visuals.',
     titleSmall: true,
     description:
       'We craft cinema-caliber CGI that commands audience attention and elevates brand value.',
     image: cgiJellyImg,
     alt: 'Ahmed Foods Commercial 3D Product CGI & Fluid Simulation',
+    videoUrl: 'https://youtu.be/BsKw4i6riRw?si=mS2PuOxRmvKKElpR',
     metaLabel: 'DELIVERABLES',
     pills: [
       'Commercial CGI',
@@ -62,55 +64,6 @@ const solutionsCards = [
     linkHref: '/services/3d-product-visualization',
   },
 ];
-
-const PillsSlider = ({ pills }) => {
-  const containerRef = useRef(null);
-  const isDragging = useRef(false);
-  const startX = useRef(0);
-  const scrollLeft = useRef(0);
-
-  const onMouseDown = (e) => {
-    isDragging.current = true;
-    startX.current = e.pageX - containerRef.current.offsetLeft;
-    scrollLeft.current = containerRef.current.scrollLeft;
-  };
-
-  const onMouseLeave = () => {
-    isDragging.current = false;
-  };
-
-  const onMouseUp = () => {
-    isDragging.current = false;
-  };
-
-  const onMouseMove = (e) => {
-    if (!isDragging.current) return;
-    e.preventDefault();
-    const x = e.pageX - containerRef.current.offsetLeft;
-    const walk = (x - startX.current) * 1.5;
-    containerRef.current.scrollLeft = scrollLeft.current - walk;
-  };
-
-  return (
-    <div
-      ref={containerRef}
-      onMouseDown={onMouseDown}
-      onMouseLeave={onMouseLeave}
-      onMouseUp={onMouseUp}
-      onMouseMove={onMouseMove}
-      className="flex items-center gap-2 overflow-x-auto no-scrollbar whitespace-nowrap swiper-no-swiping cursor-grab active:cursor-grabbing select-none py-1"
-    >
-      {pills.map((pill, pIdx) => (
-        <span
-          key={pIdx}
-          className="solution-card-pill shrink-0 px-3 py-1 rounded-full text-[11px] sm:text-xs font-medium border border-white/20 bg-black/60 backdrop-blur-md text-white transition-all hover:border-white/40 hover:bg-black/80 shadow-sm"
-        >
-          {pill}
-        </span>
-      ))}
-    </div>
-  );
-};
 
 const SolutionsSection = () => {
   const swiperRef = useRef(null);
@@ -140,9 +93,9 @@ const SolutionsSection = () => {
         aria-hidden="true"
       />
 
-      <div className="max-w-[1680px] mx-auto w-full relative z-10 px-4 sm:px-6 md:px-10 lg:px-12">
-        {/* Section Header */}
-        <div className="flex items-center justify-between gap-3 sm:gap-6 mb-8 md:mb-12">
+      <div className="relative z-10">
+        {/* Section Header - Full Width, No Left/Right Gap */}
+        <div className="flex items-center justify-between gap-3 sm:gap-6 mb-8 md:mb-12 px-[15px] md:px-[40px]">
           <div className="min-w-0">
             <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-white whitespace-nowrap">
               What We Do
@@ -181,7 +134,7 @@ const SolutionsSection = () => {
         </div>
 
         {/* Carousel / 3 Centered Cards */}
-        <div className="relative group w-full">
+        <div className="relative max-w-[1680px] mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-12">
           <Swiper
             onSwiper={(swiper) => {
               swiperRef.current = swiper;
@@ -233,8 +186,8 @@ const SolutionsSection = () => {
                       </div>
                       <h3
                         className={`solution-card-title font-semibold tracking-tight text-white leading-tight mb-2.5 ${card.titleSmall
-                            ? 'text-[16px] sm:text-[18px] md:text-[19px] lg:text-[20px]'
-                            : 'text-xl sm:text-[23px] md:text-[26px]'
+                          ? 'text-[16px] sm:text-[18px] md:text-[19px] lg:text-[20px]'
+                          : 'text-xl sm:text-[23px] md:text-[26px]'
                           }`}
                       >
                         {card.title}
@@ -251,19 +204,45 @@ const SolutionsSection = () => {
                           src={card.image}
                           alt={card.alt || card.title}
                           fill
+                          quality={100}
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           className="object-cover object-bottom sm:object-center"
                         />
+                        {card.id === 'configurators' && (
+                          <div className="absolute inset-x-0 bottom-0 z-10 p-3 sm:p-4 bg-gradient-to-t from-black/85 via-black/40 to-transparent">
+                            <a
+                              href="https://legacy.elipsestudio.com/Kia/"
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center justify-center gap-2 w-full py-2.5 sm:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-xs sm:text-sm font-semibold shadow-[0_4px_20px_rgba(65,105,225,0.45)] transition-all hover:scale-[1.02] pointer-events-auto cursor-pointer"
+                            >
+                              View Configurator
+                              <span>→</span>
+                            </a>
+                          </div>
+                        )}
+                        {card.videoUrl && card.id !== 'configurators' && (
+                          <div className="absolute inset-x-0 bottom-0 z-10 p-3 sm:p-4 bg-gradient-to-t from-black/85 via-black/40 to-transparent">
+                            <a
+                              href={card.videoUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center justify-center gap-2 w-full py-2.5 sm:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-xs sm:text-sm font-semibold shadow-[0_4px_20px_rgba(65,105,225,0.45)] transition-all hover:scale-[1.02] pointer-events-auto cursor-pointer"
+                            >
+                              <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" viewBox="0 0 24 24">
+                                <path d="M8 5v14l11-7z" />
+                              </svg>
+                              <span>Watch</span>
+                            </a>
+                          </div>
+                        )}
                       </div>
                     )}
 
                     {/* Bottom Section */}
                     <div className="relative z-20 flex flex-col justify-end shrink-0 mt-auto">
-                      {/* Footer Row: Sliding Tags on Left, Explore Link on Right */}
-                      <div className="solution-card-footer pt-3 flex items-center justify-between border-t border-white/10 gap-3">
-                        <div className="min-w-0 flex-1 overflow-hidden">
-                          <PillsSlider pills={card.pills} />
-                        </div>
+                      {/* Footer Row: Explore Link Only */}
+                      <div className="solution-card-footer pt-3 flex items-center justify-end border-t border-white/10 gap-3">
                         <Link
                           href={card.linkHref}
                           className="solution-card-link shrink-0 text-xs sm:text-[13px] font-semibold text-white/90 hover:text-white transition-colors flex items-center gap-1.5 sm:gap-2 group/link pl-1"
