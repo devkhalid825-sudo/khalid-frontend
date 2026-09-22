@@ -219,7 +219,7 @@ function staticArticleSchemas(slugStr, meta) {
 }
 
 function blogImageUrl(image) {
-  if (!image) return `${SITE_URL}/assets/logo-og.png`;
+  if (!image) return `${SITE_URL}/assets/actuallogo.webp`;
   let resolved = image;
   // Normalize old Hostinger backend URL
   if (resolved.includes('mediumseagreen-crocodile-699024.hostingersite.com')) {

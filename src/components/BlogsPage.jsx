@@ -64,8 +64,17 @@ const staticImages = {
 
 const staticPosts = [
     {
+        id: 'static-webgl-vs-unreal-engine',
+        title: 'WebGL vs. Unreal Engine 3D Configurator: Which is Better for Your Business?',
+        excerpt: 'A comprehensive technical and commercial comparison of WebGL and Unreal Engine 3D configurators — graphics quality, hosting costs, pixel streaming, and e-commerce integration.',
+        image: volveImg,
+        date: 'SEPTEMBER 19, 2026',
+        category: '3D Configurators',
+        url: '/blog/webgl-vs-unreal-engine-3d-configurator',
+    },
+    {
         id: 'static-uk-animation-2026',
-        title: '3D Animation Services UK (2026): Commercial, Product & Architectural CGI',
+        title: 'How Brands Are Replacing 150 Photoshoots with a Single 3D Master Model',
         excerpt: 'High-fidelity 3D animation for UK brands. CAD-accurate product animations, commercial brand films, and architectural walkthroughs. Transparent GBP pricing.',
         image: ahmedFoodImg,
         date: 'SEPTEMBER 21, 2026',
@@ -74,7 +83,7 @@ const staticPosts = [
     },
     {
         id: 'static-au-interactive-web-2026',
-        title: 'Interactive Web Experiences Australia (2026): WebGL & 3D Brand Sites',
+        title: "Can a 3D Web Configurator Load in Under 1.5 Seconds on Mobile? (Here's How We Did It)",
         excerpt: 'Discover how Australian brands use WebGL 3D product experiences to increase session duration and online sales. Fast mobile loading. AUD pricing.',
         image: steeringImg,
         date: 'SEPTEMBER 21, 2026',
@@ -83,7 +92,7 @@ const staticPosts = [
     },
     {
         id: 'static-us-vfx-2026',
-        title: 'Anamorphic 3D Animation Services & LED Billboard Content USA (2026)',
+        title: 'The Optical Illusion Effect: Why Anamorphic 3D Billboards Stop Crowds in Their Tracks',
         excerpt: 'Forced-perspective anamorphic 3D animation and LED billboard content for US brands. Product breakouts, full-scene environments & real-time OOH loops. Transparent USD pricing.',
         image: vfxImg,
         date: 'SEPTEMBER 21, 2026',
@@ -98,15 +107,6 @@ const staticPosts = [
         date: 'SEPTEMBER 10, 2026',
         category: 'Event & Strategy',
         url: '/blog/leap-2026-wrap-up',
-    },
-    {
-        id: 'static-webgl-vs-unreal-engine',
-        title: 'WebGL vs. Unreal Engine 3D Configurator: Which is Better for Your Business?',
-        excerpt: 'A comprehensive technical and commercial comparison of WebGL and Unreal Engine 3D configurators — graphics quality, hosting costs, pixel streaming, and e-commerce integration.',
-        image: volveImg,
-        date: 'SEPTEMBER 19, 2026',
-        category: '3D Configurators',
-        url: '/blog/webgl-vs-unreal-engine-3d-configurator',
     },
     {
         id: 'static-1',

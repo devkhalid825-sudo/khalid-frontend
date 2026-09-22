@@ -11,8 +11,8 @@ import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
-import kiaConfiguratorImg from '@/assets/ElipseImages/projects/configurator-preview.png';
-import zenithImg from '@/assets/About-page/zenith-square.webp';
+import kiaConfiguratorImg from '@/assets/About-page/khalid.webp';
+import zenithImg from '@/assets/About-page/interactive-tour.png';
 import cgiJellyImg from '@/assets/About-page/jelly.webp';
 
 const solutionsCards = [
@@ -36,8 +36,8 @@ const solutionsCards = [
     description:
       'Unreal Engine 5 virtual walkthroughs, dynamic daylight cycles, and luxury architectural visualization.',
     image: zenithImg,
-    alt: 'Luxury Architectural Penthouse & Building Visualization',
-    videoUrl: 'https://www.youtube.com/watch?v=Vf6C8e-hLXE',
+    alt: 'Luxury Architectural Interactive Virtual Tour',
+    videoUrl: 'https://youtu.be/YzLNRBsug_Q?si=sMzcBvQwZ-NjpG4b',
     metaLabel: 'DELIVERABLES',
     pills: ['UE5 Walkthroughs', 'Dynamic Daylight Cycles', 'Spatial Digital Twins'],
     linkText: 'Explore Spatial ArchViz',

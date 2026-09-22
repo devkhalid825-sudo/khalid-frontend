@@ -9,8 +9,8 @@ export const SITE_SCHEMA = [
     '@id': `${SITE_URL}/#organization`,
     name: SITE_NAME,
     url: SITE_URL,
-    logo: `${SITE_URL}/assets/logo-og.png`,
-    image: `${SITE_URL}/assets/logo-og.png`,
+    logo: `${SITE_URL}/assets/actuallogo.webp`,
+    image: `${SITE_URL}/assets/actuallogo.webp`,
     description:
       'Creatively led technology studio specializing in 3D rendering, walkthrough animation, interactive configurators, and immersive AR/VR experiences for property developers and brands worldwide.',
     foundingDate: '2021',
@@ -94,7 +94,7 @@ export function buildArticleSchema({ title, description, image, publishedAt, upd
     '@type': 'BlogPosting',
     headline: title,
     description: description,
-    image: image ? (image.startsWith('http') ? image : `${SITE_URL}${image}`) : `${SITE_URL}/assets/logo-og.png`,
+    image: image ? (image.startsWith('http') ? image : `${SITE_URL}${image}`) : `${SITE_URL}/assets/actuallogo.webp`,
     datePublished: publishedAt || new Date().toISOString(),
     dateModified: updatedAt || publishedAt || new Date().toISOString(),
     mainEntityOfPage: {
@@ -111,7 +111,7 @@ export function buildArticleSchema({ title, description, image, publishedAt, upd
       name: SITE_NAME,
       logo: {
         '@type': 'ImageObject',
-        url: `${SITE_URL}/assets/logo-og.png`,
+        url: `${SITE_URL}/assets/actuallogo.webp`,
       },
     },
   };
@@ -148,7 +148,7 @@ export function buildVideoObjectSchema({ name, description, thumbnailUrl, upload
       name: SITE_NAME,
       logo: {
         '@type': 'ImageObject',
-        url: `${SITE_URL}/assets/logo-og.png`,
+        url: `${SITE_URL}/assets/actuallogo.webp`,
       },
     },
   };

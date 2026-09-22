@@ -88,8 +88,17 @@ const News = ({ initialBlogs = null }) => {
 
   const staticPosts = [
     {
+      id: 20,
+      title: 'WebGL vs. Unreal Engine 3D Configurator: Which is Better for Your Business?',
+      image: volvoHero,
+      date: 'SEPTEMBER 19, 2026',
+      category: '3D Configurators',
+      readTime: '12 min read',
+      url: '/blog/webgl-vs-unreal-engine-3d-configurator',
+    },
+    {
       id: 21,
-      title: '3D Animation Services UK (2026): Commercial, Product & Architectural CGI',
+      title: 'How Brands Are Replacing 150 Photoshoots with a Single 3D Master Model',
       image: ahmedFoodImg,
       date: 'SEPTEMBER 21, 2026',
       category: '3D Animation',
@@ -98,7 +107,7 @@ const News = ({ initialBlogs = null }) => {
     },
     {
       id: 22,
-      title: 'Interactive Web Experiences Australia (2026): WebGL & 3D Brand Sites',
+      title: "Can a 3D Web Configurator Load in Under 1.5 Seconds on Mobile? (Here's How We Did It)",
       image: steeringImg,
       date: 'SEPTEMBER 21, 2026',
       category: '3D Configurators',
@@ -107,7 +116,7 @@ const News = ({ initialBlogs = null }) => {
     },
     {
       id: 23,
-      title: 'Anamorphic 3D Animation Services & LED Billboard Content USA (2026)',
+      title: 'The Optical Illusion Effect: Why Anamorphic 3D Billboards Stop Crowds in Their Tracks',
       image: vfxImg,
       date: 'SEPTEMBER 21, 2026',
       category: 'Anamorphic Animation',
@@ -122,15 +131,6 @@ const News = ({ initialBlogs = null }) => {
       category: 'Event & Strategy',
       readTime: '10 min read',
       url: '/blog/leap-2026-wrap-up',
-    },
-    {
-      id: 20,
-      title: 'WebGL vs. Unreal Engine 3D Configurator: Which is Better for Your Business?',
-      image: volvoHero,
-      date: 'SEPTEMBER 19, 2026',
-      category: '3D Configurators',
-      readTime: '12 min read',
-      url: '/blog/webgl-vs-unreal-engine-3d-configurator',
     },
     {
       id: 18,

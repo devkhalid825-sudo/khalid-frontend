@@ -22,7 +22,7 @@ const schema = {
     name: 'Elipse Studio',
     logo: {
       '@type': 'ImageObject',
-      url: `${SITE_URL}/assets/logo-og.png`,
+      url: `${SITE_URL}/assets/actuallogo.webp`,
     },
   },
   isPartOf: { '@type': 'WebSite', '@id': `${SITE_URL}/#website`, name: 'Elipse Studio', url: SITE_URL },
@@ -40,7 +40,7 @@ export function generateMetadata() {
     description:
       'Elipse Studio delivers premium 3D rendering, walkthrough animation, interactive configurators, and AR/VR experiences for global developers and brands.',
     canonical: `${SITE_URL}/`,
-    ogImage: `${SITE_URL}/assets/logo-og.png`,
+    ogImage: `${SITE_URL}/assets/actuallogo.webp`,
     ogImageAlt: 'Elipse Studio — 3D Visualization & AR/VR Studio',
   });
   // Override the browser-tab title to the exact required string

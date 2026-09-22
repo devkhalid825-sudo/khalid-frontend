@@ -44,7 +44,7 @@ const ARCHVIZ_BUILDS = [
     desc: 'Complete exterior architectural visualization package for a signature luxury high-rise tower, emphasizing structural geometry and urban skyline presence.',
     image: zenithImg,
     tech: 'Tower CGI · Exterior Stills',
-    driveLink: 'https://drive.google.com/drive/folders/1n3qM1CtEY1jB9Q079IDLvF5qu6IudXbo?usp=sharing',
+    behanceLink: 'https://www.behance.net/gallery/233866999/Zenith-Visualization',
     youtubeLink: 'https://youtu.be/Vf6C8e-hLXE?si=A0nV1wfUfoXx2cbu',
   },
   {
@@ -646,10 +646,10 @@ const ArchitecturalVisualizationPage = () => {
                           onClick={(e) => e.stopPropagation()}
                           className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-semibold border transition-all duration-300 hover:scale-[1.02] cursor-pointer text-center bg-white/5 hover:bg-white/10 border-white/15 hover:border-white/30 text-white"
                         >
-                          <svg className="w-3.5 h-3.5 text-red-500 fill-current shrink-0" viewBox="0 0 24 24">
-                            <path d="M19.615 3.184c-3.604-.246-11.631-.245-15.23 0-3.897.266-4.356 2.62-4.385 8.816.029 6.185.484 8.549 4.385 8.816 3.6.245 11.626.246 15.23 0 3.897-.266 4.356-2.62 4.385-8.816-.029-6.185-.484-8.549-4.385-8.816zm-10.615 12.816v-8l8 3.993-8 4.007z" />
+                          <svg className="w-3.5 h-3.5 fill-current text-[#4169E1] shrink-0" viewBox="0 0 24 24">
+                            <path d="M8 5v14l11-7z" />
                           </svg>
-                          <span>Demo</span>
+                          <span>Video</span>
                         </a>
                       )}
                     </div>

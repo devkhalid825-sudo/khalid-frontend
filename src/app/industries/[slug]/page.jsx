@@ -20,7 +20,7 @@ function industrySchemas(slug, industry, description) {
       '@type': 'Organization',
       name: 'Elipse Studio',
       url: SITE_URL,
-      logo: `${SITE_URL}/assets/logo-og.png`,
+      logo: `${SITE_URL}/assets/actuallogo.webp`,
       foundingDate: '2021',
       sameAs: [
         'https://www.linkedin.com/company/elipse-studio',
@@ -76,7 +76,7 @@ export async function generateMetadata({ params }) {
     ? industry.meta.ogImage.startsWith('http')
       ? industry.meta.ogImage
       : `${SITE_URL}${industry.meta.ogImage}`
-    : `${SITE_URL}/assets/logo-og.png`;
+    : `${SITE_URL}/assets/actuallogo.webp`;
 
   return buildMetadata({
     title: industry.meta?.seoTitle || `${industry.title} Solutions | Elipse Studio`,

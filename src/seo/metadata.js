@@ -1,7 +1,7 @@
 import { SITE_URL } from '@/utils/api';
 
 export const SITE_NAME = 'Elipse Studio';
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/logo-og.png`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/actuallogo.webp`;
 export const TWITTER_SITE = '@ElipseStudio';
 export const TWITTER_CREATOR = '@ElipseStudio';
 
