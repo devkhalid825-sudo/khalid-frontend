@@ -194,7 +194,10 @@ const News = ({ initialBlogs = null }) => {
     >
       <div className="w-full relative">
         <div className="flex justify-between items-center px-[15px] md:px-[40px] gap-2 mb-6 md:mb-10">
-          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-white">
+          <h2
+            className="news-heading text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] !text-white"
+            style={{ color: '#ffffff' }}
+          >
             Latest News & Blogs
           </h2>
           <Link

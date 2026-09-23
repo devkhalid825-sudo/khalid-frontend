@@ -15,7 +15,7 @@ import AhmedFoodLayout from './AhmedFoodLayout';
 const resolveBlogImg = (img) => {
   if (!img || typeof img !== 'string') return img;
   if (img.startsWith('http://') || img.startsWith('https://')) return img;
-  if (img.startsWith('/uploads/')) return `${BACKEND_ORIGIN}${img}`;
+  if (img.startsWith('/uploads/') || img.startsWith('/media/')) return `${BACKEND_ORIGIN}${img}`;
   return img;
 };
 

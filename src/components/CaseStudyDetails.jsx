@@ -4,16 +4,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArticleProgress } from './articles/articleHelpers';
 import { FiArrowLeft } from '@/components/ui/Icons';
-import { apiCall, getYoutubeEmbed, SITE_URL, BACKEND_ORIGIN } from '../utils/api';
-
-const absImage = (img) => {
-  if (!img) return '';
-  if (typeof img === 'object') img = img.url || img.src || '';
-  if (typeof img !== 'string') return '';
-  if (img.startsWith('http')) return img;
-  if (img.startsWith('/uploads/') || img.startsWith('/media/')) return `${BACKEND_ORIGIN}${img}`;
-  return img;
-};
+import { apiCall, getYoutubeEmbed, SITE_URL, toCdnUrl } from '../utils/api';
 import AhmedFoodLayout from './AhmedFoodLayout';
 import MobileMenu from './MobileMenu';
 
@@ -104,10 +95,47 @@ const CaseStudyDetail = ({ slug, initialData }) => {
     ...(cs.deliverables ? [{ label: 'Deliverables', value: cs.deliverables }] : []),
   ];
 
-  const heroImage = absImage(cs.largeBanner || cs.heroImage || cs.image);
-  const smallBannerRaw = absImage(cs.smallBanner);
+  const heroImage = toCdnUrl(cs.largeBanner || cs.heroImage || cs.image);
+  const smallBannerRaw = toCdnUrl(cs.smallBanner);
   const smallBanner = smallBannerRaw && smallBannerRaw !== heroImage ? smallBannerRaw : undefined;
   const heroVideo = cs.heroVideo || (cs.videoUrl ? getYoutubeEmbed(cs.videoUrl) : undefined);
+
+  const parsedSections = safeJson(cs.sections, []);
+  const defaultSectionOrder = ['storyBlocks', 'thumbnails', 'stills', 'results', 'process', 'content'];
+  let sectionOrder = defaultSectionOrder;
+  let storyBlocks = [];
+
+  if (Array.isArray(parsedSections) && parsedSections.length > 0 && (parsedSections[0].heading || parsedSections[0].text || parsedSections[0].content)) {
+    if (parsedSections[0]?.sectionOrder && Array.isArray(parsedSections[0].sectionOrder)) {
+      sectionOrder = parsedSections[0].sectionOrder;
+    }
+    storyBlocks = parsedSections.map((s, idx) => ({
+      tag: s.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Block ${idx + 1}`)),
+      heading: s.heading || (idx === 0 ? cs.overviewHeading : cs.challengeHeading) || '',
+      text: s.text || s.content || '',
+      image: toCdnUrl(s.image),
+      position: s.position || (idx % 2 === 0 ? 'left' : 'right'),
+    }));
+  }
+
+  const rawGalleryCats = safeJson(cs.galleryCategories, []);
+  let galleryThumbnails = [];
+  let galleryStills = [];
+  const otherCats = [];
+
+  if (Array.isArray(rawGalleryCats)) {
+    rawGalleryCats.forEach((g) => {
+      const imgs = (Array.isArray(g.images) ? g.images : String(g.images || '').split(',').map((s) => s.trim()).filter(Boolean)).map(toCdnUrl);
+      const nameLower = String(g.name || '').toLowerCase();
+      if (g.type === 'thumbnails' || nameLower === 'thumbnails') {
+        galleryThumbnails = [...galleryThumbnails, ...imgs];
+      } else if (g.type === 'stills' || nameLower === 'still images' || nameLower === 'still renders' || nameLower === 'stills') {
+        galleryStills = [...galleryStills, ...imgs];
+      } else if (g.name) {
+        otherCats.push({ name: g.name, images: imgs });
+      }
+    });
+  }
 
   return (
     <article>
@@ -122,10 +150,14 @@ const CaseStudyDetail = ({ slug, initialData }) => {
         overview={cs.overviewText || cs.overview}
         challengeHeading={cs.challengeHeading || 'Key challenges'}
         challenge={cs.challengeText || cs.challenge}
+        storyBlocks={storyBlocks}
+        galleryThumbnails={galleryThumbnails}
+        galleryStills={galleryStills}
+        sectionOrder={sectionOrder}
         content={cs.content || cs.description || ''}
         results={safeJson(cs.results, [])}
         process={safeJson(cs.processSteps || cs.process, [])}
-        galleryCategories={safeJson(cs.galleryCategories, [])}
+        galleryCategories={otherCats.length > 0 ? otherCats : undefined}
         videoTabs={safeJson(cs.videoTabs, [])}
         ctaUrl={cs.ctaUrl || '/contact'}
         ctaText={cs.ctaText || 'Start a project'}

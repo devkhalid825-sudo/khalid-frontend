@@ -48,6 +48,14 @@ export function generateMetadata() {
   return {
     ...base,
     title: { absolute: 'Elipse Studio - Interactive Digital Experiences' },
+    openGraph: {
+      ...base.openGraph,
+      title: 'Elipse Studio - Interactive Digital Experiences',
+    },
+    twitter: {
+      ...base.twitter,
+      title: 'Elipse Studio - Interactive Digital Experiences',
+    },
   };
 }
 

@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import logoRaw from '@/assets/images/khalid.png';
 import { getImgSrc } from '@/utils/api';
 import ThemeToggle from '@/components/ui/ThemeToggle';
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 const logo = getImgSrc(logoRaw);
 
@@ -21,10 +22,11 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [isLightSection, setIsLightSection] = useState(false);
+  const { isLight } = useTheme();
+  const isLightMode = isLight || isLightSection;
   const [locationOpen, setLocationOpen] = useState(false);
   const [mobileLocationOpen, setMobileLocationOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [scrollPadding, setScrollPadding] = useState(null);
   const headerRef = useRef(null);
   const locationRef = useRef(null);
 
@@ -32,27 +34,10 @@ const Header = () => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 20);
     };
-handleScroll();
-      const computePadding = () => {
-        const sc = window.scrollY;
-        const vw = window.innerWidth;
-        const maxScroll = 5000;
-        const raw = Math.min(1, Math.max(0, sc / maxScroll));
-        const p = 1 - Math.pow(1 - raw, 3);
-        const isMobile = vw < 768;
-        const heroEdge = isMobile ? 15 : Math.max(0, (vw - 1920) / 2) + 24;
-        const scrolledPad = isMobile ? 28 : 32;
-        const pad = heroEdge + (scrolledPad - heroEdge) * p;
-        setScrollPadding(pad);
-      };
-      computePadding();
-      window.addEventListener('scroll', computePadding, { passive: true });
-      window.addEventListener('resize', computePadding);
-      return () => {
-        window.removeEventListener('scroll', computePadding);
-        window.removeEventListener('resize', computePadding);
-      };
-    }, []);
+    handleScroll();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     if (!locationOpen) return;
@@ -118,22 +103,19 @@ handleScroll();
   ];
 
   const headerBgClass = isMenuOpen
-    ? 'bg-black'
-    : isScrolled
-      ? isLightSection
-        ? 'bg-white/40 backdrop-blur-xl shadow-sm'
-        : 'bg-black/40 backdrop-blur-xl'
-      : 'bg-transparent';
+    ? 'bg-black text-white'
+    : isLightMode
+      ? 'bg-transparent lg:bg-white/80 lg:backdrop-blur-xl lg:border-b lg:border-black/10 lg:shadow-sm text-black'
+      : isScrolled
+        ? 'bg-transparent lg:bg-black/60 lg:backdrop-blur-xl lg:border-b lg:border-white/10 lg:shadow-lg lg:shadow-black/20 text-white'
+        : 'bg-transparent lg:bg-black/40 lg:backdrop-blur-md lg:border-b lg:border-white/5 text-white';
 
-  const headerPaddingClass = scrollPadding !== null
-    ? 'pt-6 pb-3 sm:py-3.5 md:py-4'
-    : 'px-7 sm:px-6 md:px-8 pt-6 pb-3 sm:py-3.5 md:py-4';
+  const headerPaddingClass = 'px-6 sm:px-8 md:px-12 py-3.5 sm:py-4';
   const logoSizeClass = 'h-6 sm:h-8 md:h-10 lg:h-12';
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full ${headerPaddingClass} ${headerBgClass} z-50 transition-all duration-300 flex items-center`}
-      style={scrollPadding !== null ? { paddingLeft: scrollPadding, paddingRight: scrollPadding } : undefined}
+      className={`fixed top-0 left-0 w-full ${headerPaddingClass} ${headerBgClass} z-50 flex items-center`}
     >
       <nav
         ref={headerRef}
@@ -150,7 +132,7 @@ handleScroll();
               alt="Elipse Studio"
               width="230"
               height="105"
-              className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 block self-center site-logo ${isLightSection ? 'invert' : ''
+              className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 block self-center site-logo ${isLightMode ? 'invert' : ''
                 }`}
             />
           </Link>
@@ -159,7 +141,7 @@ handleScroll();
             <div className="hidden" ref={locationRef}>
               <button
                 onClick={() => setLocationOpen((prev) => !prev)}
-                className={`px-4 h-8 sm:h-8.5 flex items-center justify-center gap-1.5 border ${isLightSection
+                className={`px-4 h-8 sm:h-8.5 flex items-center justify-center gap-1.5 border ${isLightMode
                   ? 'border-black/20 hover:border-[#4169E1] text-black hover:text-[#4169E1]'
                   : 'border-white/20 hover:border-[#4169E1] text-white hover:text-[#4169E1]'
                   } bg-transparent rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 backdrop-blur-md`}
@@ -189,7 +171,7 @@ handleScroll();
                 setIsMenuOpen(false);
                 router.push('/contact');
               }}
-              className={`hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center border ${isLightSection
+              className={`hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center border ${isLightMode
                 ? 'border-black/30 hover:border-black text-black hover:bg-black/5'
                 : 'border-white/30 hover:border-white text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]'
                 } bg-transparent rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 backdrop-blur-md cursor-pointer`}
@@ -199,7 +181,7 @@ handleScroll();
             <ThemeToggle />
             <button
               onClick={toggleMenu}
-              className={`focus:outline-none hover:scale-110 active:scale-95 p-1.5 flex items-center justify-center rounded-full transition-transform ${isLightSection ? 'text-black' : 'text-white'
+              className={`focus:outline-none hover:scale-110 active:scale-95 p-1.5 flex items-center justify-center rounded-full transition-transform ${isLightMode ? 'text-black' : 'text-white'
                 }`}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >

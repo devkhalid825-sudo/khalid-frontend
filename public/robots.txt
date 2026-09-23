@@ -1,0 +1,9 @@
+User-agent: *
+Disallow: /wp-admin
+Disallow: /wp-login.php
+Disallow: /wp-*.php
+Disallow: /products/*
+Disallow: /?*
+Allow: /
+
+Sitemap: https://elipsestudio.com/sitemap.xml

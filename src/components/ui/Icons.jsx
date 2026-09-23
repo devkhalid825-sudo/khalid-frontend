@@ -201,6 +201,18 @@ export const FiChevronDown = ({ className, ...p }) => (
   </svg>
 );
 
+export const FiChevronLeft = ({ className, ...p }) => (
+  <svg {...svgProps({ fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' })} className={className} {...p}>
+    <polyline points="15 18 9 12 15 6" />
+  </svg>
+);
+
+export const FiChevronRight = ({ className, ...p }) => (
+  <svg {...svgProps({ fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' })} className={className} {...p}>
+    <polyline points="9 18 15 12 9 6" />
+  </svg>
+);
+
 export const FiVideo = ({ className, ...p }) => (
   <svg {...svgProps({ fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' })} className={className} {...p}>
     <polygon points="23 7 16 12 23 17 23 7" /><rect x="1" y="5" width="15" height="14" rx="2" ry="2" />

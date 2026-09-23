@@ -122,8 +122,8 @@ const ProductVizHeader = () => {
     ? 'bg-black'
     : isScrolled
       ? isLightSection
-        ? 'bg-white/40 backdrop-blur-xl shadow-sm'
-        : 'bg-black/40 backdrop-blur-xl'
+        ? 'bg-white/40 lg:backdrop-blur-xl shadow-sm'
+        : 'bg-black/40 lg:backdrop-blur-xl'
       : 'bg-transparent';
 
   const headerPaddingClass = 'px-7 sm:px-6 md:px-8 pt-6 pb-3 sm:py-3.5 md:py-4';

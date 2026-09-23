@@ -392,13 +392,13 @@ const ClientReviews = ({ initialReviews = null }) => {
             </Swiper>
 
             {/* Bottom Controls with Left/Right Arrows and Pointer Dots */}
-            <div className="flex items-center justify-center gap-4 mt-4 px-4">
+            <div className="flex items-center justify-between mt-4 px-2 sm:px-4">
               <button
                 onClick={() => mobileSwiperRef.current?.slidePrev()}
-                className="w-8 h-8 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 flex items-center justify-center text-white active:scale-90 transition-all shadow-md"
+                className="solutions-nav-btn w-10 h-10 rounded-full border border-zinc-800 bg-zinc-900/90 hover:bg-zinc-800 hover:border-zinc-700 flex items-center justify-center text-zinc-200 active:scale-95 transition-all shadow-sm cursor-pointer"
                 aria-label="Previous review"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
                   <polyline points="15 18 9 12 15 6" />
                 </svg>
               </button>
@@ -407,10 +407,10 @@ const ClientReviews = ({ initialReviews = null }) => {
 
               <button
                 onClick={() => mobileSwiperRef.current?.slideNext()}
-                className="w-8 h-8 rounded-full border border-white/20 bg-white/10 hover:bg-white/20 flex items-center justify-center text-white active:scale-90 transition-all shadow-md"
+                className="solutions-nav-btn w-10 h-10 rounded-full border border-zinc-800 bg-zinc-900/90 hover:bg-zinc-800 hover:border-zinc-700 flex items-center justify-center text-zinc-200 active:scale-95 transition-all shadow-sm cursor-pointer"
                 aria-label="Next review"
               >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="w-4 h-4">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
                   <polyline points="9 18 15 12 9 6" />
                 </svg>
               </button>

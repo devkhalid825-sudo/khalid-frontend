@@ -154,7 +154,8 @@ body {
    black at 20% opacity, invisible against this site's black background,
    leaving only the active (blue) bullet visible. */
 .mobile-review-pagination .swiper-pagination-bullet,
-.mobile-social-pagination .swiper-pagination-bullet {
+.mobile-social-pagination .swiper-pagination-bullet,
+.mobile-solutions-pagination .swiper-pagination-bullet {
   background: rgba(255, 255, 255, 0.35);
   opacity: 1;
   width: 8px;
@@ -163,7 +164,8 @@ body {
 }
 
 .mobile-review-pagination .swiper-pagination-bullet-active,
-.mobile-social-pagination .swiper-pagination-bullet-active {
+.mobile-social-pagination .swiper-pagination-bullet-active,
+.mobile-solutions-pagination .swiper-pagination-bullet-active {
   background: #4169e1;
 }
 
@@ -783,13 +785,19 @@ html.light .bg-\[\#0D0F14\],
 html.light .bg-\[\#111\],
 html.light .bg-\[\#111111\],
 html.light .bg-\[\#121212\],
+html.light .bg-\[\#131316\],
 html.light .bg-\[\#141414\],
+html.light .bg-\[\#141417\],
 html.light .bg-\[\#151517\],
 html.light .bg-\[\#161616\],
+html.light .bg-\[\#16161a\],
+html.light .bg-\[\#16161A\],
 html.light .bg-\[\#181818\],
+html.light .bg-\[\#18181b\],
 html.light .bg-\[\#1a1a1a\],
 html.light .bg-\[\#1A1A1A\],
 html.light .bg-\[\#1a1a1c\],
+html.light .bg-\[\#1c1c21\],
 html.light .bg-\[\#222\],
 html.light .bg-\[\#2b2b2d\],
 html.light .bg-\[\#323235\],
@@ -830,6 +838,11 @@ html.light .border-white\/50,
 html.light .border-zinc-800,
 html.light .border-neutral-800,
 html.light .border-stone-800,
+html.light .border-\[\#222\],
+html.light .border-\[\#222222\],
+html.light .border-\[\#232328\],
+html.light .border-\[\#26262e\],
+html.light .border-\[\#2a2a30\],
 html.light .border-\[\#333\],
 html.light .border-\[\#1A1A1A\],
 html.light .border-\[\#1a1a1a\] {
@@ -959,7 +972,7 @@ html.light textarea:focus {
 /* Footer must always stay in signature dark blue (night effect), even in day mode */
 html.light .site-main-footer,
 html.light footer.site-main-footer {
-  background: linear-gradient(180deg, #0a1628 0%, #1a2a6e 100%) !important;
+  background: linear-gradient(180deg, #1a2a6e 0%, #1a2a6e 100%) !important;
   color: #ffffff !important;
   border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
@@ -1007,6 +1020,11 @@ html.light .site-main-footer .footer-copyright {
 
 html.light .site-main-footer .site-logo {
   filter: none !important;
+}
+
+html.light .site-main-footer ul li a:hover,
+html.light .site-main-footer a:hover {
+  color: #4169e1 !important;
 }
 
 /* Industries Section in Day Mode - clean light cards */
@@ -1071,12 +1089,14 @@ html.light .brands-marquee-section img.brightness-0.invert:hover {
 
 /* 18. Swiper Pagination Bullets in Day Mode */
 html.light .mobile-review-pagination .swiper-pagination-bullet,
-html.light .mobile-social-pagination .swiper-pagination-bullet {
+html.light .mobile-social-pagination .swiper-pagination-bullet,
+html.light .mobile-solutions-pagination .swiper-pagination-bullet {
   background: rgba(15, 23, 42, 0.25) !important;
 }
 
 html.light .mobile-review-pagination .swiper-pagination-bullet-active,
-html.light .mobile-social-pagination .swiper-pagination-bullet-active {
+html.light .mobile-social-pagination .swiper-pagination-bullet-active,
+html.light .mobile-solutions-pagination .swiper-pagination-bullet-active {
   background: #4169e1 !important;
 }
 
@@ -1136,6 +1156,12 @@ html.light [class*="via-[#8ca8ff]"].bg-clip-text {
   -webkit-background-clip: initial !important;
   -webkit-text-fill-color: initial !important;
   color: #4169e1 !important;
+}
+
+/* 21. News & Blogs Section Heading (Signature Deep Blue Banner Preserved) */
+html.light #news h2,
+html.light #news .news-heading {
+  color: #ffffff !important;
 }
 
 /* ==========================================================================
@@ -1376,4 +1402,36 @@ html.light .keep-dark-hero [class*="from-black"],
 html.light .portfolio-hero-section [class*="from-black"],
 html.light .case-studies-hero-section [class*="from-black"] {
   display: block !important;
+}
+
+@media (min-width: 1024px) {
+  html.light header {
+    background-color: rgba(255, 255, 255, 0.85) !important;
+    backdrop-filter: blur(16px) !important;
+    -webkit-backdrop-filter: blur(16px) !important;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.04) !important;
+  }
+}
+
+html.light header {
+  color: #0f172a;
+}
+
+html.light header .site-logo {
+  filter: invert(1) brightness(0.15) !important;
+}
+
+html.light header button,
+html.light header .site-header-contact-btn {
+  border-color: rgba(0, 0, 0, 0.25) !important;
+  color: #000000 !important;
+}
+
+html.light header button:hover {
+  border-color: rgba(0, 0, 0, 0.6) !important;
+}
+
+html.light header svg {
+  color: inherit !important;
 }

@@ -6,16 +6,8 @@ import CaseStudyLayout from "./projects/CaseStudyLayout";
 import AhmedFoodLayout from "./AhmedFoodLayout";
 import { OverviewSection, ResultsSection, ProcessSection, GallerySection } from "./projects/projectSections";
 import { projectList, caseStudyEntries } from "./projects/projectData";
-import { apiCall, getYoutubeEmbed, BACKEND_ORIGIN } from "../utils/api";
+import { apiCall, getYoutubeEmbed, BACKEND_ORIGIN, toCdnUrl } from "../utils/api";
 import { getProjectValueProposition } from "@/constants/projectValueProps";
-
-// Normalize backend image URLs — handles both full URLs and relative /uploads/ paths
-const resolveImg = (img) => {
-  if (!img || typeof img !== 'string') return img;
-  if (img.startsWith('http://') || img.startsWith('https://')) return img;
-  if (img.startsWith('/uploads/')) return `${BACKEND_ORIGIN}${img}`;
-  return img;
-};
 
 const allProjects = [...projectList, ...caseStudyEntries];
 const projectMap = Object.fromEntries(allProjects.map(p => [p.slug, p]));
@@ -93,19 +85,77 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
     ...(data.deliverables ? [{ label: 'Deliverables', value: data.deliverables }] : []),
   ];
 
-  const heroImage = resolveImg(data.heroImage || data.largeBanner || data.image || undefined);
+  const heroImage = toCdnUrl(data.heroImage || data.largeBanner || data.image || undefined);
   const heroVideoUrl = data.heroVideo || data.videoUrl;
   const heroVideo = heroVideoUrl ? getYoutubeEmbed(heroVideoUrl) : undefined;
 
   const sections = safeJson(data.sections, []);
   const results = safeJson(data.results, []).filter((r) => r.stat || r.label);
   const process = safeJson(data.processSteps || data.process, []).filter((p) => p.phase || p.title);
-  const galleryCategories = safeJson(data.galleryCategories, [])
-    .filter((g) => g.name)
-    .map((g) => ({
-      name: g.name,
-      images: Array.isArray(g.images) ? g.images : String(g.images || '').split(',').map((s) => s.trim()).filter(Boolean),
+
+  // Parse story blocks and sectionOrder from sections or overview/challenge
+  const defaultSectionOrder = ['storyBlocks', 'thumbnails', 'stills', 'results', 'process', 'content'];
+  let sectionOrder = defaultSectionOrder;
+  let storyBlocks = [];
+
+  const isStoryBlockArray = Array.isArray(sections) && sections.length > 0 && (sections[0].heading || sections[0].text || sections[0].content);
+
+  if (isStoryBlockArray) {
+    if (sections[0]?.sectionOrder && Array.isArray(sections[0].sectionOrder)) {
+      sectionOrder = sections[0].sectionOrder;
+    }
+    storyBlocks = sections.map((s, idx) => ({
+      tag: s.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Block ${idx + 1}`)),
+      heading: s.heading || (idx === 0 ? data.overviewHeading : data.challengeHeading) || '',
+      text: s.text || s.content || '',
+      image: toCdnUrl(s.image),
+      position: s.position || (idx % 2 === 0 ? 'left' : 'right'),
     }));
+  } else {
+    const ovText = data.overviewText || data.overview || '';
+    const chText = data.challengeText || data.challenge || '';
+    if (ovText || chText) {
+      if (ovText) {
+        storyBlocks.push({
+          tag: 'Overview',
+          heading: data.overviewHeading || (isCaseStudy ? 'Case study overview' : 'Enterprise VR Training & Simulation'),
+          text: ovText,
+          image: null,
+          position: 'left',
+        });
+      }
+      if (chText) {
+        storyBlocks.push({
+          tag: 'The challenge',
+          heading: data.challengeHeading || 'Training Realism',
+          text: chText,
+          image: null,
+          position: 'right',
+        });
+      }
+    }
+  }
+
+  // Parse thumbnails and stills from galleryCategories
+  const rawGalleryCategories = safeJson(data.galleryCategories, []);
+  let galleryThumbnails = [];
+  let galleryStills = [];
+  const otherGalleryCategories = [];
+
+  if (Array.isArray(rawGalleryCategories)) {
+    rawGalleryCategories.forEach((g) => {
+      const imgs = (Array.isArray(g.images) ? g.images : String(g.images || '').split(',').map((s) => s.trim()).filter(Boolean)).map(toCdnUrl);
+      const nameLower = String(g.name || '').toLowerCase();
+      if (g.type === 'thumbnails' || nameLower === 'thumbnails') {
+        galleryThumbnails = [...galleryThumbnails, ...imgs];
+      } else if (g.type === 'stills' || nameLower === 'still images' || nameLower === 'still renders' || nameLower === 'stills') {
+        galleryStills = [...galleryStills, ...imgs];
+      } else if (g.name) {
+        otherGalleryCategories.push({ name: g.name, images: imgs });
+      }
+    });
+  }
+
   const videoTabs = safeJson(data.videoTabs, []).filter((t) => t.label || t.url).map((t) => ({
     ...t,
     url: getYoutubeEmbed(t.url) || t.url,
@@ -125,11 +175,15 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
       overviewHeading={data.overviewHeading || (isCaseStudy ? 'Case study overview' : 'Project overview')}
       challenge={data.challengeText || data.challenge || ''}
       challengeHeading={data.challengeHeading || 'Key challenges'}
+      storyBlocks={storyBlocks}
+      galleryThumbnails={galleryThumbnails}
+      galleryStills={galleryStills}
+      sectionOrder={sectionOrder}
       content={data.content || data.description || ''}
       sections={sections}
       results={results}
       process={process}
-      galleryCategories={galleryCategories}
+      galleryCategories={otherGalleryCategories}
       nextProject={nextProject || undefined}
       ctaUrl={data.ctaUrl || undefined}
       ctaText={data.ctaText || undefined}

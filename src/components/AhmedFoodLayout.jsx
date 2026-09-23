@@ -2,12 +2,21 @@
 
 import React, { useState, useRef, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
-import { FaThLarge, FaPaperPlane } from '@/components/ui/Icons';
+import { FaThLarge, FaPaperPlane, FiX } from '@/components/ui/Icons';
 import Header from './layouts/Header';
 import LatestWork from './features/LatestWork';
 import ClientReviews from './features/ClientReviews';
 import Footer from './layouts/Footer';
 import Contact from './features/Contact';
+import { BACKEND_ORIGIN, toCdnUrl } from '../utils/api';
+
+export const resolveImageUrl = (src) => {
+  if (!src || typeof src !== 'string') return src || '';
+  if (src.includes('elipsestudio.com/photo-') || src.includes('elipsestudio.com/premium_photo-')) {
+    return src.replace(/https?:\/\/elipsestudio\.com\//, 'https://images.unsplash.com/');
+  }
+  return toCdnUrl(src);
+};
 
 const RenderCard = ({ src, title }) => (
   <div className="group relative overflow-hidden border border-zinc-800 hover:border-zinc-700 transition-all duration-300 cursor-pointer shadow-md hover:shadow-xl aspect-[16/9] w-[360px] sm:w-[480px] md:w-[560px] shrink-0 snap-start rounded-lg">
@@ -58,6 +67,10 @@ const AhmedFoodLayout = ({
   challenge = '',
   overviewHeading = '',
   challengeHeading = 'Key insights',
+  storyBlocks = [],
+  galleryThumbnails = [],
+  galleryStills = [],
+  sectionOrder = ['storyBlocks', 'gallery', 'results', 'process', 'content'],
   content = '',
   sections = [],
   results = [],
@@ -73,6 +86,7 @@ const AhmedFoodLayout = ({
 }) => {
   const router = useRouter();
   const [activeVideo, setActiveVideo] = useState(0);
+  const [lightboxImg, setLightboxImg] = useState(null);
 
   const handleStartProject = () => {
     const contactSection = document.getElementById('contact');
@@ -100,6 +114,277 @@ const AhmedFoodLayout = ({
       .replaceAll('max-w-[1200px]', 'w-full')
       .replace(/max-width\s*:\s*\d+px/gi, 'max-width: 100%');
   }, [content]);
+
+  // Merge storyBlocks or fallback to overview + challenge
+  const effectiveStoryBlocks = React.useMemo(() => {
+    if (storyBlocks && storyBlocks.length > 0) return storyBlocks;
+    const blocks = [];
+    if (overview) {
+      blocks.push({
+        tag: 'Overview',
+        heading: overviewHeading || 'Enterprise VR Training & Simulation',
+        text: overview,
+        image: null,
+        position: 'left',
+      });
+    }
+    if (challenge) {
+      blocks.push({
+        tag: 'The challenge',
+        heading: challengeHeading || 'Training Realism',
+        text: challenge,
+        image: null,
+        position: 'right',
+      });
+    }
+    return blocks;
+  }, [storyBlocks, overview, challenge, overviewHeading, challengeHeading]);
+
+  // Render Story Blocks (Overview & Challenge)
+  const renderStoryBlocks = () => {
+    if (!effectiveStoryBlocks || effectiveStoryBlocks.length === 0) return null;
+    return (
+      <section className="px-4 sm:px-6 md:px-8 py-10 md:py-20 bg-[#0D0D0D] space-y-16 md:space-y-24">
+        {effectiveStoryBlocks.map((block, i) => {
+          const isLeft = (block.position || (i % 2 === 0 ? 'left' : 'right')) === 'left';
+          const hasImage = Boolean(block.image);
+          return (
+            <div
+              key={i}
+              className={`w-full ${
+                hasImage
+                  ? 'grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 items-center'
+                  : 'max-w-4xl mx-auto p-6 md:p-10 bg-[#111] rounded-2xl border border-[#222]'
+              }`}
+            >
+              {hasImage && (
+                <div
+                  className={`w-full rounded-2xl overflow-hidden border border-white/10 bg-[#1A1A1A] shadow-2xl aspect-[16/10] sm:aspect-video relative group ${
+                    isLeft ? 'lg:order-1' : 'lg:order-2'
+                  }`}
+                >
+                  <img
+                    src={resolveImageUrl(block.image)}
+                    alt={block.heading || `Story block ${i + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+              )}
+              <div
+                className={`space-y-4 ${
+                  hasImage
+                    ? isLeft
+                      ? 'lg:order-2'
+                      : 'lg:order-1'
+                    : ''
+                }`}
+              >
+                {block.tag && (
+                  <span className="inline-block text-xs sm:text-[13px] font-semibold tracking-[0.14em] uppercase text-[#4169E1]">
+                    {block.tag}
+                  </span>
+                )}
+                {block.heading && (
+                  <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold text-[#F2F0EB] tracking-tight leading-[1.18]">
+                    {block.heading}
+                  </h2>
+                )}
+                {block.text && (
+                  <div className="text-sm sm:text-base md:text-lg font-light leading-relaxed text-zinc-300 whitespace-pre-line">
+                    {block.text}
+                  </div>
+                )}
+              </div>
+            </div>
+          );
+        })}
+      </section>
+    );
+  };
+
+  // Render Gallery (16:9 Thumbnails & Stills)
+  // Render Thumbnails (16:9 - 3 per row)
+  const renderThumbnails = () => {
+    const hasThumbnails = galleryThumbnails && galleryThumbnails.length > 0;
+    if (!hasThumbnails) return null;
+
+    return (
+      <section className="bg-[#111] px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t border-b border-white/5 overflow-hidden">
+        <div className="w-full">
+          <p className="text-xs sm:text-[14px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-2">Visual output</p>
+          <h2 className="text-2xl sm:text-4xl lg:text-[44px] font-medium mb-8 md:mb-12 tracking-tight leading-tight text-[#F2F0EB]">
+            Thumbnails (16:9)
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {galleryThumbnails.map((rawSrc, i) => {
+              const src = resolveImageUrl(rawSrc);
+              return (
+                <div
+                  key={i}
+                  onClick={() => setLightboxImg(src)}
+                  className="group relative aspect-[16/9] rounded-xl overflow-hidden border border-zinc-800 hover:border-[#4169E1]/60 transition-all duration-300 cursor-pointer shadow-lg bg-[#0D0D0D]"
+                >
+                  <img
+                    src={src}
+                    alt={`Thumbnail render ${i + 1}`}
+                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  // Render Still Images (4 per row)
+  const renderStills = () => {
+    const hasStills = galleryStills && galleryStills.length > 0;
+    if (!hasStills) return null;
+
+    return (
+      <section className="bg-[#111] px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t border-b border-white/5 overflow-hidden">
+        <div className="w-full">
+          <p className="text-xs sm:text-[14px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-2">Visual output</p>
+          <h2 className="text-2xl sm:text-4xl lg:text-[44px] font-medium mb-8 md:mb-12 tracking-tight leading-tight text-[#F2F0EB]">
+            Still Images
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
+            {galleryStills.map((rawSrc, i) => {
+              const src = resolveImageUrl(rawSrc);
+              return (
+                <div
+                  key={i}
+                  onClick={() => setLightboxImg(src)}
+                  className="group relative aspect-[4/5] rounded-xl overflow-hidden border border-white/10 hover:border-[#4169E1]/60 transition-all duration-300 cursor-pointer shadow-lg bg-[#111]"
+                >
+                  <img
+                    src={src}
+                    alt={`Still render ${i + 1}`}
+                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+                    loading="lazy"
+                  />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  // Combined / Legacy Gallery (fallback when sectionOrder contains 'gallery')
+  const renderGallery = () => {
+    const hasOtherCats = galleryCategories && galleryCategories.length > 0;
+    const hasLegacyGallery = gallery && gallery.length > 0;
+    const currentOrder = sectionOrder || [];
+    const rendersIndependently = currentOrder.includes('thumbnails') || currentOrder.includes('stills');
+
+    return (
+      <>
+        {!rendersIndependently && (
+          <>
+            {renderThumbnails()}
+            {renderStills()}
+          </>
+        )}
+        {hasOtherCats && (
+          <section className="bg-[#111] px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t border-b border-white/5 overflow-hidden">
+            <div className="w-full flex flex-col gap-6">
+              {galleryCategories.map((cat, ci) => (
+                <div key={ci}>
+                  <h3 className="text-base sm:text-lg font-semibold text-[#F2F0EB] tracking-tight mb-3">{cat.name}</h3>
+                  {cat.images.length > 0 && (
+                    <AutoScrollRow>
+                      {cat.images.map((src, ii) => (
+                        <RenderCard key={ii} src={src} title={cat.name} />
+                      ))}
+                    </AutoScrollRow>
+                  )}
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+        {!rendersIndependently && !hasOtherCats && hasLegacyGallery && (
+          <div className="w-full rounded-xl overflow-hidden border border-[#222] bg-[#0D0D0D] flex items-center justify-center">
+            <img src={gallery[0]} alt={`${title} showcase`} width="1920" height="1080" className="w-full h-auto max-h-[85vh] object-contain" loading="lazy" />
+          </div>
+        )}
+      </>
+    );
+  };
+
+  // Render Results (Measurable Impact)
+  const renderResults = () => {
+    if (!results || results.length === 0) return null;
+    return (
+      <section className="bg-[#111] px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t border-white/5">
+        <div className="w-full">
+          <div className="mb-8 md:mb-12">
+            <p className="text-xs sm:text-[14px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-2">Measurable impact</p>
+            <h2 className="text-2xl sm:text-4xl lg:text-[44px] font-medium tracking-tight leading-tight text-[#F2F0EB]">
+              Results that moved the business
+            </h2>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
+            {results.map((item, i) => (
+              <div key={i} className="bg-[#1A1A1A] border border-white/10 rounded-2xl p-6 sm:p-8 flex flex-col justify-center shadow-lg transition-all duration-300 hover:-translate-y-1">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#4169E1] leading-none mb-2">{item.stat}</div>
+                <div className="font-semibold text-[#F2F0EB] text-sm sm:text-base mb-2">{item.label}</div>
+                <div className="text-xs sm:text-sm font-light leading-relaxed text-zinc-400">{item.desc}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  // Render Process Steps (How We Did It)
+  const renderProcess = () => {
+    if (!process || process.length === 0) return null;
+    return (
+      <section className="px-4 sm:px-6 md:px-8 py-10 md:py-20 bg-[#0D0D0D] border-t border-white/5">
+        <div className="w-full">
+          <p className="text-xs sm:text-[14px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-2">How we did it</p>
+          <h2 className="text-2xl sm:text-4xl lg:text-[44px] font-medium mb-8 md:mb-12 tracking-tight leading-tight text-[#F2F0EB]">
+            Our process
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
+            {process.map((item, i) => (
+              <div key={i} className="bg-[#1A1A1A] rounded-2xl p-6 border border-white/10 shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col">
+                <div className="flex items-center gap-3 mb-3">
+                  <span className="text-2xl sm:text-3xl font-bold text-[#4169E1]">{item.step}</span>
+                  {item.phase && (
+                    <span className="text-[10px] sm:text-[11px] font-semibold text-[#4169E1] bg-[#4169E1]/10 px-2.5 py-0.5 rounded-full uppercase tracking-[0.08em]">{item.phase}</span>
+                  )}
+                </div>
+                <h3 className="text-base sm:text-lg font-semibold text-[#F2F0EB] mb-2">{item.title}</h3>
+                <p className="text-xs sm:text-sm font-light leading-relaxed text-zinc-400 flex-grow">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  };
+
+  // Render HTML Editor Content
+  const renderCleanContent = () => {
+    if (!cleanContent) return null;
+    return (
+      <section className="px-4 sm:px-6 md:px-8 py-8 md:py-14 bg-[#0D0D0D]">
+        <div
+          className="text-sm sm:text-base md:text-lg font-light leading-relaxed text-left w-full text-zinc-300 [&_*]:!max-w-none [&_div]:!max-w-none [&_section]:!max-w-none [&_p]:!max-w-none [&_div]:!w-full [&_section]:!w-full [&_h1]:text-[#F2F0EB] [&_h2]:text-[#F2F0EB] [&_h2]:text-xl sm:[&_h2]:text-2xl md:[&_h2]:text-3xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-[#F2F0EB] [&_h3]:text-lg sm:[&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-3 [&_h4]:text-[#F2F0EB] [&_p]:mb-4 [&_strong]:text-[#F2F0EB] [&_a]:text-[#4169E1] [&_a:hover]:text-[#3158D4] [&_img]:rounded-xl [&_img]:border [&_img]:border-[#1E1E1E] [&_img]:my-6 [&_img]:max-w-full [&_img]:h-auto [&_blockquote]:border-l-4 [&_blockquote]:border-[#4169E1] [&_blockquote]:pl-4 sm:[&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:text-zinc-400 [&_blockquote]:my-6 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_li]:mb-2"
+          dangerouslySetInnerHTML={{ __html: cleanContent }}
+        />
+      </section>
+    );
+  };
 
   return (
     <div className="w-full overflow-x-hidden bg-[#0D0D0D] text-[#F2F0EB] selection:bg-[#4169E1]/30 selection:text-[#F2F0EB]">
@@ -172,163 +457,39 @@ const AhmedFoodLayout = ({
         </div>
       </section>
 
-      {/* OVERVIEW + CHALLENGE */}
-      {(overview || challenge) && (
-        <section className="px-4 sm:px-6 md:px-8 py-8 md:py-16 bg-[#0D0D0D] grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-stretch">
-          {overview && (
-            <div className="p-4 sm:p-6 md:p-8 bg-[#111] rounded-xl border border-[#222]">
-              <p className="text-xs sm:text-[13px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-2">Overview</p>
-              {overviewHeading && (
-                <h2 className="text-xl sm:text-3xl md:text-4xl font-medium mb-4 sm:mb-6 tracking-tight leading-tight text-[#F2F0EB]">
-                  {overviewHeading}
-                </h2>
-              )}
-              <div className="text-sm sm:text-base md:text-lg font-light leading-relaxed text-zinc-300">
-                {overview}
-              </div>
-            </div>
-          )}
-          {challenge && (
-            <div className="bg-[#111] rounded-xl p-4 sm:p-6 md:p-8 text-[#F2F0EB] border border-[#222]">
-              <p className="text-xs sm:text-[13px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-2">The challenge</p>
-              <h2 className="text-xl sm:text-3xl md:text-4xl font-medium mb-4 sm:mb-6 tracking-tight leading-tight text-[#F2F0EB]">
-                {challengeHeading}
-              </h2>
-              <div className="text-sm sm:text-base md:text-lg font-light leading-relaxed text-zinc-300 whitespace-pre-line">
-                {challenge}
-              </div>
-            </div>
-          )}
-        </section>
-      )}
+      {/* DISPATCH SECTIONS ACCORDING TO USER-DEFINED SECTION ORDER */}
+      {(sectionOrder || ['storyBlocks', 'thumbnails', 'stills', 'results', 'process', 'content']).map((secKey) => (
+        <React.Fragment key={secKey}>
+          {secKey === 'storyBlocks' && renderStoryBlocks()}
+          {secKey === 'thumbnails' && renderThumbnails()}
+          {secKey === 'stills' && renderStills()}
+          {secKey === 'gallery' && renderGallery()}
+          {secKey === 'results' && renderResults()}
+          {secKey === 'process' && renderProcess()}
+          {secKey === 'content' && renderCleanContent()}
+        </React.Fragment>
+      ))}
 
-      {/* HTML CONTENT (from editor) */}
-      {cleanContent && (
-        <section className="px-4 sm:px-6 md:px-8 py-6 bg-[#0D0D0D]">
-          <div
-            className="text-sm sm:text-base md:text-lg font-light leading-relaxed text-left w-full text-zinc-300 [&_*]:!max-w-none [&_div]:!max-w-none [&_section]:!max-w-none [&_p]:!max-w-none [&_div]:!w-full [&_section]:!w-full [&_h1]:text-[#F2F0EB] [&_h2]:text-[#F2F0EB] [&_h2]:text-xl sm:[&_h2]:text-2xl md:[&_h2]:text-3xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-[#F2F0EB] [&_h3]:text-lg sm:[&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-3 [&_h4]:text-[#F2F0EB] [&_p]:mb-4 [&_strong]:text-[#F2F0EB] [&_a]:text-[#4169E1] [&_a:hover]:text-[#3158D4] [&_img]:rounded-xl [&_img]:border [&_img]:border-[#1E1E1E] [&_img]:my-6 [&_img]:max-w-full [&_img]:h-auto [&_blockquote]:border-l-4 [&_blockquote]:border-[#4169E1] [&_blockquote]:pl-4 sm:[&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:text-zinc-400 [&_blockquote]:my-6 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_li]:mb-2"
-            dangerouslySetInnerHTML={{ __html: cleanContent }}
+      {/* LIGHTBOX MODAL FOR GALLERY */}
+      {lightboxImg && (
+        <div
+          className="fixed inset-0 z-[100] bg-black/90 backdrop-blur-md flex items-center justify-center p-4"
+          onClick={() => setLightboxImg(null)}
+        >
+          <button
+            onClick={() => setLightboxImg(null)}
+            className="absolute top-6 right-6 p-3 bg-zinc-800 hover:bg-zinc-700 text-white rounded-full transition-all"
+            title="Close image"
+          >
+            <FiX size={20} />
+          </button>
+          <img
+            src={lightboxImg}
+            alt="Enlarged view"
+            className="max-w-full max-h-[90vh] object-contain rounded-xl shadow-2xl"
+            onClick={(e) => e.stopPropagation()}
           />
-        </section>
-      )}
-
-      {/* ADDITIONAL SECTIONS (from SectionBuilder) */}
-      {sections.length > 1 && sections.slice(1).map((section, i) => {
-        if (!section.content && !section.image && !section.video) return null;
-        const hasBoth = section.content && section.image;
-        return (
-          <section key={i} className={`px-4 sm:px-6 md:px-8 py-8 md:py-14 ${i % 2 === 0 ? 'bg-[#0D0D0D]' : 'bg-[#111]'}`}>
-            <div className={`${hasBoth ? 'grid grid-cols-1 lg:grid-cols-2 gap-6 md:gap-12 items-center' : ''}`}>
-              {section.content && (
-                <div className="text-sm sm:text-base md:text-lg font-light leading-relaxed text-zinc-300 whitespace-pre-line">
-                  {section.content}
-                </div>
-              )}
-              {section.image && (
-                <div className="w-full rounded-xl overflow-hidden border border-[#222] bg-[#0D0D0D]">
-                  <img src={section.image} alt={`Section ${i + 2}`} width="800" height="500" className="w-full h-auto object-cover" loading="lazy" />
-                </div>
-              )}
-            </div>
-            {section.video && (
-              <div className="w-full aspect-video rounded-xl overflow-hidden border border-[#222] mt-6">
-                <iframe
-                  src={`https://www.youtube.com/embed/${section.video}`}
-                  title={`Section ${i + 2} video`}
-                  frameBorder="0"
-                  className="w-full h-full"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                ></iframe>
-              </div>
-            )}
-          </section>
-        );
-      })}
-
-      {/* RESULTS */}
-      {results.length > 0 && (
-        <section className="bg-[#111] px-4 sm:px-6 md:px-8 py-8 md:py-16">
-          <div className="w-full">
-            <div className="mb-6 md:mb-10">
-              <p className="text-xs sm:text-[14px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-2">Measurable impact</p>
-              <h2 className="text-2xl sm:text-4xl lg:text-[44px] font-medium tracking-tight leading-tight text-[#F2F0EB]">
-                Results that moved the business
-              </h2>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
-              {results.map((item, i) => (
-                <div key={i} className="bg-[#16161a] border border-[#26262e] rounded-xl p-5 sm:p-8 flex flex-col justify-center">
-                  <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#4169E1] leading-none mb-2">{item.stat}</div>
-                  <div className="font-semibold text-[#F2F0EB] text-sm sm:text-base mb-2">{item.label}</div>
-                  <div className="text-xs sm:text-sm font-light leading-relaxed text-zinc-400">{item.desc}</div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* PROCESS */}
-      {process.length > 0 && (
-        <section className="px-4 sm:px-6 md:px-8 py-8 md:py-16 bg-[#0D0D0D]">
-          <div className="w-full">
-            <p className="text-xs sm:text-[14px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-2">How we did it</p>
-            <h2 className="text-2xl sm:text-4xl lg:text-[44px] font-medium mb-6 md:mb-10 tracking-tight leading-tight text-[#F2F0EB]">
-              Our process
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-              {process.map((item, i) => (
-                <div key={i} className="bg-[#141417] rounded-xl p-5 sm:p-6 border border-[#232328]">
-                  <div className="flex items-center gap-3 mb-3">
-                    <span className="text-2xl sm:text-3xl font-bold text-[#4169E1]">{item.step}</span>
-                    <span className="text-[10px] sm:text-[11px] font-semibold text-[#4169E1] bg-[#4169E1]/10 px-2.5 py-0.5 rounded-full uppercase tracking-[0.08em]">{item.phase}</span>
-                  </div>
-                  <h3 className="text-base sm:text-lg font-semibold text-[#F2F0EB] mb-2">{item.title}</h3>
-                  <p className="text-xs sm:text-sm font-light leading-relaxed text-zinc-400">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
-
-      {/* GALLERY — categorized auto-scroll rows or single image */}
-      {galleryCategories.length > 0 ? (
-        <section className="bg-[#111] px-4 sm:px-6 md:px-8 py-8 md:py-16 overflow-hidden">
-          <div className="w-full">
-            <p className="text-xs sm:text-[14px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-2">Visual output</p>
-            <h2 className="text-2xl sm:text-4xl lg:text-[44px] font-medium mb-6 md:mb-10 tracking-tight leading-tight text-[#F2F0EB]">
-              Selected renders
-            </h2>
-            <div className="flex flex-col gap-6 mt-4">
-              {galleryCategories.map((cat, ci) => (
-                <div key={ci}>
-                  <h3 className="text-base sm:text-lg font-semibold text-[#F2F0EB] tracking-tight mb-3">{cat.name}</h3>
-                  {cat.images.length > 0 && (
-                    <AutoScrollRow>
-                      {cat.images.map((src, ii) => (
-                        <RenderCard key={ii} src={src} title={cat.name} />
-                      ))}
-                    </AutoScrollRow>
-                  )}
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
-      ) : gallery.length > 0 && (
-        <section className="bg-[#111] px-4 sm:px-6 md:px-8 py-8 md:py-16 overflow-hidden">
-          <div className="w-full">
-            <p className="text-xs sm:text-[14px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-2">Visual output</p>
-            <h2 className="text-2xl sm:text-4xl lg:text-[44px] font-medium mb-6 md:mb-10 tracking-tight leading-tight text-[#F2F0EB]">
-              Selected renders
-            </h2>
-            <div className="w-full rounded-xl overflow-hidden border border-[#222] bg-[#0D0D0D] flex items-center justify-center">
-              <img src={gallery[0]} alt={`${title} showcase`} width="1920" height="1080" className="w-full h-auto max-h-[85vh] object-contain" loading="lazy" />
-            </div>
-          </div>
-        </section>
+        </div>
       )}
 
       {/* EXTRA CONTENT (children) */}

@@ -40,7 +40,12 @@ export function toCdnUrl(img) {
     str = str.url || str.src || str.srcSet || '';
   }
   if (typeof str !== 'string' || !str) return img;
-  if (str.startsWith('data:')) return str;
+  if (str.startsWith('data:') || str.startsWith('blob:')) return str;
+
+  // Auto-convert legacy /uploads/media/{id}.ext to clean /media/{id}
+  const uploadIdMatch = str.match(/(?:\/uploads\/media\/)(\d+)\.[a-zA-Z0-9]+$/);
+  if (uploadIdMatch) return `${IMAGE_ORIGIN}/media/${uploadIdMatch[1]}`;
+
   if (str.startsWith('/uploads/') || str.startsWith('/media/')) return `${IMAGE_ORIGIN}${str}`;
   const m = str.match(/^https?:\/\/[^/]+(\/.*)$/);
   if (m && (m[1].startsWith('/uploads/') || m[1].startsWith('/media/'))) return `${IMAGE_ORIGIN}${m[1]}`;

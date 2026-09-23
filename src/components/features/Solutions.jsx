@@ -4,15 +4,14 @@ import React, { useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Pagination } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import { FiArrowRight } from 'react-icons/fi';
 
 import 'swiper/css';
-import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
 import kiaConfiguratorImg from '@/assets/About-page/khalid.webp';
-import zenithImg from '@/assets/About-page/interactive-tour.png';
+import zenithImg from '@/assets/About-page/interactive.webp';
 import cgiJellyImg from '@/assets/About-page/jelly.webp';
 
 const solutionsCards = [
@@ -139,34 +138,37 @@ const SolutionsSection = () => {
             onSwiper={(swiper) => {
               swiperRef.current = swiper;
             }}
-            modules={[FreeMode, Pagination]}
+            modules={[Pagination]}
+            pagination={{ clickable: true, el: '.mobile-solutions-pagination' }}
             slidesPerView="auto"
-            spaceBetween={20}
+            spaceBetween={16}
+            centeredSlides={true}
             grabCursor={true}
-            freeMode={{
-              enabled: true,
-              momentum: true,
-            }}
             breakpoints={{
               0: {
-                slidesPerView: 1,
+                slidesPerView: 'auto',
                 spaceBetween: 16,
+                centeredSlides: true,
               },
               480: {
                 slidesPerView: 'auto',
                 spaceBetween: 16,
+                centeredSlides: true,
               },
               640: {
                 slidesPerView: 'auto',
                 spaceBetween: 20,
+                centeredSlides: false,
               },
               1024: {
                 slidesPerView: 'auto',
                 spaceBetween: 24,
+                centeredSlides: false,
               },
               1280: {
                 slidesPerView: 3,
                 spaceBetween: 28,
+                centeredSlides: false,
                 allowTouchMove: false,
               },
             }}
@@ -176,18 +178,18 @@ const SolutionsSection = () => {
               return (
                 <SwiperSlide
                   key={card.id}
-                  className="!w-[88vw] xs:!w-[380px] sm:!w-[420px] md:!w-[460px] xl:!w-[calc((100%-56px)/3)] py-2 md:py-4 !h-auto flex"
+                  className="!w-[86vw] xs:!w-[380px] sm:!w-[420px] md:!w-[460px] xl:!w-[calc((100%-56px)/3)] py-2 md:py-4 !h-auto flex justify-center items-center"
                 >
-                  <div className="solution-card w-full h-[600px] sm:h-[630px] md:h-[660px] lg:h-[690px] xl:h-[710px] rounded-[32px] px-7 sm:px-8 md:px-9 pt-6 sm:pt-7 pb-6 sm:pb-7 md:pb-8 flex flex-col justify-between select-none relative overflow-hidden bg-gradient-to-b from-[#18181c] via-[#101115] to-[#08080a] text-white border border-zinc-800/80 transition-all duration-300 hover:border-zinc-700">
+                  <div className="solution-card w-full h-[470px] xs:h-[500px] sm:h-[630px] md:h-[660px] lg:h-[690px] xl:h-[710px] rounded-[24px] sm:rounded-[32px] px-5 sm:px-8 md:px-9 pt-5 sm:pt-7 pb-5 sm:pb-7 md:pb-8 flex flex-col justify-between select-none relative overflow-hidden bg-gradient-to-b from-[#18181c] via-[#101115] to-[#08080a] text-white border border-zinc-800/80 transition-all duration-300 hover:border-zinc-700">
                     {/* Header Text (Shifted up) */}
                     <div className="relative z-20 flex flex-col justify-start shrink-0">
-                      <div className="solution-card-category text-[11px] sm:text-xs font-sans tracking-[0.14em] uppercase font-semibold mb-1.5 text-zinc-400">
+                      <div className="solution-card-category text-[11px] sm:text-xs font-sans tracking-[0.14em] uppercase font-semibold mb-1 sm:mb-1.5 text-zinc-400">
                         {card.category}
                       </div>
                       <h3
-                        className={`solution-card-title font-semibold tracking-tight text-white leading-tight mb-2.5 ${card.titleSmall
-                          ? 'text-[16px] sm:text-[18px] md:text-[19px] lg:text-[20px]'
-                          : 'text-xl sm:text-[23px] md:text-[26px]'
+                        className={`solution-card-title font-semibold tracking-tight text-white leading-tight mb-2 sm:mb-2.5 ${card.titleSmall
+                          ? 'text-[15px] sm:text-[18px] md:text-[19px] lg:text-[20px]'
+                          : 'text-[18px] sm:text-[23px] md:text-[26px]'
                           }`}
                       >
                         {card.title}
@@ -199,22 +201,22 @@ const SolutionsSection = () => {
 
                     {/* Showcase Image: Framed with rounded corners and subtle border */}
                     {card.image && (
-                      <div className="solution-card-img-box relative w-full flex-1 my-3.5 sm:my-4 rounded-2xl sm:rounded-[22px] overflow-hidden border border-white/10 pointer-events-none">
+                      <div className="solution-card-img-box relative w-full flex-1 min-h-0 my-3 sm:my-4 rounded-xl sm:rounded-[22px] overflow-hidden border border-white/10 pointer-events-none">
                         <Image
                           src={card.image}
                           alt={card.alt || card.title}
                           fill
                           quality={100}
                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                          className="object-cover object-bottom sm:object-center"
+                          className="object-cover object-center"
                         />
                         {card.id === 'configurators' && (
-                          <div className="absolute inset-x-0 bottom-0 z-10 p-3 sm:p-4 bg-gradient-to-t from-black/85 via-black/40 to-transparent">
+                          <div className="absolute inset-x-0 bottom-0 z-10 p-2.5 sm:p-4 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex justify-start items-center">
                             <a
                               href="https://legacy.elipsestudio.com/Kia/"
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center justify-center gap-2 w-full py-2.5 sm:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-xs sm:text-sm font-semibold shadow-[0_4px_20px_rgba(65,105,225,0.45)] transition-all hover:scale-[1.02] pointer-events-auto cursor-pointer"
+                              className="inline-flex items-center justify-center gap-2 w-auto px-4 py-2 sm:w-full sm:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-xs sm:text-sm font-semibold shadow-[0_4px_20px_rgba(65,105,225,0.45)] transition-all hover:scale-[1.02] pointer-events-auto cursor-pointer"
                             >
                               View Configurator
                               <span>→</span>
@@ -222,12 +224,12 @@ const SolutionsSection = () => {
                           </div>
                         )}
                         {card.videoUrl && card.id !== 'configurators' && (
-                          <div className="absolute inset-x-0 bottom-0 z-10 p-3 sm:p-4 bg-gradient-to-t from-black/85 via-black/40 to-transparent">
+                          <div className="absolute inset-x-0 bottom-0 z-10 p-2.5 sm:p-4 bg-gradient-to-t from-black/85 via-black/40 to-transparent flex justify-start items-center">
                             <a
                               href={card.videoUrl}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center justify-center gap-2 w-full py-2.5 sm:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-xs sm:text-sm font-semibold shadow-[0_4px_20px_rgba(65,105,225,0.45)] transition-all hover:scale-[1.02] pointer-events-auto cursor-pointer"
+                              className="inline-flex items-center justify-center gap-2 w-auto px-4 py-2 sm:w-full sm:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-xs sm:text-sm font-semibold shadow-[0_4px_20px_rgba(65,105,225,0.45)] transition-all hover:scale-[1.02] pointer-events-auto cursor-pointer"
                             >
                               <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4 fill-current" viewBox="0 0 24 24">
                                 <path d="M8 5v14l11-7z" />
@@ -241,11 +243,11 @@ const SolutionsSection = () => {
 
                     {/* Bottom Section */}
                     <div className="relative z-20 flex flex-col justify-end shrink-0 mt-auto">
-                      {/* Footer Row: Explore Link Only */}
-                      <div className="solution-card-footer pt-3 flex items-center justify-end border-t border-white/10 gap-3">
+                      {/* Footer Row: Explore Link (Left aligned to match button) */}
+                      <div className="solution-card-footer pt-3 flex items-center justify-start border-t border-white/10 gap-3">
                         <Link
                           href={card.linkHref}
-                          className="solution-card-link shrink-0 text-xs sm:text-[13px] font-semibold text-white/90 hover:text-white transition-colors flex items-center gap-1.5 sm:gap-2 group/link pl-1"
+                          className="solution-card-link shrink-0 text-xs sm:text-[13px] font-semibold text-white/90 hover:text-white transition-colors flex items-center gap-1.5 sm:gap-2 group/link"
                         >
                           <span className="whitespace-nowrap">{card.linkText}</span>
                           <span className="w-5 h-5 rounded-full bg-white/10 group-hover/link:bg-[#4169E1] group-hover/link:text-white flex items-center justify-center text-[11px] transition-all transform group-hover/link:translate-x-1 shrink-0">
@@ -260,20 +262,21 @@ const SolutionsSection = () => {
             })}
           </Swiper>
 
-          {/* Mobile Prev/Next Arrows */}
-          <div className="flex md:hidden items-center justify-center gap-3 mt-6">
+          {/* Mobile Prev/Next Arrows & Pagination */}
+          <div className="flex md:hidden items-center justify-between mt-6 px-2 sm:px-4">
             <button
               onClick={() => swiperRef.current?.slidePrev()}
-              className="solutions-nav-btn w-11 h-11 rounded-full border border-zinc-800 bg-zinc-900/90 hover:bg-zinc-800 hover:border-zinc-700 flex items-center justify-center text-zinc-200 transition-all active:scale-95 shadow-sm cursor-pointer"
+              className="solutions-nav-btn w-10 h-10 rounded-full border border-zinc-800 bg-zinc-900/90 hover:bg-zinc-800 hover:border-zinc-700 flex items-center justify-center text-zinc-200 transition-all active:scale-95 shadow-sm cursor-pointer"
               aria-label="Previous slide"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
                 <polyline points="15 18 9 12 15 6" />
               </svg>
             </button>
+            <div className="mobile-solutions-pagination flex justify-center gap-2"></div>
             <button
               onClick={() => swiperRef.current?.slideNext()}
-              className="solutions-nav-btn w-11 h-11 rounded-full border border-zinc-800 bg-zinc-900/90 hover:bg-zinc-800 hover:border-zinc-700 flex items-center justify-center text-zinc-200 transition-all active:scale-95 shadow-sm cursor-pointer"
+              className="solutions-nav-btn w-10 h-10 rounded-full border border-zinc-800 bg-zinc-900/90 hover:bg-zinc-800 hover:border-zinc-700 flex items-center justify-center text-zinc-200 transition-all active:scale-95 shadow-sm cursor-pointer"
               aria-label="Next slide"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
