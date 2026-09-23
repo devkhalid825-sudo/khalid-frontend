@@ -125,7 +125,7 @@ const Hero = () => {
       {/* ========================================================================= */}
       {/* 1. MOBILE HERO (Original Full-Screen Immersive Dark Layout for < md)       */}
       {/* ========================================================================= */}
-      <section className="relative w-full h-dvh bg-black px-[15px] py-[15px] md:hidden">
+      <section id="hero-mobile" className="relative w-full h-dvh bg-black px-[15px] py-[15px] md:hidden">
         <div className="relative w-full h-full overflow-hidden bg-black shadow-2xl rounded-[24px]">
           <Header />
 
@@ -179,8 +179,9 @@ const Hero = () => {
       {/* 2. DESKTOP HERO (Black Luxury Responsive Multi-Card Carousel for >= md)    */}
       {/* ========================================================================= */}
       <section
+        id="hero"
         data-nav="dark"
-        className="hidden md:flex relative w-full min-h-screen bg-black text-white flex-col justify-between overflow-hidden pt-24 md:pt-28 pb-12 select-none"
+        className="desktop-hero-section hidden md:flex relative w-full min-h-screen bg-black text-white flex-col justify-between overflow-hidden pt-24 md:pt-28 pb-12 select-none"
       >
         {/* Header */}
         <Header />
@@ -192,7 +193,7 @@ const Hero = () => {
             <button
               onClick={handleDesktopPrev}
               aria-label="Previous Slide"
-              className="absolute left-1 sm:left-3 lg:left-5 xl:left-8 z-40 p-2 text-white/80 hover:text-white transition-all duration-300 hover:scale-125 active:scale-95 cursor-pointer drop-shadow-[0_4px_14px_rgba(0,0,0,0.95)]"
+              className="desktop-hero-arrow absolute left-1 sm:left-3 lg:left-5 xl:left-8 z-40 p-2 text-white/80 hover:text-white transition-all duration-300 hover:scale-125 active:scale-95 cursor-pointer drop-shadow-[0_4px_14px_rgba(0,0,0,0.95)]"
             >
               <svg
                 className="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 stroke-current stroke-[3]"
@@ -207,7 +208,7 @@ const Hero = () => {
             <button
               onClick={handleDesktopNext}
               aria-label="Next Slide"
-              className="absolute right-1 sm:right-3 lg:right-5 xl:right-8 z-40 p-2 text-white/80 hover:text-white transition-all duration-300 hover:scale-125 active:scale-95 cursor-pointer drop-shadow-[0_4px_14px_rgba(0,0,0,0.95)]"
+              className="desktop-hero-arrow absolute right-1 sm:right-3 lg:right-5 xl:right-8 z-40 p-2 text-white/80 hover:text-white transition-all duration-300 hover:scale-125 active:scale-95 cursor-pointer drop-shadow-[0_4px_14px_rgba(0,0,0,0.95)]"
             >
               <svg
                 className="w-7 h-7 sm:w-8 sm:h-8 lg:w-10 lg:h-10 stroke-current stroke-[3]"
@@ -223,7 +224,7 @@ const Hero = () => {
               {/* Left Peeking Card (Soft Subtle Blur & Gentle Gradient) */}
               <div
                 onClick={handleDesktopPrev}
-                className="absolute left-[-2%] xl:left-[0%] 2xl:left-[1%] h-[90%] max-h-[760px] aspect-[9/16] max-w-[260px] bg-black rounded-[14px] sm:rounded-[18px] lg:rounded-[22px] overflow-hidden opacity-65 hover:opacity-95 transition-all duration-300 cursor-pointer shadow-2xl border border-white/20 pointer-events-auto group"
+                className="desktop-hero-side-card absolute left-[-2%] xl:left-[0%] 2xl:left-[1%] h-[90%] max-h-[760px] aspect-[9/16] max-w-[260px] bg-black rounded-[14px] sm:rounded-[18px] lg:rounded-[22px] overflow-hidden opacity-65 hover:opacity-95 transition-all duration-300 cursor-pointer shadow-2xl border border-white/20 pointer-events-auto group"
               >
                 <video
                   key={`prev-${prevDesktopSlide.video}`}
@@ -245,7 +246,7 @@ const Hero = () => {
                   width: 'min(85vw, calc((100dvh - 130px) * 16 / 9), 1620px)',
                   aspectRatio: '16 / 9',
                 }}
-                className="relative bg-black rounded-[18px] sm:rounded-[22px] lg:rounded-[26px] overflow-hidden shadow-[0_0_55px_rgba(255,255,255,0.12),0_30px_90px_rgba(0,0,0,0.9)] border border-white/30 z-20 flex flex-col justify-end transition-all duration-500 shrink-0"
+                className="desktop-hero-center-card relative bg-black rounded-[18px] sm:rounded-[22px] lg:rounded-[26px] overflow-hidden shadow-[0_0_55px_rgba(255,255,255,0.12),0_30px_90px_rgba(0,0,0,0.9)] border border-white/30 z-20 flex flex-col justify-end transition-all duration-500 shrink-0"
               >
                 {/* Active Video Player */}
                 <video
@@ -265,7 +266,7 @@ const Hero = () => {
               {/* Right Peeking Card (Soft Subtle Blur & Gentle Gradient) */}
               <div
                 onClick={handleDesktopNext}
-                className="absolute right-[-2%] xl:right-[0%] 2xl:right-[1%] h-[90%] max-h-[760px] aspect-[9/16] max-w-[260px] bg-black rounded-[14px] sm:rounded-[18px] lg:rounded-[22px] overflow-hidden opacity-65 hover:opacity-95 transition-all duration-300 cursor-pointer shadow-2xl border border-white/20 pointer-events-auto group"
+                className="desktop-hero-side-card absolute right-[-2%] xl:right-[0%] 2xl:right-[1%] h-[90%] max-h-[760px] aspect-[9/16] max-w-[260px] bg-black rounded-[14px] sm:rounded-[18px] lg:rounded-[22px] overflow-hidden opacity-65 hover:opacity-95 transition-all duration-300 cursor-pointer shadow-2xl border border-white/20 pointer-events-auto group"
               >
                 <video
                   key={`next-${nextDesktopSlide.video}`}

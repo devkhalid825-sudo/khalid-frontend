@@ -1,6 +1,7 @@
 @import "tailwindcss";
 
 /* Tailwind CSS v4 Theme Configuration */
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *, .dark, .dark *));
 
 @theme {
   --font-sans: var(--font-inter), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
@@ -104,6 +105,23 @@ body {
 
 .animate-marquee-custom:hover {
   animation-play-state: paused;
+}
+
+@keyframes marquee-loop {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.animate-marquee-loop {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  animation: marquee-loop 25s linear infinite;
+  will-change: transform;
 }
 
 .animate-marquee-gallery {
@@ -908,11 +926,11 @@ html.light header {
   color: #0f172a;
 }
 
-html.light header.bg-black\/40,
-html.light header.bg-black {
-  background-color: rgba(255, 255, 255, 0.9) !important;
-  border-bottom: 1px solid rgba(15, 23, 42, 0.08);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.04);
+html.light header.header-menu-open {
+  background-color: #ffffff !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-bottom: none !important;
 }
 
 html.light header nav a,
@@ -1404,13 +1422,38 @@ html.light .case-studies-hero-section [class*="from-black"] {
   display: block !important;
 }
 
-@media (min-width: 1024px) {
-  html.light header {
-    background-color: rgba(255, 255, 255, 0.85) !important;
-    backdrop-filter: blur(16px) !important;
-    -webkit-backdrop-filter: blur(16px) !important;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
-    box-shadow: 0 1px 6px 0 rgba(0, 0, 0, 0.04) !important;
+/* While inside Hero (not scrolled past), header background is completely transparent */
+html.light header:not(.header-scrolled):not(.header-menu-open) {
+  background-color: transparent !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  border-bottom: none !important;
+}
+
+/* Once scrolled past the hero section, header smoothly acquires clean background */
+html.light header.header-scrolled {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  backdrop-filter: blur(16px) !important;
+  -webkit-backdrop-filter: blur(16px) !important;
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05) !important;
+  border: none !important;
+  border-bottom: none !important;
+}
+
+@media (max-width: 767px) {
+  /* On mobile hero, keep logo and icons white while transparent over hero video */
+  html.light header:not(.header-scrolled):not(.header-menu-open) .site-logo {
+    filter: none !important;
+  }
+  html.light header:not(.header-scrolled):not(.header-menu-open) button,
+  html.light header:not(.header-scrolled):not(.header-menu-open) .site-header-contact-btn {
+    border-color: rgba(255, 255, 255, 0.3) !important;
+    color: #ffffff !important;
+  }
+  html.light header:not(.header-scrolled):not(.header-menu-open) svg {
+    color: #ffffff !important;
   }
 }
 
@@ -1418,6 +1461,25 @@ html.light header {
   color: #0f172a;
 }
 
+
+/* Desktop Hero Day/Light Mode - Clean Pure White without dark gradient or black shadow bleeding */
+html.light .desktop-hero-section {
+  background-color: #ffffff !important;
+  background-image: none !important;
+}
+html.light .desktop-hero-center-card {
+  box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.12), 0 0 1px 1px rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+}
+html.light .desktop-hero-side-card {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.08) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+}
+html.light .desktop-hero-arrow {
+  color: #0f172a !important;
+  filter: none !important;
+  drop-shadow: none !important;
+}
 html.light header .site-logo {
   filter: invert(1) brightness(0.15) !important;
 }

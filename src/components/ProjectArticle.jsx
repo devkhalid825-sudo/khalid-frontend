@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
@@ -105,16 +105,24 @@ const ProjectArticle = ({ slug, initialData }) => {
         ? g.images.split(',').map(s => s.trim()).filter(Boolean)
         : [],
     }));
-  const videoTabs = safeJson(project.videoTabs, []).filter(t => t.label || t.url).map(t => ({
-    ...t,
-    url: getYoutubeEmbed(t.url) || t.url,
-  }));
-
   // Legacy sections fallback
   let sections = [];
   if (project.sections) {
     try { sections = typeof project.sections === 'string' ? JSON.parse(project.sections) : project.sections; } catch (e) {}
   }
+  const firstSec = (Array.isArray(sections) && sections[0]) || {};
+  const heroAspectRatio = firstSec.heroAspectRatio || project.heroAspectRatio || 'video';
+  const tickerWords = firstSec.tickerWords || project.tickerWords || '';
+  const subtitle = firstSec.subtitle || project.subtitle || project.metaDescription || '';
+
+  const rawVideoTabs = safeJson(project.videoTabs, []) || [];
+  const secVideoTabs = firstSec.videoTabs || [];
+  const videoTabs = (rawVideoTabs.length > 0 ? rawVideoTabs : secVideoTabs)
+    .filter(t => t.label || t.url)
+    .map(t => ({
+      ...t,
+      url: getYoutubeEmbed(t.url) || t.url,
+    }));
 
   return (
     <>
@@ -122,6 +130,9 @@ const ProjectArticle = ({ slug, initialData }) => {
       <ArticleProgress fromColor="#0a4a5a" />
       <AhmedFoodLayout
         title={project.title}
+        subtitle={subtitle}
+        heroAspectRatio={heroAspectRatio}
+        tickerWords={tickerWords}
         meta={meta.length > 0 ? meta : undefined}
         heroImage={heroImage}
         heroVideo={heroVideo}
@@ -136,8 +147,22 @@ const ProjectArticle = ({ slug, initialData }) => {
         process={processSteps}
         galleryCategories={galleryCategories.length > 0 ? galleryCategories : undefined}
         nextProject={nextProject ? { path: nextProject.path, name: nextProject.title } : undefined}
-        ctaUrl={project.ctaUrl || undefined}
-        ctaText={project.ctaText || undefined}
+        ctaUrl={project.ctaUrl || firstSec.ctaUrl || undefined}
+        ctaText={project.ctaText || firstSec.ctaText || undefined}
+        heroIntroText={firstSec.heroIntroText || project.heroIntroText}
+        heroStars={firstSec.heroStars || project.heroStars}
+        heroReviewTitle={firstSec.heroReviewTitle || project.heroReviewTitle}
+        heroReviewSubtitle={firstSec.heroReviewSubtitle || project.heroReviewSubtitle}
+        heroQuoteText={firstSec.heroQuoteText || project.heroQuoteText}
+        heroQuoteAuthor={firstSec.heroQuoteAuthor || project.heroQuoteAuthor}
+        thumbnailsHeading={firstSec.thumbnailsHeading || project.thumbnailsHeading}
+        thumbnailsEyebrow={firstSec.thumbnailsEyebrow || project.thumbnailsEyebrow}
+        stillsHeading={firstSec.stillsHeading || project.stillsHeading}
+        stillsEyebrow={firstSec.stillsEyebrow || project.stillsEyebrow}
+        resultsHeading={firstSec.resultsHeading || project.resultsHeading}
+        resultsEyebrow={firstSec.resultsEyebrow || project.resultsEyebrow}
+        processHeading={firstSec.processHeading || project.processHeading}
+        processEyebrow={firstSec.processEyebrow || project.processEyebrow}
       />
       <MobileMenu isOpen={isMenuOpen} onClose={() => setIsMenuOpen(false)} />
     </>

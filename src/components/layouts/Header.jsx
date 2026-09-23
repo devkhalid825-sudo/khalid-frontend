@@ -27,16 +27,42 @@ const Header = () => {
   const [locationOpen, setLocationOpen] = useState(false);
   const [mobileLocationOpen, setMobileLocationOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isPastHero, setIsPastHero] = useState(false);
   const headerRef = useRef(null);
   const locationRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
+      const desktopHero = document.getElementById('hero');
+      const mobileHero = document.getElementById('hero-mobile');
+      let heroEl = null;
+
+      if (window.innerWidth >= 768 && desktopHero && desktopHero.offsetHeight > 0) {
+        heroEl = desktopHero;
+      } else if (mobileHero && mobileHero.offsetHeight > 0) {
+        heroEl = mobileHero;
+      } else {
+        heroEl = desktopHero || document.querySelector('main > section, body section');
+      }
+
+      if (heroEl && heroEl.offsetHeight > 0) {
+        const rect = heroEl.getBoundingClientRect();
+        // Header background appears only after the hero section is finished (scrolled past ~80px header height)
+        setIsPastHero(rect.bottom <= 80);
+      } else {
+        setIsPastHero(window.scrollY > 80);
+      }
+
       setIsScrolled(window.scrollY > 20);
     };
+
     handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener('resize', handleScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleScroll);
+    };
   }, []);
 
   useEffect(() => {
@@ -103,19 +129,21 @@ const Header = () => {
   ];
 
   const headerBgClass = isMenuOpen
-    ? 'bg-black text-white'
-    : isLightMode
-      ? 'bg-transparent lg:bg-white/80 lg:backdrop-blur-xl lg:border-b lg:border-black/10 lg:shadow-sm text-black'
-      : isScrolled
-        ? 'bg-transparent lg:bg-black/60 lg:backdrop-blur-xl lg:border-b lg:border-white/10 lg:shadow-lg lg:shadow-black/20 text-white'
-        : 'bg-transparent lg:bg-black/40 lg:backdrop-blur-md lg:border-b lg:border-white/5 text-white';
+    ? 'bg-black text-white header-menu-open'
+    : isPastHero
+      ? isLightMode
+        ? 'header-scrolled bg-white/90 backdrop-blur-xl text-black shadow-sm'
+        : 'header-scrolled bg-black/80 backdrop-blur-xl text-white shadow-lg shadow-black/20'
+      : isLightMode
+        ? 'bg-transparent text-black'
+        : 'bg-transparent text-white';
 
   const headerPaddingClass = 'px-6 sm:px-8 md:px-12 py-3.5 sm:py-4';
   const logoSizeClass = 'h-6 sm:h-8 md:h-10 lg:h-12';
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full ${headerPaddingClass} ${headerBgClass} z-50 flex items-center`}
+      className={`fixed top-0 left-0 w-full ${headerPaddingClass} ${headerBgClass} z-50 transition-all duration-300 ease-in-out flex items-center`}
     >
       <nav
         ref={headerRef}

@@ -156,12 +156,18 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
     });
   }
 
-  const videoTabs = safeJson(data.videoTabs, []).filter((t) => t.label || t.url).map((t) => ({
-    ...t,
-    url: getYoutubeEmbed(t.url) || t.url,
-  }));
+  const rawVideoTabs = safeJson(data.videoTabs, []) || [];
+  const secVideoTabs = sections[0]?.videoTabs || [];
+  const videoTabs = (rawVideoTabs.length > 0 ? rawVideoTabs : secVideoTabs)
+    .filter((t) => t.label || t.url)
+    .map((t) => ({
+      ...t,
+      url: getYoutubeEmbed(t.url) || t.url,
+    }));
 
-  const subtitle = data.subtitle || data.metaDescription || getProjectValueProposition({ ...data, slug: data.slug || data.path });
+  const heroAspectRatio = sections[0]?.heroAspectRatio || data.heroAspectRatio || 'video';
+  const tickerWords = sections[0]?.tickerWords || data.tickerWords || '';
+  const subtitle = sections[0]?.subtitle || data.subtitle || data.metaDescription || getProjectValueProposition({ ...data, slug: data.slug || data.path });
 
   return (
     <AhmedFoodLayout
@@ -170,6 +176,8 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
       meta={meta}
       heroVideo={heroVideo}
       heroImage={heroImage}
+      heroAspectRatio={heroAspectRatio}
+      tickerWords={tickerWords}
       videoTabs={videoTabs.length > 0 ? videoTabs : undefined}
       overview={data.overviewText || data.overview || ''}
       overviewHeading={data.overviewHeading || (isCaseStudy ? 'Case study overview' : 'Project overview')}
@@ -185,8 +193,22 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
       process={process}
       galleryCategories={otherGalleryCategories}
       nextProject={nextProject || undefined}
-      ctaUrl={data.ctaUrl || undefined}
-      ctaText={data.ctaText || undefined}
+      ctaUrl={data.ctaUrl || sections[0]?.ctaUrl || undefined}
+      ctaText={data.ctaText || sections[0]?.ctaText || undefined}
+      heroIntroText={sections[0]?.heroIntroText || data.heroIntroText}
+      heroStars={sections[0]?.heroStars || data.heroStars}
+      heroReviewTitle={sections[0]?.heroReviewTitle || data.heroReviewTitle}
+      heroReviewSubtitle={sections[0]?.heroReviewSubtitle || data.heroReviewSubtitle}
+      heroQuoteText={sections[0]?.heroQuoteText || data.heroQuoteText}
+      heroQuoteAuthor={sections[0]?.heroQuoteAuthor || data.heroQuoteAuthor}
+      thumbnailsHeading={sections[0]?.thumbnailsHeading || data.thumbnailsHeading}
+      thumbnailsEyebrow={sections[0]?.thumbnailsEyebrow || data.thumbnailsEyebrow}
+      stillsHeading={sections[0]?.stillsHeading || data.stillsHeading}
+      stillsEyebrow={sections[0]?.stillsEyebrow || data.stillsEyebrow}
+      resultsHeading={sections[0]?.resultsHeading || data.resultsHeading}
+      resultsEyebrow={sections[0]?.resultsEyebrow || data.resultsEyebrow}
+      processHeading={sections[0]?.processHeading || data.processHeading}
+      processEyebrow={sections[0]?.processEyebrow || data.processEyebrow}
     />
   );
 };

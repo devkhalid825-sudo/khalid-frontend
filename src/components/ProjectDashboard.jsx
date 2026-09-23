@@ -59,8 +59,9 @@ export const resolvePreviewUrl = (src) => {
 };
 
 const emptyForm = {
-  title: '', metaTitle: '', metaDescription: '', category: '',
+  title: '', subtitle: '', metaTitle: '', metaDescription: '', category: '',
   image: '', heroImage: '', heroVideo: '', heroType: 'image',
+  heroAspectRatio: 'video', tickerWords: '',
   path: '', description: '',
   client: '', service: '', duration: '', deliverables: '',
   overviewHeading: '', overviewText: '', challengeHeading: '', challengeText: '',
@@ -95,12 +96,29 @@ const emptyForm = {
     { step: '04', phase: 'Research', title: 'Research', desc: 'Training needs analysis and subject matter expert consultations for scenario accuracy' },
   ],
   sectionOrder: defaultSectionOrder,
-  videoTabs: [{ label: '', url: '' }],
+  videoTabs: [{ label: '', url: '', aspectRatio: 'video' }],
   ctaUrl: '', ctaText: '',
+  heroIntroText: '',
+  heroStars: 5,
+  heroReviewTitle: '',
+  heroReviewSubtitle: '',
+  heroQuoteText: '',
+  heroQuoteAuthor: '',
+  thumbnailsHeading: '',
+  thumbnailsEyebrow: '',
+  stillsHeading: '',
+  stillsEyebrow: '',
+  resultsHeading: '',
+  resultsEyebrow: '',
+  processHeading: '',
+  processEyebrow: '',
 };
 
 const demoData = {
   title: 'Enterprise VR Training & Simulation',
+  subtitle: 'High-fidelity 3D product visualization and CGI animation pipeline cutting campaign turnaround by 70%.',
+  heroAspectRatio: 'video',
+  tickerWords: '3D PRODUCT • CGI ANIMATION • UNREAL ENGINE 5 • PHOTOREALISM • VFX',
   category: 'VR, Animation',
   path: '/project/enterprise-vr-training',
   client: 'Enterprise VR Corp',
@@ -146,7 +164,8 @@ const demoData = {
   ctaUrl: '/contact',
   ctaText: 'Start a project',
   videoTabs: [
-    { label: 'Simulation Demo', url: 'https://www.youtube.com/watch?v=gjtQTltVD5A' },
+    { label: 'Video 1', url: '', aspectRatio: 'video' },
+    { label: 'Reel 2', url: '', aspectRatio: 'reel' },
   ],
 };
 
@@ -335,11 +354,17 @@ const ProjectDashboard = () => {
       });
     }
 
+    const firstSec = storyBlocks[0] || {};
+    const subtitle = firstSec.subtitle || project.subtitle || project.metaDescription || '';
+    const heroAspectRatio = firstSec.heroAspectRatio || project.heroAspectRatio || 'video';
+    const tickerWords = firstSec.tickerWords || project.tickerWords || '';
+
     setForm({
-      title: project.title || '', metaTitle: project.metaTitle || '', metaDescription: project.metaDescription || '',
+      title: project.title || '', subtitle, metaTitle: project.metaTitle || '', metaDescription: project.metaDescription || '',
       category: project.category || 'VR', image: project.image || '',
       heroImage: project.heroImage || '', heroVideo: project.heroVideo || '',
       heroType: (project.heroVideo && !project.heroImage) ? 'video' : 'image',
+      heroAspectRatio, tickerWords,
       path: project.path || '', description: project.description || '',
       client: project.client || '', service: project.service || '', duration: project.duration || '', deliverables: project.deliverables || '',
       overviewHeading: project.overviewHeading || 'Enterprise VR Training & Simulation', overviewText: project.overviewText || '',
@@ -351,8 +376,36 @@ const ProjectDashboard = () => {
       results: parseJSON(project.results, emptyForm.results),
       processSteps: parseJSON(project.processSteps, emptyForm.processSteps),
       sectionOrder,
-      videoTabs: parseJSON(project.videoTabs, [{ label: '', url: '' }]),
-      ctaUrl: project.ctaUrl || '', ctaText: project.ctaText || '',
+      videoTabs: (() => {
+        let vts = parseJSON(project.videoTabs, []);
+        if (!vts || vts.length === 0) vts = firstSec.videoTabs || [];
+        if (!vts || vts.length === 0) {
+          return [
+            { label: 'Video 1', url: project.heroVideo || '', aspectRatio: heroAspectRatio },
+            { label: 'Reel 2', url: '', aspectRatio: 'reel' },
+          ];
+        }
+        if (vts.length === 1) {
+          return [...vts, { label: 'Reel 2', url: '', aspectRatio: 'reel' }];
+        }
+        return vts;
+      })(),
+      ctaUrl: project.ctaUrl || firstSec.ctaUrl || '',
+      ctaText: project.ctaText || firstSec.ctaText || '',
+      heroIntroText: firstSec.heroIntroText || project.heroIntroText || '',
+      heroStars: firstSec.heroStars || project.heroStars || 5,
+      heroReviewTitle: firstSec.heroReviewTitle || project.heroReviewTitle || '',
+      heroReviewSubtitle: firstSec.heroReviewSubtitle || project.heroReviewSubtitle || '',
+      heroQuoteText: firstSec.heroQuoteText || project.heroQuoteText || '',
+      heroQuoteAuthor: firstSec.heroQuoteAuthor || project.heroQuoteAuthor || '',
+      thumbnailsHeading: firstSec.thumbnailsHeading || project.thumbnailsHeading || '',
+      thumbnailsEyebrow: firstSec.thumbnailsEyebrow || project.thumbnailsEyebrow || '',
+      stillsHeading: firstSec.stillsHeading || project.stillsHeading || '',
+      stillsEyebrow: firstSec.stillsEyebrow || project.stillsEyebrow || '',
+      resultsHeading: firstSec.resultsHeading || project.resultsHeading || '',
+      resultsEyebrow: firstSec.resultsEyebrow || project.resultsEyebrow || '',
+      processHeading: firstSec.processHeading || project.processHeading || '',
+      processEyebrow: firstSec.processEyebrow || project.processEyebrow || '',
     });
     setStoryBlockFiles({});
     setThumbnailFiles([]);
@@ -558,22 +611,52 @@ const ProjectDashboard = () => {
       }
     });
 
-    // Build sections with sectionOrder stored in the first element
-    const finalSections = updatedStoryBlocks.map((b, idx) => ({
+    // Build sections with sectionOrder, heroAspectRatio, tickerWords, subtitle stored in first element
+    const baseStoryBlocks = updatedStoryBlocks.length > 0 ? updatedStoryBlocks : [{
+      tag: 'Overview',
+      heading: form.overviewHeading || '',
+      text: form.overviewText || '',
+      image: '',
+      position: 'left',
+    }];
+    const finalSections = baseStoryBlocks.map((b, idx) => ({
       tag: b.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Section ${idx + 1}`)),
       heading: b.heading || '',
       text: b.text || '',
       image: b.image || '',
       position: b.position || (idx % 2 === 0 ? 'left' : 'right'),
-      ...(idx === 0 ? { sectionOrder: form.sectionOrder || defaultSectionOrder } : {}),
+      ...(idx === 0 ? {
+        sectionOrder: form.sectionOrder || defaultSectionOrder,
+        heroAspectRatio: form.heroAspectRatio || 'video',
+        tickerWords: form.tickerWords || '',
+        subtitle: form.subtitle || '',
+        videoTabs: form.videoTabs.filter(v => v.label || v.url),
+        heroIntroText: form.heroIntroText || '',
+        heroStars: form.heroStars || 5,
+        heroReviewTitle: form.heroReviewTitle || '',
+        heroReviewSubtitle: form.heroReviewSubtitle || '',
+        heroQuoteText: form.heroQuoteText || '',
+        heroQuoteAuthor: form.heroQuoteAuthor || '',
+        ctaUrl: form.ctaUrl || '',
+        ctaText: form.ctaText || '',
+        thumbnailsHeading: form.thumbnailsHeading || '',
+        thumbnailsEyebrow: form.thumbnailsEyebrow || '',
+        stillsHeading: form.stillsHeading || '',
+        stillsEyebrow: form.stillsEyebrow || '',
+        resultsHeading: form.resultsHeading || '',
+        resultsEyebrow: form.resultsEyebrow || '',
+        processHeading: form.processHeading || '',
+        processEyebrow: form.processEyebrow || '',
+      } : {}),
     }));
 
-    const { heroType, storyBlocks, galleryThumbnails, galleryStills, sectionOrder, ...formWithoutToggle } = form;
+    const { heroType, heroAspectRatio, tickerWords, subtitle, storyBlocks, galleryThumbnails, galleryStills, sectionOrder, ...formWithoutToggle } = form;
     const payload = {
       ...formWithoutToggle,
       image: imageUrl,
       heroImage: heroType === 'image' ? heroImageUrl : '',
       heroVideo: heroType === 'video' ? form.heroVideo : '',
+      metaDescription: form.subtitle || form.metaDescription || '',
       overviewHeading: finalSections[0]?.heading || form.overviewHeading || '',
       overviewText: finalSections[0]?.text || form.overviewText || '',
       challengeHeading: finalSections[1]?.heading || form.challengeHeading || '',
@@ -688,37 +771,18 @@ const ProjectDashboard = () => {
                     </div>
                   </div>
                   <div className="md:col-span-2">
+                    <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Subtitle / Subheading <span className="text-[#555]">(appears directly below project heading in hero)</span></label>
+                    <input type="text" value={form.subtitle || ''} onChange={(e) => setForm(f => ({ ...f, subtitle: e.target.value }))} className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]" placeholder="e.g. High-fidelity 3D product visualization and CGI animation pipeline cutting turnaround by 70%." />
+                  </div>
+                  <div className="md:col-span-2">
                     <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">URL Path <span className="text-red-400">*</span></label>
                     <input type="text" required value={form.path} onChange={(e) => setForm(f => ({ ...f, path: '/project/' + e.target.value.replace(/^\/?(project\/)?/i, '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') }))} className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs font-mono placeholder:text-[#444]" placeholder="/project/your-project-slug" />
                   </div>
                 </div>
               </SectionCard>
 
-              {/* ===== SECTION: META INFO (Hero) ===== */}
-              <SectionCard title="2. Hero Meta Info" icon="📌">
-                <p className="text-[#555] text-[7px] uppercase tracking-widest mb-3 -mt-2">This appears in the hero section — Client, Service, Duration, Deliverables</p>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div>
-                    <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Client</label>
-                    <input type="text" value={form.client} onChange={(e) => setForm(f => ({ ...f, client: e.target.value }))} className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]" placeholder="e.g. Malka Food" />
-                  </div>
-                  <div>
-                    <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Service</label>
-                    <input type="text" value={form.service} onChange={(e) => setForm(f => ({ ...f, service: e.target.value }))} className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]" placeholder="e.g. 3D Product Commercial" />
-                  </div>
-                  <div>
-                    <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Duration</label>
-                    <input type="text" value={form.duration} onChange={(e) => setForm(f => ({ ...f, duration: e.target.value }))} className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]" placeholder="e.g. 4 weeks" />
-                  </div>
-                  <div>
-                    <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Deliverables</label>
-                    <input type="text" value={form.deliverables} onChange={(e) => setForm(f => ({ ...f, deliverables: e.target.value }))} className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]" placeholder="e.g. Product video" />
-                  </div>
-                </div>
-              </SectionCard>
-
               {/* ===== SECTION: MEDIA ===== */}
-              <SectionCard title="3. Media (Card Image + Hero Section)" icon="🖼">
+              <SectionCard title="2. Media (Card Image + Hero Section)" icon="🖼">
                 <div>
                   <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Card Image <span className="text-[#555]">(thumbnail in dashboard & latest work grid)</span></label>
                   <div className="flex items-center gap-3">
@@ -746,13 +810,39 @@ const ProjectDashboard = () => {
                   </div>
                 </div>
 
+                {/* Hero Media Format Selector: Wide 16:9, Vertical Reel 9:16, Square 1:1 */}
+                <div className="pt-2">
+                  <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Hero Video / Media Format</label>
+                  <div className="grid grid-cols-3 gap-2 mb-3">
+                    {[
+                      { id: 'video', label: '🎬 Wide Video (16:9)', desc: 'Standard widescreen' },
+                      { id: 'reel', label: '📱 Vertical Reel (9:16)', desc: 'Reel / Shorts card' },
+                      { id: 'square', label: '⏹ Square Div (1:1)', desc: 'Square video frame' },
+                    ].map((r) => (
+                      <button
+                        key={r.id}
+                        type="button"
+                        onClick={() => setForm(f => ({ ...f, heroAspectRatio: r.id }))}
+                        className={`text-left p-3 rounded-xl border transition-all ${
+                          (form.heroAspectRatio || 'video') === r.id
+                            ? 'bg-[#4169E1]/20 border-[#4169E1] text-white'
+                            : 'bg-[#1A1A1A] border-[#333] text-[#888] hover:border-[#555] hover:text-[#ccc]'
+                        }`}
+                      >
+                        <div className="text-[11px] font-bold">{r.label}</div>
+                        <div className="text-[8px] text-[#666] mt-0.5">{r.desc}</div>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
                 <div className="pt-2">
                   <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Hero Section Type</label>
                   <div className="flex gap-2 mb-3">
                     {['image', 'video'].map((t) => (
                       <button key={t} type="button" onClick={() => setForm(f => ({ ...f, heroType: t, heroImage: t === 'video' ? '' : f.heroImage, heroVideo: t === 'image' ? '' : f.heroVideo }))}
                         className={`flex-1 text-[9px] font-bold uppercase tracking-widest px-4 py-3 rounded-xl border transition-all ${form.heroType === t ? 'bg-[#4169E1] text-white border-[#4169E1]' : 'bg-[#1A1A1A] text-[#555] border-[#333] hover:border-[#4169E1]/50'}`}>
-                        {t === 'image' ? '🖼 Hero Image' : '🎬 YouTube Video'}
+                        {t === 'image' ? '🖼 Hero Image' : '🎬 Hero Video / Reel'}
                       </button>
                     ))}
                   </div>
@@ -781,22 +871,224 @@ const ProjectDashboard = () => {
                     </div>
                   ) : (
                     <div className="space-y-3">
-                      <input type="text" value={form.heroVideo} onChange={(e) => setForm(f => ({ ...f, heroVideo: e.target.value }))} className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]" placeholder="YouTube URL (watch / youtu.be / embed)" />
-                      {form.heroVideo && <div className="rounded-xl overflow-hidden border border-[#333] aspect-video bg-[#0D0D0D]"><iframe src={getYoutubeEmbed(form.heroVideo)} className="w-full h-full" allowFullScreen></iframe></div>}
+                      <input type="text" value={form.heroVideo} onChange={(e) => setForm(f => ({ ...f, heroVideo: e.target.value }))} className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]" placeholder="Video URL (YouTube / Shorts / MP4 link)" />
+                      {form.heroVideo && (
+                        <div className={`mx-auto rounded-xl overflow-hidden border border-[#333] bg-[#0D0D0D] ${
+                          form.heroAspectRatio === 'reel' ? 'max-w-[260px] aspect-[9/16]' :
+                          form.heroAspectRatio === 'square' ? 'max-w-[340px] aspect-square' :
+                          'w-full aspect-video'
+                        }`}>
+                          <iframe src={getYoutubeEmbed(form.heroVideo)} className="w-full h-full" allowFullScreen></iframe>
+                        </div>
+                      )}
                     </div>
                   )}
                 </div>
 
-                <div>
-                  <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Video Tabs <span className="text-[#555]">(for hero section — optional)</span></label>
-                  {form.videoTabs.map((tab, i) => (
-                    <div key={i} className="flex items-center gap-2 mb-2">
-                      <input type="text" value={tab.label} onChange={(e) => updateArray('videoTabs', i, 'label', e.target.value)} placeholder="Tab label (e.g. Jam & Spread)" className="flex-1 bg-[#1A1A1A] border border-[#333] rounded-xl px-3 py-2.5 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]" />
-                      <input type="text" value={tab.url} onChange={(e) => updateArray('videoTabs', i, 'url', e.target.value)} placeholder="YouTube URL" className="flex-[2] bg-[#1A1A1A] border border-[#333] rounded-xl px-3 py-2.5 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]" />
-                      {form.videoTabs.length > 1 && <button type="button" onClick={() => removeArrayItem('videoTabs', i)} className="p-2 text-red-400 hover:text-red-300"><FiX size={14} /></button>}
+                {/* Hero Video Tabs Switcher like AhmedFood.jsx */}
+                <div className="pt-3 border-t border-[#222]">
+                  <div className="flex items-center justify-between mb-2">
+                    <div>
+                      <label className="block text-[#888] text-[8px] uppercase tracking-widest">Hero Video Tabs (Clickable Tabs to Switch Video / Reels)</label>
+                      <p className="text-[#888] text-[9px] mt-0.5">The main video above loads first by default. Adding tabs below allows visitors to click and switch between different videos or vertical reels (9:16)!</p>
                     </div>
-                  ))}
-                  <button type="button" onClick={() => addArrayItem('videoTabs', { label: '', url: '' })} className="text-[#4169E1] text-[8px] uppercase tracking-widest font-bold hover:underline"><FiPlus className="inline mr-1" />Add Video Tab</button>
+                  </div>
+                  <div className="space-y-2">
+                    {form.videoTabs.map((tab, i) => (
+                      <div key={i} className="p-3 bg-[#141414] rounded-xl border border-[#26262e] space-y-2">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-bold text-[#4169E1] uppercase tracking-wider">
+                            Tab #{i + 1}
+                          </span>
+                          {form.videoTabs.length > 1 && (
+                            <button type="button" onClick={() => removeArrayItem('videoTabs', i)} className="text-red-400 hover:text-red-300 text-xs inline-flex items-center gap-1">
+                              <FiX size={12} /> Remove Tab
+                            </button>
+                          )}
+                        </div>
+                        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                          <div className="sm:w-1/3">
+                            <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">1. Tab Name / Button Title</label>
+                            <input
+                              type="text"
+                              value={tab.label}
+                              onChange={(e) => updateArray('videoTabs', i, 'label', e.target.value)}
+                              placeholder="e.g. Virtual Tour, Reel 1, Walkthrough"
+                              className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                            />
+                          </div>
+                          <div className="flex-1">
+                            <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">2. Video / Reel Link (URL)</label>
+                            <input
+                              type="text"
+                              value={tab.url}
+                              onChange={(e) => updateArray('videoTabs', i, 'url', e.target.value)}
+                              placeholder="YouTube / Shorts / MP4 Link"
+                              className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                            />
+                          </div>
+                          <div className="sm:w-32">
+                            <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Format</label>
+                            <select
+                              value={tab.aspectRatio || form.heroAspectRatio || 'video'}
+                              onChange={(e) => updateArray('videoTabs', i, 'aspectRatio', e.target.value)}
+                              className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-2.5 py-2 text-[#aaa] text-xs outline-none"
+                            >
+                              <option value="video">Wide (16:9)</option>
+                              <option value="reel">Reel (9:16)</option>
+                              <option value="square">Square (1:1)</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => addArrayItem('videoTabs', { label: `Video ${form.videoTabs.length + 1}`, url: '', aspectRatio: form.heroAspectRatio || 'video' })}
+                    className="text-[#4169E1] text-[9px] uppercase tracking-widest font-bold hover:underline inline-flex items-center gap-1.5 mt-2"
+                  >
+                    <FiPlus size={12} /> Add Video Tab
+                  </button>
+                </div>
+
+                {/* Hero Side Cards (Left Info Card & Right Review Card) */}
+                <div className="pt-3 border-t border-[#222] space-y-4">
+                  <div>
+                    <label className="block text-[#888] text-[8px] uppercase tracking-widest font-bold">
+                      Hero Side Cards (Left Info Card & Right Review Card)
+                    </label>
+                    <p className="text-[#666] text-[9px] mt-0.5">
+                      Customize the text, button, stars rating, and quote box displayed on either side of the hero video.
+                    </p>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {/* Left Card: 💡 Icon + Intro + CTA Button */}
+                    <div className="p-3.5 bg-[#141414] rounded-xl border border-[#26262e] space-y-3">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm">💡</span>
+                        <span className="text-[10px] font-bold text-[#4169E1] uppercase tracking-wider">
+                          Left Card: Intro & CTA Button
+                        </span>
+                      </div>
+                      <div>
+                        <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Intro Description Text</label>
+                        <textarea
+                          rows={3}
+                          value={form.heroIntroText || ''}
+                          onChange={(e) => setForm(f => ({ ...f, heroIntroText: e.target.value }))}
+                          placeholder="e.g. The VR Training project revolutionizes workforce development... (Leave empty to use Overview text)"
+                          className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs resize-none"
+                        />
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Button Text</label>
+                          <input
+                            type="text"
+                            value={form.ctaText || ''}
+                            onChange={(e) => setForm(f => ({ ...f, ctaText: e.target.value }))}
+                            placeholder="e.g. Explore Insights"
+                            className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Button Link URL</label>
+                          <input
+                            type="text"
+                            value={form.ctaUrl || ''}
+                            onChange={(e) => setForm(f => ({ ...f, ctaUrl: e.target.value }))}
+                            placeholder="e.g. /contact or URL"
+                            className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Right Card: ★★★★★ + Category/Title + Quote Box */}
+                    <div className="p-3.5 bg-[#141414] rounded-xl border border-[#26262e] space-y-3">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[#4169E1] text-xs">★★★★★</span>
+                          <span className="text-[10px] font-bold text-[#4169E1] uppercase tracking-wider">
+                            Right Card: Review & Quote
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <label className="text-[#666] text-[8px] uppercase">Stars:</label>
+                          <select
+                            value={form.heroStars || 5}
+                            onChange={(e) => setForm(f => ({ ...f, heroStars: Number(e.target.value) }))}
+                            className="bg-[#0D0D0D] border border-[#333] rounded px-2 py-0.5 text-xs text-[#F2F0EB] outline-none"
+                          >
+                            {[5, 4, 3, 2, 1].map(n => (
+                              <option key={n} value={n}>{n} Stars</option>
+                            ))}
+                          </select>
+                        </div>
+                      </div>
+                      <div className="grid grid-cols-2 gap-2">
+                        <div>
+                          <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Title / Category</label>
+                          <input
+                            type="text"
+                            value={form.heroReviewTitle || ''}
+                            onChange={(e) => setForm(f => ({ ...f, heroReviewTitle: e.target.value }))}
+                            placeholder="e.g. Architecture, VR"
+                            className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                          />
+                        </div>
+                        <div>
+                          <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Subtitle / Client</label>
+                          <input
+                            type="text"
+                            value={form.heroReviewSubtitle || ''}
+                            onChange={(e) => setForm(f => ({ ...f, heroReviewSubtitle: e.target.value }))}
+                            placeholder="e.g. ELIPSE PRODUCTION"
+                            className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                          />
+                        </div>
+                      </div>
+                      <div>
+                        <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Quote Box Text</label>
+                        <input
+                          type="text"
+                          value={form.heroQuoteText || ''}
+                          onChange={(e) => setForm(f => ({ ...f, heroQuoteText: e.target.value }))}
+                          placeholder='e.g. "Safe simulation environment for high-stakes procedural training"'
+                          className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                        />
+                      </div>
+                      <div>
+                        <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Quote Author</label>
+                        <input
+                          type="text"
+                          value={form.heroQuoteAuthor || ''}
+                          onChange={(e) => setForm(f => ({ ...f, heroQuoteAuthor: e.target.value }))}
+                          placeholder="e.g. Elipse Studio"
+                          className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                        />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Hero Marquee Ticker Slider Words */}
+                <div className="pt-3 border-t border-[#222]">
+                  <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-1">
+                    Hero Marquee Ticker Words <span className="text-[#555]">(infinite animated slider directly below hero)</span>
+                  </label>
+                  <p className="text-[#555] text-[8px] mb-2">
+                    Enter words or tags separated by commas or bullets (e.g. <span className="text-zinc-400">3D PRODUCT • CGI ANIMATION • UNREAL ENGINE 5 • PHOTOREALISM • VFX</span>).
+                  </p>
+                  <input
+                    type="text"
+                    value={form.tickerWords || ''}
+                    onChange={(e) => setForm(f => ({ ...f, tickerWords: e.target.value }))}
+                    className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]"
+                    placeholder="e.g. 3D PRODUCT • CGI ANIMATION • UNREAL ENGINE 5 • PHOTOREALISM • VFX"
+                  />
                 </div>
               </SectionCard>
 
@@ -809,11 +1101,11 @@ const ProjectDashboard = () => {
                   {(form.sectionOrder || defaultSectionOrder).map((secKey, idx) => {
                     const secLabels = {
                       storyBlocks: '1. Overview & Challenge (Alternating Story Blocks)',
-                      thumbnails: '2. Visual Output: Thumbnails (16:9 Aspect Ratio - 3 per row)',
-                      stills: '3. Visual Output: Still Images (4 per row)',
+                      thumbnails: form.thumbnailsHeading ? `2. ${form.thumbnailsHeading}` : '2. Visual Output: Thumbnails (16:9 Aspect Ratio - 3 per row)',
+                      stills: form.stillsHeading ? `3. ${form.stillsHeading}` : '3. Visual Output: Still Images (4 per row)',
                       gallery: 'Visual Output (Combined Thumbnails & Stills)',
-                      results: '4. Measurable Impact (Results Cards)',
-                      process: '5. How We Did It (Process Steps)',
+                      results: form.resultsHeading ? `4. ${form.resultsHeading}` : '4. Measurable Impact (Results Cards)',
+                      process: form.processHeading ? `5. ${form.processHeading}` : '5. How We Did It (Process Steps)',
                       content: '6. Description (HTML Editor Content)',
                     };
                     return (
@@ -847,8 +1139,8 @@ const ProjectDashboard = () => {
                 </div>
               </SectionCard>
 
-              {/* ===== SECTION 4: OVERVIEW & CHALLENGE (STORY BLOCKS) ===== */}
-              <SectionCard title="4. Overview & Challenge (Story Blocks)" icon="💡">
+              {/* ===== SECTION 3: OVERVIEW & CHALLENGE (STORY BLOCKS) ===== */}
+              <SectionCard title="3. Overview & Challenge (Story Blocks)" icon="💡">
                 <p className="text-[#888] text-[8px] uppercase tracking-widest -mt-2">
                   Alternating image & content blocks. Set image to Left or Right for each block, and click Add Block to add more.
                 </p>
@@ -1003,8 +1295,8 @@ const ProjectDashboard = () => {
                 </button>
               </SectionCard>
 
-              {/* ===== SECTION 5: GALLERY (THUMBNAILS & STILLS) ===== */}
-              <SectionCard title="5. Gallery (16:9 Thumbnails & Still Images)" icon="🖼">
+              {/* ===== SECTION 4: GALLERY (THUMBNAILS & STILLS) ===== */}
+              <SectionCard title="4. Gallery (16:9 Thumbnails & Still Images)" icon="🖼">
                 <p className="text-[#888] text-[8px] uppercase tracking-widest -mt-2">
                   Thumbnails are 16:9 ratio in a row of 3. Stills are displayed below in a row of 3. If either is omitted, no empty gap is shown.
                 </p>
@@ -1031,6 +1323,28 @@ const ProjectDashboard = () => {
                         className="hidden"
                       />
                     </label>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-[#888] text-[8px] uppercase tracking-wider mb-1">Section Heading Title</label>
+                      <input
+                        type="text"
+                        value={form.thumbnailsHeading || ''}
+                        onChange={(e) => setForm(f => ({ ...f, thumbnailsHeading: e.target.value }))}
+                        placeholder="Default: Thumbnails (16:9)"
+                        className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[#888] text-[8px] uppercase tracking-wider mb-1">Eyebrow Tag</label>
+                      <input
+                        type="text"
+                        value={form.thumbnailsEyebrow || ''}
+                        onChange={(e) => setForm(f => ({ ...f, thumbnailsEyebrow: e.target.value }))}
+                        placeholder="Default: Visual output"
+                        className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                      />
+                    </div>
                   </div>
                   <input
                     type="text"
@@ -1112,6 +1426,28 @@ const ProjectDashboard = () => {
                       />
                     </label>
                   </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    <div>
+                      <label className="block text-[#888] text-[8px] uppercase tracking-wider mb-1">Section Heading Title</label>
+                      <input
+                        type="text"
+                        value={form.stillsHeading || ''}
+                        onChange={(e) => setForm(f => ({ ...f, stillsHeading: e.target.value }))}
+                        placeholder="Default: Still Images"
+                        className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-[#888] text-[8px] uppercase tracking-wider mb-1">Eyebrow Tag</label>
+                      <input
+                        type="text"
+                        value={form.stillsEyebrow || ''}
+                        onChange={(e) => setForm(f => ({ ...f, stillsEyebrow: e.target.value }))}
+                        placeholder="Default: Visual output"
+                        className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                      />
+                    </div>
+                  </div>
                   <input
                     type="text"
                     value={form.galleryStills || ''}
@@ -1170,11 +1506,33 @@ const ProjectDashboard = () => {
                 </div>
               </SectionCard>
 
-              {/* ===== SECTION 6: RESULTS ===== */}
-              <SectionCard title="6. Measurable Impact (Results)" icon="📈">
+              {/* ===== SECTION 5: RESULTS ===== */}
+              <SectionCard title="5. Measurable Impact (Results)" icon="📈">
                 <p className="text-[#888] text-[8px] uppercase tracking-widest -mt-2">
                   Highlight project results — each with Stat, Label, and Description. Use arrows to change item position.
                 </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pb-2 border-b border-[#222]">
+                  <div>
+                    <label className="block text-[#888] text-[8px] uppercase tracking-wider mb-1">Section Heading Title</label>
+                    <input
+                      type="text"
+                      value={form.resultsHeading || ''}
+                      onChange={(e) => setForm(f => ({ ...f, resultsHeading: e.target.value }))}
+                      placeholder="Default: Results that moved the business"
+                      className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#888] text-[8px] uppercase tracking-wider mb-1">Eyebrow Tag</label>
+                    <input
+                      type="text"
+                      value={form.resultsEyebrow || ''}
+                      onChange={(e) => setForm(f => ({ ...f, resultsEyebrow: e.target.value }))}
+                      placeholder="Default: Measurable impact"
+                      className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                    />
+                  </div>
+                </div>
                 {form.results.map((r, i) => (
                   <div key={i} className="flex items-start gap-2 p-3 bg-[#1A1A1A] rounded-xl border border-[#222]">
                     <div className="flex-1 grid grid-cols-1 md:grid-cols-3 gap-2">
@@ -1192,11 +1550,33 @@ const ProjectDashboard = () => {
                 <button type="button" onClick={() => addArrayItem('results', { stat: '', label: '', desc: '' })} className="text-[#4169E1] text-[8px] uppercase tracking-widest font-bold hover:underline"><FiPlus className="inline mr-1" />Add Result</button>
               </SectionCard>
 
-              {/* ===== SECTION 7: PROCESS ===== */}
-              <SectionCard title="7. How We Did It (Process Steps)" icon="⚙">
+              {/* ===== SECTION 6: PROCESS ===== */}
+              <SectionCard title="6. How We Did It (Process Steps)" icon="⚙">
                 <p className="text-[#888] text-[8px] uppercase tracking-widest -mt-2">
                   Process steps with Step Number, Phase, Title, and Description. Use arrows to position each step.
                 </p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 pb-2 border-b border-[#222]">
+                  <div>
+                    <label className="block text-[#888] text-[8px] uppercase tracking-wider mb-1">Section Heading Title</label>
+                    <input
+                      type="text"
+                      value={form.processHeading || ''}
+                      onChange={(e) => setForm(f => ({ ...f, processHeading: e.target.value }))}
+                      placeholder="Default: Our process"
+                      className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#888] text-[8px] uppercase tracking-wider mb-1">Eyebrow Tag</label>
+                    <input
+                      type="text"
+                      value={form.processEyebrow || ''}
+                      onChange={(e) => setForm(f => ({ ...f, processEyebrow: e.target.value }))}
+                      placeholder="Default: How we did it"
+                      className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                    />
+                  </div>
+                </div>
                 {form.processSteps.map((p, i) => (
                   <div key={i} className="flex items-start gap-2 p-3 bg-[#1A1A1A] rounded-xl border border-[#222]">
                     <div className="flex-1 grid grid-cols-1 md:grid-cols-4 gap-2">
@@ -1216,13 +1596,13 @@ const ProjectDashboard = () => {
               </SectionCard>
 
               {/* ===== SECTION: DESCRIPTION ===== */}
-              <SectionCard title="8. Description (HTML)" icon="📝">
+              <SectionCard title="7. Description (HTML)" icon="📝">
                 <p className="text-[#555] text-[7px] uppercase tracking-widest -mt-2">Full HTML description — used for overview text (HTML tags stripped)</p>
                 <HtmlEditor value={form.description} onChange={(val) => setForm(f => ({ ...f, description: val }))} minHeight={200} />
               </SectionCard>
 
               {/* ===== SECTION: SEO ===== */}
-              <SectionCard title="9. SEO Settings" icon="🔍">
+              <SectionCard title="8. SEO Settings" icon="🔍">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>
                     <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Meta Title <span className="text-[#555]">(optional)</span></label>
@@ -1236,7 +1616,7 @@ const ProjectDashboard = () => {
               </SectionCard>
 
               {/* ===== SECTION: CTA LINK ===== */}
-              <SectionCard title="10. CTA Button" icon="🔗">
+              <SectionCard title="9. CTA Button" icon="🔗">
                 <p className="text-[#555] text-[7px] uppercase tracking-widest -mt-2">Add a call-to-action button on this project page</p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div>

@@ -122,7 +122,7 @@ const ProductVizHeader = () => {
     ? 'bg-black'
     : isScrolled
       ? isLightSection
-        ? 'bg-white/40 lg:backdrop-blur-xl shadow-sm'
+        ? 'bg-white/40 lg:backdrop-blur-xl'
         : 'bg-black/40 lg:backdrop-blur-xl'
       : 'bg-transparent';
 
