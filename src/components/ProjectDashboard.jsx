@@ -650,7 +650,15 @@ const ProjectDashboard = () => {
       } : {}),
     }));
 
-    const { heroType, heroAspectRatio, tickerWords, subtitle, storyBlocks, galleryThumbnails, galleryStills, sectionOrder, ...formWithoutToggle } = form;
+    const {
+      heroType, heroAspectRatio, tickerWords, subtitle, storyBlocks,
+      galleryThumbnails, galleryStills, sectionOrder,
+      heroIntroText, heroStars, heroReviewTitle, heroReviewSubtitle,
+      heroQuoteText, heroQuoteAuthor,
+      thumbnailsHeading, thumbnailsEyebrow, stillsHeading, stillsEyebrow,
+      resultsHeading, resultsEyebrow, processHeading, processEyebrow,
+      ...formWithoutToggle
+    } = form;
     const payload = {
       ...formWithoutToggle,
       image: imageUrl,
