@@ -4,11 +4,15 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import logoRaw from '@/assets/images/khalid.png';
+import iconWhiteRaw from '@/assets/images/elipse-icon-white.png';
+import iconBlackRaw from '@/assets/images/elipse-icon-black.png';
 import { getImgSrc } from '@/utils/api';
 import ThemeToggle from '@/components/ui/ThemeToggle';
 import { useTheme } from '@/components/providers/ThemeProvider';
 
 const logo = getImgSrc(logoRaw);
+const iconWhite = getImgSrc(iconWhiteRaw);
+const iconBlack = getImgSrc(iconBlackRaw);
 
 const LOCATIONS = [
   { name: 'Global', href: '/' },
@@ -27,30 +31,38 @@ const Header = ({ isBelowVideoMobile = false }) => {
   const [locationOpen, setLocationOpen] = useState(false);
   const [mobileLocationOpen, setMobileLocationOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isPastHero, setIsPastHero] = useState(false);
+  const [showBrandIcon, setShowBrandIcon] = useState(false);
   const headerRef = useRef(null);
   const locationRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      const desktopHero = document.getElementById('hero');
-      const mobileHero = document.getElementById('hero-mobile');
-      let heroEl = null;
-
-      if (window.innerWidth >= 768 && desktopHero && desktopHero.offsetHeight > 0) {
-        heroEl = desktopHero;
-      } else if (mobileHero && mobileHero.offsetHeight > 0) {
-        heroEl = mobileHero;
+      // Switch full logo to compact icon when scrolling reaches the Latest Work section
+      const latestWorkEl = document.getElementById('latest-work');
+      if (latestWorkEl) {
+        const rect = latestWorkEl.getBoundingClientRect();
+        // Trigger icon when latest-work reaches near the top of viewport (e.g. <= 120px)
+        setShowBrandIcon(rect.top <= 120);
       } else {
-        heroEl = desktopHero || document.querySelector('main > section, body section');
-      }
+        // Fallback for pages that do not have a #latest-work section
+        const desktopHero = document.getElementById('hero');
+        const mobileHero = document.getElementById('hero-mobile');
+        let heroEl = null;
 
-      if (heroEl && heroEl.offsetHeight > 0) {
-        const rect = heroEl.getBoundingClientRect();
-        // Header background appears only after the hero section is finished (scrolled past ~80px header height)
-        setIsPastHero(rect.bottom <= 80);
-      } else {
-        setIsPastHero(window.scrollY > 80);
+        if (window.innerWidth >= 768 && desktopHero && desktopHero.offsetHeight > 0) {
+          heroEl = desktopHero;
+        } else if (mobileHero && mobileHero.offsetHeight > 0) {
+          heroEl = mobileHero;
+        } else {
+          heroEl = desktopHero || mobileHero || document.querySelector('section');
+        }
+
+        if (heroEl && heroEl.offsetHeight > 0) {
+          const rect = heroEl.getBoundingClientRect();
+          setShowBrandIcon(rect.bottom <= 80);
+        } else {
+          setShowBrandIcon(window.scrollY > 350);
+        }
       }
 
       setIsScrolled(window.scrollY > 20);
@@ -129,26 +141,14 @@ const Header = ({ isBelowVideoMobile = false }) => {
   ];
 
   const headerBgClass = isMenuOpen
-    ? 'bg-black text-white header-menu-open'
-    : isBelowVideoMobile
-      ? isLightMode
-        ? 'bg-white text-black md:bg-transparent md:text-white'
-        : 'bg-black text-white md:bg-transparent md:text-white'
-      : isPastHero
-        ? isLightMode
-          ? 'header-scrolled bg-white/90 backdrop-blur-xl text-black shadow-sm'
-          : 'header-scrolled bg-black/80 backdrop-blur-xl text-white shadow-lg shadow-black/20'
-        : isLightMode
-          ? 'bg-transparent text-black'
-          : 'bg-transparent text-white';
+    ? 'bg-black text-white border-b border-white/10 header-menu-open'
+    : isLightMode
+      ? `bg-white/95 backdrop-blur-xl text-black border-b border-black/10 ${isScrolled ? 'shadow-md' : 'shadow-sm'}`
+      : `bg-black/90 backdrop-blur-xl text-white border-b border-white/10 ${isScrolled ? 'shadow-xl shadow-black/40' : 'shadow-lg shadow-black/25'}`;
 
-  const positionClass = isMenuOpen
-    ? 'fixed top-0 left-0 w-full'
-    : isBelowVideoMobile
-      ? 'relative md:fixed md:top-0 md:left-0 w-full'
-      : 'fixed top-0 left-0 w-full';
+  const positionClass = 'fixed top-0 left-0 w-full';
 
-  const headerPaddingClass = 'px-5 sm:px-8 md:px-12 py-4 sm:py-4.5';
+  const headerPaddingClass = 'px-[15px] sm:px-8 md:px-12 py-3.5 sm:py-4 md:py-4.5';
   const logoSizeClass = 'h-8 sm:h-9 md:h-10 lg:h-12';
 
   return (
@@ -164,14 +164,27 @@ const Header = ({ isBelowVideoMobile = false }) => {
             href="/"
             className="cursor-pointer relative z-50 flex items-center justify-center shrink-0 self-center"
             onClick={() => setIsMenuOpen(false)}
+            aria-label="Elipse Studio Home"
           >
+            {/* Full Logo (Visible before reaching Latest Work, or when menu is open) */}
             <img
               src={logo}
               alt="Elipse Studio"
               width="230"
               height="105"
-              className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 block self-center site-logo ${
-                isLightMode && !isMenuOpen ? 'invert' : ''
+              className={`${logoSizeClass} w-auto object-contain transition-all duration-300 hover:scale-105 site-logo ${
+                showBrandIcon && !isMenuOpen ? 'hidden' : 'block'
+              } ${isLightMode && !isMenuOpen ? 'invert' : ''}`}
+            />
+
+            {/* Compact Brand Icon (Swaps in when scrolling down to the Latest Work section) */}
+            <img
+              src={isLightMode && !isMenuOpen ? iconBlack : iconWhite}
+              alt="Elipse Studio Icon"
+              width="48"
+              height="48"
+              className={`h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain transition-all duration-300 hover:scale-110 site-logo ${
+                showBrandIcon && !isMenuOpen ? 'block' : 'hidden'
               }`}
             />
           </Link>

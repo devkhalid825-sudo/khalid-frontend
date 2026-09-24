@@ -7,11 +7,11 @@ import { useTheme } from '@/components/providers/ThemeProvider';
 const HeroCTA = () => {
   const { isLight } = useTheme();
   return (
-    <section className={`px-[15px] py-3 md:hidden transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'}`}>
-      <div className="flex justify-start w-full">
+    <section className={`px-[15px] pt-4 pb-4 md:hidden transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'}`}>
+      <div className="flex items-center justify-start w-full">
         <Link
           href="/contact"
-          className="flex items-center justify-center gap-1.5 bg-[#4169E1] hover:bg-[#3558c8] active:bg-[#2e4fba] text-white font-medium text-base md:text-xl lg:text-2xl tracking-wide rounded-full px-5 py-2 md:px-6 md:py-3 transition-all duration-300 shadow-md shadow-[#4169E1]/20"
+          className="inline-flex items-center justify-center gap-2 bg-[#4169E1] hover:bg-[#3558c8] active:bg-[#2e4fba] text-white font-medium text-sm sm:text-base tracking-wide rounded-full px-5 py-2.5 transition-all duration-300 shadow-md shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40"
         >
           <svg
             viewBox="0 0 24 24"
@@ -20,11 +20,11 @@ const HeroCTA = () => {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="w-4 h-4 md:w-5 md:h-5 shrink-0"
+            className="w-4 h-4 shrink-0 translate-y-[0.5px]"
           >
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
           </svg>
-          <span>Contact Us</span>
+          <span className="leading-none flex items-center">Contact Us</span>
         </Link>
       </div>
     </section>

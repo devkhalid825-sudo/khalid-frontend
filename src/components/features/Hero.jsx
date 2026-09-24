@@ -122,10 +122,13 @@ const Hero = () => {
   return (
     <>
       {/* ========================================================================= */}
-      {/* 1. MOBILE HERO (Desktop Video at Top, Header Below Video, Contact Us Below)*/}
+      {/* 1. MOBILE HERO (Header at Top, Video Below Header)                        */}
       {/* ========================================================================= */}
-      <section id="hero-mobile" className={`relative w-full overflow-hidden md:hidden transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'}`}>
-        {/* Top Edge-to-Edge Video Container (Strict 16:9 - No Side Cropping) */}
+      <section id="hero-mobile" className={`relative w-full overflow-hidden md:hidden transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'} pt-[60px] sm:pt-[66px]`}>
+        {/* Header Fixed at Top on Mobile */}
+        <Header />
+
+        {/* Edge-to-Edge Video Container (Strict 16:9 - No Side Cropping) */}
         <div className="relative w-full aspect-video overflow-hidden bg-black">
           {/* Active Mobile Video (Uses Desktop Slides) */}
           <video
@@ -141,11 +144,6 @@ const Hero = () => {
             onEnded={handleMobileNext}
             className="w-full h-full object-contain"
           />
-        </div>
-
-        {/* Header Directly Below Video on Mobile */}
-        <div className="relative w-full z-40">
-          <Header isBelowVideoMobile={true} />
         </div>
 
         <h1 className="sr-only">

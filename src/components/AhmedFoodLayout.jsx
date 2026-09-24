@@ -629,46 +629,45 @@ const AhmedFoodLayout = ({
                 ) : null}
               </div>
 
-              {/* ── Fixed Editorial Pill Bar (Constant below project video, inverts based on theme) ── */}
-              <div className={`mt-4 sm:mt-5 hidden md:inline-flex flex-row items-center justify-center gap-3.5 px-6 py-2.5 rounded-full text-xs sm:text-[13px] font-medium z-20 transition-all duration-300 ${
-                isLight
-                  ? 'bg-neutral-900 text-white border border-neutral-800 shadow-xl'
-                  : 'bg-white text-neutral-800 border border-neutral-200/90 shadow-md'
-              }`}>
-                <a
-                  href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting?month=2026-09"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`font-semibold transition-colors whitespace-nowrap ${
-                    isLight ? 'text-emerald-400 hover:text-emerald-300' : 'text-emerald-500 hover:text-emerald-600'
-                  }`}
-                >
-                  Book a technical scoping call ↗
-                </a>
-                <span className={`h-3.5 w-px ${isLight ? 'bg-neutral-700' : 'bg-neutral-300'}`} aria-hidden="true" />
-                <span className={`whitespace-nowrap ${isLight ? 'text-neutral-300' : 'text-neutral-700'}`}>
-                  By Elipse Studio Editorial Team
-                </span>
-                <span className={`h-3.5 w-px ${isLight ? 'bg-neutral-700' : 'bg-neutral-300'}`} aria-hidden="true" />
-                <button
-                  type="button"
-                  onClick={handleCopyLink}
-                  className={`font-semibold transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
-                    isLight ? 'text-blue-400 hover:text-blue-300' : 'text-blue-500 hover:text-blue-600'
-                  }`}
-                >
-                  {copied ? (
-                    <svg className="w-3.5 h-3.5 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <polyline points="20 6 9 17 4 12" />
-                    </svg>
-                  ) : (
-                    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                    </svg>
-                  )}
-                  <span>{copied ? 'Link Copied!' : 'Share Article'}</span>
-                </button>
+              {/* ── Fixed Editorial Pill Bar (Single-row sleek capsule on all devices) ── */}
+              <div className="w-full overflow-x-auto no-scrollbar py-1 px-2.5 mt-3.5 sm:mt-5 flex items-center justify-start sm:justify-center">
+                <div className={`mx-auto inline-flex flex-nowrap items-center justify-center gap-2 sm:gap-3.5 px-3.5 xs:px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-medium z-20 transition-all duration-300 shrink-0 whitespace-nowrap shadow-md ${isLight
+                  ? 'bg-white text-neutral-800 border border-neutral-300'
+                  : 'bg-neutral-900 text-white border border-neutral-800 shadow-xl'
+                  }`}>
+                  <a
+                    href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting?month=2026-09"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`font-semibold transition-colors whitespace-nowrap shrink-0 ${isLight ? 'text-[#00a86b] hover:text-[#008f5a]' : 'text-emerald-400 hover:text-emerald-300'
+                      }`}
+                  >
+                    Book a <span className="hidden md:inline">technical </span>scoping call ↗
+                  </a>
+                  <span className={`h-3.5 w-px shrink-0 ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
+                  <span className={`whitespace-nowrap shrink-0 ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
+                    By Elipse Studio<span className="hidden md:inline"> Editorial Team</span>
+                  </span>
+                  <span className={`h-3.5 w-px shrink-0 ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
+                  <button
+                    type="button"
+                    onClick={handleCopyLink}
+                    className={`font-semibold transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 ${isLight ? 'text-[#2563EB] hover:text-[#1d4ed8]' : 'text-blue-400 hover:text-blue-300'
+                      }`}
+                  >
+                    {copied ? (
+                      <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                        <polyline points="20 6 9 17 4 12" />
+                      </svg>
+                    ) : (
+                      <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                      </svg>
+                    )}
+                    <span>{copied ? 'Link Copied!' : 'Share Article'}</span>
+                  </button>
+                </div>
               </div>
             </div>
 
@@ -695,40 +694,32 @@ const AhmedFoodLayout = ({
 
         </div>
 
-        {/* MARQUEE WORDS TICKER SLIDER (Continuous Infinite Seamless Loop - Inverted for contrast) */}
+        {/* MARQUEE WORDS TICKER SLIDER (Continuous Infinite Seamless Loop - Classic Solid Black Bar) */}
         {effectiveTickerWords.length > 0 && (
           <div
-            className={`overflow-hidden border-y py-4 sm:py-5 mt-10 sm:mt-14 -mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 pointer-events-none select-none transition-colors duration-300 ${
-              isLight
-                ? 'bg-black border-black text-white'
-                : 'bg-white border-neutral-200 text-neutral-900'
-            }`}
+            className="overflow-hidden border-y border-neutral-800/80 py-4 sm:py-5 bg-black text-white mt-10 sm:mt-14 -mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 pointer-events-none select-none transition-colors duration-300"
           >
             <div className="flex w-max">
               {/* Track 1 */}
               <div
-                className={`flex shrink-0 items-center space-x-12 animate-marquee-loop pr-12 text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight whitespace-nowrap ${
-                  isLight ? 'text-white' : 'text-neutral-900'
-                }`}
+                className="flex shrink-0 items-center space-x-12 animate-marquee-loop pr-12 text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white whitespace-nowrap"
               >
                 {[...effectiveTickerWords, ...effectiveTickerWords, ...effectiveTickerWords, ...effectiveTickerWords].map((word, i) => (
                   <span key={`t1-${i}`} className="inline-flex items-center gap-6 sm:gap-8">
-                    <span className={isLight ? 'text-[#4169E1]' : 'text-[#2563EB]'}>✦</span>
-                    <span className={`tracking-wider uppercase font-sans ${isLight ? 'text-white' : 'text-neutral-900'}`}>{word}</span>
+                    <span className="text-[#4169E1]">✦</span>
+                    <span className="tracking-wider uppercase font-sans text-white">{word}</span>
                   </span>
                 ))}
               </div>
               {/* Track 2 (Identical mirror for seamless infinite continuous loop) */}
               <div
-                className={`flex shrink-0 items-center space-x-12 animate-marquee-loop pr-12 text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight whitespace-nowrap ${
-                  isLight ? 'text-white' : 'text-neutral-900'
-                }`}
+                className="flex shrink-0 items-center space-x-12 animate-marquee-loop pr-12 text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white whitespace-nowrap"
                 aria-hidden="true"
               >
                 {[...effectiveTickerWords, ...effectiveTickerWords, ...effectiveTickerWords, ...effectiveTickerWords].map((word, i) => (
                   <span key={`t2-${i}`} className="inline-flex items-center gap-6 sm:gap-8">
-                    <span className={isLight ? 'text-[#4169E1]' : 'text-[#2563EB]'}>✦</span>
-                    <span className={`tracking-wider uppercase font-sans ${isLight ? 'text-white' : 'text-neutral-900'}`}>{word}</span>
+                    <span className="text-[#4169E1]">✦</span>
+                    <span className="tracking-wider uppercase font-sans text-white">{word}</span>
                   </span>
                 ))}
               </div>
