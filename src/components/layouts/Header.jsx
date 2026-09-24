@@ -17,7 +17,7 @@ const LOCATIONS = [
   { name: 'United States', href: '/us/services' },
 ];
 
-const Header = () => {
+const Header = ({ isBelowVideoMobile = false }) => {
   const router = useRouter();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
@@ -130,20 +130,30 @@ const Header = () => {
 
   const headerBgClass = isMenuOpen
     ? 'bg-black text-white header-menu-open'
-    : isPastHero
+    : isBelowVideoMobile
       ? isLightMode
-        ? 'header-scrolled bg-white/90 backdrop-blur-xl text-black shadow-sm'
-        : 'header-scrolled bg-black/80 backdrop-blur-xl text-white shadow-lg shadow-black/20'
-      : isLightMode
-        ? 'bg-transparent text-black'
-        : 'bg-transparent text-white';
+        ? 'bg-white text-black md:bg-transparent md:text-white'
+        : 'bg-black text-white md:bg-transparent md:text-white'
+      : isPastHero
+        ? isLightMode
+          ? 'header-scrolled bg-white/90 backdrop-blur-xl text-black shadow-sm'
+          : 'header-scrolled bg-black/80 backdrop-blur-xl text-white shadow-lg shadow-black/20'
+        : isLightMode
+          ? 'bg-transparent text-black'
+          : 'bg-transparent text-white';
 
-  const headerPaddingClass = 'px-6 sm:px-8 md:px-12 py-3.5 sm:py-4';
-  const logoSizeClass = 'h-6 sm:h-8 md:h-10 lg:h-12';
+  const positionClass = isMenuOpen
+    ? 'fixed top-0 left-0 w-full'
+    : isBelowVideoMobile
+      ? 'relative md:fixed md:top-0 md:left-0 w-full'
+      : 'fixed top-0 left-0 w-full';
+
+  const headerPaddingClass = 'px-5 sm:px-8 md:px-12 py-4 sm:py-4.5';
+  const logoSizeClass = 'h-8 sm:h-9 md:h-10 lg:h-12';
 
   return (
     <header
-      className={`fixed top-0 left-0 w-full ${headerPaddingClass} ${headerBgClass} z-50 transition-all duration-300 ease-in-out flex items-center`}
+      className={`${positionClass} ${headerPaddingClass} ${headerBgClass} z-50 transition-all duration-300 ease-in-out flex items-center`}
     >
       <nav
         ref={headerRef}
@@ -160,8 +170,9 @@ const Header = () => {
               alt="Elipse Studio"
               width="230"
               height="105"
-              className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 block self-center site-logo ${isLightMode ? 'invert' : ''
-                }`}
+              className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 block self-center site-logo ${
+                isLightMode && !isMenuOpen ? 'invert' : ''
+              }`}
             />
           </Link>
 
@@ -169,10 +180,11 @@ const Header = () => {
             <div className="hidden" ref={locationRef}>
               <button
                 onClick={() => setLocationOpen((prev) => !prev)}
-                className={`px-4 h-8 sm:h-8.5 flex items-center justify-center gap-1.5 border ${isLightMode
-                  ? 'border-black/20 hover:border-[#4169E1] text-black hover:text-[#4169E1]'
-                  : 'border-white/20 hover:border-[#4169E1] text-white hover:text-[#4169E1]'
-                  } bg-transparent rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 backdrop-blur-md`}
+                className={`px-4 h-8 sm:h-8.5 flex items-center justify-center gap-1.5 border ${
+                  isLightMode
+                    ? 'border-black/20 hover:border-[#4169E1] text-black hover:text-[#4169E1]'
+                    : 'border-white/20 hover:border-[#4169E1] text-white hover:text-[#4169E1]'
+                } bg-transparent rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 backdrop-blur-md`}
                 aria-haspopup="true"
                 aria-expanded={locationOpen}
               >
@@ -199,18 +211,20 @@ const Header = () => {
                 setIsMenuOpen(false);
                 router.push('/contact');
               }}
-              className={`hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center border ${isLightMode
-                ? 'border-black/30 hover:border-black text-black hover:bg-black/5'
-                : 'border-white/30 hover:border-white text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]'
-                } bg-transparent rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 backdrop-blur-md cursor-pointer`}
+              className={`hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center border ${
+                isLightMode
+                  ? 'border-black/30 hover:border-black text-black hover:bg-black/5'
+                  : 'border-white/30 hover:border-white text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]'
+              } bg-transparent rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 backdrop-blur-md cursor-pointer`}
             >
               Contact Us
             </button>
-            <ThemeToggle />
+            <ThemeToggle className={isMenuOpen ? '!text-white !border-white/20 !bg-white/5' : ''} />
             <button
               onClick={toggleMenu}
-              className={`focus:outline-none hover:scale-110 active:scale-95 p-1.5 flex items-center justify-center rounded-full transition-transform ${isLightMode ? 'text-black' : 'text-white'
-                }`}
+              className={`focus:outline-none hover:scale-110 active:scale-95 p-1.5 flex items-center justify-center rounded-full transition-transform ${
+                isLightMode && !isMenuOpen ? 'text-black' : 'text-white'
+              }`}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
               <svg
@@ -229,46 +243,18 @@ const Header = () => {
         </div>
 
         <div
-          className={`site-header-drawer fixed inset-0 bg-black transition-all duration-500 ease-in-out z-40 overflow-y-auto flex flex-col pt-24 md:pt-32 pb-8 ${isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-            }`}
+          className={`site-header-drawer fixed inset-0 bg-black transition-all duration-500 ease-in-out z-40 overflow-y-auto flex flex-col pt-24 md:pt-32 pb-8 ${
+            isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
+          }`}
         >
           {isMenuOpen && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.1]">
+            <div className="hidden md:flex absolute inset-0 items-center justify-center pointer-events-none opacity-[0.1]">
               <img src={logo} alt="Elipse Studio Logo" width="180" height="40" className="w-[80vw] max-w-4xl -rotate-12 opacity-50" />
             </div>
           )}
 
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-20 mt-auto mb-auto">
-            <div className="hidden">
-              <button
-                onClick={() => setMobileLocationOpen((prev) => !prev)}
-                className="flex items-center gap-2 border border-white/20 text-white/90 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest hover:border-[#4169E1] hover:text-[#4169E1] transition-colors"
-              >
-                Location
-                <span className={`text-[10px] transition-transform duration-200 ${mobileLocationOpen ? 'rotate-180' : ''}`}>▾</span>
-              </button>
-              <div
-                className={`overflow-hidden transition-all duration-300 ${mobileLocationOpen ? 'max-h-40 opacity-100 mt-3' : 'max-h-0 opacity-0'
-                  }`}
-              >
-                <div className="flex flex-col gap-1 pl-1">
-                  {LOCATIONS.map((loc) => (
-                    <Link
-                      key={loc.href}
-                      href={loc.href}
-                      onClick={() => {
-                        setIsMenuOpen(false);
-                        setMobileLocationOpen(false);
-                      }}
-                      className="text-white/80 text-sm font-medium hover:text-[#4169E1] transition-colors py-1"
-                    >
-                      {loc.name}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            </div>
-            <ul className="grid grid-cols-1 max-h-[900px]:grid-cols-2 gap-x-16 gap-y-1 max-h-[900px]:gap-y-0.5">
+          <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-20 mt-4 md:mt-auto md:mb-auto">
+            <ul className="grid grid-cols-1 max-h-[900px]:grid-cols-2 gap-x-16 gap-y-2 md:gap-y-1 max-h-[900px]:gap-y-0.5">
               {menuItems.map((item, index) => (
                 <li key={index} className="group">
                   {item.hasSubmenu ? (
@@ -293,10 +279,11 @@ const Header = () => {
                         </svg>
                       </button>
                       <div
-                        className={`overflow-hidden transition-all duration-300 ${servicesOpen ? 'max-h-[320px] opacity-100 mt-0.5' : 'max-h-0 opacity-0'
-                          }`}
+                        className={`overflow-hidden transition-all duration-300 ${
+                          servicesOpen ? 'max-h-[320px] opacity-100 mt-1 md:mt-0.5' : 'max-h-0 opacity-0'
+                        }`}
                       >
-                        <div className="pl-3 md:pl-4 border-l-2 border-[#4169E1]/30 space-y-0.5 max-h-[900px]:space-y-0 max-h-[220px] overflow-y-auto pr-2 scrollbar-thin [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#4169E1] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+                        <div className="pl-3 md:pl-4 border-l-2 border-[#4169E1]/30 space-y-1 md:space-y-0.5 max-h-[900px]:space-y-0 max-h-[220px] overflow-y-auto pr-2 scrollbar-thin [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#4169E1] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
                           {serviceSubItems.map((sub, i) => (
                             <Link
                               key={i}
@@ -305,7 +292,7 @@ const Header = () => {
                                 setIsMenuOpen(false);
                                 setServicesOpen(false);
                               }}
-                              className="block text-white/80 text-sm md:text-base lg:text-lg max-h-[900px]:text-[10px] max-h-[900px]:sm:text-xs font-medium hover:text-[#4169E1] transition-colors duration-200"
+                              className="block text-white/80 text-sm md:text-base lg:text-lg max-h-[900px]:text-[10px] max-h-[900px]:sm:text-xs font-medium hover:text-[#4169E1] transition-colors duration-200 py-0.5"
                             >
                               {sub.name}
                             </Link>
@@ -317,7 +304,7 @@ const Header = () => {
                     <Link
                       href={item.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="inline-flex items-center justify-center -ml-5 sm:-ml-6 md:-ml-7 px-5 sm:px-6 md:px-7 py-2 sm:py-2.5 md:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl max-h-[900px]:text-xs max-h-[900px]:sm:text-sm max-h-[900px]:md:text-base font-bold transition-all duration-300 shadow-[0_4px_25px_rgba(65,105,225,0.45)] hover:shadow-[0_4px_30px_rgba(65,105,225,0.7)] hover:scale-105 my-1.5 gap-2"
+                      className="inline-flex items-center justify-center ml-0 md:-ml-7 px-5 sm:px-6 md:px-7 py-2.5 sm:py-2.5 md:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-lg sm:text-xl md:text-3xl lg:text-4xl max-h-[900px]:text-xs max-h-[900px]:sm:text-sm max-h-[900px]:md:text-base font-bold transition-all duration-300 shadow-[0_4px_25px_rgba(65,105,225,0.45)] hover:shadow-[0_4px_30px_rgba(65,105,225,0.7)] hover:scale-105 my-2 md:my-1.5 gap-2"
                     >
                       <span>Contact Us</span>
                       <span className="text-sm md:text-lg">→</span>
@@ -326,7 +313,7 @@ const Header = () => {
                     <Link
                       href={item.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="text-white text-2xl md:text-4xl lg:text-5xl max-h-[900px]:text-xs max-h-[900px]:sm:text-sm max-h-[900px]:md:text-base max-h-[900px]:lg:text-lg font-bold hover:text-[#4169E1] transition-colors duration-300 relative inline-block leading-tight font-sans"
+                      className="text-white text-2xl md:text-4xl lg:text-5xl max-h-[900px]:text-xs max-h-[900px]:sm:text-sm max-h-[900px]:md:text-base max-h-[900px]:lg:text-lg font-bold hover:text-[#4169E1] transition-colors duration-300 relative inline-block leading-tight font-sans py-0.5"
                     >
                       {item.name}
                     </Link>
@@ -334,7 +321,6 @@ const Header = () => {
                 </li>
               ))}
             </ul>
-            
           </div>
         </div>
       </nav>

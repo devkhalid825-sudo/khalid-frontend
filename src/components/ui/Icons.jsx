@@ -106,8 +106,8 @@ export const FiArrowRight = ({ className, ...p }) => (
 );
 
 export const FiFacebook = ({ className, ...p }) => (
-  <svg {...svgProps({ fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' })} className={className} {...p}>
-    <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+  <svg {...svgProps()} className={className} {...p}>
+    <path d="M14 13.5h2.5l1-4H14v-2c0-1.03 0-2 2-2h1.5V2.14c-.326-.043-1.52-.14-2.71-.14-2.85 0-4.79 1.74-4.79 4.93v2.57H7v4h3V22h4v-8.5z" />
   </svg>
 );
 
@@ -308,8 +308,8 @@ export const SiPlaycanvas = ({ className, ...p }) => (
 // ─── tb (Tabler brands) ───────────────────────────────────────────────────────
 
 export const TbBrandLinkedin = ({ className, ...p }) => (
-  <svg {...svgProps({ fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round' })} className={className} {...p}>
-    <path d="M4 6a2 2 0 104 0 2 2 0 00-4 0M4 10h4v10H4zM12 10h3.4v1.4a3.6 3.6 0 013.6-1.4 4 4 0 014 4V20h-4v-5.6a2.4 2.4 0 00-2.4-2.4 2.4 2.4 0 00-2.6 2.4V20h-4V10z" />
+  <svg {...svgProps()} className={className} {...p}>
+    <path d="M6.94 20H3.6V9.6h3.34V20zM5.27 8.16a1.98 1.98 0 1 1 0-3.96 1.98 1.98 0 0 1 0 3.96zM20.4 20h-3.34v-5.23c0-1.25-.02-2.85-1.74-2.85-1.74 0-2 1.36-2 2.76V20h-3.34V9.6h3.2v1.42h.05c.45-.85 1.54-1.74 3.17-1.74 3.39 0 4.02 2.23 4.02 5.13V20z" />
   </svg>
 );
 
@@ -329,7 +329,7 @@ export const TbBrandAdobeAfterEffect = ({ className, ...p }) => (
 
 export const RiYoutubeLine = ({ className, ...p }) => (
   <svg {...svgProps()} className={className} {...p}>
-    <path d="M21.543 6.498C22 8.28 22 12 22 12s0 3.72-.457 5.502c-.254.985-.997 1.76-1.938 2.022C17.896 20 12 20 12 20s-5.893 0-7.605-.476c-.945-.266-1.687-1.04-1.938-2.022C2 15.72 2 12 2 12s0-3.72.457-5.502c.254-.985.997-1.76 1.938-2.022C6.107 4 12 4 12 4s5.896 0 7.605.476c.945.266 1.687 1.04 1.938 2.022zM10 15.5l6-3.5-6-3.5v7z" />
+    <path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
   </svg>
 );
 

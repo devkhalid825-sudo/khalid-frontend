@@ -1,11 +1,9 @@
 'use client';
 
-import React, { useState, useEffect, useRef, useCallback, useMemo, Suspense, lazy } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import Header from '../layouts/Header';
-import VideoBg from './VideoBg';
 import { HERO_ASSETS } from '@/constants/assets';
-
-const CarouselIndicators = lazy(() => import('../ui/CarouselIndicators'));
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 const firstSlidePosterMobile = HERO_ASSETS.images.mobilePoster;
 const firstSlidePosterDesktop = HERO_ASSETS.images.desktopPoster;
@@ -56,13 +54,12 @@ const DESKTOP_SLIDES = [
   },
 ];
 
-const MOBILE_BACKGROUNDS = [
-  HERO_ASSETS.videos.love,
-  HERO_ASSETS.videos.volvoReel,
-  HERO_ASSETS.videos.mobile,
-];
+// Mobile slides exclude Gabani Emerald as requested
+const MOBILE_SLIDES = DESKTOP_SLIDES.filter((s) => s.id !== 'gabani');
 
 const Hero = () => {
+  const { isLight } = useTheme();
+
   // Desktop Carousel State
   const [desktopIndex, setDesktopIndex] = useState(0);
   const [isMuted, setIsMuted] = useState(true);
@@ -70,9 +67,11 @@ const Hero = () => {
 
   // Mobile Hero State
   const [mobileIndex, setMobileIndex] = useState(0);
+  const mobileVideoRef = useRef(null);
 
   const totalDesktop = DESKTOP_SLIDES.length;
   const currentDesktopSlide = DESKTOP_SLIDES[desktopIndex];
+  const currentMobileSlide = MOBILE_SLIDES[mobileIndex % MOBILE_SLIDES.length];
   const prevDesktopIndex = (desktopIndex - 1 + totalDesktop) % totalDesktop;
   const nextDesktopIndex = (desktopIndex + 1) % totalDesktop;
   const prevDesktopSlide = DESKTOP_SLIDES[prevDesktopIndex];
@@ -87,9 +86,9 @@ const Hero = () => {
     setDesktopIndex((prev) => (prev - 1 + totalDesktop) % totalDesktop);
   }, [totalDesktop]);
 
-  // Mobile Navigation
+  // Mobile Navigation (Cycles through MOBILE_SLIDES)
   const handleMobileNext = useCallback(() => {
-    setMobileIndex((prev) => (prev + 1) % MOBILE_BACKGROUNDS.length);
+    setMobileIndex((prev) => (prev + 1) % MOBILE_SLIDES.length);
   }, []);
 
   // Keyboard navigation for desktop
@@ -123,56 +122,35 @@ const Hero = () => {
   return (
     <>
       {/* ========================================================================= */}
-      {/* 1. MOBILE HERO (Original Full-Screen Immersive Dark Layout for < md)       */}
+      {/* 1. MOBILE HERO (Desktop Video at Top, Header Below Video, Contact Us Below)*/}
       {/* ========================================================================= */}
-      <section id="hero-mobile" className="relative w-full h-dvh bg-black px-[15px] py-[15px] md:hidden">
-        <div className="relative w-full h-full overflow-hidden bg-black shadow-2xl rounded-[24px]">
-          <Header />
-
-          {MOBILE_BACKGROUNDS.map((bg, index) => {
-            const isActive = index === mobileIndex;
-            const isNext = index === (mobileIndex + 1) % MOBILE_BACKGROUNDS.length;
-
-            if (!isActive && !isNext) return null;
-
-            return (
-              <div
-                key={index}
-                className={`absolute inset-0 ${index === 0 ? '' : 'transition-opacity duration-500 ease-in-out'
-                  } ${isActive ? 'opacity-100 z-10' : 'opacity-0 z-0'}`}
-                style={{ visibility: isActive ? 'visible' : 'hidden' }}
-              >
-                <VideoBg
-                  videoFile={bg}
-                  darken={false}
-                  overlay={false}
-                  className="absolute inset-0 w-full h-full object-cover z-10"
-                  videoPoster={firstSlidePosterMobile}
-                  isActive={isActive}
-                  lazy={!isActive && !isNext}
-                  onEnded={handleMobileNext}
-                  loop={MOBILE_BACKGROUNDS.length === 1}
-                  preload={isActive ? 'auto' : isNext ? 'metadata' : 'none'}
-                  fetchPriority={isActive ? 'high' : isNext ? 'auto' : 'low'}
-                />
-              </div>
-            );
-          })}
-
-          {MOBILE_BACKGROUNDS.length > 1 && (
-            <Suspense fallback={null}>
-              <CarouselIndicators
-                activeIndex={mobileIndex}
-                total={MOBILE_BACKGROUNDS.length}
-                onSelect={setMobileIndex}
-              />
-            </Suspense>
-          )}
-
-          <h1 className="sr-only">
-            Elipse Studio &mdash; 3D Visualization, AR/VR &amp; Web Configurator Agency
-          </h1>
+      <section id="hero-mobile" className={`relative w-full overflow-hidden md:hidden transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'}`}>
+        {/* Top Edge-to-Edge Video Container (Strict 16:9 - No Side Cropping) */}
+        <div className="relative w-full aspect-video overflow-hidden bg-black">
+          {/* Active Mobile Video (Uses Desktop Slides) */}
+          <video
+            ref={mobileVideoRef}
+            key={currentMobileSlide.video}
+            src={currentMobileSlide.video}
+            poster={mobileIndex === 0 ? (currentMobileSlide.poster || firstSlidePosterDesktop) : undefined}
+            autoPlay
+            playsInline
+            webkit-playsinline="true"
+            muted
+            loop={MOBILE_SLIDES.length === 1}
+            onEnded={handleMobileNext}
+            className="w-full h-full object-contain"
+          />
         </div>
+
+        {/* Header Directly Below Video on Mobile */}
+        <div className="relative w-full z-40">
+          <Header isBelowVideoMobile={true} />
+        </div>
+
+        <h1 className="sr-only">
+          Elipse Studio &mdash; 3D Visualization, AR/VR &amp; Web Configurator Agency
+        </h1>
       </section>
 
       {/* ========================================================================= */}

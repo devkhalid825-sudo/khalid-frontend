@@ -224,17 +224,17 @@ const Footer = () => {
           {/* Social and Back to top on the right */}
           <div className="flex flex-col justify-between lg:items-end gap-6 sm:gap-10">
             <div className="flex flex-col gap-4 lg:items-end">
-              <span className="text-white lg:text-right text-xs sm:text-sm tracking-[0.2em] uppercase font-medium border-white/50 inline-block w-fit">
+              <span className="text-white lg:text-right text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold border-white/50 inline-block w-fit footer-social-heading">
                 Social
               </span>
-              <div className="flex gap-4">
+              <div className="flex items-center gap-4 text-white footer-social-links">
                 {socialLinkImages.map((data, i) => (
                   <a
                     href={data.link}
                     target="_blank"
                     rel="noopener noreferrer"
                     aria-label={data.label}
-                    className="text-xl sm:text-2xl hover:text-white transition-colors"
+                    className="text-xl sm:text-2xl text-white/80 hover:text-white transition-colors footer-social-item"
                     key={i}
                   >
                     {data.img}

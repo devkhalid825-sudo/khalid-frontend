@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import { m as motion } from 'framer-motion';
-import { Link } from 'react-router-dom';
+import Link from 'next/link';
 
 import Header from './layouts/Header';
 import Footer from './layouts/Footer';
@@ -10,10 +10,8 @@ import Contact from './features/Contact';
 import { getImgSrc } from '../utils/api';
 
 import capabilitiesHeroImgRaw from '../assets/About-page/capabilities.webp';
-import capabilitiesSecImgRaw from '../assets/costom-software/xyz.webp';
 
 const capabilitiesHeroImg = getImgSrc(capabilitiesHeroImgRaw);
-const capabilitiesSecImg = getImgSrc(capabilitiesSecImgRaw);
 
 const statsData = [
   { label: 'Projects Delivered', value: '250+' },
@@ -61,6 +59,7 @@ const AnimatedCounter = ({ value, suffix }) => {
 const capabilitiesData = [
   {
     pillarNumber: '01',
+    link: '/services/3d-product-configurators',
     icon: (
       <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M12 2L2 7l10 5 10-5-10-5z" strokeLinecap="round" strokeLinejoin="round" />
@@ -81,6 +80,7 @@ const capabilitiesData = [
   },
   {
     pillarNumber: '02',
+    link: '/services/architectural-visualization',
     icon: (
       <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" strokeLinecap="round" strokeLinejoin="round" />
@@ -100,6 +100,7 @@ const capabilitiesData = [
   },
   {
     pillarNumber: '03',
+    link: '/services/3d-product-visualization',
     icon: (
       <svg className="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <circle cx="12" cy="12" r="10" strokeLinecap="round" strokeLinejoin="round" />
@@ -225,12 +226,19 @@ const CapabilitiesPage = () => {
                   initial={{ y: 30, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.65 }}
-                  className="mt-10 flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4"
+                  className="mt-8 sm:mt-10 flex flex-row flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3.5"
                 >
-                  <Link to="/contact" data-el-track="get-in-touch-capabilities-hero" className="relative px-8 py-3 md:px-8 md:py-3.5 bg-[#4169E1] text-white text-sm md:text-sm font-medium uppercase tracking-widest rounded-full hover:bg-[#3a5ecc] transition-all duration-300 text-center w-full sm:w-auto">
+                  <Link
+                    href="/contact"
+                    data-el-track="get-in-touch-capabilities-hero"
+                    className="relative px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-3.5 bg-[#4169E1] text-white text-[11px] sm:text-xs md:text-sm font-semibold uppercase tracking-wider rounded-full hover:bg-[#3a5ecc] transition-all duration-300 text-center shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40 whitespace-nowrap w-auto"
+                  >
                     Start Your Project
                   </Link>
-                  <a href="#capabilities" className="px-8 py-3 md:px-8 md:py-3.5 border border-white/15 text-white/50 text-sm md:text-sm font-medium uppercase tracking-widest rounded-full hover:bg-white/5 hover:text-white hover:border-white/30 transition-all duration-300 text-center w-full sm:w-auto">
+                  <a
+                    href="#capabilities"
+                    className="px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-3.5 border border-white/20 text-white/70 hover:text-white text-[11px] sm:text-xs md:text-sm font-semibold uppercase tracking-wider rounded-full hover:bg-white/5 hover:border-white/40 transition-all duration-300 text-center whitespace-nowrap w-auto"
+                  >
                     Explore Services
                   </a>
                 </motion.div>
@@ -293,64 +301,6 @@ const CapabilitiesPage = () => {
           </motion.div>
         </section>
 
-        {/* ===== INTRO / OVERVIEW ===== */}
-        <section className="py-12 md:py-32 bg-[#0a0a0a] px-5 md:px-16">
-          <div className="max-w-[1750px] mx-auto">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-12 lg:gap-20 items-center">
-              <motion.div
-                initial={{ x: -40, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-              >
-                <span className="text-[#4169E1] text-xs md:text-sm tracking-[0.3em] uppercase font-medium">Our Expertise</span>
-                <h2 className="mt-6 text-4xl md:text-6xl lg:text-7xl font-semibold tracking-tighter leading-none">
-                  Three Pillars of <br />3D Excellence
-                </h2>
-                <p className="mt-8 text-white/80 text-lg md:text-xl font-light leading-relaxed">
-                  Elipse Studio delivers enterprise-grade 3D experiences across three focused practice areas: interactive
-                  real-time configurators, photorealistic architectural visualization with VR/AR, and cinematic product
-                  &amp; commercial visuals. Every project is driven by our 40+ specialist team and built to perform.
-                </p>
-                <p className="mt-6 text-white/80 text-lg md:text-xl font-light leading-relaxed">
-                  From a web-based product configurator that drives e-commerce conversions, to a VR walkthrough that
-                  closes real estate deals, to a CGI commercial that wins attention — we focus exclusively on 3D
-                  disciplines where we deliver world-class results.
-                </p>
-                <motion.div
-                  initial={{ y: 20, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
-                  className="mt-10"
-                >
-                  <Link to="/contact"
-                    className="bg-[#4169E1] hover:bg-[#3558c8] text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full text-xs md:text-base font-medium transition-all inline-block shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40"
-                  >
-                    Discuss Your Project
-                  </Link>
-                </motion.div>
-              </motion.div>
-              <motion.div
-                initial={{ x: 40, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.8 }}
-                className=" overflow-hidden shadow-2xl aspect-[4/3]"
-              >
-                <img
-                  src={capabilitiesSecImg}
-                  alt="Elipse Studio team workspace — creative technology and 3D design studio"
-                  width="800"
-                  height="600"
-                  className="w-full h-full object-cover"
-                  loading="lazy"
-                  decoding="async"
-                />
-              </motion.div>
-            </div>
-          </div>
-        </section>
 
         {/* ===== CORE CAPABILITIES ===== */}
         <section id="capabilities" className="py-12 md:py-32 bg-[#0a0a0a] px-5 md:px-16">
@@ -375,24 +325,40 @@ const CapabilitiesPage = () => {
                   whileInView={{ y: 0, opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group bg-[#111111] rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 border border-white/5 hover:border-[#4169E1]/30 transition-all duration-500 hover:-translate-y-2 flex flex-col"
+                  className="group bg-[#111111] rounded-[1.5rem] md:rounded-[2rem] p-6 md:p-10 border border-white/5 hover:border-[#4169E1]/30 transition-all duration-500 hover:-translate-y-2 flex flex-col justify-between"
                 >
-                  <div className="flex items-center gap-3 mb-2">
-                    <span className="text-[#4169E1]/40 text-xs font-bold tracking-[0.25em] uppercase">Pillar {cap.pillarNumber}</span>
+                  <div>
+                    <div className="flex items-center gap-3 mb-2">
+                      <span className="text-[#4169E1]/40 text-xs font-bold tracking-[0.25em] uppercase">Pillar {cap.pillarNumber}</span>
+                    </div>
+                    <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#4169E1]/10 flex items-center justify-center group-hover:bg-[#4169E1]/20 transition-colors">
+                      <span className="text-[#4169E1]">{cap.icon}</span>
+                    </div>
+                    <Link href={cap.link}>
+                      <h3 className="mt-5 md:mt-6 text-lg md:text-2xl font-semibold text-white group-hover:text-[#4169E1] transition-colors">{cap.title}</h3>
+                    </Link>
+                    <p className="mt-3 md:mt-4 text-white/70 text-sm md:text-base font-light leading-relaxed">{cap.description}</p>
+                    <ul className="mt-4 md:mt-6 space-y-2 md:space-y-3 text-white/60 text-sm font-light border-t border-white/5 pt-4 md:pt-6">
+                      {cap.features.map((f) => (
+                        <li key={f} className="flex items-start gap-3">
+                          <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#4169E1] flex-shrink-0" />
+                          {f}
+                        </li>
+                      ))}
+                    </ul>
                   </div>
-                  <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#4169E1]/10 flex items-center justify-center group-hover:bg-[#4169E1]/20 transition-colors">
-                    <span className="text-[#4169E1]">{cap.icon}</span>
+
+                  <div className="mt-6 md:mt-8 pt-5 border-t border-white/5">
+                    <Link
+                      href={cap.link}
+                      className="w-full inline-flex items-center justify-center gap-2.5 px-6 py-3 rounded-full bg-[#4169E1]/10 hover:bg-[#4169E1] text-[#4169E1] hover:text-white border border-[#4169E1]/30 hover:border-[#4169E1] text-xs md:text-sm font-semibold tracking-wider uppercase transition-all duration-300 group/btn shadow-sm hover:shadow-[0_0_20px_rgba(65,105,225,0.35)]"
+                    >
+                      <span>Explore</span>
+                      <svg className="w-4 h-4 transform group-hover/btn:translate-x-1.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                      </svg>
+                    </Link>
                   </div>
-                  <h3 className="mt-5 md:mt-6 text-lg md:text-2xl font-semibold text-white group-hover:text-[#4169E1] transition-colors">{cap.title}</h3>
-                  <p className="mt-3 md:mt-4 text-white/70 text-sm md:text-base font-light leading-relaxed flex-1">{cap.description}</p>
-                  <ul className="mt-4 md:mt-6 space-y-2 md:space-y-3 text-white/60 text-sm font-light border-t border-white/5 pt-4 md:pt-6">
-                    {cap.features.map((f) => (
-                      <li key={f} className="flex items-start gap-3">
-                        <span className="mt-2 w-1.5 h-1.5 rounded-full bg-[#4169E1] flex-shrink-0" />
-                        {f}
-                      </li>
-                    ))}
-                  </ul>
                 </motion.div>
               ))}
             </div>
@@ -489,7 +455,7 @@ const CapabilitiesPage = () => {
                 Let&apos;s discuss how our capabilities can transform your next project into an immersive digital experience.
               </p>
               <div className="flex flex-row flex-wrap items-center justify-center gap-3 md:gap-4">
-                <Link to="/contact"
+                <Link href="/contact"
                   data-el-track="start-your-project-capabilities"
                   className="bg-[#4169E1] hover:bg-[#3558c8] text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full text-xs md:text-base font-medium transition-all inline-block shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40"
                 >

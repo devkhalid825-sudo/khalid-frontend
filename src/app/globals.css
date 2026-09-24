@@ -120,7 +120,7 @@ body {
   display: flex;
   align-items: center;
   flex-shrink: 0;
-  animation: marquee-loop 25s linear infinite;
+  animation: marquee-loop 33s linear infinite;
   will-change: transform;
 }
 
@@ -1443,17 +1443,46 @@ html.light header.header-scrolled {
 }
 
 @media (max-width: 767px) {
-  /* On mobile hero, keep logo and icons white while transparent over hero video */
-  html.light header:not(.header-scrolled):not(.header-menu-open) .site-logo {
+  /* On mobile hero, ONLY keep logo and icons white if header is truly over a dark video with text-white */
+  html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) .site-logo {
     filter: none !important;
   }
-  html.light header:not(.header-scrolled):not(.header-menu-open) button,
-  html.light header:not(.header-scrolled):not(.header-menu-open) .site-header-contact-btn {
+  html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) button,
+  html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) .site-header-contact-btn {
     border-color: rgba(255, 255, 255, 0.3) !important;
     color: #ffffff !important;
   }
-  html.light header:not(.header-scrolled):not(.header-menu-open) svg {
+  html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) svg {
     color: #ffffff !important;
+  }
+
+  /* When on white/light background in day mode: ensure logo, toggle and menu are crisp black */
+  html.light header.bg-white .site-logo,
+  html.light header.text-black .site-logo,
+  html.light header.header-scrolled .site-logo {
+    filter: invert(1) brightness(0.15) !important;
+  }
+  html.light header.bg-white button,
+  html.light header.text-black button,
+  html.light header.header-scrolled button,
+  html.light header.bg-white .site-header-contact-btn,
+  html.light header.text-black .site-header-contact-btn {
+    border-color: rgba(0, 0, 0, 0.25) !important;
+    color: #000000 !important;
+  }
+  html.light header.bg-white svg,
+  html.light header.text-black svg,
+  html.light header.header-scrolled svg {
+    color: #000000 !important;
+  }
+  /* When menu is open: keep logo and controls crisp white against dark drawer */
+  html.light header.header-menu-open .site-logo {
+    filter: none !important;
+  }
+  html.light header.header-menu-open button,
+  html.light header.header-menu-open svg {
+    color: #ffffff !important;
+    border-color: rgba(255, 255, 255, 0.2) !important;
   }
 }
 
@@ -1497,3 +1526,22 @@ html.light header button:hover {
 html.light header svg {
   color: inherit !important;
 }
+
+/* Ensure footer social section stays crisp white on dark blue background */
+.site-main-footer .footer-social-heading,
+html.light .site-main-footer .footer-social-heading {
+  color: #ffffff !important;
+}
+
+.site-main-footer .footer-social-links,
+html.light .site-main-footer .footer-social-links,
+.site-main-footer .footer-social-item,
+html.light .site-main-footer .footer-social-item {
+  color: rgba(255, 255, 255, 0.9) !important;
+}
+
+.site-main-footer .footer-social-item:hover,
+html.light .site-main-footer .footer-social-item:hover {
+  color: #4169e1 !important;
+}
+

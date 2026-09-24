@@ -118,7 +118,7 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
       if (ovText) {
         storyBlocks.push({
           tag: 'Overview',
-          heading: data.overviewHeading || (isCaseStudy ? 'Case study overview' : 'Enterprise VR Training & Simulation'),
+          heading: data.overviewHeading || (isCaseStudy ? 'Case study overview' : 'Project overview'),
           text: ovText,
           image: null,
           position: 'left',
@@ -127,7 +127,7 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
       if (chText) {
         storyBlocks.push({
           tag: 'The challenge',
-          heading: data.challengeHeading || 'Training Realism',
+          heading: data.challengeHeading || 'Key challenges',
           text: chText,
           image: null,
           position: 'right',

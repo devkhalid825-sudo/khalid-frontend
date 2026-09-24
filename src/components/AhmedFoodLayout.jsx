@@ -104,8 +104,17 @@ const AhmedFoodLayout = ({
   const router = useRouter();
   const [activeVideo, setActiveVideo] = useState(0);
   const [lightboxImg, setLightboxImg] = useState(null);
+  const [copied, setCopied] = useState(false);
   const themeContext = useTheme();
   const isLight = themeContext?.isLight || false;
+
+  const handleCopyLink = () => {
+    if (typeof window !== 'undefined') {
+      navigator.clipboard.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
 
   const handleStartProject = () => {
     const contactSection = document.getElementById('contact');
@@ -143,7 +152,7 @@ const AhmedFoodLayout = ({
     if (overview) {
       blocks.push({
         tag: 'Overview',
-        heading: overviewHeading || 'Enterprise VR Training & Simulation',
+        heading: overviewHeading || 'Project Overview',
         text: overview,
         image: null,
         position: 'left',
@@ -152,7 +161,7 @@ const AhmedFoodLayout = ({
     if (challenge) {
       blocks.push({
         tag: 'The challenge',
-        heading: challengeHeading || 'Training Realism',
+        heading: challengeHeading || 'Key Challenges',
         text: challenge,
         image: null,
         position: 'right',
@@ -172,17 +181,15 @@ const AhmedFoodLayout = ({
           return (
             <div
               key={i}
-              className={`w-full ${
-                hasImage
-                  ? 'grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 items-center'
-                  : `max-w-4xl mx-auto p-6 md:p-10 rounded-2xl border ${isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#111] border-[#222]'}`
-              }`}
+              className={`w-full ${hasImage
+                ? 'grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 items-center'
+                : `max-w-4xl mx-auto p-6 md:p-10 rounded-2xl border ${isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#111] border-[#222]'}`
+                }`}
             >
               {hasImage && (
                 <div
-                  className={`w-full rounded-2xl overflow-hidden border ${isLight ? 'border-neutral-200 bg-neutral-100' : 'border-white/10 bg-[#1A1A1A]'} shadow-2xl aspect-[16/10] sm:aspect-video relative group ${
-                    isLeft ? 'lg:order-1' : 'lg:order-2'
-                  }`}
+                  className={`w-full rounded-2xl overflow-hidden border ${isLight ? 'border-neutral-200 bg-neutral-100' : 'border-white/10 bg-[#1A1A1A]'} shadow-2xl aspect-[16/10] sm:aspect-video relative group ${isLeft ? 'lg:order-1' : 'lg:order-2'
+                    }`}
                 >
                   <img
                     src={resolveImageUrl(block.image)}
@@ -193,13 +200,12 @@ const AhmedFoodLayout = ({
                 </div>
               )}
               <div
-                className={`space-y-4 ${
-                  hasImage
-                    ? isLeft
-                      ? 'lg:order-2'
-                      : 'lg:order-1'
-                    : ''
-                }`}
+                className={`space-y-4 ${hasImage
+                  ? isLeft
+                    ? 'lg:order-2'
+                    : 'lg:order-1'
+                  : ''
+                  }`}
               >
                 {block.tag && (
                   <span className={`inline-block text-xs sm:text-[13px] font-semibold tracking-[0.14em] uppercase ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}`}>
@@ -224,8 +230,7 @@ const AhmedFoodLayout = ({
     );
   };
 
-  // Render Gallery (16:9 Thumbnails & Stills)
-  // Render Thumbnails (16:9 - 3 per row)
+
   const renderThumbnails = () => {
     const hasThumbnails = galleryThumbnails && galleryThumbnails.length > 0;
     if (!hasThumbnails) return null;
@@ -447,13 +452,13 @@ const AhmedFoodLayout = ({
   const currentVideoUrl = activeTabObj?.url || heroVideo;
   const currentAspectRatio = activeTabObj?.aspectRatio || heroAspectRatio || 'video';
 
-  // Fallback ticker words
+  // Only display ticker words when explicitly provided by the user
   const effectiveTickerWords = React.useMemo(() => {
     if (Array.isArray(tickerWords) && tickerWords.length > 0) return tickerWords.filter(Boolean);
     if (typeof tickerWords === 'string' && tickerWords.trim()) {
       return tickerWords.split(/[,•|✦\n]+/).map((s) => s.trim()).filter(Boolean);
     }
-    return ['3D VISUALIZATION', 'VIRTUAL TOURS', 'UNREAL ENGINE 5', 'PHOTOREALISM', 'CGI ANIMATION', 'DIGITAL TWINS'];
+    return [];
   }, [tickerWords]);
 
   const renderStyledTitle = (rawTitle) => {
@@ -499,31 +504,31 @@ const AhmedFoodLayout = ({
     <div className={`w-full overflow-x-hidden transition-colors duration-300 ${isLight ? 'bg-white text-neutral-900 selection:bg-[#2563EB]/30' : 'bg-[#0D0D0D] text-[#F2F0EB] selection:bg-[#4169E1]/30'}`}>
 
       {/* HERO SECTION — LEAP 2026 STYLE 3-COLUMN */}
-      <section className={`relative px-4 sm:px-6 md:px-10 lg:px-14 pt-[85px] sm:pt-[110px] md:pt-[125px] pb-10 sm:pb-16 overflow-hidden transition-colors duration-300 ${isLight ? 'bg-white text-neutral-900' : 'bg-[#0D0D0D] text-[#F2F0EB]'}`}>
+      <section className={`relative min-h-screen flex flex-col justify-between px-2.5 sm:px-6 md:px-10 lg:px-14 pt-[75px] sm:pt-[90px] md:pt-[100px] pb-4 sm:pb-6 overflow-hidden transition-colors duration-300 ${isLight ? 'bg-white text-neutral-900' : 'bg-[#0D0D0D] text-[#F2F0EB]'}`}>
         <Header />
 
         {/* Decorative ✦ top-left (positioned below Header) */}
-        <div className={`hidden lg:block absolute top-[115px] sm:top-[130px] lg:top-[145px] left-8 sm:left-12 lg:left-16 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} text-3xl font-bold select-none pointer-events-none z-10`} aria-hidden="true">
+        <div className={`hidden lg:block absolute top-[95px] sm:top-[110px] lg:top-[125px] left-8 sm:left-12 lg:left-16 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} text-3xl font-bold select-none pointer-events-none z-10`} aria-hidden="true">
           ✦
         </div>
         {/* Decorative arrow top-right (positioned below Header) */}
-        <div className={`hidden lg:block absolute top-[115px] sm:top-[130px] lg:top-[145px] right-8 sm:right-12 lg:right-16 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} text-lg font-bold select-none pointer-events-none opacity-70 z-10`} aria-hidden="true">
+        <div className={`hidden lg:block absolute top-[95px] sm:top-[110px] lg:top-[125px] right-8 sm:right-12 lg:right-16 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} text-lg font-bold select-none pointer-events-none opacity-70 z-10`} aria-hidden="true">
           <svg width="36" height="24" viewBox="0 0 60 40" fill="none">
             <path d="M4 20 Q20 4 40 16 Q52 22 54 10" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" fill="none" />
             <path d="M48 6 L54 10 L50 16" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           </svg>
         </div>
 
-        <div className="max-w-[1600px] mx-auto flex flex-col items-center text-center w-full px-2 sm:px-6">
+        <div className="max-w-[1600px] mx-auto flex flex-col items-center text-center w-full px-0 sm:px-6 my-auto">
 
           {/* ── Main Center Headline ── */}
-          <h1 className={`text-3xl sm:text-4xl lg:text-5xl xl:text-[54px] font-bold tracking-tight max-w-4xl leading-tight mb-2.5 sm:mb-3 px-4 ${isLight ? 'text-neutral-900' : 'text-white'}`}>
+          <h1 className={`text-[25px] xs:text-[27px] sm:text-3xl md:text-4xl lg:text-5xl xl:text-[54px] font-bold tracking-tight max-w-4xl leading-tight mb-2 sm:mb-3 px-1 sm:px-4 ${isLight ? 'text-neutral-900' : 'text-white'}`}>
             {renderStyledTitle(title)}
           </h1>
 
           {/* Subtitle / Subheading */}
           {subtitle && (
-            <p className={`text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-4 sm:mb-5 px-4 ${isLight ? 'text-neutral-600' : 'text-zinc-400'}`}>
+            <p className={`text-xs sm:text-base md:text-lg max-w-2xl mx-auto leading-relaxed mb-3 sm:mb-5 px-2 ${isLight ? 'text-neutral-600' : 'text-zinc-400'}`}>
               {subtitle}
             </p>
           )}
@@ -536,11 +541,10 @@ const AhmedFoodLayout = ({
                   key={tab.id ?? tab.label ?? idx}
                   type="button"
                   onClick={() => setActiveVideo(idx)}
-                  className={`text-xs font-semibold px-4 py-2 sm:px-5 sm:py-2.5 rounded-full border transition-all duration-200 cursor-pointer ${
-                    activeVideo === idx
-                      ? (isLight ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-lg shadow-[#2563EB]/25' : 'bg-[#4169E1] text-white border-[#4169E1] shadow-lg shadow-[#4169E1]/25')
-                      : (isLight ? 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400 hover:text-black' : 'bg-[#141414] text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white')
-                  }`}
+                  className={`text-xs font-semibold px-4 py-2 sm:px-5 sm:py-2.5 rounded-full border transition-all duration-200 cursor-pointer ${activeVideo === idx
+                    ? (isLight ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-lg shadow-[#2563EB]/25' : 'bg-[#4169E1] text-white border-[#4169E1] shadow-lg shadow-[#4169E1]/25')
+                    : (isLight ? 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400 hover:text-black' : 'bg-[#141414] text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white')
+                    }`}
                 >
                   {tab.label || `Tab ${idx + 1}`}
                 </button>
@@ -548,21 +552,21 @@ const AhmedFoodLayout = ({
             </div>
           )}
 
-          {/* ── 3-Column Content Grid (Cards + Video) — Pushed lower down ── */}
-          <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 items-center relative mt-4 sm:mt-6 lg:mt-8 mb-6 sm:mb-10">
+          {/* ── 3-Column Content Grid: Left (lg:col-span-2) | Center Video (lg:col-span-8) | Right (lg:col-span-2) ── */}
+          <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 xl:gap-8 items-center relative mt-2 sm:mt-4 mb-4 sm:mb-6">
 
-            {/* Left Column: Icon + Intro + CTA Button */}
-            <div className="lg:col-span-3 text-center lg:text-left space-y-4 px-2 sm:px-0 w-full min-w-0 max-w-md mx-auto lg:mx-0">
-              <div className={`w-10 h-10 rounded-full ${isLight ? 'bg-blue-50 border-blue-100 text-[#2563EB]' : 'bg-blue-950/40 border-blue-900/50 text-[#4169E1]'} border flex items-center justify-center text-xl shadow-sm mx-auto lg:mx-0`}>
+            {/* Left Column: Icon + Intro + CTA Button (Hidden on mobile, visible on desktop like Image 1) */}
+            <div className="hidden lg:flex lg:col-span-2 text-center lg:text-left space-y-3 px-1 sm:px-0 w-full min-w-0 flex-col items-center lg:items-start">
+              <div className={`w-9 h-9 rounded-full ${isLight ? 'bg-blue-50 border-blue-100 text-[#2563EB]' : 'bg-blue-950/40 border-blue-900/50 text-[#4169E1]'} border flex items-center justify-center text-lg shadow-sm mx-auto lg:mx-0`}>
                 💡
               </div>
-              <p className={`text-sm sm:text-[15px] leading-relaxed ${isLight ? 'text-neutral-600' : 'text-zinc-400'}`}>
+              <p className={`text-xs sm:text-[13px] xl:text-sm leading-relaxed ${isLight ? 'text-neutral-600' : 'text-zinc-400'}`}>
                 {leftColumnText}
               </p>
               {ctaUrl ? (
                 <a
                   href={ctaUrl}
-                  className={`w-full sm:w-auto px-6 py-2.5 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center inline-block ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
+                  className={`w-full sm:w-auto px-5 py-2 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center inline-block ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
                 >
                   {ctaText || 'Explore Insights'}
                 </a>
@@ -570,28 +574,27 @@ const AhmedFoodLayout = ({
                 <button
                   type="button"
                   onClick={handleStartProject}
-                  className={`w-full sm:w-auto px-6 py-2.5 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
+                  className={`w-full sm:w-auto px-5 py-2 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
                 >
                   {ctaText || 'Explore Insights'}
                 </button>
               )}
             </div>
 
-            {/* Center Column: Media Player Container */}
-            <div className="lg:col-span-6 relative flex flex-col items-center justify-center px-2 sm:px-0 w-full">
+            {/* Center Column: Media Player Container (Expanded to lg:col-span-8 like Image 1) */}
+            <div className="lg:col-span-8 relative flex flex-col items-center justify-center px-0 sm:px-0 w-full">
               {/* Circular backdrop glow */}
-              <div className={`absolute w-96 h-96 sm:w-[36rem] sm:h-[36rem] lg:w-[46rem] lg:h-[46rem] ${isLight ? 'bg-neutral-100 border-neutral-200/60' : 'bg-white/[0.03] border-white/5'} rounded-full -z-10 border flex items-center justify-center pointer-events-none`}>
+              <div className={`absolute w-80 h-80 sm:w-[34rem] sm:h-[34rem] lg:w-[44rem] lg:h-[44rem] ${isLight ? 'bg-neutral-100 border-neutral-200/60' : 'bg-white/[0.03] border-white/5'} rounded-full -z-10 border flex items-center justify-center pointer-events-none`}>
                 <span className="absolute bottom-6 text-neutral-400 text-2xl select-none">⚡</span>
               </div>
 
-              {/* Media Card Container (+30% Width Increased) */}
-              <div className={`relative rounded-2xl overflow-hidden shadow-2xl border-4 ${isLight ? 'border-white bg-zinc-950' : 'border-zinc-800 bg-black'} z-10 transition-all duration-300 w-full ${
-                currentAspectRatio === 'reel'
-                  ? 'w-64 h-[22rem] sm:w-[24rem] sm:h-[30rem] lg:w-[26rem] lg:h-[34rem] aspect-[9/16]'
-                  : currentAspectRatio === 'square'
-                    ? 'w-full max-w-[860px] xl:max-w-[960px] aspect-[16/10] max-h-[460px] sm:max-h-[500px]'
-                    : 'w-full max-w-[980px] xl:max-w-[1100px] aspect-video'
-              }`}>
+              {/* Media Card Container (Enlarged for prominent video presentation) */}
+              <div className={`relative rounded-2xl overflow-hidden shadow-2xl border-2 sm:border-4 ${isLight ? 'border-white bg-zinc-950' : 'border-zinc-800 bg-black'} z-10 transition-all duration-300 w-full ${currentAspectRatio === 'reel'
+                ? 'w-64 h-[22rem] sm:w-[24rem] sm:h-[30rem] lg:w-[26rem] lg:h-[34rem] aspect-[9/16]'
+                : currentAspectRatio === 'square'
+                  ? 'w-full max-w-[880px] xl:max-w-[980px] h-[260px] xs:h-[295px] sm:h-auto sm:aspect-[16/10] max-h-[480px] sm:max-h-[520px]'
+                  : 'w-full max-w-[1040px] xl:max-w-[1150px] h-[260px] xs:h-[295px] sm:h-auto sm:aspect-video'
+                }`}>
                 {currentVideoUrl ? (
                   isDirectVideo(currentVideoUrl) ? (
                     <video
@@ -625,24 +628,66 @@ const AhmedFoodLayout = ({
                   />
                 ) : null}
               </div>
+
+              {/* ── Fixed Editorial Pill Bar (Constant below project video, inverts based on theme) ── */}
+              <div className={`mt-4 sm:mt-5 hidden md:inline-flex flex-row items-center justify-center gap-3.5 px-6 py-2.5 rounded-full text-xs sm:text-[13px] font-medium z-20 transition-all duration-300 ${
+                isLight
+                  ? 'bg-neutral-900 text-white border border-neutral-800 shadow-xl'
+                  : 'bg-white text-neutral-800 border border-neutral-200/90 shadow-md'
+              }`}>
+                <a
+                  href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting?month=2026-09"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`font-semibold transition-colors whitespace-nowrap ${
+                    isLight ? 'text-emerald-400 hover:text-emerald-300' : 'text-emerald-500 hover:text-emerald-600'
+                  }`}
+                >
+                  Book a technical scoping call ↗
+                </a>
+                <span className={`h-3.5 w-px ${isLight ? 'bg-neutral-700' : 'bg-neutral-300'}`} aria-hidden="true" />
+                <span className={`whitespace-nowrap ${isLight ? 'text-neutral-300' : 'text-neutral-700'}`}>
+                  By Elipse Studio Editorial Team
+                </span>
+                <span className={`h-3.5 w-px ${isLight ? 'bg-neutral-700' : 'bg-neutral-300'}`} aria-hidden="true" />
+                <button
+                  type="button"
+                  onClick={handleCopyLink}
+                  className={`font-semibold transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap ${
+                    isLight ? 'text-blue-400 hover:text-blue-300' : 'text-blue-500 hover:text-blue-600'
+                  }`}
+                >
+                  {copied ? (
+                    <svg className="w-3.5 h-3.5 text-emerald-400 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <polyline points="20 6 9 17 4 12" />
+                    </svg>
+                  ) : (
+                    <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                      <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                    </svg>
+                  )}
+                  <span>{copied ? 'Link Copied!' : 'Share Article'}</span>
+                </button>
+              </div>
             </div>
 
-            {/* Right Column: Stars + Category/Title + Quote card */}
-            <div className="lg:col-span-3 text-center lg:text-left flex flex-col items-center lg:items-start justify-center space-y-2 lg:pl-2 px-4 sm:px-0 max-w-md mx-auto lg:mx-0">
-              <div className={`flex gap-1 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} justify-center lg:justify-start text-base sm:text-lg`}>
+            {/* Right Column: Stars + Category/Title + Quote card (Hidden on mobile, visible on desktop like Image 1) */}
+            <div className="hidden lg:flex lg:col-span-2 text-center lg:text-left flex-col items-center lg:items-start justify-center space-y-2 lg:pl-1 px-1 sm:px-0 w-full">
+              <div className={`flex gap-1 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} justify-center lg:justify-start text-sm sm:text-base`}>
                 {[...Array(starsCount)].map((_, i) => <span key={i}>★</span>)}
               </div>
-              <div className={`text-2xl sm:text-3xl font-extrabold tracking-tight leading-none ${isLight ? 'text-neutral-900' : 'text-white'}`}>
+              <div className={`text-xl sm:text-2xl font-extrabold tracking-tight leading-none ${isLight ? 'text-neutral-900' : 'text-white'}`}>
                 {rightColTitle}
               </div>
-              <p className="text-xs sm:text-sm text-neutral-500 uppercase tracking-wider font-semibold">
+              <p className="text-[11px] sm:text-xs text-neutral-500 uppercase tracking-wider font-semibold">
                 {rightColSubtitle}
               </p>
-              <div className={`mt-3 ${isLight ? 'bg-blue-50 border-blue-100 text-zinc-700' : 'bg-[#141414] border-zinc-800 text-zinc-300'} border p-4 rounded-2xl text-center lg:text-left w-full shadow-sm`}>
-                <p className="text-[12px] sm:text-[13px] font-medium leading-snug">
+              <div className={`mt-2 ${isLight ? 'bg-blue-50 border-blue-100 text-zinc-700' : 'bg-[#141414] border-zinc-800 text-zinc-300'} border p-3.5 rounded-2xl text-center lg:text-left w-full shadow-sm`}>
+                <p className="text-[11px] sm:text-[12px] font-medium leading-snug">
                   &ldquo;{quoteText}&rdquo;
                 </p>
-                <p className={`text-[11px] font-bold ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} mt-1.5`}>— {quoteAuthor}</p>
+                <p className={`text-[10px] sm:text-[11px] font-bold ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} mt-1`}>— {quoteAuthor}</p>
               </div>
             </div>
 
@@ -650,25 +695,40 @@ const AhmedFoodLayout = ({
 
         </div>
 
-        {/* MARQUEE WORDS TICKER SLIDER (Continuous Infinite Seamless Loop) */}
+        {/* MARQUEE WORDS TICKER SLIDER (Continuous Infinite Seamless Loop - Inverted for contrast) */}
         {effectiveTickerWords.length > 0 && (
-          <div className={`overflow-hidden border-y ${isLight ? 'border-zinc-200' : 'border-white/10'} py-4 sm:py-5 bg-black mt-10 sm:mt-14 -mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 pointer-events-none select-none`}>
+          <div
+            className={`overflow-hidden border-y py-4 sm:py-5 mt-10 sm:mt-14 -mx-4 sm:-mx-6 md:-mx-10 lg:-mx-14 pointer-events-none select-none transition-colors duration-300 ${
+              isLight
+                ? 'bg-black border-black text-white'
+                : 'bg-white border-neutral-200 text-neutral-900'
+            }`}
+          >
             <div className="flex w-max">
               {/* Track 1 */}
-              <div className="flex shrink-0 items-center space-x-12 animate-marquee-loop pr-12 text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white whitespace-nowrap">
+              <div
+                className={`flex shrink-0 items-center space-x-12 animate-marquee-loop pr-12 text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight whitespace-nowrap ${
+                  isLight ? 'text-white' : 'text-neutral-900'
+                }`}
+              >
                 {[...effectiveTickerWords, ...effectiveTickerWords, ...effectiveTickerWords, ...effectiveTickerWords].map((word, i) => (
                   <span key={`t1-${i}`} className="inline-flex items-center gap-6 sm:gap-8">
-                    <span className={isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}>✦</span>
-                    <span className="text-zinc-200 tracking-wider uppercase font-sans">{word}</span>
+                    <span className={isLight ? 'text-[#4169E1]' : 'text-[#2563EB]'}>✦</span>
+                    <span className={`tracking-wider uppercase font-sans ${isLight ? 'text-white' : 'text-neutral-900'}`}>{word}</span>
                   </span>
                 ))}
               </div>
               {/* Track 2 (Identical mirror for seamless infinite continuous loop) */}
-              <div className="flex shrink-0 items-center space-x-12 animate-marquee-loop pr-12 text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight text-white whitespace-nowrap" aria-hidden="true">
+              <div
+                className={`flex shrink-0 items-center space-x-12 animate-marquee-loop pr-12 text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight whitespace-nowrap ${
+                  isLight ? 'text-white' : 'text-neutral-900'
+                }`}
+                aria-hidden="true"
+              >
                 {[...effectiveTickerWords, ...effectiveTickerWords, ...effectiveTickerWords, ...effectiveTickerWords].map((word, i) => (
                   <span key={`t2-${i}`} className="inline-flex items-center gap-6 sm:gap-8">
-                    <span className={isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}>✦</span>
-                    <span className="text-zinc-200 tracking-wider uppercase font-sans">{word}</span>
+                    <span className={isLight ? 'text-[#4169E1]' : 'text-[#2563EB]'}>✦</span>
+                    <span className={`tracking-wider uppercase font-sans ${isLight ? 'text-white' : 'text-neutral-900'}`}>{word}</span>
                   </span>
                 ))}
               </div>

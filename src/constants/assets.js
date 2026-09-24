@@ -7,9 +7,6 @@ export const HERO_ASSETS = {
     gabani: '/assets/ElipseImages/videos/Gabani.mp4',
     vr: '/assets/ElipseImages/videos/VR.mp4',
     virtualTour: '/assets/ElipseImages/videos/virtual-tour.mp4',
-    love: '/assets/ElipseImages/videos/Love.webm',
-    volvoReel: '/assets/ElipseImages/videos/Volvo-reel.webm',
-    mobile: '/assets/ElipseImages/videos/mobile.mp4',
   },
   images: {
     volvo: '/assets/ElipseImages/hero/volve-configrator.webp',

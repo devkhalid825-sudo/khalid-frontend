@@ -2,10 +2,12 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 const HeroCTA = () => {
+  const { isLight } = useTheme();
   return (
-    <section className="bg-black px-[15px] py-3 md:hidden">
+    <section className={`px-[15px] py-3 md:hidden transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'}`}>
       <div className="flex justify-start w-full">
         <Link
           href="/contact"

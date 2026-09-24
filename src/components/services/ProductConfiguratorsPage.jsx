@@ -455,9 +455,7 @@ const ProductConfiguratorsPage = () => {
     >
       <ConfiguratorHeader />
 
-      {/* ======================================================== */}
-      {/* 1. HERO SECTION (CENTERED FULL-WIDTH DESIGN)             */}
-      {/* ======================================================== */}
+
       <section
         className="relative min-h-[90vh] lg:min-h-[95vh] pt-[110px] sm:pt-[130px] pb-14 sm:pb-20 px-4 sm:px-6 md:px-8 border-b border-white/10 bg-black flex flex-col justify-center items-center text-center overflow-hidden"
       >

@@ -173,7 +173,7 @@ const AboutPage = () => {
                     initial={{ y: 80 }}
                     animate={{ y: 0 }}
                     transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                    className="text-[clamp(2.5rem,6vw,6.5rem)] font-semibold tracking-tighter leading-none text-white"
+                    className="text-[clamp(1.65rem,6.8vw,6.5rem)] font-semibold tracking-tighter leading-[1.1] text-white whitespace-nowrap lg:whitespace-normal"
                   >
                     About{' '}
                     <span className="text-[#4169E1]">Elipse Studio</span>
@@ -193,11 +193,19 @@ const AboutPage = () => {
                   initial={{ y: 30, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ duration: 0.6, delay: 0.65 }}
-                  className="mt-10 flex flex-col sm:flex-row items-center lg:items-start gap-3 sm:gap-4"
+                  className="mt-8 sm:mt-10 flex flex-row flex-wrap items-center justify-center lg:justify-start gap-2.5 sm:gap-3.5"
                 >
-
-                  <a href="#contact" className="px-8 py-3 md:px-8 md:py-3.5 border border-white/15 text-white/50 text-sm md:text-sm font-medium uppercase tracking-widest rounded-full hover:bg-white/5 hover:text-white hover:border-white/30 transition-all duration-300 text-center w-full sm:w-auto">
-                    Get in Touch
+                  <a
+                    href="/contact"
+                    className="relative px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-3.5 bg-[#4169E1] text-white text-[11px] sm:text-xs md:text-sm font-semibold uppercase tracking-wider rounded-full hover:bg-[#3a5ecc] transition-all duration-300 text-center shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40 whitespace-nowrap w-auto"
+                  >
+                    Start Your Project
+                  </a>
+                  <a
+                    href="/capabilities"
+                    className="px-4 sm:px-6 md:px-8 py-2.5 sm:py-3 md:py-3.5 border border-white/20 text-white/70 hover:text-white text-[11px] sm:text-xs md:text-sm font-semibold uppercase tracking-wider rounded-full hover:bg-white/5 hover:border-white/40 transition-all duration-300 text-center whitespace-nowrap w-auto"
+                  >
+                    Explore Services
                   </a>
                 </motion.div>
 
