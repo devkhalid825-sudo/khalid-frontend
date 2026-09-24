@@ -124,7 +124,7 @@ const Hero = () => {
       {/* ========================================================================= */}
       {/* 1. MOBILE HERO (Header at Top, Video Below Header)                        */}
       {/* ========================================================================= */}
-      <section id="hero-mobile" className={`relative w-full overflow-hidden md:hidden transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'} pt-[60px] sm:pt-[66px]`}>
+      <section id="hero-mobile" className={`relative w-full overflow-hidden md:hidden transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'} pt-[60px] sm:pt-[68px]`}>
         {/* Header Fixed at Top on Mobile */}
         <Header />
 

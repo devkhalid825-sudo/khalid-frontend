@@ -392,7 +392,7 @@ const ArchitecturalVisualizationPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 3. RECENT ARCHVIZ BUILDS (MAIN SHOWCASE GALLERY)         */}
+      {/* 2. RECENT ARCHVIZ BUILDS (MAIN SHOWCASE GALLERY)         */}
       {/* ======================================================== */}
       <section
         className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-black"
@@ -600,7 +600,7 @@ const ArchitecturalVisualizationPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 4. CAPABILITIES (6-CARD STATIC GRID)                     */}
+      {/* 3. CAPABILITIES (6-CARD STATIC GRID)                     */}
       {/* ======================================================== */}
       <section id="services" className="w-full py-16 sm:py-24 border-b border-white/10 bg-black">
         <div className="mb-12 text-center max-w-3xl mx-auto px-4 sm:px-6">
@@ -620,7 +620,7 @@ const ArchitecturalVisualizationPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 5. PRODUCTION PIPELINE SECTION                           */}
+      {/* 4. PRODUCTION PIPELINE SECTION                           */}
       {/* ======================================================== */}
       <section id="pipeline" className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-black">
         <div className="max-w-4xl mx-auto text-center mb-12 sm:mb-16">
@@ -679,14 +679,14 @@ const ArchitecturalVisualizationPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 6. CLIENT REVIEWS & TESTIMONIALS                        */}
+      {/* 5. CLIENT REVIEWS & TESTIMONIALS                        */}
       {/* ======================================================== */}
       <div id="testimonials">
         <ClientReviews />
       </div>
 
       {/* ======================================================== */}
-      {/* 7. CONTACT & SCOPE ESTIMATOR FORM                       */}
+      {/* 6. CONTACT & SCOPE ESTIMATOR FORM                       */}
       {/* ======================================================== */}
       <div id="contact">
         <div id="scope-estimator">

@@ -456,91 +456,10 @@ const ProductConfiguratorsPage = () => {
       <ConfiguratorHeader />
 
 
-      <section
-        className="relative min-h-[90vh] lg:min-h-[95vh] pt-[110px] sm:pt-[130px] pb-14 sm:pb-20 px-4 sm:px-6 md:px-8 border-b border-white/10 bg-black flex flex-col justify-center items-center text-center overflow-hidden"
-      >
-        {/* Ambient radial lighting */}
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_30%,rgba(65,105,225,0.12)_0%,transparent_60%)]" />
-
-        <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
-          {/* Top Badge (Hidden on mobile) */}
-          <div className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#4169E1]/10 border border-[#4169E1]/25 text-[#4169E1] mb-5 sm:mb-6">
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z" />
-            </svg>
-            <span>Interactive 3D Web &amp; Product Configurators</span>
-          </div>
-
-          {/* Hero Title */}
-          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-[62px] font-bold tracking-tight leading-[1.1] text-white">
-            Turn Browsers Into Buyers With{' '}
-            <span className="bg-gradient-to-r from-white via-[#8ca8ff] to-[#4169E1] bg-clip-text text-transparent">
-              Real-Time 3D Configurators.
-            </span>
-          </h1>
-
-          {/* Hero Subtitle */}
-          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-3xl font-light text-zinc-300 mx-auto">
-            Empower your customers to customize, orbit, and interact with products in real-time WebGL directly inside their web browser. From automotive and luxury customizers to fashion, furniture, and enterprise e-commerce CPQ, <strong className="text-white font-medium">Elipse Studio</strong> builds high-converting 3D tools that eliminate return friction.
-          </p>
-
-          {/* Hero Action Buttons (Single compact row on all screens) */}
-          <div className="mt-6 sm:mt-9 flex flex-row items-center justify-center gap-2 sm:gap-4 w-full max-w-sm sm:max-w-xl mx-auto px-2">
-            <a
-              href="#configurator-gallery"
-              className="flex-1 sm:flex-initial px-3.5 sm:px-8 py-2.5 sm:py-3.5 bg-white hover:bg-[#4169E1] text-black hover:text-white font-semibold text-[11px] sm:text-sm rounded-full transition-all duration-300 shadow-[0_4px_20px_rgba(255,255,255,0.15)] hover:shadow-[0_4px_25px_rgba(65,105,225,0.4)] hover:scale-[1.02] cursor-pointer text-center whitespace-nowrap flex items-center justify-center gap-1.5 sm:gap-2"
-            >
-              <svg className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
-              <span>View 3D Portfolio</span>
-            </a>
-            <button
-              onClick={() => router.push('/contact')}
-              className="flex-1 sm:flex-initial px-3.5 sm:px-8 py-2.5 sm:py-3.5 border font-medium text-[11px] sm:text-sm rounded-full transition-all duration-300 text-center bg-white/5 hover:bg-white/10 border-white/15 hover:border-[#4169E1] text-zinc-200 hover:text-white hover:scale-[1.02] whitespace-nowrap cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2"
-            >
-              <svg className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-[#4169E1] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span>Book Consultation</span>
-            </button>
-          </div>
-
-          {/* Key Metrics / Stats Bar (3 columns) */}
-          <div className="mt-12 sm:mt-16 w-full grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 p-5 sm:p-7 rounded-2xl bg-[#0E0E10] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
-            <div className="flex flex-col items-center text-center p-2">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#4169E1]">
-                +94%
-              </span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider font-medium mt-1 text-zinc-400">
-                Higher Purchase Conversion
-              </span>
-            </div>
-            <div className="flex flex-col items-center text-center p-2 border-t sm:border-t-0 sm:border-l border-white/10">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
-                Sub-2s
-              </span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider font-medium mt-1 text-zinc-400">
-                Instant WebGL Load Speed
-              </span>
-            </div>
-            <div className="flex flex-col items-center text-center p-2 border-t sm:border-t-0 sm:border-l border-white/10">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#4169E1]">
-                -35%
-              </span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider font-medium mt-1 text-zinc-400">
-                E-Commerce Return Rate Reduction
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* ======================================================== */}
-      {/* 2. INTERACTIVE 3D CONFIGURATOR & WHY US COMPARISON GRID */}
+      {/* 1. INTERACTIVE 3D CONFIGURATOR & WHY US COMPARISON GRID */}
       {/* ======================================================== */}
-      <section id="comparison" className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-black">
+      <section id="comparison" className="w-full px-4 sm:px-6 md:px-8 pt-[110px] sm:pt-[130px] pb-16 sm:pb-24 border-b border-white/10 bg-black">
         <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#4169E1]/10 border border-[#4169E1]/25 text-[#4169E1] mb-4">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -619,7 +538,7 @@ const ProductConfiguratorsPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 3. RECENT CONFIGURATOR BUILDS (MAIN SHOWCASE GALLERY)    */}
+      {/* 2. RECENT CONFIGURATOR BUILDS (MAIN SHOWCASE GALLERY)    */}
       {/* ======================================================== */}
       <section
         className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-black"
@@ -747,7 +666,7 @@ const ProductConfiguratorsPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 4. CAPABILITIES (6-CARD STATIC GRID)                     */}
+      {/* 3. CAPABILITIES (6-CARD STATIC GRID)                     */}
       {/* ======================================================== */}
       <section id="services" className="w-full py-16 sm:py-24 border-b border-white/10 bg-black">
         <div className="mb-12 text-center max-w-3xl mx-auto px-4 sm:px-6">
@@ -767,7 +686,7 @@ const ProductConfiguratorsPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 5. PRODUCTION PIPELINE SECTION                           */}
+      {/* 4. PRODUCTION PIPELINE SECTION                           */}
       {/* ======================================================== */}
       <section id="pipeline" className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-black">
         <div className="max-w-4xl mx-auto text-center mb-12 sm:mb-16">
@@ -826,14 +745,14 @@ const ProductConfiguratorsPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 6. CLIENT REVIEWS & TESTIMONIALS                         */}
+      {/* 5. CLIENT REVIEWS & TESTIMONIALS                         */}
       {/* ======================================================== */}
       <div id="testimonials">
         <ClientReviews />
       </div>
 
       {/* ======================================================== */}
-      {/* 7. CONTACT & SCOPE ESTIMATOR FORM                        */}
+      {/* 6. CONTACT & SCOPE ESTIMATOR FORM                        */}
       {/* ======================================================== */}
       <div id="contact">
         <div id="scope-estimator">

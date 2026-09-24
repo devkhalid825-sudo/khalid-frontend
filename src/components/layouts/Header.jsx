@@ -141,19 +141,28 @@ const Header = ({ isBelowVideoMobile = false }) => {
   ];
 
   const headerBgClass = isMenuOpen
-    ? 'bg-black text-white border-b border-white/10 header-menu-open'
-    : isLightMode
-      ? `bg-white/95 backdrop-blur-xl text-black border-b border-black/10 ${isScrolled ? 'shadow-md' : 'shadow-sm'}`
-      : `bg-black/90 backdrop-blur-xl text-white border-b border-white/10 ${isScrolled ? 'shadow-xl shadow-black/40' : 'shadow-lg shadow-black/25'}`;
+    ? 'bg-black text-white header-menu-open'
+    : showBrandIcon
+      ? isLightMode
+        ? 'header-scrolled bg-white/95 backdrop-blur-xl text-black shadow-sm'
+        : 'header-scrolled bg-black/90 backdrop-blur-xl text-white shadow-xl shadow-black/40'
+      : isLightMode
+        ? 'bg-transparent text-black'
+        : 'bg-transparent text-white';
 
-  const positionClass = 'fixed top-0 left-0 w-full';
+  const positionClass = isMenuOpen
+    ? 'fixed top-0 left-0 w-full'
+    : showBrandIcon
+      ? 'fixed top-0 left-0 w-full'
+      : 'absolute top-0 left-0 w-full';
 
-  const headerPaddingClass = 'px-[15px] sm:px-8 md:px-12 py-3.5 sm:py-4 md:py-4.5';
-  const logoSizeClass = 'h-8 sm:h-9 md:h-10 lg:h-12';
+  const headerHeightClass = 'h-[60px] sm:h-[68px] md:h-20';
+  const headerPaddingClass = 'px-[15px] sm:px-8 md:px-12';
+  const logoSizeClass = 'h-7 sm:h-8 md:h-9 lg:h-11';
 
   return (
     <header
-      className={`${positionClass} ${headerPaddingClass} ${headerBgClass} z-50 transition-all duration-300 ease-in-out flex items-center`}
+      className={`${positionClass} ${headerHeightClass} ${headerPaddingClass} ${headerBgClass} z-50 transition-all duration-300 ease-in-out flex items-center`}
     >
       <nav
         ref={headerRef}
@@ -235,14 +244,14 @@ const Header = ({ isBelowVideoMobile = false }) => {
             <ThemeToggle className={isMenuOpen ? '!text-white !border-white/20 !bg-white/5' : ''} />
             <button
               onClick={toggleMenu}
-              className={`focus:outline-none hover:scale-110 active:scale-95 p-1.5 flex items-center justify-center rounded-full transition-transform ${
+              className={`focus:outline-none hover:scale-110 active:scale-95 p-1 flex items-center justify-center rounded-full transition-transform ${
                 isLightMode && !isMenuOpen ? 'text-black' : 'text-white'
               }`}
               aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                className="h-7 w-7 sm:h-8 sm:w-8 text-current"
+                className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-current"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"

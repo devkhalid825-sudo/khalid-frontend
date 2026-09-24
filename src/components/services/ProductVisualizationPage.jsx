@@ -317,93 +317,9 @@ const ProductVisualizationPage = () => {
       <ProductVizHeader />
 
       {/* ======================================================== */}
-      {/* 1. HERO SECTION (CENTERED FULL-WIDTH DESIGN)             */}
+      {/* 1. SHOWCASE VIDEO REEL & WHY US COMPARISON GRID          */}
       {/* ======================================================== */}
-      <section
-        className="relative min-h-[90vh] lg:min-h-[95vh] pt-[110px] sm:pt-[130px] pb-14 sm:pb-20 px-4 sm:px-6 md:px-8 border-b border-white/10 bg-black flex flex-col justify-center items-center text-center overflow-hidden"
-      >
-        {/* Ambient radial lighting */}
-        <div className="absolute inset-0 pointer-events-none bg-[radial-gradient(circle_at_50%_30%,rgba(65,105,225,0.12)_0%,transparent_60%)]" />
-
-        <div className="relative z-10 w-full max-w-5xl mx-auto flex flex-col items-center">
-          {/* Top Badge (Hidden on mobile) */}
-          <div className="hidden sm:inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#4169E1]/10 border border-[#4169E1]/25 text-[#4169E1] mb-5 sm:mb-6">
-            <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
-            </svg>
-            <span>Photorealistic 3D Product Visualization &amp; Commercial CGI</span>
-          </div>
-
-          {/* Hero Title */}
-          <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-6xl lg:text-[62px] font-bold tracking-tight leading-[1.1] text-white">
-            Transform Physical Products Into{' '}
-            <span className="bg-gradient-to-r from-white via-[#8ca8ff] to-[#4169E1] bg-clip-text text-transparent">
-              Hyperreal Commercial CGI.
-            </span>
-          </h1>
-
-          {/* Hero Subtitle */}
-          <p className="mt-4 sm:mt-6 text-sm sm:text-base md:text-lg lg:text-xl leading-relaxed max-w-3xl font-light text-zinc-300 mx-auto">
-            Say goodbye to expensive photography studios, sample shipping bottlenecks, and static imagery limits. <strong className="text-white font-medium">Elipse Studio</strong> crafts cinematic 3D product renders, 3D anamorphic billboards, 360° interactive spins, and fluid simulations that drive massive conversion lifts for global brands.
-          </p>
-
-          {/* Hero Action Buttons (Single compact row on all screens) */}
-          <div className="mt-6 sm:mt-9 flex flex-row items-center justify-center gap-2 sm:gap-4 w-full max-w-sm sm:max-w-xl mx-auto px-2">
-            <a
-              href="#product-gallery"
-              className="flex-1 sm:flex-initial px-3.5 sm:px-8 py-2.5 sm:py-3.5 bg-white hover:bg-[#4169E1] text-black hover:text-white font-semibold text-[11px] sm:text-sm rounded-full transition-all duration-300 shadow-[0_4px_20px_rgba(255,255,255,0.15)] hover:shadow-[0_4px_25px_rgba(65,105,225,0.4)] hover:scale-[1.02] cursor-pointer text-center whitespace-nowrap flex items-center justify-center gap-1.5 sm:gap-2"
-            >
-              <svg className="w-3.5 sm:w-4 h-3.5 sm:h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-              </svg>
-              <span>View 3D Portfolio</span>
-            </a>
-            <button
-              onClick={() => router.push('/contact')}
-              className="flex-1 sm:flex-initial px-3.5 sm:px-8 py-2.5 sm:py-3.5 border font-medium text-[11px] sm:text-sm rounded-full transition-all duration-300 text-center bg-white/5 hover:bg-white/10 border-white/15 hover:border-[#4169E1] text-zinc-200 hover:text-white hover:scale-[1.02] whitespace-nowrap cursor-pointer flex items-center justify-center gap-1.5 sm:gap-2"
-            >
-              <svg className="w-3.5 sm:w-4 h-3.5 sm:h-4 text-[#4169E1] shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-              </svg>
-              <span>Book Consultation</span>
-            </button>
-          </div>
-
-          {/* Key Metrics / Stats Bar (3 columns) */}
-          <div className="mt-12 sm:mt-16 w-full grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 p-5 sm:p-7 rounded-2xl bg-[#0E0E10] border border-white/10 shadow-[0_20px_40px_rgba(0,0,0,0.5)]">
-            <div className="flex flex-col items-center text-center p-2">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#4169E1]">
-                70%
-              </span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider font-medium mt-1 text-zinc-400">
-                Lower Cost Vs Physical Shoots
-              </span>
-            </div>
-            <div className="flex flex-col items-center text-center p-2 border-t sm:border-t-0 sm:border-l border-white/10">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-white">
-                8K UHD
-              </span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider font-medium mt-1 text-zinc-400">
-                Photoreal Surface Precision
-              </span>
-            </div>
-            <div className="flex flex-col items-center text-center p-2 border-t sm:border-t-0 sm:border-l border-white/10">
-              <span className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-[#4169E1]">
-                48hr
-              </span>
-              <span className="text-[10px] sm:text-xs uppercase tracking-wider font-medium mt-1 text-zinc-400">
-                Rapid Variant Batch Delivery
-              </span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ======================================================== */}
-      {/* 2. SHOWCASE VIDEO REEL & WHY US COMPARISON GRID          */}
-      {/* ======================================================== */}
-      <section id="comparison" className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-black">
+      <section id="comparison" className="w-full px-4 sm:px-6 md:px-8 pt-[110px] sm:pt-[130px] pb-16 sm:pb-24 border-b border-white/10 bg-black">
         <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-14">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#4169E1]/10 border border-[#4169E1]/25 text-[#4169E1] mb-4">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -482,7 +398,7 @@ const ProductVisualizationPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 3. SELECTED PRODUCT VIZ BUILDS (MAIN SHOWCASE GALLERY)  */}
+      {/* 2. SELECTED PRODUCT VIZ BUILDS (MAIN SHOWCASE GALLERY)  */}
       {/* ======================================================== */}
       <section
         className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-black"
@@ -582,7 +498,7 @@ const ProductVisualizationPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 4. CAPABILITIES (6-CARD STATIC GRID)                     */}
+      {/* 3. CAPABILITIES (6-CARD STATIC GRID)                     */}
       {/* ======================================================== */}
       <section id="services" className="w-full py-16 sm:py-24 border-b border-white/10 bg-black">
         <div className="mb-12 text-center max-w-3xl mx-auto px-4 sm:px-6">
@@ -602,7 +518,7 @@ const ProductVisualizationPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 5. PRODUCTION PIPELINE SECTION                           */}
+      {/* 4. PRODUCTION PIPELINE SECTION                           */}
       {/* ======================================================== */}
       <section id="pipeline" className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-black">
         <div className="max-w-4xl mx-auto text-center mb-12 sm:mb-16">
@@ -661,14 +577,14 @@ const ProductVisualizationPage = () => {
       </section>
 
       {/* ======================================================== */}
-      {/* 6. CLIENT REVIEWS & TESTIMONIALS                         */}
+      {/* 5. CLIENT REVIEWS & TESTIMONIALS                         */}
       {/* ======================================================== */}
       <div id="testimonials">
         <ClientReviews />
       </div>
 
       {/* ======================================================== */}
-      {/* 7. CONTACT & SCOPE ESTIMATOR FORM                        */}
+      {/* 6. CONTACT & SCOPE ESTIMATOR FORM                        */}
       {/* ======================================================== */}
       <div id="contact">
         <div id="scope-estimator">
