@@ -233,9 +233,7 @@ const ArchVizHeader = () => {
             }`}
         >
           {isMenuOpen && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.1]">
-              <img src={logo} alt="Elipse Studio Logo" width="180" height="40" className="w-[80vw] max-w-4xl -rotate-12 opacity-50" />
-            </div>
+            <></>
           )}
 
           <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-20 mt-auto mb-auto">
