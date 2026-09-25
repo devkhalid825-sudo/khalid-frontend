@@ -32,8 +32,21 @@ const Header = ({ isBelowVideoMobile = false }) => {
   const [mobileLocationOpen, setMobileLocationOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBrandIcon, setShowBrandIcon] = useState(false);
+  const [enterAnim, setEnterAnim] = useState(false);
   const headerRef = useRef(null);
   const locationRef = useRef(null);
+  const showBrandIconRef = useRef(showBrandIcon);
+
+  useEffect(() => {
+    // Play slide/fade-in animation only when the header re-attaches (becomes fixed)
+    if (showBrandIcon && !showBrandIconRef.current) {
+      setEnterAnim(true);
+    }
+    if (!showBrandIcon) {
+      setEnterAnim(false);
+    }
+    showBrandIconRef.current = showBrandIcon;
+  }, [showBrandIcon]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -162,7 +175,7 @@ const Header = ({ isBelowVideoMobile = false }) => {
 
   return (
     <header
-      className={`${positionClass} ${headerHeightClass} ${headerPaddingClass} ${headerBgClass} z-50 transition-all duration-300 ease-in-out flex items-center`}
+      className={`${positionClass} ${headerHeightClass} ${headerPaddingClass} ${headerBgClass} ${enterAnim ? 'header-enter' : ''} z-50 transition-all duration-300 ease-in-out flex items-center`}
     >
       <nav
         ref={headerRef}
