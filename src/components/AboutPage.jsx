@@ -135,11 +135,12 @@ const AboutPage = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.8, ease: 'easeOut' }}
-        className="bg-gradient-to-b from-[#0a0a0a] via-[#000000] to-[#0a0a0a] text-white min-h-screen font-sans"
+        className="bg-gradient-to-b from-[#0a0a0a] via-[#000000] to-[#0a0a0a] text-white min-h-screen font-sans relative"
       >
+        <Header />
+
         {/* ===== HERO SECTION ===== */}
         <section className="relative min-h-[600px] md:min-h-[700px] lg:min-h-screen overflow-hidden bg-black">
-          <Header />
 
           <div className="absolute inset-0 opacity-[0.03]"
             style={{

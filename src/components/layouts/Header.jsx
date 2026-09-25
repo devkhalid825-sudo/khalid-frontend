@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
+import { createPortal } from 'react-dom';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import logoRaw from '@/assets/images/khalid.png';
@@ -23,6 +24,7 @@ const LOCATIONS = [
 
 const Header = ({ isBelowVideoMobile = false }) => {
   const router = useRouter();
+  const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [isLightSection, setIsLightSection] = useState(false);
@@ -33,19 +35,45 @@ const Header = ({ isBelowVideoMobile = false }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBrandIcon, setShowBrandIcon] = useState(false);
   const [enterAnim, setEnterAnim] = useState(false);
+  const [exitAnim, setExitAnim] = useState(false);
   const headerRef = useRef(null);
   const locationRef = useRef(null);
   const showBrandIconRef = useRef(showBrandIcon);
+  const animTimerRef = useRef(null);
 
   useEffect(() => {
-    // Play slide/fade-in animation only when the header re-attaches (becomes fixed)
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === 'Escape') {
+        setIsMenuOpen(false);
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    // Attach: play slide/fade-in when the header re-attaches (becomes fixed)
     if (showBrandIcon && !showBrandIconRef.current) {
+      window.clearTimeout(animTimerRef.current);
+      setExitAnim(false);
       setEnterAnim(true);
+      animTimerRef.current = window.setTimeout(() => setEnterAnim(false), 750);
     }
-    if (!showBrandIcon) {
+    // Detach: play slide/fade-out first, then swap back to absolute/transparent
+    else if (!showBrandIcon && showBrandIconRef.current) {
       setEnterAnim(false);
+      setExitAnim(true);
+      window.clearTimeout(animTimerRef.current);
+      animTimerRef.current = window.setTimeout(() => setExitAnim(false), 480);
     }
     showBrandIconRef.current = showBrandIcon;
+    return () => {
+      window.clearTimeout(animTimerRef.current);
+    };
   }, [showBrandIcon]);
 
   useEffect(() => {
@@ -153,9 +181,12 @@ const Header = ({ isBelowVideoMobile = false }) => {
     { name: 'Cinematic 3D Product & Commercial Visuals', href: '/services/3d-product-visualization' },
   ];
 
+  // Keep the fixed/scrolled look alive during exit so the fade-out is visible
+  const isAttached = showBrandIcon || exitAnim;
+
   const headerBgClass = isMenuOpen
     ? 'bg-black text-white header-menu-open'
-    : showBrandIcon
+    : isAttached
       ? isLightMode
         ? 'header-scrolled bg-white/95 backdrop-blur-xl text-black shadow-sm'
         : 'header-scrolled bg-black/90 backdrop-blur-xl text-white shadow-xl shadow-black/40'
@@ -165,7 +196,7 @@ const Header = ({ isBelowVideoMobile = false }) => {
 
   const positionClass = isMenuOpen
     ? 'fixed top-0 left-0 w-full'
-    : showBrandIcon
+    : isAttached
       ? 'fixed top-0 left-0 w-full'
       : 'absolute top-0 left-0 w-full';
 
@@ -174,192 +205,259 @@ const Header = ({ isBelowVideoMobile = false }) => {
   const logoSizeClass = 'h-7 sm:h-8 md:h-9 lg:h-11';
 
   return (
-    <header
-      className={`${positionClass} ${headerHeightClass} ${headerPaddingClass} ${headerBgClass} ${enterAnim ? 'header-enter' : ''} z-50 transition-all duration-300 ease-in-out flex items-center`}
-    >
-      <nav
-        ref={headerRef}
-        className="w-full flex items-center"
+    <>
+      <header
+        className={`${positionClass} ${headerHeightClass} ${headerPaddingClass} ${headerBgClass} ${enterAnim && !isMenuOpen ? 'header-enter' : ''} ${exitAnim && !isMenuOpen ? 'header-exit' : ''} z-50 transition-all duration-300 ease-in-out flex items-center`}
       >
-        <div className="w-full flex justify-between items-center relative z-50">
-          <Link
+        <nav
+          ref={headerRef}
+          className="w-full flex items-center"
+        >
+          <div className="w-full flex justify-between items-center relative z-50">
+<Link
             href="/"
             className="cursor-pointer relative z-50 flex items-center justify-center shrink-0 self-center"
             onClick={() => setIsMenuOpen(false)}
             aria-label="Elipse Studio Home"
           >
-            {/* Full Logo (Visible before reaching Latest Work, or when menu is open) */}
-            <img
-              src={logo}
-              alt="Elipse Studio"
-              width="230"
-              height="105"
-              className={`${logoSizeClass} w-auto object-contain transition-all duration-300 hover:scale-105 site-logo ${
-                showBrandIcon && !isMenuOpen ? 'hidden' : 'block'
-              } ${isLightMode && !isMenuOpen ? 'invert' : ''}`}
-            />
+            {/* Stacked logo slot: full logo and compact icon crossfade in place */}
+            <div className="grid place-items-center">
+              {/* Full Logo (Visible before reaching Latest Work, or when menu is open) */}
+              <img
+                src={logo}
+                alt="Elipse Studio"
+                width="230"
+                height="105"
+                className={`${logoSizeClass} w-auto object-contain col-start-1 row-start-1 site-logo transition-all duration-700 ease-in-out hover:scale-105 ${
+                  showBrandIcon && !isMenuOpen ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
+                } ${isLightMode && !isMenuOpen ? 'invert' : ''}`}
+              />
 
-            {/* Compact Brand Icon (Swaps in when scrolling down to the Latest Work section) */}
-            <img
-              src={isLightMode && !isMenuOpen ? iconBlack : iconWhite}
-              alt="Elipse Studio Icon"
-              width="48"
-              height="48"
-              className={`h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain transition-all duration-300 hover:scale-110 site-logo ${
-                showBrandIcon && !isMenuOpen ? 'block' : 'hidden'
-              }`}
-            />
+              {/* Compact Brand Icon (Swaps in when scrolling down to the Latest Work section) */}
+              <img
+                src={isLightMode && !isMenuOpen ? iconBlack : iconWhite}
+                alt="Elipse Studio Icon"
+                width="48"
+                height="48"
+                className={`h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain col-start-1 row-start-1 site-logo transition-all duration-700 ease-in-out hover:scale-110 ${
+                  showBrandIcon && !isMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none'
+                }`}
+              />
+            </div>
           </Link>
 
-          <div className="flex items-center gap-2 sm:gap-4 relative z-50 shrink-0 self-center">
-            <div className="hidden" ref={locationRef}>
+            <div className="flex items-center gap-2 sm:gap-4 relative z-50 shrink-0 self-center">
+              <div className="hidden" ref={locationRef}>
+                <button
+                  onClick={() => setLocationOpen((prev) => !prev)}
+                  className={`px-4 h-8 sm:h-8.5 flex items-center justify-center gap-1.5 border ${
+                    isLightMode
+                      ? 'border-black/20 hover:border-[#4169E1] text-black hover:text-[#4169E1]'
+                      : 'border-white/20 hover:border-[#4169E1] text-white hover:text-[#4169E1]'
+                  } bg-transparent rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 backdrop-blur-md`}
+                  aria-haspopup="true"
+                  aria-expanded={locationOpen}
+                >
+                  Location
+                  <span className={`text-[10px] transition-transform duration-200 ${locationOpen ? 'rotate-180' : ''}`}>▾</span>
+                </button>
+                {locationOpen && (
+                  <div className="absolute top-full right-0 mt-2 w-56 rounded-2xl border border-white/10 bg-black/70 backdrop-blur-xl overflow-hidden">
+                    {LOCATIONS.map((loc) => (
+                      <Link
+                        key={loc.href}
+                        href={loc.href}
+                        onClick={() => setLocationOpen(false)}
+                        className="block px-5 py-3.5 text-sm font-semibold text-white/90 hover:bg-white/10 hover:text-[#4169E1] transition-colors"
+                      >
+                        {loc.name}
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
               <button
-                onClick={() => setLocationOpen((prev) => !prev)}
-                className={`px-4 h-8 sm:h-8.5 flex items-center justify-center gap-1.5 border ${
+                onClick={() => {
+                  setIsMenuOpen(false);
+                  router.push('/contact');
+                }}
+                className={`hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center border ${
                   isLightMode
-                    ? 'border-black/20 hover:border-[#4169E1] text-black hover:text-[#4169E1]'
-                    : 'border-white/20 hover:border-[#4169E1] text-white hover:text-[#4169E1]'
-                } bg-transparent rounded-full text-[11px] font-bold uppercase tracking-wider transition-all duration-300 backdrop-blur-md`}
-                aria-haspopup="true"
-                aria-expanded={locationOpen}
+                    ? 'border-black/30 hover:border-black text-black hover:bg-black/5'
+                    : 'border-white/30 hover:border-white text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]'
+                } bg-transparent rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 backdrop-blur-md cursor-pointer`}
               >
-                Location
-                <span className={`text-[10px] transition-transform duration-200 ${locationOpen ? 'rotate-180' : ''}`}>▾</span>
+                Contact Us
               </button>
-              {locationOpen && (
-                <div className="absolute top-full right-0 mt-2 w-56 rounded-2xl border border-white/10 bg-black/70 backdrop-blur-xl overflow-hidden">
-                  {LOCATIONS.map((loc) => (
-                    <Link
-                      key={loc.href}
-                      href={loc.href}
-                      onClick={() => setLocationOpen(false)}
-                      className="block px-5 py-3.5 text-sm font-semibold text-white/90 hover:bg-white/10 hover:text-[#4169E1] transition-colors"
-                    >
-                      {loc.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-            <button
-              onClick={() => {
-                setIsMenuOpen(false);
-                router.push('/contact');
-              }}
-              className={`hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center border ${
-                isLightMode
-                  ? 'border-black/30 hover:border-black text-black hover:bg-black/5'
-                  : 'border-white/30 hover:border-white text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]'
-              } bg-transparent rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 backdrop-blur-md cursor-pointer`}
-            >
-              Contact Us
-            </button>
-            <ThemeToggle className={isMenuOpen ? '!text-white !border-white/20 !bg-white/5' : ''} />
-            <button
-              onClick={toggleMenu}
-              className={`focus:outline-none hover:scale-110 active:scale-95 p-1 flex items-center justify-center rounded-full transition-transform ${
-                isLightMode && !isMenuOpen ? 'text-black' : 'text-white'
-              }`}
-              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-current"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
+              <ThemeToggle className={isMenuOpen ? '!text-white !border-white/20 !bg-white/5' : ''} />
+              <button
+                onClick={toggleMenu}
+                className={`focus:outline-none hover:scale-110 active:scale-95 p-1 flex items-center justify-center rounded-full transition-transform ${
+                  isLightMode && !isMenuOpen ? 'text-black' : 'text-white'
+                }`}
+                aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
               >
-                <path d={hamburgerPath} className="transition-all duration-300" />
-              </svg>
-            </button>
-          </div>
-        </div>
-
-        <div
-          className={`site-header-drawer fixed inset-0 bg-black transition-all duration-500 ease-in-out z-40 overflow-y-auto flex flex-col pt-24 md:pt-32 pb-8 ${
-            isMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-          }`}
-        >
-          {isMenuOpen && (
-            <div className="hidden md:flex absolute inset-0 items-center justify-center pointer-events-none opacity-[0.1]">
-              <img src={logo} alt="Elipse Studio Logo" width="180" height="40" className="w-[80vw] max-w-4xl -rotate-12 opacity-50" />
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-current"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                  strokeLinecap="round"
+                >
+                  <path d={hamburgerPath} className="transition-all duration-300" />
+                </svg>
+              </button>
             </div>
-          )}
-
-          <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-20 mt-4 md:mt-auto md:mb-auto">
-            <ul className="grid grid-cols-1 max-h-[900px]:grid-cols-2 gap-x-16 gap-y-2 md:gap-y-1 max-h-[900px]:gap-y-0.5">
-              {menuItems.map((item, index) => (
-                <li key={index} className="group">
-                  {item.hasSubmenu ? (
-                    <>
-                      <button
-                        onClick={() => setServicesOpen(!servicesOpen)}
-                        className="text-white text-2xl md:text-4xl lg:text-5xl max-h-[900px]:text-xs max-h-[900px]:sm:text-sm max-h-[900px]:md:text-base max-h-[900px]:lg:text-lg font-bold hover:text-[#4169E1] transition-colors duration-300 relative inline-flex items-center gap-2 leading-tight font-sans bg-transparent border-none cursor-pointer text-left"
-                      >
-                        <span>{item.name}</span>
-                        <svg
-                          className="w-4 h-4 md:w-6 md:h-6 text-[#4169E1] transition-transform duration-300 select-none flex-shrink-0"
-                          style={{ transform: servicesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
-                          viewBox="0 0 24 24"
-                          fill="none"
-                          stroke="currentColor"
-                          strokeWidth="2.5"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          aria-hidden="true"
-                        >
-                          <polyline points="6 9 12 15 18 9" />
-                        </svg>
-                      </button>
-                      <div
-                        className={`overflow-hidden transition-all duration-300 ${
-                          servicesOpen ? 'max-h-[320px] opacity-100 mt-1 md:mt-0.5' : 'max-h-0 opacity-0'
-                        }`}
-                      >
-                        <div className="pl-3 md:pl-4 border-l-2 border-[#4169E1]/30 space-y-1 md:space-y-0.5 max-h-[900px]:space-y-0 max-h-[220px] overflow-y-auto pr-2 scrollbar-thin [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#4169E1] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
-                          {serviceSubItems.map((sub, i) => (
-                            <Link
-                              key={i}
-                              href={sub.href}
-                              onClick={() => {
-                                setIsMenuOpen(false);
-                                setServicesOpen(false);
-                              }}
-                              className="block text-white/80 text-sm md:text-base lg:text-lg max-h-[900px]:text-[10px] max-h-[900px]:sm:text-xs font-medium hover:text-[#4169E1] transition-colors duration-200 py-0.5"
-                            >
-                              {sub.name}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </>
-                  ) : (item.name === 'Contact' || item.name === 'Contact Us') ? (
-                    <Link
-                      href={item.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="inline-flex items-center justify-center ml-0 md:-ml-7 px-5 sm:px-6 md:px-7 py-2.5 sm:py-2.5 md:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-lg sm:text-xl md:text-3xl lg:text-4xl max-h-[900px]:text-xs max-h-[900px]:sm:text-sm max-h-[900px]:md:text-base font-bold transition-all duration-300 shadow-[0_4px_25px_rgba(65,105,225,0.45)] hover:shadow-[0_4px_30px_rgba(65,105,225,0.7)] hover:scale-105 my-2 md:my-1.5 gap-2"
-                    >
-                      <span>Contact Us</span>
-                      <span className="text-sm md:text-lg">→</span>
-                    </Link>
-                  ) : (
-                    <Link
-                      href={item.href}
-                      onClick={() => setIsMenuOpen(false)}
-                      className="text-white text-2xl md:text-4xl lg:text-5xl max-h-[900px]:text-xs max-h-[900px]:sm:text-sm max-h-[900px]:md:text-base max-h-[900px]:lg:text-lg font-bold hover:text-[#4169E1] transition-colors duration-300 relative inline-block leading-tight font-sans py-0.5"
-                    >
-                      {item.name}
-                    </Link>
-                  )}
-                </li>
-              ))}
-            </ul>
           </div>
-        </div>
-      </nav>
-    </header>
+        </nav>
+      </header>
+
+      {/* Full-Screen Portal Drawer (rendered directly on document.body to bypass all section clipping/transforms) */}
+      {mounted &&
+        createPortal(
+          <div
+            className={`site-header-drawer fixed inset-0 bg-[#050505]/98 backdrop-blur-2xl transition-all duration-300 ease-out z-[99999] flex flex-col ${
+              isMenuOpen ? 'opacity-100 visible pointer-events-auto' : 'opacity-0 invisible pointer-events-none'
+            }`}
+            role="dialog"
+            aria-modal="true"
+            aria-label="Site Navigation Menu"
+          >
+            {/* Background Watermark Logo */}
+            <div className="hidden md:flex absolute inset-0 items-center justify-center pointer-events-none opacity-[0.06] select-none overflow-hidden">
+              <img
+                src={logo}
+                alt=""
+                width="230"
+                height="105"
+                className="w-[85vw] max-w-5xl -rotate-12 pointer-events-none"
+              />
+            </div>
+
+            {/* Top Bar inside Drawer (Matches Header position and height perfectly) */}
+            <div className={`w-full ${headerHeightClass} ${headerPaddingClass} flex items-center justify-between shrink-0 relative z-50`}>
+              <Link
+                href="/"
+                className="cursor-pointer relative z-50 flex items-center justify-center shrink-0 self-center"
+                onClick={() => setIsMenuOpen(false)}
+                aria-label="Elipse Studio Home"
+              >
+                <img
+                  src={logo}
+                  alt="Elipse Studio"
+                  width="230"
+                  height="105"
+                  className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105`}
+                />
+              </Link>
+
+              <div className="flex items-center gap-2 sm:gap-4 relative z-50 shrink-0 self-center">
+                <button
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    router.push('/contact');
+                  }}
+                  className="hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center border border-white/30 hover:border-white text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] bg-transparent rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 backdrop-blur-md cursor-pointer"
+                >
+                  Contact Us
+                </button>
+                <ThemeToggle className="!text-white !border-white/20 !bg-white/5" />
+                <button
+                  onClick={() => setIsMenuOpen(false)}
+                  className="focus:outline-none hover:scale-110 active:scale-95 p-1 flex items-center justify-center rounded-full transition-transform text-white cursor-pointer"
+                  aria-label="Close menu"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-6 w-6 sm:h-7 sm:w-7 md:h-8 md:w-8 text-white"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2.5"
+                    strokeLinecap="round"
+                  >
+                    <path d="M6 6l12 12M6 18L18 6" className="transition-all duration-300" />
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Navigation Content */}
+            <div className="relative z-10 flex-1 min-h-0 w-full max-w-7xl mx-auto px-6 md:px-20 overflow-y-auto overscroll-contain py-6">
+              <ul className="grid grid-cols-1 gap-y-2">
+                {menuItems.map((item, index) => (
+                  <li key={index} className="group">
+                    {item.hasSubmenu ? (
+                      <>
+                        <button
+                          onClick={() => setServicesOpen(!servicesOpen)}
+                          className="text-white text-2xl md:text-4xl lg:text-5xl font-bold hover:text-[#4169E1] transition-colors duration-300 relative inline-flex items-center gap-2 leading-tight font-sans bg-transparent border-none cursor-pointer text-left"
+                        >
+                          <span>{item.name}</span>
+                          <svg
+                            className="w-4 h-4 md:w-6 md:h-6 text-[#4169E1] transition-transform duration-300 select-none flex-shrink-0"
+                            style={{ transform: servicesOpen ? 'rotate(180deg)' : 'rotate(0deg)' }}
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            aria-hidden="true"
+                          >
+                            <polyline points="6 9 12 15 18 9" />
+                          </svg>
+                        </button>
+                        <div
+                          className={`overflow-hidden transition-all duration-300 ${
+                            servicesOpen ? 'max-h-[320px] opacity-100 mt-2' : 'max-h-0 opacity-0'
+                          }`}
+                        >
+                          <div className="pl-3 md:pl-4 border-l-2 border-[#4169E1]/30 space-y-1.5 md:space-y-1 max-h-[220px] overflow-y-auto pr-2 scrollbar-thin [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#4169E1] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+                            {serviceSubItems.map((sub, i) => (
+                              <Link
+                                key={i}
+                                href={sub.href}
+                                onClick={() => {
+                                  setIsMenuOpen(false);
+                                  setServicesOpen(false);
+                                }}
+                                className="block text-white/80 text-sm md:text-base lg:text-lg font-medium hover:text-[#4169E1] transition-colors duration-200 py-0.5"
+                              >
+                                {sub.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      </>
+                    ) : (item.name === 'Contact' || item.name === 'Contact Us') ? (
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="inline-flex items-center justify-center px-6 md:px-8 py-2.5 sm:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-lg sm:text-xl md:text-2xl font-bold transition-all duration-300 shadow-[0_4px_25px_rgba(65,105,225,0.45)] hover:shadow-[0_4px_30px_rgba(65,105,225,0.7)] hover:scale-105 my-2 gap-2"
+                      >
+                        <span>Contact Us</span>
+                        <span className="text-base md:text-lg">→</span>
+                      </Link>
+                    ) : (
+                      <Link
+                        href={item.href}
+                        onClick={() => setIsMenuOpen(false)}
+                        className="text-white text-2xl md:text-4xl lg:text-5xl font-bold hover:text-[#4169E1] transition-colors duration-300 relative inline-block leading-tight font-sans py-1"
+                      >
+                        {item.name}
+                      </Link>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>,
+          document.body
+        )}
+    </>
   );
 };
 
