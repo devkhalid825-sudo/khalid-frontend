@@ -207,12 +207,36 @@ const Footer = () => {
                   <p>1812 McCormick Ln</p>
                   <p>Hanover Park, IL 60133</p>
                   <p className="pt-1 text-white/90 font-medium">
-                    <a href="tel:+16302970428" className="hover:text-white transition-colors">
+                    <a
+                      href="tel:+16302970428"
+                      className="hover:text-white transition-colors"
+                      onClick={() => {
+                        if (typeof window !== 'undefined' && window.gtag) {
+                          window.gtag('event', 'generate_lead', {
+                            event_category: 'Contact',
+                            event_label: 'Phone Call Click - Footer',
+                            value: 1,
+                          });
+                        }
+                      }}
+                    >
                       +1 630-297-0428
                     </a>
                   </p>
                   <p className="pt-0.5 text-white font-medium">
-                    <a href="mailto:info@elipsestudio.com" className="hover:text-[#4169E1] transition-colors">
+                    <a
+                      href="mailto:info@elipsestudio.com"
+                      className="hover:text-[#4169E1] transition-colors"
+                      onClick={() => {
+                        if (typeof window !== 'undefined' && window.gtag) {
+                          window.gtag('event', 'generate_lead', {
+                            event_category: 'Contact',
+                            event_label: 'Email Click - Footer',
+                            value: 1,
+                          });
+                        }
+                      }}
+                    >
                       info@elipsestudio.com
                     </a>
                   </p>

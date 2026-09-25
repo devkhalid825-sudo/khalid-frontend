@@ -83,6 +83,13 @@ const UkContact = ({
     try {
       const { status: httpStatus, data } = await apiCall('/contact/contact', 'POST', payload);
       if (httpStatus === 200) {
+        if (typeof window !== 'undefined' && window.gtag) {
+          window.gtag('event', 'generate_lead', {
+            event_category: 'Engagement',
+            event_label: 'UK Contact Form Submission',
+            value: 1,
+          });
+        }
         form.reset();
         setErrors({});
         setRecaptchaToken('');
@@ -229,9 +236,55 @@ const UkContact = ({
           <div className="uk-contact-direct">
             <p>Or reach out directly for a quicker response</p>
             <div className="uk-cta-actions">
-              <a href="https://wa.me/923471245257" className="uk-btn uk-btn-outline" target="_blank" rel="noopener"><FaWhatsapp style={{ marginRight: 6, verticalAlign: '-2px' }} /> Message on WhatsApp</a>
-              <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="uk-btn uk-btn-outline" target="_blank" rel="noopener"><SiCalendly style={{ marginRight: 6, verticalAlign: '-2px' }} /> Schedule an Intro Call</a>
-              <a href="tel:+442046343117" className="uk-btn uk-btn-outline"><FaPhoneAlt style={{ marginRight: 6, verticalAlign: '-2px' }} /> Call UK: +44 20 4634 3117</a>
+              <a
+                href="https://wa.me/923471245257"
+                className="uk-btn uk-btn-outline"
+                target="_blank"
+                rel="noopener"
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'generate_lead', {
+                      event_category: 'Contact',
+                      event_label: 'WhatsApp Click - UK Contact Page',
+                      value: 1,
+                    });
+                  }
+                }}
+              >
+                <FaWhatsapp style={{ marginRight: 6, verticalAlign: '-2px' }} /> Message on WhatsApp
+              </a>
+              <a
+                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                className="uk-btn uk-btn-outline"
+                target="_blank"
+                rel="noopener"
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'generate_lead', {
+                      event_category: 'Contact',
+                      event_label: 'Schedule Call Click - UK Contact Page',
+                      value: 1,
+                    });
+                  }
+                }}
+              >
+                <SiCalendly style={{ marginRight: 6, verticalAlign: '-2px' }} /> Schedule an Intro Call
+              </a>
+              <a
+                href="tel:+442046343117"
+                className="uk-btn uk-btn-outline"
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'generate_lead', {
+                      event_category: 'Contact',
+                      event_label: 'Phone Call Click - UK Contact Page',
+                      value: 1,
+                    });
+                  }
+                }}
+              >
+                <FaPhoneAlt style={{ marginRight: 6, verticalAlign: '-2px' }} /> Call UK: +44 20 4634 3117
+              </a>
             </div>
           </div>
         </div>
@@ -240,7 +293,20 @@ const UkContact = ({
           <span className="uk-addr-flag"><FaMapMarkerAlt /></span>
           <p>
             <strong>Elipse Studio UK</strong> — London, United Kingdom<br />
-            <a href="tel:+442046343117">+44 20 4634 3117</a> · <a href="mailto:info@elipsestudio.com">info@elipsestudio.com</a><br />
+            <a href="tel:+442046343117">+44 20 4634 3117</a> · <a
+              href="mailto:info@elipsestudio.com"
+              onClick={() => {
+                if (typeof window !== 'undefined' && window.gtag) {
+                  window.gtag('event', 'generate_lead', {
+                    event_category: 'Contact',
+                    event_label: 'Email Click - UK Contact Page',
+                    value: 1,
+                  });
+                }
+              }}
+            >
+              info@elipsestudio.com
+            </a><br />
             GMT business hours · VAT-inclusive quoting · Free estimate in 24 hours
           </p>
         </div>

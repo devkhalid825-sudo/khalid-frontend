@@ -4,6 +4,7 @@ import './globals.css';
 import { SITE_URL } from '@/utils/api';
 import { SITE_SCHEMA } from '@/seo/schemas';
 import SiteShell from '@/components/SiteShell';
+import GoogleAnalytics from '@/components/analytics/GoogleAnalytics';
 
 const inter = Inter({
   variable: '--font-inter',
@@ -107,19 +108,8 @@ export default function RootLayout({ children }) {
             })();
           `}
         </Script>
-        <Script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-BEL0YQZ0G0"
-          strategy="afterInteractive"
-        />
-        <Script id="ga4-config" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-BEL0YQZ0G0');
-          `}
-        </Script>
+        {/* Google Analytics 4 - conditionally excluded on /admin routes */}
+        <GoogleAnalytics />
         {/* Instantly.ai / Leadsy Website Visitor Pixel */}
         <Script
           id="vtag-ai-js"

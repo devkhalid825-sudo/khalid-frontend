@@ -27,6 +27,15 @@ export default function SiteShell({ children }) {
           target="_blank"
           rel="noopener noreferrer"
           data-el-track="whatsapp-floating-button"
+          onClick={() => {
+            if (typeof window !== 'undefined' && window.gtag) {
+              window.gtag('event', 'generate_lead', {
+                event_category: 'Contact',
+                event_label: 'WhatsApp Click - Floating Button',
+                value: 1,
+              });
+            }
+          }}
           className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-50 flex items-center gap-2 bg-[#25D366] text-white rounded-full pl-3 pr-4 py-2.5 md:py-3 shadow-lg hover:bg-[#1ebe5b] transition-all duration-300 hover:scale-105"
           aria-label="Quick Inquiries — chat on WhatsApp"
         >

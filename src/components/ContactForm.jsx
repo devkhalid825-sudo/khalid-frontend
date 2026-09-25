@@ -127,6 +127,15 @@ const ContactForm = () => {
                 setRecaptchaToken('');
                 recaptchaRef.current?.reset();
 
+                // GA4 Lead Conversion Event
+                if (typeof window !== 'undefined' && window.gtag) {
+                    window.gtag('event', 'generate_lead', {
+                        event_category: 'Engagement',
+                        event_label: 'Contact Form Submission',
+                        value: 1
+                    });
+                }
+
                 window.dataLayer = window.dataLayer || [];
                 window.dataLayer.push({
                     'event': 'form_submission',
