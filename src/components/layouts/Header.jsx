@@ -234,7 +234,7 @@ const Header = ({ isBelowVideoMobile = false }) => {
             aria-label="Elipse Studio Home"
           >
             {/* Stacked logo slot: full logo and compact icon crossfade in place */}
-            <div className="grid place-items-center">
+            <div className={`grid ${showBrandIcon && !isMenuOpen ? 'place-items-start' : 'place-items-center'}`}>
               {/* Full Logo (Visible before reaching Latest Work / when menu open; swaps instantly) */}
               <img
                 src={logo}
@@ -338,17 +338,6 @@ const Header = ({ isBelowVideoMobile = false }) => {
             aria-modal="true"
             aria-label="Site Navigation Menu"
           >
-            {/* Background Watermark Logo */}
-            <div className="hidden md:flex absolute inset-0 items-center justify-center pointer-events-none opacity-[0.06] select-none overflow-hidden">
-              <img
-                src={logo}
-                alt=""
-                width="230"
-                height="105"
-                className="w-[85vw] max-w-5xl -rotate-12 pointer-events-none"
-              />
-            </div>
-
             {/* Top Bar inside Drawer (Matches Header position and height perfectly) */}
             <div className={`w-full ${headerHeightClass} ${headerPaddingClass} flex items-center justify-between shrink-0 relative z-50`}>
               <Link
@@ -398,8 +387,9 @@ const Header = ({ isBelowVideoMobile = false }) => {
             </div>
 
             {/* Navigation Content */}
-            <div className="relative z-10 flex-1 min-h-0 w-full max-w-7xl mx-auto px-6 md:px-20 overflow-y-auto overscroll-contain py-6">
-              <ul className="grid grid-cols-1 gap-y-2">
+            <div className="relative z-10 flex-1 min-h-0 w-full max-w-7xl mx-auto px-6 md:px-20 overflow-y-auto overscroll-contain">
+              <div className="min-h-full flex items-center justify-center py-6">
+                <ul className="grid grid-cols-1 gap-y-2 w-full">
                 {menuItems.map((item, index) => (
                   <li key={index} className="group">
                     {item.hasSubmenu ? (
@@ -465,7 +455,8 @@ const Header = ({ isBelowVideoMobile = false }) => {
                     )}
                   </li>
                 ))}
-              </ul>
+                </ul>
+              </div>
             </div>
           </div>,
           document.body

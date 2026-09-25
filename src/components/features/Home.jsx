@@ -8,7 +8,6 @@ import LatestWork from './LatestWork';
 import ClientReviews from './ClientReviews';
 import Solutions from './Solutions';
 import BrandsMarquee from './BrandsMarquee';
-import Industries from './Industries';
 import Technology from './Technology';
 import SocialMediaSection from './SocialMediaSection';
 import News from './News';
@@ -57,7 +56,6 @@ const Home = ({ initialFeatured, initialProjects, initialReviews, initialBlogs, 
       </div>
 
       <div data-animate="s3" className={animClass('s3')}>
-        <Industries />
         <Technology />
         <SocialMediaSection initialSocialMedia={initialSocialMedia} />
         <News initialBlogs={initialBlogs} />

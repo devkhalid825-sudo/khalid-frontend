@@ -125,8 +125,8 @@ const SolutionsSection = () => {
               href="/contact"
               className="solutions-cta-btn inline-flex items-center gap-2 bg-white hover:bg-zinc-200 text-black px-5 sm:px-6 md:px-7 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all shadow-md hover:scale-[1.02] cursor-pointer whitespace-nowrap"
             >
-              <span className="sm:hidden">Book Now</span>
-              <span className="hidden sm:inline">Book Project Consultation</span>
+              <span className="sm:hidden">Inquire Now</span>
+              <span className="hidden sm:inline">Inquire Now</span>
               <FiArrowRight className="text-sm" />
             </Link>
           </div>
