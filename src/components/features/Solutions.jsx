@@ -216,7 +216,7 @@ const SolutionsSection = () => {
                     {/* Bottom Section */}
                     <div className="relative z-20 flex flex-col justify-end shrink-0 mt-auto">
                       {/* Footer Row: Explore Link with Card-Hover Background Effect */}
-                      <div className="solution-card-footer pt-3 flex items-center justify-start border-t border-white/10">
+                      <div className="solution-card-footer pt-3 flex items-center justify-end border-t border-white/10">
                         <Link
                           href={card.linkHref}
                           className="solution-card-link inline-flex items-center gap-2.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/5 group-hover:bg-[#4169E1] text-white/90 group-hover:text-white border border-white/10 group-hover:border-[#4169E1] text-xs sm:text-[13px] font-semibold transition-all duration-300 shadow-sm group-hover:shadow-[0_4px_20px_rgba(65,105,225,0.4)]"

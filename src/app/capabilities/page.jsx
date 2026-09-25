@@ -17,6 +17,68 @@ const schema = {
   inLanguage: 'en-US',
 };
 
+const serviceSchema = {
+  '@context': 'https://schema.org',
+  '@type': 'Service',
+  '@id': `${SITE_URL}/capabilities#service`,
+  name: 'Enterprise 3D Configurator, WebGL & AR/VR Capabilities',
+  serviceType: [
+    'Interactive 3D Configurators',
+    'Real-Time ArchViz & Spatial VR/AR',
+    'Cinematic 3D Product & Commercial Visuals',
+    'WebGL & Three.js Development',
+    'Virtual Showrooms & Digital Twins',
+  ],
+  provider: {
+    '@type': 'Organization',
+    '@id': `${SITE_URL}/#organization`,
+    name: 'Elipse Studio',
+    url: SITE_URL,
+    logo: `${SITE_URL}/assets/actuallogo.webp`,
+  },
+  url: `${SITE_URL}/capabilities`,
+  description:
+    'Custom 3D web configurators, architectural VR walkthroughs, and enterprise WebGL development. Discover how Elipse Studio powers real-time 3D experiences.',
+  areaServed: [
+    { '@type': 'Country', name: 'United Arab Emirates' },
+    { '@type': 'Country', name: 'Saudi Arabia' },
+    { '@type': 'Country', name: 'United States' },
+    { '@type': 'Country', name: 'United Kingdom' },
+    { '@type': 'Country', name: 'Canada' },
+    { '@type': 'Country', name: 'Australia' },
+  ],
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Core Enterprise Capabilities',
+    itemListElement: [
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Interactive 3D Product Configurators',
+          url: `${SITE_URL}/services/3d-product-configurators`,
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Architectural Visualization & Spatial VR/AR',
+          url: `${SITE_URL}/services/architectural-visualization`,
+        },
+      },
+      {
+        '@type': 'Offer',
+        itemOffered: {
+          '@type': 'Service',
+          name: 'Cinematic 3D Product & Commercial Visuals',
+          url: `${SITE_URL}/services/3d-product-visualization`,
+        },
+      },
+    ],
+  },
+};
+
 const breadcrumb = {
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
@@ -41,7 +103,7 @@ export function generateMetadata() {
 export default function Page() {
   return (
     <>
-      <MultiJsonLd schemas={[schema, breadcrumb]} />
+      <MultiJsonLd schemas={[schema, serviceSchema, breadcrumb]} />
       <CapabilitiesPage />
     </>
   );

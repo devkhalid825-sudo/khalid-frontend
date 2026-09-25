@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React from 'react';
 import AhmedFoodLayout from '../AhmedFoodLayout';
@@ -32,7 +32,17 @@ const ImmersiveExperienceArticle = () => {
     return (
     <>
       
-      <AhmedFoodLayout title="Immersive Experience Design: Brands in 2026" meta={meta} heroImage={questImg} overview={overview} challenge={challenge} results={results} process={process} gallery={gallery} />
+      <AhmedFoodLayout
+        title="Immersive Experience Design: Brands in 2026"
+        meta={meta}
+        heroImage={questImg}
+        overview={overview}
+        challenge={challenge}
+        results={results}
+        process={process}
+        gallery={gallery}
+        showMidArticleCta={true}
+      />
     </>
   );
 };

@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect, useRef } from 'react';
 import { m as motion } from 'framer-motion';
+import Link from 'next/link';
 import {
   FiShare2,
   FiCalendar,
@@ -375,7 +376,21 @@ const Leap2026Article = () => {
                   Interactive configurators are replacing passive renders
                 </h3>
                 <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch]">
-                  Architectural visualization has relied on pre-rendered flythrough videos and static images for decades. Across the LEAP floor, the most compelling showcases were fully interactive, with real estate and automotive configurators letting buyers change finishes, layouts, and lighting in real time.{' '}
+                  While traditional{' '}
+                  <Link
+                    href="/services/architectural-visualization"
+                    className="text-[#2563EB] hover:text-[#1d4ed8] underline font-medium decoration-[#2563EB]/40 hover:decoration-[#2563EB] transition-colors"
+                  >
+                    architectural visualization services
+                  </Link>{' '}
+                  have relied on pre-rendered flythrough videos and static images for decades, the most compelling showcases across the LEAP floor were fully interactive. Enterprise brands are replacing passive renders with real-time{' '}
+                  <Link
+                    href="/services/3d-product-configurators"
+                    className="text-[#2563EB] hover:text-[#1d4ed8] underline font-medium decoration-[#2563EB]/40 hover:decoration-[#2563EB] transition-colors"
+                  >
+                    WebGL 3D product configurators
+                  </Link>
+                  , with real estate and automotive tools letting buyers change finishes, layouts, and lighting in real time.{' '}
                   <strong className="text-zinc-900 font-semibold">Position your offering around a 3D Interactive Configurator</strong>, and a passive visual asset becomes a commercial sales engine.
                 </p>
               </div>

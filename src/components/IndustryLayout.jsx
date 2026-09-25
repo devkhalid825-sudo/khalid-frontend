@@ -1,9 +1,11 @@
 'use client';
 
 import React, { useState } from "react";
+import Link from "next/link";
 import { useRouter } from 'next/navigation';
 import { SITE_URL } from '../utils/api';
 import { m as motion, AnimatePresence } from 'framer-motion';
+import IndustryHero from './industry/IndustryHero';
 import { FaThLarge, FaPaperPlane } from '@/components/ui/Icons';
 import {
     HiOutlineBuildingOffice2,
@@ -110,6 +112,116 @@ const processData = [
     }
 ];
 
+const CORE_SERVICES = {
+    configurators: {
+        title: 'Interactive 3D Product Configurators',
+        href: '/services/3d-product-configurators',
+        anchor: 'interactive 3D product configurators',
+        tech: 'WebGL · Three.js',
+        desc: 'WebGL & Three.js configurators with real-time customization, material switching, and e-commerce checkout integration.',
+        keywords: [
+            'interactive 3d configurator',
+            'interactive 3d configurators',
+            'product configurator',
+            'product configurators',
+            'property configurators',
+            'property configurator',
+            '3d configurator',
+            '3d configurators',
+            'web-based configurator',
+            'web configurators',
+            'interactive configurators'
+        ]
+    },
+    archviz: {
+        title: '3D Architectural Visualization & Spatial VR',
+        href: '/services/architectural-visualization',
+        anchor: 'photoreal 3D architectural visualization',
+        tech: 'Unreal Engine 5',
+        desc: 'Unreal Engine 5 architectural flythroughs, photorealistic off-plan CGI renders, and immersive virtual sales center walkthroughs.',
+        keywords: [
+            '3d architectural visualization services',
+            'photoreal real estate visualization',
+            'real estate visualization',
+            'architectural visualization',
+            'architectural visualisations',
+            'virtual property tours',
+            'virtual property tour',
+            'archviz',
+            '3d architectural rendering',
+            'architectural animations'
+        ]
+    },
+    cinematics: {
+        title: 'Cinematic 3D Product Visuals & CGI Animation',
+        href: '/services/3d-product-visualization',
+        anchor: 'cinematic 3D visuals & CGI animation',
+        tech: 'High-End CGI · VFX',
+        desc: 'Hero-quality CGI product rendering, broadcast-ready 3D animation, fluid simulations, and forced-perspective anamorphic content.',
+        keywords: [
+            'cinematic 3d product',
+            'cinematic 3d visuals',
+            'cinematic visuals',
+            '3d commercial animation',
+            'commercial cgi',
+            'cinematic-quality visualization',
+            '3d animation'
+        ]
+    }
+};
+
+const INDUSTRY_CORE_SERVICES = {
+    'real-estate': [CORE_SERVICES.archviz, CORE_SERVICES.configurators],
+    'architecture': [CORE_SERVICES.archviz, CORE_SERVICES.cinematics],
+    'interior-design': [CORE_SERVICES.archviz, CORE_SERVICES.cinematics],
+    'automotive': [CORE_SERVICES.configurators, CORE_SERVICES.cinematics],
+    'retail': [CORE_SERVICES.configurators],
+    'ecommerce': [CORE_SERVICES.configurators],
+    'furniture': [CORE_SERVICES.configurators],
+    'manufacturing': [CORE_SERVICES.configurators, CORE_SERVICES.cinematics],
+    'construction': [CORE_SERVICES.configurators, CORE_SERVICES.cinematics],
+    'energy-utilities': [CORE_SERVICES.configurators, CORE_SERVICES.cinematics],
+    'entertainment': [CORE_SERVICES.cinematics],
+    'aerospace': [CORE_SERVICES.cinematics, CORE_SERVICES.configurators],
+    'healthcare': [CORE_SERVICES.configurators, CORE_SERVICES.cinematics],
+    'education-training': [CORE_SERVICES.cinematics, CORE_SERVICES.archviz],
+    'hospitality': [CORE_SERVICES.cinematics, CORE_SERVICES.archviz],
+};
+
+function renderWithContextualLinks(text, targetServices) {
+    if (!text || typeof text !== 'string' || !targetServices?.length) return text;
+
+    const patterns = [];
+    targetServices.forEach((service) => {
+        service.keywords.forEach((kw) => {
+            patterns.push({ kw, service });
+        });
+    });
+
+    patterns.sort((a, b) => b.kw.length - a.kw.length);
+    const regex = new RegExp(`(${patterns.map(p => p.kw.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'gi');
+    const parts = text.split(regex);
+    if (parts.length === 1) return text;
+
+    let linkedCount = 0;
+    return parts.map((part, idx) => {
+        const match = patterns.find(p => p.kw.toLowerCase() === part.toLowerCase());
+        if (match && linkedCount < 2) {
+            linkedCount++;
+            return (
+                <Link
+                    key={idx}
+                    href={match.service.href}
+                    className="text-[#4169E1] font-semibold underline decoration-[#4169E1]/40 hover:decoration-[#4169E1] hover:text-[#3158D4] transition-colors"
+                >
+                    {part}
+                </Link>
+            );
+        }
+        return part;
+    });
+}
+
 const IndustryLayout = ({
     slug,
     title,
@@ -135,115 +247,25 @@ const IndustryLayout = ({
 
     const stats = getIndustryStats(slug);
     const pageUrl = `${SITE_URL}/industries/${slug}/`;
+    const mappedServices = INDUSTRY_CORE_SERVICES[slug] || [CORE_SERVICES.configurators, CORE_SERVICES.archviz];
+
     return (
 
     <>
 
-        <div className="w-full overflow-x-hidden bg-[#F2F0EB] text-[#0D0D0D] selection:bg-[#4169E1]/30 selection:text-[#0D0D0D]">
+        <div className="w-full overflow-x-hidden bg-white text-[#0D0D0D] selection:bg-[#4169E1]/30 selection:text-[#0D0D0D]">
 
-            {/* SECTION 1: HERO */}
-            <section className="bg-[#0D0D0D] px-5 md:px-8 pt-[120px] md:pt-[140px] pb-[2rem] md:pb-[3rem] relative min-h-screen flex flex-col justify-between">
-                <Header />
+            {/* SECTION 1: STANDARDIZED INDUSTRY HERO (BLOG HERO DESIGN) */}
+            <IndustryHero
+                title={title}
+                category={category}
+                hero={hero}
+                solutionsCount={solutions?.length || 0}
+                onStartProject={handleStartProject}
+            />
 
-                <div>
-                    <h1 className="text-[clamp(2rem,7vw,5rem)] font-bold text-[#F2F0EB] leading-[1.0] tracking-tight max-w-[800px] mb-[1.5rem] md:mb-[2rem] pt-[1.5rem] md:pt-[3rem]">
-                        {title}<span className="text-[#4169E1]">.</span>
-                    </h1>
-
-                    {/* Metadata Flex */}
-                    <div className="flex flex-wrap gap-x-6 gap-y-3 border-t border-[#222] pt-[1.5rem] max-w-[680px]">
-                        <div>
-                            <label className="block text-[10px] font-medium tracking-[0.1em] uppercase text-[#555] mb-[4px]">Category</label>
-                            <p className="text-[13px] font-medium text-[#F2F0EB] leading-[1.4]">{category}</p>
-                        </div>
-                        <div>
-                            <label className="block text-[10px] font-medium tracking-[0.1em] uppercase text-[#555] mb-[4px]">Focus</label>
-                            <p className="text-[13px] font-medium text-[#F2F0EB] leading-[1.4]">Immersive Tech</p>
-                        </div>
-                        <div>
-                            <label className="block text-[10px] font-medium tracking-[0.1em] uppercase text-[#555] mb-[4px]">Deployment</label>
-                            <p className="text-[13px] font-medium text-[#F2F0EB] leading-[1.4]">Global Reach</p>
-                        </div>
-                        <div>
-                            <label className="block text-[10px] font-medium tracking-[0.1em] uppercase text-[#555] mb-[4px]">Solutions</label>
-                            <p className="text-[13px] font-medium text-[#F2F0EB] leading-[1.4]">{solutions ? solutions.length : 0} Core Areas</p>
-                        </div>
-                    </div>
-
-                    {/* CTA Actions */}
-                    <div className="flex flex-wrap gap-[8px] mt-[2rem] md:mt-[3rem]">
-                        <button
-                            onClick={() => navigate(hero?.ctaLink || "/contact")}
-                            className="text-[13px] font-medium px-[18px] py-[8px] rounded-full border bg-[#4169E1] text-white border-[#4169E1] hover:bg-[#3158D4] transition-all duration-200 cursor-pointer"
-                        >
-                            {hero?.ctaText || "Get in Touch"}
-                        </button>
-                        <button
-                            onClick={handleStartProject}
-                            className="text-[13px] font-semibold px-[20px] py-[8px] border border-[#333] hover:border-[#666] text-[#888] hover:text-[#ccc] rounded-full transition-all duration-200 cursor-pointer"
-                        >
-                            Start a Project →
-                        </button>
-                    </div>
-
-                    {/* HERO VISUAL */}
-                    <div className="w-full mt-[1.5rem] h-[50vh] md:h-[65vh] rounded-lg overflow-hidden border border-[#1E1E1E] shadow-2xl relative flex flex-col items-center justify-center p-4 md:p-8 select-none">
-                        {hero?.image ? (
-                            <img src={hero.image} alt={title} width="1200" height="700" className="absolute inset-0 w-full h-full object-cover" />
-                        ) : (
-                            <>
-                                <div className="absolute inset-0 bg-gradient-to-br from-[#0d0d0d] via-[#121829] to-[#0d0d0d]">
-                                    <motion.div
-                                        animate={{
-                                            scale: [1, 1.2, 1],
-                                            opacity: [0.15, 0.25, 0.15],
-                                            x: [0, 20, 0],
-                                            y: [0, -20, 0]
-                                        }}
-                                        transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut' }}
-                                        className="absolute w-[300px] h-[300px] bg-[#4169E1] rounded-full blur-[100px] pointer-events-none"
-                                    />
-                                    <motion.div
-                                        animate={{
-                                            scale: [1.2, 1, 1.2],
-                                            opacity: [0.1, 0.2, 0.1],
-                                            x: [0, -30, 0],
-                                            y: [0, 30, 0]
-                                        }}
-                                        transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                                        className="absolute w-[250px] h-[250px] bg-[#008080] rounded-full blur-[80px] pointer-events-none"
-                                    />
-                                    <div className="absolute inset-0 opacity-[0.05]"
-                                        style={{
-                                            backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
-                                            backgroundSize: '40px 40px',
-                                        }}
-                                    />
-                                </div>
-                                <div className="relative z-10 text-center flex flex-col items-center gap-4">
-                                    <div className="w-16 h-16 rounded-full bg-[#4169E1]/10 flex items-center justify-center border border-[#4169E1]/20 shadow-lg shadow-[#4169E1]/5 mb-2">
-                                        <span className="text-[#4169E1] text-3xl">
-                                            {iconMap[icon] || <HiOutlineBuildingOffice2 />}
-                                        </span>
-                                    </div>
-                                    <span className="text-[10px] uppercase tracking-[0.3em] font-semibold text-[#4169E1] bg-[#4169E1]/10 border border-[#4169E1]/20 px-3 py-1 rounded-full">
-                                        {category}
-                                    </span>
-                                    <h2 className="text-4xl md:text-6xl font-bold tracking-tight text-white/90 drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]">
-                                        {title}<span className="text-[#4169E1]">.</span>
-                                    </h2>
-                                    <p className="text-sm md:text-base font-light text-white/50 max-w-md leading-relaxed mt-1">
-                                        Premium interactive 3D and immersive configurations designed for {title ? title.toLowerCase() : ""} sector leaders.
-                                    </p>
-                                </div>
-                            </>
-                        )}
-                    </div>
-                </div>
-            </section>
-
-            {/* SECTION 2: OVERVIEW + CHALLENGE */}
-            <section className="px-5 md:px-8 py-[3rem] md:py-[6rem] bg-[#F2F0EB] flex flex-col lg:flex-row gap-[2rem] md:gap-[3rem] items-stretch">
+            {/* SECTION 2: OVERVIEW + CHALLENGE WITH INLINE CONTEXTUAL LINKS */}
+            <section className="px-5 md:px-8 py-[3rem] md:py-[5rem] bg-white flex flex-col lg:flex-row gap-[2rem] md:gap-[3rem] items-stretch">
                 <div className="flex-1 p-[1.25rem] md:p-[2rem]">
                     <p className="text-[13px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-[0.75rem]">Overview</p>
                     <h4 className="text-xl md:text-4xl lg:text-[44px] font-medium mb-6 md:mb-14 tracking-tight leading-[1.1] text-[#0D0D0D]">
@@ -251,22 +273,90 @@ const IndustryLayout = ({
                     </h4>
                     <div className="flex flex-row flex-wrap gap-x-6 gap-y-4 md:gap-y-6">
                         {intro && intro.map((p, i) => (
-                            <p key={i} className="w-full sm:w-[calc(50%-0.75rem)] lg:w-auto lg:flex-1 text-sm md:text-lg lg:text-xl font-light text-left leading-relaxed text-[#3A3A3A]/80">{p}</p>
+                            <p key={i} className="w-full sm:w-[calc(50%-0.75rem)] lg:w-auto lg:flex-1 text-sm md:text-lg lg:text-xl font-light text-left leading-relaxed text-[#3A3A3A]/90">
+                                {renderWithContextualLinks(p, mappedServices)}
+                            </p>
                         ))}
                     </div>
                 </div>
-                <div className="flex-1 bg-[#0D0D0D] rounded-lg p-[1.25rem] md:p-[2rem] text-[#F2F0EB] border border-[#1A1A1A] flex flex-col justify-between">
+                <div className="flex-1 bg-[#0D0D0D] rounded-2xl p-[1.5rem] md:p-[2.5rem] text-[#F2F0EB] border border-[#1A1A1A] flex flex-col justify-between shadow-xl">
                     <div>
                         <p className="text-[13px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-[0.75rem]">TL;DR — Quick Insight</p>
-                        <h3 className="text-xl md:text-4xl lg:text-[44px] font-medium mb-6 md:mb-14 tracking-tight leading-[1.1] text-[#F2F0EB]">
+                        <h3 className="text-xl md:text-3xl lg:text-[36px] font-medium mb-4 md:mb-8 tracking-tight leading-[1.15] text-[#F2F0EB]">
                             The Industry Challenge
                         </h3>
-                        <p className="text-sm md:text-lg lg:text-xl font-light text-left leading-relaxed text-white/85">
-                            {tlDr}
+                        <p className="text-sm md:text-base lg:text-lg font-light text-left leading-relaxed text-white/85">
+                            {renderWithContextualLinks(tlDr, mappedServices)}
                         </p>
                     </div>
                 </div>
             </section>
+
+            {/* CONTEXTUAL INTERNAL LINKING: CORE CAPABILITIES FOR THIS INDUSTRY */}
+            {mappedServices.length > 0 && (
+                <section className="px-5 md:px-8 py-12 md:py-20 bg-[#0D0D0D] border-t border-b border-white/10 text-[#F2F0EB]">
+                    <div className="max-w-[1500px] mx-auto">
+                        <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14">
+                            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.16em] uppercase text-[#4169E1] bg-[#4169E1]/10 border border-[#4169E1]/20 px-4 py-1.5 rounded-full mb-3.5 shadow-sm">
+                                ✦ Core Services Matrix
+                            </span>
+                            <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-3 leading-tight">
+                                Engineered Capabilities for {title}<span className="text-[#4169E1]">.</span>
+                            </h3>
+                            <p className="text-xs sm:text-sm md:text-base text-zinc-400 font-light max-w-xl mx-auto leading-relaxed">
+                                Directly integrated commercial 3D pipelines powering {title.toLowerCase()} pipelines worldwide.
+                            </p>
+                        </div>
+
+                        <div className={`grid grid-cols-1 ${
+                            mappedServices.length === 1
+                                ? 'max-w-xl mx-auto'
+                                : mappedServices.length === 2
+                                ? 'md:grid-cols-2 max-w-5xl mx-auto'
+                                : 'sm:grid-cols-2 lg:grid-cols-3 max-w-[1500px] mx-auto'
+                        } gap-6 md:gap-8`}>
+                            {mappedServices.map((srv, idx) => (
+                                <Link
+                                    key={idx}
+                                    href={srv.href}
+                                    className="group relative p-6 sm:p-8 rounded-2xl bg-[#141414] hover:bg-[#181818] border border-white/10 hover:border-[#4169E1]/60 shadow-xl hover:shadow-2xl hover:shadow-[#4169E1]/10 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 overflow-hidden"
+                                >
+                                    {/* Ambient card corner glow */}
+                                    <div className="absolute -top-12 -right-12 w-28 h-28 bg-[#4169E1]/10 rounded-full blur-2xl group-hover:bg-[#4169E1]/25 transition-all pointer-events-none" />
+
+                                    <div className="relative z-10">
+                                        <div className="flex items-center justify-between gap-3 mb-5">
+                                            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#4169E1]">
+                                                <span className="w-2 h-2 rounded-full bg-[#4169E1] shadow-[0_0_8px_#4169E1]" />
+                                                Core Capability 0{idx + 1}
+                                            </span>
+                                            {srv.tech && (
+                                                <span className="text-[11px] font-medium px-3 py-1 rounded-full bg-white/[0.04] text-zinc-300 border border-white/10 group-hover:border-[#4169E1]/40 group-hover:text-white transition-colors">
+                                                    {srv.tech}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <h4 className="text-xl sm:text-2xl font-bold text-white group-hover:text-[#4169E1] transition-colors mb-2.5">
+                                            {srv.title}
+                                        </h4>
+                                        <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed">
+                                            {srv.desc}
+                                        </p>
+                                    </div>
+                                    <div className="relative z-10 pt-5 mt-6 border-t border-white/[0.08] flex items-center justify-between">
+                                        <span className="text-xs sm:text-[13px] font-semibold text-zinc-300 group-hover:text-white transition-colors">
+                                            Explore {srv.anchor}
+                                        </span>
+                                        <span className="text-sm text-[#4169E1] font-bold group-hover:translate-x-1.5 transition-transform">
+                                            →
+                                        </span>
+                                    </div>
+                                </Link>
+                            ))}
+                        </div>
+                    </div>
+                </section>
+            )}
 
             {/* SECTION 3: RESULTS (STATISTICS) */}
             <section className="bg-[#0D0D0D] px-5 md:px-8 py-[3rem] md:py-[6rem]">
@@ -288,7 +378,7 @@ const IndustryLayout = ({
             </section>
 
             {/* SECTION 4: PROCESS */}
-            <section className="px-5 md:px-8 py-[3rem] md:py-[6rem] bg-[#F2F0EB]">
+            <section className="px-5 md:px-8 py-[3rem] md:py-[6rem] bg-white">
                 <div className="text-center mb-10 md:mb-16">
                     <h4 className="text-xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-[#0D0D0D]">
                         Our process
@@ -308,7 +398,7 @@ const IndustryLayout = ({
                             <div className="text-[4rem] md:text-[6rem] font-bold text-[#0D0D0D]/[0.02] leading-none select-none mb-2 ml-4 pointer-events-none group-hover:text-[#4169E1]/5 transition-colors duration-500">
                                 {item.step}
                             </div>
-                            <div className="relative bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 border border-[#E0DDD7] hover:border-[#4169E1]/30 transition-all duration-500 hover:-translate-y-2 flex flex-col shadow-sm hover:shadow-lg h-full z-10">
+                            <div className="relative bg-white rounded-[2rem] md:rounded-[2.5rem] p-6 md:p-10 border border-zinc-200 hover:border-[#4169E1]/30 transition-all duration-500 hover:-translate-y-2 flex flex-col shadow-sm hover:shadow-lg h-full z-10">
                                 <span className="text-[#4169E1] text-[11px] font-bold tracking-widest uppercase mb-1">{item.phase}</span>
                                 <h3 className="text-base md:text-xl font-bold text-[#0D0D0D] tracking-tight mb-3 md:mb-4">{item.title}</h3>
                                 <p className="text-sm md:text-base font-light leading-relaxed text-[#555]/90 flex-grow">{item.desc}</p>
@@ -335,13 +425,13 @@ const IndustryLayout = ({
                     </p>
                 </div>
                 
-                <div className="flex flex-row flex-wrap gap-4 md:gap-6">
+                <div className="flex flex-row flex-wrap justify-center gap-4 md:gap-6">
                     {solutions && solutions.map((s, i) => {
                         const [solTitle, ...descParts] = s.split(' — ');
                         const desc = descParts.join(' — ');
                         return (
                             <div key={i} className="w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-1rem)] xl:w-[calc(25%-1.125rem)] bg-[#111] p-[1.5rem] md:p-[2.5rem] border border-white/5 hover:border-[#4169E1]/30 transition-all duration-300 rounded-xl hover:-translate-y-1">
-                                <span className="text-[#4169E1] font-bold text-sm mb-3 block">0{i + 1}</span>
+                                <span className="text-[#4169E1] font-bold text-sm mb-3 block">{String(i + 1).padStart(2, '0')}</span>
                                 <h3 className="text-base md:text-xl font-semibold text-[#F2F0EB] mb-2">{solTitle}</h3>
                                 <p className="text-white/70 text-sm leading-relaxed font-light">{desc}</p>
                             </div>
@@ -351,7 +441,7 @@ const IndustryLayout = ({
             </section>
 
             {/* SECTION 6: WHY US */}
-            <section className="px-5 md:px-8 py-[3rem] md:py-[6rem] bg-[#F2F0EB] flex flex-col lg:flex-row gap-[2rem] md:gap-[3rem]">
+            <section className="px-5 md:px-8 py-[3rem] md:py-[6rem] bg-white flex flex-col lg:flex-row gap-[2rem] md:gap-[3rem]">
                 <div className="flex-1 lg:max-w-[40%]">
                     <p className="text-[13px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-[0.75rem]">Why Elipse Studio</p>
                     <h4 className="text-xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-[#0D0D0D]">
@@ -390,8 +480,8 @@ const IndustryLayout = ({
             )}
 
             {/* SECTION 7: USE CASES & TECHNOLOGY */}
-            <section className="px-5 md:px-8 py-[3rem] md:py-[6rem] bg-[#F2F0EB] flex flex-col lg:flex-row gap-[2rem] md:gap-[3rem] items-stretch border-t border-[#E0DDD7]">
-                <div className="flex-1 p-[1.25rem] md:p-[2rem] bg-white rounded-lg border border-[#E0DDD7]/40 shadow-sm flex flex-col justify-between">
+            <section className="px-5 md:px-8 py-[3rem] md:py-[6rem] bg-white flex flex-col lg:flex-row gap-[2rem] md:gap-[3rem] items-stretch border-t border-zinc-200">
+                <div className="flex-1 p-[1.25rem] md:p-[2rem] bg-white rounded-lg border border-zinc-200 shadow-sm flex flex-col justify-between">
                     <div>
                         <p className="text-[13px] font-semibold tracking-[0.12em] uppercase text-[#4169E1] mb-[0.75rem]">Use Cases</p>
                         <h3 className="text-lg md:text-2xl font-bold tracking-tight text-[#0D0D0D] mb-3 md:mb-4">
@@ -417,14 +507,14 @@ const IndustryLayout = ({
             </section>
 
             {/* SECTION 8: FAQ */}
-            <section className="py-[3rem] md:py-[6rem] bg-[#F2F0EB] border-t border-[#E0DDD7]">
+            <section className="py-[3rem] md:py-[6rem] bg-white border-t border-zinc-200">
                 <div className="max-w-4xl mx-auto px-5 md:px-6">
                     <span className="text-xs font-semibold uppercase tracking-[0.2em] text-[#4169E1] mb-4 block text-center">Common Questions</span>
                     <h2 className="text-xl md:text-4xl font-medium mb-8 md:mb-12 text-center tracking-tight text-[#0D0D0D]">Frequently Asked Questions</h2>
                     
                     <div className="space-y-4">
                         {faqs && faqs.map((faq, i) => (
-                            <div key={i} className="bg-white rounded-xl border border-[#E0DDD7] overflow-hidden shadow-sm">
+                            <div key={i} className="bg-white rounded-xl border border-zinc-200 overflow-hidden shadow-sm">
                                 <button
                                     className="w-full flex justify-between items-center p-6 text-left focus:outline-none"
                                     onClick={() => setOpenFaq(openFaq === i ? null : i)}
@@ -444,7 +534,7 @@ const IndustryLayout = ({
                                             transition={{ duration: 0.3, ease: "easeInOut" }}
                                             className="overflow-hidden"
                                         >
-                                            <div className="px-6 pb-6 text-[#555]/80 text-sm md:text-base leading-relaxed border-t border-[#E0DDD7]/40 pt-4">
+                                            <div className="px-6 pb-6 text-[#555]/80 text-sm md:text-base leading-relaxed border-t border-zinc-200 pt-4">
                                                 {faq.a}
                                             </div>
                                         </motion.div>

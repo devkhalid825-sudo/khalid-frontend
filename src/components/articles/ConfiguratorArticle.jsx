@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
@@ -61,6 +61,7 @@ const ConfiguratorArticle = () => {
         results={results}
         process={process}
         gallery={gallery}
+        showMidArticleCta={true}
       />
     </>
   );

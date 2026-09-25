@@ -19,7 +19,18 @@ const resolveBlogImg = (img) => {
   return img;
 };
 
-const BlogArticle = ({ slug, initialData }) => {
+const TARGET_CTA_SLUGS = [
+  'web-based-configurator',
+  'interactive-3d-product-demo-b2b-sales',
+  'immersive-experience-design',
+  'unreal-engine-configurator',
+  'unreal-engine-configurator-real-time-3d-product-experiences-that-sell',
+  'unreal-engine-configurator-real-time-3d-product-experiences',
+  'vfx-for-brand-campaigns',
+  'vfx-for-brand-campaigns-how-brands-use-visual-effects-to-break-through-in-2026',
+];
+
+const BlogArticle = ({ slug, canonicalSlug, initialData, showMidArticleCta }) => {
   const navigate = useNavigate();
   const [blog, setBlog] = useState(initialData || null);
   const [loading, setLoading] = useState(!initialData);
@@ -76,6 +87,13 @@ const BlogArticle = ({ slug, initialData }) => {
   if (blog.image3) gallery.push(resolveBlogImg(blog.image3));
   if (blog.image4) gallery.push(resolveBlogImg(blog.image4));
 
+  const shouldShowCta =
+    showMidArticleCta ||
+    (slug && TARGET_CTA_SLUGS.includes(slug)) ||
+    (canonicalSlug && TARGET_CTA_SLUGS.includes(canonicalSlug)) ||
+    (slug && slug.includes('configurator')) ||
+    (slug && slug.includes('interactive-3d'));
+
   return (
     <article>
       <AhmedFoodLayout
@@ -88,6 +106,7 @@ const BlogArticle = ({ slug, initialData }) => {
         content={blog.content || ''}
         sections={sections}
         gallery={gallery}
+        showMidArticleCta={shouldShowCta}
       />
     </article>
   );

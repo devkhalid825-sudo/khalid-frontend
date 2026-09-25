@@ -243,33 +243,29 @@ body {
 @keyframes headerSlideIn {
   from {
     opacity: 0;
-    transform: translateY(-24px) scale(0.98);
-  }
-
-  60% {
-    opacity: 0.6;
-    transform: translateY(-4px) scale(0.998);
+    transform: translateY(-32px);
   }
 
   to {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: translateY(0);
   }
 }
 
 .header-enter {
-  animation: headerSlideIn 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: headerSlideIn 0.45s ease-out;
+  animation-fill-mode: both;
 }
 
 @keyframes headerSlideOut {
   from {
     opacity: 1;
-    transform: translateY(0) scale(1);
+    transform: scale(1);
   }
 
   to {
     opacity: 0;
-    transform: translateY(-20px) scale(0.985);
+    transform: scale(0.98);
   }
 }
 

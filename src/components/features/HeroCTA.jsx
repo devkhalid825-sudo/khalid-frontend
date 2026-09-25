@@ -7,8 +7,8 @@ import { useTheme } from '@/components/providers/ThemeProvider';
 const HeroCTA = () => {
   const { isLight } = useTheme();
   return (
-    <section className={`px-[15px] pt-4 pb-4 md:hidden transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'}`}>
-      <div className="flex items-center justify-start w-full">
+    <section className={`px-[15px] pt-6 pb-6 md:hidden transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'}`}>
+      <div className="flex items-center justify-start gap-4 w-full">
         <Link
           href="/contact"
           className="inline-flex items-center justify-center gap-2 bg-[#4169E1] hover:bg-[#3558c8] active:bg-[#2e4fba] text-white font-medium text-sm sm:text-base tracking-wide rounded-full px-5 py-2.5 transition-all duration-300 shadow-md shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40"
@@ -24,7 +24,7 @@ const HeroCTA = () => {
           >
             <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
           </svg>
-          <span className="leading-none flex items-center">Contact Us</span>
+          <span className="leading-none flex items-center">Let&apos;s Connect</span>
         </Link>
       </div>
     </section>

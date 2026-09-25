@@ -61,7 +61,7 @@ const Header = ({ isBelowVideoMobile = false }) => {
       window.clearTimeout(animTimerRef.current);
       setExitAnim(false);
       setEnterAnim(true);
-      animTimerRef.current = window.setTimeout(() => setEnterAnim(false), 750);
+      animTimerRef.current = window.setTimeout(() => setEnterAnim(false), 500);
     }
     // Detach: play slide/fade-out first, then swap back to absolute/transparent
     else if (!showBrandIcon && showBrandIconRef.current) {
@@ -78,12 +78,16 @@ const Header = ({ isBelowVideoMobile = false }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // Switch full logo to compact icon when scrolling reaches the Latest Work section
+      // Attach/detach with hysteresis so tiny scroll jitter around the
+      // boundary cannot re-trigger the enter/exit animations repeatedly.
       const latestWorkEl = document.getElementById('latest-work');
+      let shouldAttach = false;
+      let shouldDetach = false;
+
       if (latestWorkEl) {
         const rect = latestWorkEl.getBoundingClientRect();
-        // Trigger icon when latest-work reaches near the top of viewport (e.g. <= 120px)
-        setShowBrandIcon(rect.top <= 120);
+        shouldAttach = rect.top <= 120;
+        shouldDetach = rect.top > 240;
       } else {
         // Fallback for pages that do not have a #latest-work section
         const desktopHero = document.getElementById('hero');
@@ -100,10 +104,19 @@ const Header = ({ isBelowVideoMobile = false }) => {
 
         if (heroEl && heroEl.offsetHeight > 0) {
           const rect = heroEl.getBoundingClientRect();
-          setShowBrandIcon(rect.bottom <= 80);
+          shouldAttach = rect.bottom <= 80;
+          shouldDetach = rect.bottom > 240;
         } else {
-          setShowBrandIcon(window.scrollY > 350);
+          shouldAttach = window.scrollY > 350;
+          shouldDetach = window.scrollY < 200;
         }
+      }
+
+      const currentlyAttached = showBrandIconRef.current;
+      if (shouldAttach && !currentlyAttached) {
+        setShowBrandIcon(true);
+      } else if (shouldDetach && currentlyAttached) {
+        setShowBrandIcon(false);
       }
 
       setIsScrolled(window.scrollY > 20);
@@ -207,7 +220,7 @@ const Header = ({ isBelowVideoMobile = false }) => {
   return (
     <>
       <header
-        className={`${positionClass} ${headerHeightClass} ${headerPaddingClass} ${headerBgClass} ${enterAnim && !isMenuOpen ? 'header-enter' : ''} ${exitAnim && !isMenuOpen ? 'header-exit' : ''} z-50 transition-all duration-300 ease-in-out flex items-center`}
+        className={`${positionClass} ${headerHeightClass} ${headerPaddingClass} ${headerBgClass} ${enterAnim && !isMenuOpen ? 'header-enter' : ''} ${exitAnim && !isMenuOpen ? 'header-exit' : ''} z-50 transition-colors duration-200 ease-in-out flex items-center`}
       >
         <nav
           ref={headerRef}
@@ -222,25 +235,25 @@ const Header = ({ isBelowVideoMobile = false }) => {
           >
             {/* Stacked logo slot: full logo and compact icon crossfade in place */}
             <div className="grid place-items-center">
-              {/* Full Logo (Visible before reaching Latest Work, or when menu is open) */}
+              {/* Full Logo (Visible before reaching Latest Work / when menu open; swaps instantly) */}
               <img
                 src={logo}
                 alt="Elipse Studio"
                 width="230"
                 height="105"
-                className={`${logoSizeClass} w-auto object-contain col-start-1 row-start-1 site-logo transition-all duration-700 ease-in-out hover:scale-105 ${
-                  showBrandIcon && !isMenuOpen ? 'opacity-0 scale-95 pointer-events-none' : 'opacity-100 scale-100'
+                className={`${logoSizeClass} w-auto object-contain col-start-1 row-start-1 site-logo transition-transform duration-300 hover:scale-105 ${
+                  showBrandIcon && !isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
                 } ${isLightMode && !isMenuOpen ? 'invert' : ''}`}
               />
 
-              {/* Compact Brand Icon (Swaps in when scrolling down to the Latest Work section) */}
+              {/* Compact Brand Icon (already shown while the attach animation plays) */}
               <img
                 src={isLightMode && !isMenuOpen ? iconBlack : iconWhite}
                 alt="Elipse Studio Icon"
                 width="48"
                 height="48"
-                className={`h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain col-start-1 row-start-1 site-logo transition-all duration-700 ease-in-out hover:scale-110 ${
-                  showBrandIcon && !isMenuOpen ? 'opacity-100 scale-100' : 'opacity-0 scale-75 pointer-events-none'
+                className={`h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain col-start-1 row-start-1 site-logo transition-transform duration-300 hover:scale-110 ${
+                  showBrandIcon && !isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
                 }`}
               />
             </div>

@@ -10,6 +10,7 @@ import Footer from './layouts/Footer';
 import Contact from './features/Contact';
 import { useTheme } from '@/components/providers/ThemeProvider';
 import { BACKEND_ORIGIN, toCdnUrl } from '../utils/api';
+import MidArticleCta from '@/components/blog/MidArticleCta';
 
 export const resolveImageUrl = (src) => {
   if (!src || typeof src !== 'string') return src || '';
@@ -100,6 +101,8 @@ const AhmedFoodLayout = ({
   resultsEyebrow,
   processHeading,
   processEyebrow,
+  showMidArticleCta = false,
+  midArticleCtaComponent = null,
 }) => {
   const router = useRouter();
   const [activeVideo, setActiveVideo] = useState(0);
@@ -407,15 +410,70 @@ const AhmedFoodLayout = ({
     );
   };
 
+  // Helper to split HTML after the 3rd or 4th H2 section
+  const splitContentForMidCta = (html) => {
+    if (!html || typeof html !== 'string') return { part1: html, part2: '' };
+    const h2Regex = /<h2[\s>]/gi;
+    let match;
+    const indices = [];
+    while ((match = h2Regex.exec(html)) !== null) {
+      indices.push(match.index);
+    }
+    // Target: after 3rd or 4th H2 section (i.e. before 4th or 5th H2)
+    let targetIndex = -1;
+    if (indices.length >= 4) {
+      targetIndex = indices[3]; // Before 4th H2 = after 3rd H2 section
+    } else if (indices.length === 3) {
+      targetIndex = indices[2]; // Before 3rd H2 = after 2nd H2 section
+    } else if (indices.length === 2) {
+      targetIndex = indices[1];
+    }
+    if (targetIndex !== -1) {
+      return {
+        part1: html.slice(0, targetIndex),
+        part2: html.slice(targetIndex),
+      };
+    }
+    return { part1: html, part2: '' };
+  };
+
   // Render HTML Editor Content
   const renderCleanContent = () => {
     if (!cleanContent) return null;
+    const contentClasses = `text-sm sm:text-base md:text-lg font-light leading-relaxed text-left w-full ${isLight ? 'text-zinc-700' : 'text-zinc-300'} [&_*]:!max-w-none [&_div]:!max-w-none [&_section]:!max-w-none [&_p]:!max-w-none [&_div]:!w-full [&_section]:!w-full [&_h1]:text-current [&_h2]:text-current [&_h2]:text-xl sm:[&_h2]:text-2xl md:[&_h2]:text-3xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-current [&_h3]:text-lg sm:[&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-3 [&_h4]:text-current [&_p]:mb-4 [&_strong]:text-current [&_a]:text-[#2563EB] dark:[&_a]:text-[#4169E1] [&_img]:rounded-xl [&_img]:my-6 [&_img]:max-w-full [&_img]:h-auto [&_blockquote]:border-l-4 [&_blockquote]:border-[#2563EB] dark:[&_blockquote]:border-[#4169E1] [&_blockquote]:pl-4 sm:[&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:my-6 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_li]:mb-2`;
+
+    if (showMidArticleCta) {
+      const { part1, part2 } = splitContentForMidCta(cleanContent);
+      if (part2) {
+        return (
+          <section className={`px-4 sm:px-6 md:px-8 py-8 md:py-14 transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-[#0D0D0D]'}`}>
+            <div
+              className={contentClasses}
+              dangerouslySetInnerHTML={{ __html: part1 }}
+            />
+            <div className="my-8 md:my-12">
+              {midArticleCtaComponent || <MidArticleCta />}
+            </div>
+            <div
+              className={contentClasses}
+              dangerouslySetInnerHTML={{ __html: part2 }}
+            />
+          </section>
+        );
+      }
+    }
+
     return (
       <section className={`px-4 sm:px-6 md:px-8 py-8 md:py-14 transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-[#0D0D0D]'}`}>
         <div
-          className={`text-sm sm:text-base md:text-lg font-light leading-relaxed text-left w-full ${isLight ? 'text-zinc-700' : 'text-zinc-300'} [&_*]:!max-w-none [&_div]:!max-w-none [&_section]:!max-w-none [&_p]:!max-w-none [&_div]:!w-full [&_section]:!w-full [&_h1]:text-current [&_h2]:text-current [&_h2]:text-xl sm:[&_h2]:text-2xl md:[&_h2]:text-3xl [&_h2]:font-bold [&_h2]:mt-8 [&_h2]:mb-4 [&_h3]:text-current [&_h3]:text-lg sm:[&_h3]:text-xl md:[&_h3]:text-2xl [&_h3]:font-semibold [&_h3]:mt-6 [&_h3]:mb-3 [&_h4]:text-current [&_p]:mb-4 [&_strong]:text-current [&_a]:text-[#2563EB] dark:[&_a]:text-[#4169E1] [&_img]:rounded-xl [&_img]:my-6 [&_img]:max-w-full [&_img]:h-auto [&_blockquote]:border-l-4 [&_blockquote]:border-[#2563EB] dark:[&_blockquote]:border-[#4169E1] [&_blockquote]:pl-4 sm:[&_blockquote]:pl-6 [&_blockquote]:italic [&_blockquote]:my-6 [&_ul]:list-disc [&_ul]:pl-5 [&_ul]:mb-4 [&_ol]:list-decimal [&_ol]:pl-5 [&_ol]:mb-4 [&_li]:mb-2`}
+          className={contentClasses}
           dangerouslySetInnerHTML={{ __html: cleanContent }}
         />
+        {showMidArticleCta && (
+          <div className="mt-8 md:mt-12">
+            {midArticleCtaComponent || <MidArticleCta />}
+          </div>
+        )}
       </section>
     );
   };
@@ -735,7 +793,18 @@ const AhmedFoodLayout = ({
           {secKey === 'thumbnails' && renderThumbnails()}
           {secKey === 'stills' && renderStills()}
           {secKey === 'gallery' && renderGallery()}
-          {secKey === 'results' && renderResults()}
+          {secKey === 'results' && (
+            <>
+              {renderResults()}
+              {showMidArticleCta && !cleanContent && (
+                <div className={`px-4 sm:px-6 md:px-8 py-4 sm:py-6 transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-[#0D0D0D]'}`}>
+                  <div className="w-full">
+                    {midArticleCtaComponent || <MidArticleCta />}
+                  </div>
+                </div>
+              )}
+            </>
+          )}
           {secKey === 'process' && renderProcess()}
           {secKey === 'content' && renderCleanContent()}
         </React.Fragment>

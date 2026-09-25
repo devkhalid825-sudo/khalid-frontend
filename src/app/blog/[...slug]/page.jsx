@@ -7,6 +7,7 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  'leap-2026': dynamic(() => import('@/components/articles/Leap2026Article')),
   'leap-2026-wrap-up': dynamic(() => import('@/components/articles/Leap2026Article')),
   'leap-2026-wrap-up-bilal-lania': dynamic(() => import('@/components/articles/Leap2026Article')),
   'webgl-vs-unreal-engine-3d-configurator': dynamic(() => import('@/components/articles/WebGLVsUnrealEngineArticle')),
@@ -47,6 +48,12 @@ const staticArticleMetadata = {
     description: 'Forced-perspective anamorphic 3D animation and LED billboard content for US brands. Product breakouts, full-scene environments & real-time OOH loops. Transparent USD pricing.',
     keywords: ['anamorphic animation USA', 'anamorphic 3D content', 'LED billboard animation', 'forced perspective animation', 'DOOH content USA', 'OOH advertising 3D', 'Elipse Studio'],
     ogImage: `${SITE_URL}/assets/About-page/QORDEN.webp`,
+  },
+  'leap-2026': {
+    title: 'LEAP 2026 Wrap Up: Social Posts and In-Depth Insights | Bilal Lania',
+    description: 'Ground reality lessons from LEAP Riyadh for creative tech founders. 3D interactive configurators, enterprise VR, digital twins, and anamorphic 3D in Saudi Arabia.',
+    keywords: ['LEAP 2026', 'LEAP Riyadh', '3D interactive configurators', 'enterprise VR AR', 'digital twins Saudi Arabia', 'anamorphic 3D', 'creative tech Saudi Arabia', 'Bilal Lania'],
+    ogImage: `${SITE_URL}/assets/leap-2026/leap-hero.jpg`,
   },
   'leap-2026-wrap-up': {
     title: 'LEAP 2026 Wrap Up: Social Posts and In-Depth Insights | Bilal Lania',
@@ -137,16 +144,23 @@ const staticArticleMetadata = {
   },
 };
 
+const BLOG_SLUG_ALIASES = {
+  'unreal-engine-configurator': 'unreal-engine-configurator-real-time-3d-product-experiences-that-sell',
+  'vfx-for-brand-campaigns': 'vfx-for-brand-campaigns-how-brands-use-visual-effects-to-break-through-in-2026',
+};
+
 export const revalidate = 0; // No cache — always fetch fresh data from backend
 
 export async function generateStaticParams() {
-  return Object.keys(staticArticles).map((slug) => ({ slug: [slug] }));
+  const staticList = Object.keys(staticArticles);
+  const aliasList = Object.keys(BLOG_SLUG_ALIASES);
+  return [...new Set([...staticList, ...aliasList])].map((slug) => ({ slug: [slug] }));
 }
 
 const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 
 function staticArticleSchemas(slugStr, meta) {
-  const isLeap = slugStr.startsWith('leap-2026-wrap-up');
+  const isLeap = slugStr.startsWith('leap-2026');
   const isWebGLVsUnreal = slugStr === 'webgl-vs-unreal-engine-3d-configurator';
   const schema = buildArticleSchema({
     title: meta.title,
@@ -263,9 +277,10 @@ function apiArticleSchemas(slugStr, data) {
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const slugStr = slugFromParams(slug);
+  const apiSlug = BLOG_SLUG_ALIASES[slugStr] || slugStr;
 
-  if (staticArticleMetadata[slugStr]) {
-    const meta = staticArticleMetadata[slugStr];
+  if (staticArticleMetadata[slugStr] || staticArticleMetadata[apiSlug]) {
+    const meta = staticArticleMetadata[slugStr] || staticArticleMetadata[apiSlug];
     return buildMetadata({
       title: meta.title,
       description: meta.description,
@@ -276,7 +291,7 @@ export async function generateMetadata({ params }) {
     });
   }
 
-  const { data } = await apiCall(`/blogs/${slugStr}`, 'GET', null, null, false, { next: { revalidate: 0 } });
+  const { data } = await apiCall(`/blogs/${apiSlug}`, 'GET', null, null, false, { next: { revalidate: 0 } });
   if (!data || !data.title) {
     return buildMetadata({
       title: 'Blog Post Not Found',
@@ -299,10 +314,11 @@ export async function generateMetadata({ params }) {
 export default async function Page({ params }) {
   const { slug } = await params;
   const slugStr = slugFromParams(slug);
+  const apiSlug = BLOG_SLUG_ALIASES[slugStr] || slugStr;
 
-  const StaticArticle = staticArticles[slugStr];
+  const StaticArticle = staticArticles[slugStr] || staticArticles[apiSlug];
   if (StaticArticle) {
-    const meta = staticArticleMetadata[slugStr];
+    const meta = staticArticleMetadata[slugStr] || staticArticleMetadata[apiSlug];
     return (
       <>
         {meta && <MultiJsonLd schemas={staticArticleSchemas(slugStr, meta)} />}
@@ -311,13 +327,13 @@ export default async function Page({ params }) {
     );
   }
 
-  const { data, status } = await apiCall(`/blogs/${slugStr}`, 'GET', null, null, false, { next: { revalidate: 0 } });
+  const { data, status } = await apiCall(`/blogs/${apiSlug}`, 'GET', null, null, false, { next: { revalidate: 0 } });
   if (status !== 200 || !data || !data.title) notFound();
   const { schemas } = apiArticleSchemas(slugStr, data);
   return (
     <>
       <MultiJsonLd schemas={schemas} />
-      <BlogArticle slug={slugStr} initialData={data} />
+      <BlogArticle slug={apiSlug} canonicalSlug={slugStr} initialData={data} showMidArticleCta={true} />
     </>
   );
 }
