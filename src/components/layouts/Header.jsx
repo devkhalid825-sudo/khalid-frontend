@@ -302,7 +302,7 @@ const Header = ({ isBelowVideoMobile = false }) => {
               >
                 Contact Us
               </button>
-              <ThemeToggle className={isMenuOpen ? '!text-white !border-white/20 !bg-white/5' : ''} />
+              <ThemeToggle isLightMode={isLightMode} className={isMenuOpen ? '!text-white !border-white/20 !bg-white/5' : ''} />
               <button
                 onClick={toggleMenu}
                 className={`focus:outline-none hover:scale-110 active:scale-95 p-1 flex items-center justify-center rounded-full transition-transform ${

@@ -18,6 +18,8 @@ import techBgRaw from '../../assets/ElipseImages/blogs/blogs-Ar.webp';
 import steeringImgRaw from '../../assets/ElipseImages/projects/Streeing-1.webp';
 import vfxImgRaw from '../../assets/About-page/QORDEN.webp';
 import ahmedFoodRaw from '../../assets/Ahmed-food/jam&spread/15.webp';
+import renderingImgRaw from '../../assets/Ahmed-food/jelly/03.webp';
+import kiaRaw from '../../assets/About-page/kia.webp';
 
 const articleImg1 = getImgSrc(articleImg1Raw);
 const articleImg6 = getImgSrc(articleImg6Raw);
@@ -28,6 +30,8 @@ const techBg = getImgSrc(techBgRaw);
 const steeringImg = getImgSrc(steeringImgRaw);
 const vfxImg = getImgSrc(vfxImgRaw);
 const ahmedFoodImg = getImgSrc(ahmedFoodRaw);
+const renderingImg = getImgSrc(renderingImgRaw);
+const kiaImg = getImgSrc(kiaRaw);
 
 const getImageSrc = (image) => {
   if (!image) return articleImg1;
@@ -83,10 +87,28 @@ const News = ({ initialBlogs = null }) => {
     return () => {
       cancelled = true;
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const staticPosts = [
+    {
+      id: 25,
+      title: 'Why Your Product Photography Budget Is Going to the Wrong Place in 2026',
+      image: renderingImg,
+      date: 'OCTOBER 3, 2026',
+      category: '3D Product Rendering',
+      readTime: '9 min read',
+      url: '/blog/why-product-photography-budget-3d-rendering-2026',
+    },
+    {
+      id: 26,
+      title: 'Virtual Showrooms vs Physical Retail: The 2026 Financial Case and ROI Benchmarks',
+      image: kiaImg,
+      date: 'OCTOBER 1, 2026',
+      category: 'Enterprise Strategy',
+      readTime: '11 min read',
+      url: '/blog/virtual-showrooms-vs-physical-retail-2026-roi-guide',
+    },
     {
       id: 20,
       title: 'WebGL vs. Unreal Engine 3D Configurator: Which is Better for Your Business?',
@@ -183,7 +205,7 @@ const News = ({ initialBlogs = null }) => {
 
   // Pick top 5 curated featured blogs (UK, AU, US, LEAP 2026, WebGL vs Unreal) and create an auto-loop sequence
   const basePosts = allPosts.slice(0, 5);
-  const featuredLoopPosts = basePosts.length >= 3 
+  const featuredLoopPosts = basePosts.length >= 3
     ? [...basePosts, ...basePosts.map((p, idx) => ({ ...p, _key: `${p._key}-loop-${idx}` }))]
     : allPosts;
 

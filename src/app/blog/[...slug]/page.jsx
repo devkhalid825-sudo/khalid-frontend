@@ -26,12 +26,19 @@ const staticArticles = {
   '3d-real-time-configurators-real-estate-dubai': dynamic(() => import('@/components/articles/RealEstateConfiguratorArticle')),
   'architectural-visualization-guide': dynamic(() => import('@/components/articles/ArchitecturalVisualization')),
   'apparel-configurator-fashion-brands-2026': dynamic(() => import('@/components/articles/ApparelConfiguratorArticle')),
+  'why-product-photography-budget-3d-rendering-2026': dynamic(() => import('@/components/articles/WhyProductPhotographyBudgetArticle')),
   '3d-animation-services-uk-2026': dynamic(() => import('@/components/articles/UkAnimationServicesArticle')),
   'interactive-web-experiences-au-2026': dynamic(() => import('@/components/articles/AuInteractiveWebArticle')),
   'vfx-services-us-2026': dynamic(() => import('@/components/articles/UsVfxServicesArticle')),
 };
 
 const staticArticleMetadata = {
+  'why-product-photography-budget-3d-rendering-2026': {
+    title: 'Why Your Product Photography Budget Is Going to the Wrong Place in 2026 | Elipse Studio',
+    description: 'Most brands spend $2,000–$8,000 per product shoot on photos that can\'t be reused. Here\'s why 3D product rendering is a smarter long-term investment — and when photography still wins.',
+    keywords: ['product rendering services', '3d product rendering', 'product visualization', 'replace product photography 3d', 'Elipse Studio', 'Bilal Lania'],
+    ogImage: `${SITE_URL}/assets/ElipseImages/projects/3D-rendering.webp`,
+  },
   'virtual-showrooms-vs-physical-retail-2026-roi-guide': {
     title: 'Virtual Showrooms vs Physical Retail: 2026 Financial Case & ROI | Elipse Studio',
     description: 'Why enterprise brands treat virtual showrooms as 365-day conversion hubs alongside trade shows. Hard financial benchmarks, WebGL architecture, and ROI breakdown.',
@@ -100,8 +107,8 @@ const staticArticleMetadata = {
     description: 'Discover how WebAR, virtual try-ons, and immersive experiences are transforming brand marketing and consumer engagement in 2026.',
   },
   'industrial-animation': {
-    title: 'Industrial Animation Services UK for Machinery, Manufacturing & Engineering | Elipse Studio',
-    description: 'Industrial 3D animation services for UK manufacturers, engineering companies, and industrial brands. CAD to 3D mechanical, exploded-view, and manufacturing process animation.',
+    title: 'Industrial 3D Animation & Machinery Visualization | Elipse Studio',
+    description: 'Elipse Studio creates industrial 3D animations from CAD files — heavy machinery visualization, process simulations, and trade show reels for manufacturers in the US, UK, and GCC.',
     keywords: ['industrial animation', 'industrial 3D animation', 'machinery animation', 'engineering animation', 'manufacturing animation UK', 'CAD animation', 'mechanical animation', 'exploded view animation', 'B2B animation'],
     ogImage: `${SITE_URL}/assets/industrial-animation/industrial-hero.webp`,
   },

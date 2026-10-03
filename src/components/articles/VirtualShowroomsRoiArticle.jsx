@@ -523,39 +523,39 @@ const VirtualShowroomsRoiArticle = () => {
               </p>
 
               <div className="overflow-x-auto rounded-xl border border-zinc-200 shadow-sm bg-white mb-6">
-                <table className="w-full text-left text-xs sm:text-sm text-zinc-800">
+                <table className="w-full min-w-[580px] text-left text-xs sm:text-sm text-zinc-800">
                   <thead className="bg-zinc-100 text-zinc-900 font-semibold text-[11px] uppercase tracking-wider border-b border-zinc-200">
                     <tr>
                       <th className="py-3.5 px-4">Metric</th>
-                      <th className="py-3.5 px-4">Baseline (Static Catalogs)</th>
-                      <th className="py-3.5 px-4 text-[#2563EB]">With Virtual Showroom</th>
+                      <th className="py-3.5 px-4 whitespace-nowrap">Baseline (Static Catalogs)</th>
+                      <th className="py-3.5 px-4 text-[#2563EB] whitespace-nowrap">With Virtual Showroom</th>
                     </tr>
                   </thead>
                   <tbody className="divide-y divide-zinc-200">
                     <tr className="hover:bg-zinc-50">
                       <td className="py-3 px-4 font-medium">Annual Inbound Inquiries</td>
-                      <td className="py-3 px-4">1,200 leads</td>
-                      <td className="py-3 px-4 font-semibold">1,200 leads</td>
+                      <td className="py-3 px-4 whitespace-nowrap">1,200 leads</td>
+                      <td className="py-3 px-4 font-semibold whitespace-nowrap">1,200 leads</td>
                     </tr>
                     <tr className="hover:bg-zinc-50">
                       <td className="py-3 px-4 font-medium">Quote Close Rate</td>
-                      <td className="py-3 px-4">8.0% (96 orders)</td>
-                      <td className="py-3 px-4 font-bold text-[#2563EB]">9.5% (+1.5% lift)</td>
+                      <td className="py-3 px-4 whitespace-nowrap">8.0% (96 orders)</td>
+                      <td className="py-3 px-4 font-bold text-[#2563EB] whitespace-nowrap">9.5% (+1.5% lift)</td>
                     </tr>
                     <tr className="hover:bg-zinc-50">
                       <td className="py-3 px-4 font-medium">Closed Orders per Year</td>
-                      <td className="py-3 px-4">96 accounts</td>
-                      <td className="py-3 px-4 font-bold">114 accounts (+18 closed orders)</td>
+                      <td className="py-3 px-4 whitespace-nowrap">96 accounts</td>
+                      <td className="py-3 px-4 font-bold whitespace-nowrap">114 accounts (+18 closed orders)</td>
                     </tr>
                     <tr className="hover:bg-zinc-50">
                       <td className="py-3 px-4 font-medium">Gross Revenue</td>
-                      <td className="py-3 px-4">$2,400,000</td>
-                      <td className="py-3 px-4 font-bold text-emerald-600">$2,850,000 (+$450,000 growth)</td>
+                      <td className="py-3 px-4 whitespace-nowrap">$2,400,000</td>
+                      <td className="py-3 px-4 font-bold text-emerald-600 whitespace-nowrap">$2,850,000 (+$450,000 growth)</td>
                     </tr>
                     <tr className="bg-emerald-50/70 font-bold text-zinc-900">
                       <td className="py-3.5 px-4">Payback Period & ROI</td>
                       <td className="py-3.5 px-4 text-zinc-500">—</td>
-                      <td className="py-3.5 px-4 text-emerald-700">Paid off in &lt; 90 days (&gt;10x Year 1 ROI)</td>
+                      <td className="py-3.5 px-4 text-emerald-700 whitespace-nowrap">Paid off in &lt; 90 days (&gt;10x Year 1 ROI)</td>
                     </tr>
                   </tbody>
                 </table>
@@ -580,12 +580,15 @@ const VirtualShowroomsRoiArticle = () => {
           </div>
         </section>
 
-        {/* ══════ BOTTOM CONVERSION CTA CARD ══════ */}
+        
+        {/* ══════ CTA BOX SECTION (CLEAN LIGHT THEME) ══════ */}
         <section className="mt-16 pt-10 pb-6 border-t border-zinc-200">
-          <div className="max-w-4xl mx-auto bg-gradient-to-b from-zinc-50 to-white border border-zinc-200/90 rounded-3xl p-8 sm:p-12 shadow-sm text-center">
-            <span className="inline-block px-3.5 py-1 bg-blue-50 border border-blue-100/80 text-[#2563EB] text-xs font-bold uppercase tracking-wider rounded-full mb-4">
+          <div className="max-w-4xl mx-auto rounded-[2rem] bg-zinc-50/80 border border-zinc-200/90 p-8 sm:p-12 text-center shadow-sm">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1 bg-blue-50 border border-blue-100 text-[#2563EB] text-xs font-semibold uppercase tracking-wider rounded-full mb-4">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB]" />
               Commercial Assessment
             </span>
+            
             <h2 className="font-serif text-2xl sm:text-3xl md:text-4xl font-normal tracking-tight text-zinc-900 leading-tight mb-4">
               Ready to Evaluate a Virtual Showroom for Your Catalog?
             </h2>
@@ -597,10 +600,10 @@ const VirtualShowroomsRoiArticle = () => {
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <Link
                 href="/contact"
-                className="w-full sm:w-auto px-5 sm:px-8 py-3.5 rounded-full bg-[#2563EB] hover:bg-blue-700 active:scale-95 text-white font-sans font-bold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
+                className="group inline-flex items-center justify-center gap-2.5 sm:gap-3 px-5 sm:px-8 py-3.5 sm:py-4 rounded-full bg-[#2563EB] hover:bg-blue-700 active:scale-95 text-white font-sans font-semibold text-xs sm:text-sm md:text-base shadow-md hover:shadow-lg transition-all duration-200 cursor-pointer w-full sm:w-auto text-center"
               >
-                <span>Book a 15-Minute Scoping Call</span>
-                <FiArrowRight className="text-base shrink-0" />
+                <span className="leading-tight">Book a 15-Minute Scoping Call</span>
+                <FiArrowRight className="text-base sm:text-lg shrink-0 group-hover:translate-x-1 transition-transform duration-200" />
               </Link>
             </div>
           </div>

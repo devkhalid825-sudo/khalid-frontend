@@ -36,6 +36,11 @@ import steeringImgRaw from '../assets/ElipseImages/projects/Streeing-1.webp';
 import vfxImgRaw from '../assets/About-page/QORDEN.webp';
 import ahmedFoodRaw from '../assets/Ahmed-food/jam&spread/15.webp';
 
+import renderingRaw from '../assets/Ahmed-food/jelly/03.webp';
+import kiaRaw from '../assets/About-page/kia.webp';
+
+const kia = getImgSrc(kiaRaw);
+const rendering = getImgSrc(renderingRaw);
 const leapCard = getImgSrc(leapCardRaw);
 const steeringImg = getImgSrc(steeringImgRaw);
 const vfxImg = getImgSrc(vfxImgRaw);
@@ -59,15 +64,24 @@ const articleImg2 = getImgSrc(articleImg2Raw);
 const staticImages = {
     elephantImg, configuratorHero, arThumbnail, hero, hero4, techBg, volveImg,
     questImg, mainHeroImage, animationMainImg, furnitureImg, edu1, vrHero,
-    articleImg1, articleImg2, steeringImg, vfxImg, ahmedFoodImg
+    articleImg1, articleImg2, steeringImg, vfxImg, ahmedFoodImg, rendering, kia
 };
 
 const staticPosts = [
     {
+        id: 'static-why-product-photography-budget',
+        title: 'Why Your Product Photography Budget Is Going to the Wrong Place in 2026',
+        excerpt: "Most brands spend $2,000–$8,000 per product shoot on photos that can't be reused. Here's why 3D product rendering is a smarter long-term investment — and when photography still wins.",
+        image: rendering,
+        date: 'OCTOBER 3, 2026',
+        category: '3D Product Rendering',
+        url: '/blog/why-product-photography-budget-3d-rendering-2026',
+    },
+    {
         id: 'static-virtual-showrooms-roi',
         title: 'Virtual Showrooms vs Physical Retail: The 2026 Financial Case and ROI Benchmarks',
         excerpt: 'Why enterprise brands treat virtual showrooms as 365-day conversion hubs alongside trade shows. Hard financial benchmarks, WebGL architecture, and ROI breakdown.',
-        image: hero4,
+        image: kia,
         date: 'OCTOBER 1, 2026',
         category: 'Enterprise Strategy',
         url: '/blog/virtual-showrooms-vs-physical-retail-2026-roi-guide',
@@ -465,11 +479,11 @@ const BlogsPage = ({ initialBlogs }) => {
     };
 
     return (
-        <div className="bg-[#0a0a0a] min-h-screen text-white font-sans selection:bg-[#4169E1] selection:text-black overflow-x-hidden">
+        <div data-nav="dark" className="bg-[#0a0a0a] min-h-screen text-white font-sans selection:bg-[#4169E1] selection:text-black overflow-x-hidden">
             {/* ══════════════════════════════════════════════════════════
                 HERO SECTION WITH FEATURED CARDS ON TOP OF BG
             ══════════════════════════════════════════════════════════ */}
-            <section className="relative w-full bg-black">
+            <section data-nav="dark" className="relative w-full bg-black">
                 <div className="relative mx-auto min-h-screen w-full overflow-hidden bg-zinc-900 shadow-2xl flex flex-col">
                     <Header />
                     <div className="absolute inset-0 z-0">
@@ -600,11 +614,10 @@ const BlogsPage = ({ initialBlogs }) => {
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold border transition-all ${
-                                    currentPage === 1
-                                        ? 'border-white/10 text-zinc-600 cursor-not-allowed'
-                                        : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#4169E1]/10'
-                                }`}
+                                className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold border transition-all ${currentPage === 1
+                                    ? 'border-white/10 text-zinc-600 cursor-not-allowed'
+                                    : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#4169E1]/10'
+                                    }`}
                             >
                                 ← Previous
                             </button>
@@ -621,11 +634,10 @@ const BlogsPage = ({ initialBlogs }) => {
                                             <button
                                                 key={pageNum}
                                                 onClick={() => handlePageChange(pageNum)}
-                                                className={`w-9 h-9 md:w-11 md:h-11 rounded-full text-xs md:text-sm font-semibold transition-all ${
-                                                    currentPage === pageNum
-                                                        ? 'bg-[#4169E1] text-white shadow-lg shadow-[#4169E1]/30'
-                                                        : 'bg-white/5 border border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
-                                                }`}
+                                                className={`w-9 h-9 md:w-11 md:h-11 rounded-full text-xs md:text-sm font-semibold transition-all ${currentPage === pageNum
+                                                    ? 'bg-[#4169E1] text-white shadow-lg shadow-[#4169E1]/30'
+                                                    : 'bg-white/5 border border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
+                                                    }`}
                                             >
                                                 {pageNum}
                                             </button>
@@ -647,11 +659,10 @@ const BlogsPage = ({ initialBlogs }) => {
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
-                                className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold border transition-all ${
-                                    currentPage === totalPages
-                                        ? 'border-white/10 text-zinc-600 cursor-not-allowed'
-                                        : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#4169E1]/10'
-                                }`}
+                                className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold border transition-all ${currentPage === totalPages
+                                    ? 'border-white/10 text-zinc-600 cursor-not-allowed'
+                                    : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#4169E1]/10'
+                                    }`}
                             >
                                 Next →
                             </button>
