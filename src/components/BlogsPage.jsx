@@ -38,9 +38,11 @@ import ahmedFoodRaw from '../assets/Ahmed-food/jam&spread/15.webp';
 
 import renderingRaw from '../assets/Ahmed-food/jelly/03.webp';
 import kiaRaw from '../assets/About-page/kia.webp';
+import marineRaw from '../assets/About-page/marine.webp';
 
 const kia = getImgSrc(kiaRaw);
 const rendering = getImgSrc(renderingRaw);
+const marine = getImgSrc(marineRaw);
 const leapCard = getImgSrc(leapCardRaw);
 const steeringImg = getImgSrc(steeringImgRaw);
 const vfxImg = getImgSrc(vfxImgRaw);
@@ -64,16 +66,16 @@ const articleImg2 = getImgSrc(articleImg2Raw);
 const staticImages = {
     elephantImg, configuratorHero, arThumbnail, hero, hero4, techBg, volveImg,
     questImg, mainHeroImage, animationMainImg, furnitureImg, edu1, vrHero,
-    articleImg1, articleImg2, steeringImg, vfxImg, ahmedFoodImg, rendering, kia
+    articleImg1, articleImg2, steeringImg, vfxImg, ahmedFoodImg, rendering, kia, marine
 };
 
 const staticPosts = [
     {
         id: 'static-interactive-3d-vs-cgi',
-        title: 'Interactive 3D vs. Pre-Rendered CGI: How High-Growth Brands Cut Timelines by 70%',
-        excerpt: "Paying $500–$1,500 per CGI render per angle? Here's how brands are moving to a single master CAD pipeline that powers interactive WebGL configurators, 4K marketing stills, and UE5 campaign visuals.",
-        image: volveImg,
-        date: 'OCTOBER 5, 2026',
+        title: 'Cinematic CGI and Interactive 3D: Why High-Growth Brands Need a Unified Pipeline in 2026',
+        excerpt: 'Why leading brands no longer choose between CGI and interactive 3D. How building a unified 3D pipeline delivers 4K commercial visuals and web-native configurators from a single master asset.',
+        image: marine,
+        date: 'OCTOBER 6, 2026',
         category: 'Commercial 3D Strategy',
         url: '/blog/interactive-3d-vs-cgi-production-pipeline-2026',
     },

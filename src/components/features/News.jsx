@@ -20,6 +20,7 @@ import vfxImgRaw from '../../assets/About-page/QORDEN.webp';
 import ahmedFoodRaw from '../../assets/Ahmed-food/jam&spread/15.webp';
 import renderingImgRaw from '../../assets/Ahmed-food/jelly/03.webp';
 import kiaRaw from '../../assets/About-page/kia.webp';
+import marineRaw from '../../assets/About-page/marine.webp';
 
 const articleImg1 = getImgSrc(articleImg1Raw);
 const articleImg6 = getImgSrc(articleImg6Raw);
@@ -32,6 +33,7 @@ const vfxImg = getImgSrc(vfxImgRaw);
 const ahmedFoodImg = getImgSrc(ahmedFoodRaw);
 const renderingImg = getImgSrc(renderingImgRaw);
 const kiaImg = getImgSrc(kiaRaw);
+const marineImg = getImgSrc(marineRaw);
 
 const getImageSrc = (image) => {
   if (!image) return articleImg1;
@@ -91,6 +93,15 @@ const News = ({ initialBlogs = null }) => {
   }, []);
 
   const staticPosts = [
+    {
+      id: 27,
+      title: 'Cinematic CGI and Interactive 3D: Why High-Growth Brands Need a Unified Pipeline in 2026',
+      image: marineImg,
+      date: 'OCTOBER 6, 2026',
+      category: 'Commercial 3D Strategy',
+      readTime: '12 min read',
+      url: '/blog/interactive-3d-vs-cgi-production-pipeline-2026',
+    },
     {
       id: 25,
       title: 'Why Your Product Photography Budget Is Going to the Wrong Place in 2026',

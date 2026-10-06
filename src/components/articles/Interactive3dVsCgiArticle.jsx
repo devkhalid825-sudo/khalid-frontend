@@ -1,51 +1,68 @@
-
 'use client';
 
-import React, { useState, useEffect } from 'react';
-import Link from 'next/link';
+import React, { useState, useEffect, useRef } from 'react';
 import { m as motion } from 'framer-motion';
+import Link from 'next/link';
 import {
   FiShare2,
-  FiCheck,
+  FiCalendar,
   FiCopy,
-  FiExternalLink,
-  FiCheckCircle,
+  FiCheck,
   FiArrowRight,
-  FiClock,
-  FiCalendar
+  FiClock
 } from 'react-icons/fi';
-import { FaRegLightbulb } from 'react-icons/fa';
+import { FaLinkedin, FaTwitter, FaRegLightbulb } from 'react-icons/fa';
 import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
-import { getImgSrc } from '../../utils/api';
-
 
 import _jetourImg from '../../assets/ElipseImages/blogs/jetour.webp';
 import _kiaImg from '../../assets/About-page/kia.webp';
 import _ahmedFoodImg from '../../assets/Ahmed-food/jam&spread/15.webp';
+import _volveImg from '../../assets/ElipseImages/hero/volve-configrator.webp';
+import _boatImg from '../../assets/About-page/marine.webp';
+import _thumbnailImg from '../../assets/About-page/thumbnial.png';
+import { getImgSrc } from '../../utils/api';
 
 const jetourImg = getImgSrc(_jetourImg);
 const kiaImg = getImgSrc(_kiaImg);
 const ahmedFoodImg = getImgSrc(_ahmedFoodImg);
+const volveImg = getImgSrc(_volveImg);
+const boatImg = getImgSrc(_boatImg);
+const thumbnailImg = getImgSrc(_thumbnailImg);
 
 const Frame = ({ src, cap, alt }) => (
-  <div className="flex flex-col gap-3 w-full my-4 sm:my-6">
-    <figure className="relative aspect-video overflow-hidden rounded-xl bg-zinc-900 border border-zinc-200/80 shadow-md group">
-      <img
-        alt={alt || cap || 'Interactive 3D vs CGI Production Pipeline'}
-        src={src}
-        loading="lazy"
-        decoding="async"
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-      />
-    </figure>
-    {cap && (
-      <p className="font-serif italic text-xs sm:text-sm text-zinc-500">
-        {cap}
-      </p>
-    )}
-  </div>
+  <figure className="relative aspect-video overflow-hidden rounded-md bg-zinc-900 border border-zinc-200/80 shadow-md group">
+    <img
+      alt={alt || cap || 'Cinematic CGI and Interactive 3D Pipeline'}
+      src={src}
+      loading="lazy"
+      decoding="async"
+      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+    />
+  </figure>
 );
+
+const LazyVideo = ({ src, className }) => {
+  const videoRef = useRef(null);
+
+  useEffect(() => {
+    const el = videoRef.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          el.src = src;
+          el.play().catch(() => { });
+        }
+      },
+      { rootMargin: '250px 0px' }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [src]);
+
+  return <video ref={videoRef} autoPlay loop muted playsInline preload="none" className={className} />;
+};
 
 const Interactive3dVsCgiArticle = () => {
   const [copied, setCopied] = useState(false);
@@ -63,24 +80,26 @@ const Interactive3dVsCgiArticle = () => {
   };
 
   const handleScrollToJournal = () => {
-    const el = document.getElementById('journal');
-    if (el) {
-      el.scrollIntoView({ behavior: 'smooth' });
+    const journalEl = document.getElementById('journal');
+    if (journalEl) {
+      journalEl.scrollIntoView({ behavior: 'smooth' });
     }
   };
 
   const marqueeItems = [
-    'INTERACTIVE 3D VS CGI',
+    'CINEMATIC CGI',
     '✦',
-    'SINGLE MASTER CAD PIPELINE',
+    'INTERACTIVE 3D',
     '✦',
-    'REAL-TIME 3D RENDERING',
+    'UNIFIED 3D PIPELINE',
+    '✦',
+    'CAD TO CGI CONVERSION',
     '✦',
     'WEBGL CONFIGURATORS',
     '✦',
     'UNREAL ENGINE 5',
     '✦',
-    '70% FASTER TIMELINES',
+    '70% FASTER TURNAROUND',
     '✦',
     'ELIPSE STUDIO',
     '✦',
@@ -92,12 +111,13 @@ const Interactive3dVsCgiArticle = () => {
 
       <main className="px-3 sm:px-6 md:px-10 lg:px-14 xl:px-16 pt-20 sm:pt-24 md:pt-28 pb-16 sm:pb-20">
 
-        {/* ══════ HERO SECTION ══════ */}
+        {/* ══════ HERO SECTION (LEAP FORMAT) ══════ */}
         <section className="relative bg-white text-neutral-900 py-10 sm:py-16 overflow-hidden mb-8 sm:mb-12">
           {/* Decorative ✦ top-left */}
           <div className="hidden lg:block absolute top-8 left-10 text-[#2563EB] text-3xl font-bold select-none pointer-events-none" aria-hidden="true">
             ✦
           </div>
+
           {/* Decorative arrow top-right */}
           <div className="hidden lg:block absolute top-8 right-12 text-[#2563EB] text-lg font-bold select-none pointer-events-none opacity-70" aria-hidden="true">
             <svg width="36" height="24" viewBox="0 0 60 40" fill="none">
@@ -107,45 +127,40 @@ const Interactive3dVsCgiArticle = () => {
           </div>
 
           <div className="max-w-5xl mx-auto flex flex-col items-center text-center">
-            {/* Main Center Headline */}
-            <h1 className="text-2xl sm:text-4xl lg:text-5xl xl:text-[50px] font-bold tracking-tight text-neutral-900 max-w-4xl leading-tight mb-4 sm:mb-8 px-2 sm:px-4">
-              Interactive 3D vs. Pre-Rendered CGI: How High-Growth Brands Are Cutting Production Timelines by{' '}
-              <span className="text-[#2563EB]">70% in 2026</span>
+
+            {/* ── Main Center Headline ── */}
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl xl:text-[56px] font-bold tracking-tight text-neutral-900 max-w-4xl leading-tight mb-8 sm:mb-12 px-4">
+              Cinematic CGI and Interactive 3D:{' '}
+              <span className="text-[#2563EB]">Why High-Growth Brands Need a Unified Pipeline</span>{' '}
+              in 2026
             </h1>
 
-            {/* 3-Column Content Grid */}
-            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 items-center relative text-left">
-              {/* Left Column */}
-              <div className="space-y-3 max-w-md mx-auto md:mx-0 text-center md:text-left">
-                <div className="flex items-center justify-center md:justify-start gap-2">
-                  <FaRegLightbulb className="text-[#2563EB] text-lg sm:text-xl" />
-                  <span className="text-xs font-bold uppercase tracking-wider text-[#2563EB]">Executive Strategy</span>
-                </div>
-                <p className="text-neutral-600 text-xs sm:text-sm md:text-base leading-relaxed">
-                  Paying $500–$1,500 per CGI render per angle? Discover how enterprise brands move to a single master CAD pipeline powering WebGL configurators, 4K marketing stills, and UE5 campaign visuals.
+            {/* ── 3-Column Content Grid ── */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 md:gap-8 items-center relative">
+
+              {/* Left Column: Intro / Description */}
+              <div className="text-left space-y-4 md:pr-4 px-4 sm:px-0 max-w-md mx-auto md:mx-0">
+                <FaRegLightbulb className="text-[#2563EB] text-2xl" />
+                <p className="text-neutral-600 text-sm sm:text-base leading-relaxed">
+                  Why leading brands no longer choose between CGI and interactive 3D. How building a unified 3D pipeline delivers 4K commercial visuals and web-native configurators from a single master asset.
                 </p>
-                <div className="flex flex-row items-center justify-center md:justify-start gap-2.5 pt-1">
-                  <button
-                    onClick={handleScrollToJournal}
-                    className="px-3.5 py-1.5 sm:px-5 sm:py-2.5 rounded-full border border-neutral-300 text-[11px] sm:text-xs font-semibold text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900 transition-all shadow-sm cursor-pointer whitespace-nowrap"
-                  >
-                    Read Analysis ↓
-                  </button>
-                  <Link
-                    href="/contact"
-                    className="px-4 py-1.5 sm:px-5 sm:py-2.5 rounded-full bg-[#2563EB] text-white text-[11px] sm:text-xs font-semibold hover:bg-blue-700 transition-all shadow-sm cursor-pointer whitespace-nowrap"
-                  >
-                    Book Audit ↗
-                  </Link>
-                </div>
+                <button
+                  onClick={handleScrollToJournal}
+                  className="w-full sm:w-auto px-6 py-3 sm:px-5 sm:py-2.5 rounded-full border border-neutral-300 text-sm sm:text-xs font-semibold text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900 transition-all shadow-sm cursor-pointer text-center"
+                >
+                  Explore Pipeline ↓
+                </button>
               </div>
 
-              {/* Center Column: Hero Showcase YouTube Shorts Reel Frame */}
-              <div className="relative flex justify-center px-4 sm:px-0 my-2 md:my-0">
-                <div className="absolute w-56 h-56 sm:w-[32rem] sm:h-[32rem] lg:w-[36rem] lg:h-[36rem] bg-neutral-100 rounded-full -z-10 border border-neutral-200 flex items-center justify-center">
-                  <span className="absolute bottom-4 sm:bottom-6 text-neutral-400 text-xl sm:text-2xl select-none">⚡</span>
+              {/* Center Column: Hero Showcase Frame with circular background */}
+              <div className="relative flex justify-center px-4 sm:px-0">
+                {/* Circular background shape */}
+                <div className="absolute w-72 h-72 sm:w-[32rem] sm:h-[32rem] lg:w-[36rem] lg:h-[36rem] bg-neutral-100 rounded-full -z-10 border border-neutral-200 flex items-center justify-center">
+                  <span className="absolute bottom-6 text-neutral-400 text-2xl select-none">⚡</span>
                 </div>
-                <div className="relative w-52 h-[18rem] sm:w-[26rem] sm:h-[32rem] lg:w-[30rem] lg:h-[36rem] rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-zinc-900 group z-10">
+
+                {/* Hero Showcase Reel Frame */}
+                <div className="relative w-64 h-[22rem] sm:w-[26rem] sm:h-[32rem] lg:w-[30rem] lg:h-[36rem] rounded-2xl overflow-hidden shadow-2xl border-4 border-white bg-zinc-900 group z-10">
                   <iframe
                     src="https://www.youtube.com/embed/DIsiP8sNnqU?rel=0"
                     title="Interactive 3D vs CGI YouTube Shorts Reel"
@@ -153,37 +168,41 @@ const Interactive3dVsCgiArticle = () => {
                     allowFullScreen
                     className="w-full h-full object-cover"
                   />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
                 </div>
               </div>
 
-              {/* Right Column: Quote Callout */}
+              {/* Right Column: Stars + Stats */}
               <div className="text-center md:text-left flex flex-col items-center md:items-start justify-center space-y-2 md:pl-4 px-4 sm:px-0 max-w-md mx-auto md:mx-0">
                 <div className="flex gap-0.5 text-[#2563EB] justify-center text-lg">
                   {[...Array(5)].map((_, i) => <span key={i}>★</span>)}
                 </div>
-                <div className="text-2xl sm:text-3xl font-extrabold tracking-tight text-neutral-900 leading-none">
+                <div className="text-3xl sm:text-4xl font-extrabold tracking-tight text-neutral-900 leading-none">
                   70% Faster
                 </div>
                 <p className="text-xs sm:text-sm text-neutral-500 uppercase tracking-wider font-medium">
                   Master Asset Economics
                 </p>
                 <div className="mt-3 bg-blue-50 border border-blue-100 p-4 rounded-2xl text-center md:text-left w-full">
-                  <p className="text-[11px] sm:text-xs text-zinc-700 font-serif italic leading-snug">
-                    &ldquo;The most expensive thing a brand can do is pay for the same 3D geometry to be rebuilt from scratch every time they need a new angle or a new finish. A master asset changes the economics of the entire creative operation.&rdquo;
+                  <p className="text-[11px] sm:text-xs text-zinc-700 font-medium leading-snug">
+                    &ldquo;High-growth brands do not treat visual content as a competition between CGI and interactive 3D. You need cinematic CGI to capture attention... and an Interactive Configurator to close the deal.&rdquo;
                   </p>
-                  <p className="text-[11px] font-bold text-[#2563EB] mt-1.5">— Bilal Lania, CEO & Creative Director — Elipse Studio</p>
+                  <p className="text-[11px] font-bold text-[#2563EB] mt-1">— Bilal Lania</p>
                 </div>
               </div>
+
             </div>
 
-            {/* Bottom Dark Pill Bar */}
+            {/* ── Bottom Dark Pill Bar ── */}
             <div className="mt-12 sm:mt-16 hidden sm:flex flex-row items-center gap-4 bg-neutral-900 text-white px-6 py-3 rounded-full shadow-xl">
-              <Link
-                href="/contact"
+              <a
+                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="text-xs sm:text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
               >
-                Submit Your CAD Files for a Pipeline Audit ↗
-              </Link>
+                Book a 15-min strategy call ↗
+              </a>
               <span className="hidden sm:block h-4 w-px bg-neutral-700" />
               <span className="text-xs sm:text-sm font-medium text-neutral-300">By Bilal Lania · CEO & Creative Director, Elipse Studio</span>
               <span className="hidden sm:block h-4 w-px bg-neutral-700" />
@@ -191,14 +210,15 @@ const Interactive3dVsCgiArticle = () => {
                 onClick={handleScrollToJournal}
                 className="text-xs sm:text-sm font-semibold text-blue-400 hover:text-blue-300 transition-colors cursor-pointer"
               >
-                Read Article Below ↓
+                Read Full Article ↓
               </button>
             </div>
+
           </div>
         </section>
 
         {/* ══════ MARQUEE TICKER ══════ */}
-        <section className="my-12 overflow-hidden border-y border-zinc-200 py-6 bg-black -mx-3 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-16">
+        <section className="my-16 overflow-hidden border-y border-zinc-200 py-6 bg-black -mx-3 sm:-mx-6 md:-mx-10 lg:-mx-14 xl:-mx-16">
           <div className="flex space-x-12 animate-marquee-custom whitespace-nowrap text-2xl sm:text-3xl md:text-4xl font-extrabold tracking-tight text-white">
             {[...marqueeItems, ...marqueeItems].map((item, i) => (
               <span key={i} className={item === '✦' ? 'text-[#3B82F6]' : ''}>{item}</span>
@@ -206,477 +226,270 @@ const Interactive3dVsCgiArticle = () => {
           </div>
         </section>
 
-        {/* ══════ MAIN JOURNAL CONTENT ══════ */}
+        {/* ══════ INTRO: A DISPATCH FROM COMMERCIAL 3D PRODUCTION ══════ */}
+        <section className="py-10 sm:py-16">
+          <div className="grid grid-cols-1 md:grid-cols-[1fr_1fr] lg:grid-cols-[0.9fr_1.1fr] gap-8 sm:gap-12 items-start">
+            <div className="md:pt-8">
+              <div className="italic text-[#2563EB] text-base mb-4">
+                A dispatch from commercial 3D production
+              </div>
+              <p className="text-xl sm:text-2xl md:text-[28px] leading-snug text-zinc-800 max-w-[38ch] font-sans">
+                Whenever I speak with brand directors and VP-level marketers about their visual production, I notice a recurring pattern: they view visual content in completely isolated silos.
+              </p>
+              <a
+                href="#journal"
+                className="mt-7 inline-flex items-center gap-2 font-serif italic text-base border-b border-zinc-900 pb-1 hover:text-[#2563EB] hover:border-[#2563EB] transition-colors"
+              >
+                Read the six lessons below ↓
+              </a>
+            </div>
+            <div className="bg-zinc-50 border border-zinc-200 p-4 sm:p-5 rotate-[0.6deg] relative">
+              <div className="relative">
+                <div className="aspect-video overflow-hidden bg-zinc-900 rounded-md w-full">
+                  <img
+                    src={kiaImg}
+                    alt="Commercial 3D Configurator Visual"
+                    loading="lazy"
+                    decoding="async"
+                    className="w-full h-full object-cover"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* ══════ THE SIX LESSONS (JOURNAL ENTRIES - LEAP ALTERNATING FORMAT) ══════ */}
         <section id="journal" className="py-10 sm:py-16 border-t border-zinc-200">
           <div className="max-w-none space-y-0">
             <div className="flex items-baseline justify-between border-b border-zinc-200 pb-6 mb-2">
-              <span className="font-serif italic text-[#2563EB] text-base">Commercial 3D Strategy & Pipeline Engineering</span>
+              <span className="font-serif italic text-[#2563EB] text-base">The unified 3D pipeline blueprint</span>
               <span className="font-serif italic text-xs text-zinc-400 uppercase tracking-widest">Elipse Studio · October 2026</span>
             </div>
 
-            {/* Intro Story Section with Kia Image Frame */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 py-8 border-b border-zinc-200 items-center">
-              <div>
-                <p className="text-lg sm:text-xl text-zinc-800 leading-relaxed font-serif italic mb-6">
-                  A product marketing director at a mid-sized furniture brand recently sent me a spreadsheet. It was her CGI spend from the previous 12 months.
-                </p>
-                <div className="bg-zinc-50 border-l-4 border-[#2563EB] p-5 my-6 rounded-r-xl font-sans text-sm sm:text-base text-zinc-700 space-y-2">
-                  <p><strong>Forty-two SKUs.</strong> Six angles each. A mix of lifestyle and white-background renders.</p>
-                  <p>Three seasonal colorway refreshes per product.</p>
-                  <p className="text-base font-semibold text-zinc-900 pt-2">
-                    Total spend: <span className="text-[#2563EB] font-bold">$284,000</span>. Total time to produce and approve: an average of <span className="text-[#2563EB] font-bold">34 days</span> per product refresh.
-                  </p>
+            {/* ── Entry 01: The Isolated Silo Dilemma ── */}
+            <article className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 py-12 sm:py-14 border-b border-zinc-200 items-center">
+              <div className="md:order-2">
+                <div className="font-serif font-extrabold text-5xl sm:text-6xl leading-none [color:transparent] [-webkit-text-stroke:1.5px_rgba(23,30,66,0.35)] select-none mb-4">
+                  01
                 </div>
-                <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base mb-4">
-                  Her question was direct: <em>&ldquo;We&apos;re launching a configurator. Do we still need all of this?&rdquo;</em>
+                <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 max-w-[22ch] leading-tight mb-4">
+                  The isolated silo dilemma: paying three times for one CAD model
+                </h3>
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
+                  One department hires a <strong className="text-zinc-900 font-semibold">commercial cgi studio</strong> to create photorealistic packaging stills and 4K print assets. A separate marketing team hires an animation house to build a broadcast commercial spot. A few months later, the digital product team searches for a <strong className="text-zinc-900 font-semibold">web-based 3d configurator agency</strong> to build an interactive customizer.
                 </p>
-                <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base mb-4">
-                  The answer changed everything about how her team now operates.
-                </p>
-                <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base">
-                  This post is about that shift — from a model where every new angle, colorway, or finish triggers a new production order, to a model where a single optimized 3D asset becomes the permanent source for everything: marketing stills, ecommerce visuals, interactive web configurators, and campaign video. Simultaneously. Without starting over.
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch]">
+                  The result is always the same. The brand pays three separate invoices for the exact same product CAD data. They end up with three different visual interpretations of their materials, endless rounds of revisions, and months of wasted turnaround time. Today, high-growth enterprise brands do not choose one over the other. They build a unified 3D pipeline that delivers both from a single master digital asset.
                 </p>
               </div>
-              <div>
-                <Frame src={kiaImg} cap="Real-Time 3D Kia Configurator Visual engineered by Elipse Studio." alt="Kia 3D Configurator" />
-              </div>
-            </div>
-
-            {/* SECTION 1 */}
-            <article className="py-12 sm:py-14 border-b border-zinc-200">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 items-center mb-10">
-                <div>
-                  <div className="font-serif font-extrabold text-5xl sm:text-6xl leading-none [color:transparent] [-webkit-text-stroke:1.5px_rgba(23,30,66,0.35)] select-none mb-4">
-                    01
-                  </div>
-                  <h2 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 leading-tight mb-4">
-                    The Traditional CGI Bottleneck: Why Static Renders Are Quietly Draining Your Budget
-                  </h2>
-                  <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base mb-4">
-                    The traditional commercial 3D production workflow works like this. A brand sends a product brief to a CGI studio. The studio models the product (or adapts an existing model), applies materials, lights the scene, renders the frames, sends them through an approval chain, and delivers final assets — usually JPEG or PNG files at a specified resolution.
-                  </p>
-                  <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base mb-4">
-                    For each new request, the process largely resets. A new colorway means re-texturing, re-lighting, re-rendering, and re-approving. A missed angle means going back to the studio for a separate order. A product update — a new handle, a revised dimension, a different fabric — can mean rebuilding from scratch depending on how the original files were structured.
-                  </p>
-                  <div className="bg-amber-50 border border-amber-200 p-4 rounded-xl text-amber-900 text-xs sm:text-sm leading-relaxed">
-                    <strong>The deeper problem:</strong> CGI studios deliver files, not assets. When the shoot is done, the working files — the lighting rigs, the material setups, the scene geometry — typically stay with the studio. The brand owns the rendered images but not the production infrastructure that created them. Every refresh is a new engagement, a new brief, a new invoice.
-                  </div>
-                </div>
-
-                <div>
-                  <Frame src={ahmedFoodImg} cap="Photorealistic 3D Product CGI Render for Ahmed Food packaging." alt="Ahmed Food 3D Product CGI Render" />
-                </div>
-              </div>
-
-              {/* Benchmark Table Full Width Sub-block */}
-              <div className="mt-8 bg-zinc-50 border border-zinc-200 p-6 sm:p-8 rounded-2xl">
-                <h3 className="text-base font-bold uppercase tracking-wider text-zinc-900 mb-4">2026 Commercial CGI Rate Benchmarks</h3>
-                <div className="overflow-x-auto rounded-xl border border-zinc-200 shadow-sm bg-white">
-                  <table className="w-full text-left text-xs sm:text-sm">
-                    <thead className="bg-zinc-900 text-white font-semibold">
-                      <tr>
-                        <th className="p-3 sm:p-4">Render Type</th>
-                        <th className="p-3 sm:p-4">Per-Image Cost Range</th>
-                        <th className="p-3 sm:p-4">Turnaround</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-zinc-200 text-zinc-700 font-sans">
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">Standard ecommerce white background</td>
-                        <td className="p-3 sm:p-4">$150 – $450 / angle</td>
-                        <td className="p-3 sm:p-4">5–10 days</td>
-                      </tr>
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">Lifestyle/environmental scene render</td>
-                        <td className="p-3 sm:p-4">$500 – $1,500 / angle</td>
-                        <td className="p-3 sm:p-4">10–20 days</td>
-                      </tr>
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">Photorealistic hero campaign image</td>
-                        <td className="p-3 sm:p-4">$1,500 – $4,000+</td>
-                        <td className="p-3 sm:p-4">15–30 days</td>
-                      </tr>
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">New colorway (existing model)</td>
-                        <td className="p-3 sm:p-4">$200 – $600 / angle</td>
-                        <td className="p-3 sm:p-4">3–8 days</td>
-                      </tr>
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">Product update / model revision</td>
-                        <td className="p-3 sm:p-4">$800 – $3,000+</td>
-                        <td className="p-3 sm:p-4">10–25 days</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-                <p className="text-xs text-zinc-500 mt-3 italic">
-                  For a brand managing 50 active SKUs with three colorways each, the math becomes significant quickly.
-                </p>
+              <div className="md:order-1">
+                <figure className="relative aspect-video overflow-hidden rounded-md bg-zinc-900">
+                  <video
+                    src="/assets/ElipseImages/videos/Configurator.mp4"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    className="absolute inset-0 w-full h-full object-contain"
+                  />
+                </figure>
               </div>
             </article>
 
-            {/* SECTION 2 */}
-            <article className="py-12 sm:py-14 border-b border-zinc-200">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 items-center mb-10">
-                <div>
-                  <div className="font-serif font-extrabold text-5xl sm:text-6xl leading-none [color:transparent] [-webkit-text-stroke:1.5px_rgba(23,30,66,0.35)] select-none mb-4">
-                    02
-                  </div>
-                  <h2 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 leading-tight mb-4">
-                    The Single Master CAD Asset: One Source, Unlimited Outputs
-                  </h2>
-                  <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base mb-4">
-                    The shift starts with a different approach to the 3D model itself. In the traditional CGI workflow, models are built for a specific output — a defined set of angles, a defined lighting environment, a defined resolution. They are production assets for a single campaign.
-                  </p>
-                  <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base mb-4">
-                    In a master asset pipeline, the 3D model is built to be permanent. It is optimized once — for geometric accuracy, material fidelity, and file efficiency — and it becomes the single source of truth for every downstream output the brand will ever need.
-                  </p>
-                  <div className="bg-blue-50 border border-blue-100 p-5 rounded-xl my-4">
-                    <p className="text-xs sm:text-sm font-semibold text-[#2563EB] uppercase tracking-wider mb-2">Master Pipeline Output Formats:</p>
-                    <ul className="space-y-2 text-xs sm:text-sm text-zinc-700">
-                      <li className="flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] mt-1.5 shrink-0" />
-                        <span><strong>Ecommerce product stills:</strong> Rendered from existing master model in 2–4 hours per angle.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] mt-1.5 shrink-0" />
-                        <span>
-                          <strong>WebGL real-time configurator:</strong> Interactive browser experience built in 3–6 weeks. Explore our{' '}
-                          <Link href="/capabilities" className="text-[#2563EB] underline font-semibold hover:text-blue-800">
-                            3D Interactive Configurator
-                          </Link>{' '}
-                          capabilities.
-                        </span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] mt-1.5 shrink-0" />
-                        <span><strong>Unreal Engine 5 Pixel Streaming:</strong> Cinema-grade ray-traced visuals for flagship launches.</span>
-                      </li>
-                      <li className="flex items-start gap-2">
-                        <span className="w-1.5 h-1.5 rounded-full bg-[#2563EB] mt-1.5 shrink-0" />
-                        <span><strong>AR & Virtual Showrooms:</strong> Instant USDZ/GLTF export for spatial commerce.</span>
-                      </li>
-                    </ul>
-                  </div>
+            {/* ── Entry 02: The Role of a Commercial CGI Studio ── */}
+            <article className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 py-12 sm:py-14 border-b border-zinc-200 items-center">
+              <div className="md:order-1">
+                <div className="font-serif font-extrabold text-5xl sm:text-6xl leading-none [color:transparent] [-webkit-text-stroke:1.5px_rgba(23,30,66,0.35)] select-none mb-4">
+                  02
                 </div>
-
-                <div>
-                  <Frame src={jetourImg} cap="Jetour Real-Time WebGL Car Configurator engineered by Elipse Studio." alt="Jetour Real-Time WebGL Car Configurator" />
-                </div>
+                <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 max-w-[22ch] leading-tight mb-4">
+                  The role of a commercial CGI studio: advertising at scale
+                </h3>
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
+                  There is a misconception in the tech community that real-time web graphics are going to replace{' '}
+                  <Link
+                    href="/services/3d-product-visualization"
+                    className="text-[#2563EB] hover:text-[#1d4ed8] underline font-semibold decoration-[#2563EB]/40 hover:decoration-[#2563EB] transition-colors"
+                  >
+                    photorealistic 3d product visualization
+                  </Link>{' '}
+                  entirely. Anyone who actually works in commercial production knows that is simply not true.
+                </p>
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
+                  A specialized <strong className="text-zinc-900 font-semibold">commercial cgi studio</strong> remains the undisputed gold standard for emotional brand storytelling. In commercial packaging and FMCG marketing, such as our CGI campaign for <strong className="text-zinc-900 font-semibold">Ahmed Food</strong>, you need photorealistic glass refraction, complex dynamic fluid simulations, and subtle surface condensation calculated in offline rendering engines.
+                </p>
+                <p className="text-zinc-900 font-sans font-semibold leading-relaxed max-w-[66ch]">
+                  CGI is what builds desire, shapes brand perception, and stops consumers from scrolling past your ads.
+                </p>
               </div>
-
-              {/* Master Model Speed Table Full Width Sub-block */}
-              <div className="mt-8 bg-zinc-50 border border-zinc-200 p-6 sm:p-8 rounded-2xl">
-                <h3 className="text-base font-bold uppercase tracking-wider text-zinc-900 mb-4">Master Model Output Generation Speed</h3>
-                <div className="overflow-x-auto rounded-xl border border-zinc-200 shadow-sm bg-white">
-                  <table className="w-full text-left text-xs sm:text-sm">
-                    <thead className="bg-zinc-900 text-white font-semibold">
-                      <tr>
-                        <th className="p-3 sm:p-4">Output</th>
-                        <th className="p-3 sm:p-4">How It&apos;s Generated</th>
-                        <th className="p-3 sm:p-4">Turnaround After Model Exists</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-zinc-200 text-zinc-700 font-sans">
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">Ecommerce product stills — any angle</td>
-                        <td className="p-3 sm:p-4">Render from existing model</td>
-                        <td className="p-3 sm:p-4">2–4 hours / angle</td>
-                      </tr>
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">4K lifestyle / campaign imagery</td>
-                        <td className="p-3 sm:p-4">Re-light model in scene</td>
-                        <td className="p-3 sm:p-4">1–3 days</td>
-                      </tr>
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">Animated product turntable</td>
-                        <td className="p-3 sm:p-4">Export from existing model</td>
-                        <td className="p-3 sm:p-4">4–8 hours</td>
-                      </tr>
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">WebGL real-time configurator</td>
-                        <td className="p-3 sm:p-4">Optimize model for browser</td>
-                        <td className="p-3 sm:p-4">3–6 weeks (one-time build)</td>
-                      </tr>
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">UE5 Pixel Streaming experience</td>
-                        <td className="p-3 sm:p-4">Import model into UE5</td>
-                        <td className="p-3 sm:p-4">4–8 weeks (one-time build)</td>
-                      </tr>
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">AR &apos;view in space&apos; product page</td>
-                        <td className="p-3 sm:p-4">Export model as USDZ/GLTF</td>
-                        <td className="p-3 sm:p-4">1–2 weeks</td>
-                      </tr>
-                      <tr className="hover:bg-zinc-50">
-                        <td className="p-3 sm:p-4 font-medium text-zinc-900">Trade show / showroom display asset</td>
-                        <td className="p-3 sm:p-4">Re-render or stream model</td>
-                        <td className="p-3 sm:p-4">2–4 days</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
+              <div className="md:order-2">
+                <Frame src={ahmedFoodImg} cap="Photorealistic 3D Packaging Rendering for Ahmed Food commercial campaign" alt="Ahmed Food 3D Packaging Render" />
               </div>
             </article>
 
-            {/* SECTION 3 */}
-            <article className="py-12 sm:py-14 border-b border-zinc-200">
-              <div className="max-w-3xl mb-8">
+            {/* ── Entry 03: Custom 3D Product Configurator Development ── */}
+            <article className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 py-12 sm:py-14 border-b border-zinc-200 items-center">
+              <div className="md:order-2">
                 <div className="font-serif font-extrabold text-5xl sm:text-6xl leading-none [color:transparent] [-webkit-text-stroke:1.5px_rgba(23,30,66,0.35)] select-none mb-4">
                   03
                 </div>
-                <h2 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 leading-tight mb-4">
-                  Speed-to-Market: From Six Weeks to Four Days
-                </h2>
-                <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base">
-                  The headline number — <strong>70% reduction in production timelines</strong> — comes from a straightforward comparison of what happens when a brand launches a new colorway or finish under each model.
+                <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 max-w-[22ch] leading-tight mb-4">
+                  Custom 3D product configurators: real-time WebGL for e-commerce
+                </h3>
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
+                  While cinematic CGI tells your brand story, it stops at the edge of the video frame. Once that customer clicks your ad and lands on your digital storefront, they want to inspect the product, test their favorite colorways, and verify whether it fits their lifestyle.
+                </p>
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
+                  This is where{' '}
+                  <Link
+                    href="/services/3d-product-configurators"
+                    className="text-[#2563EB] hover:text-[#1d4ed8] underline font-semibold decoration-[#2563EB]/40 hover:decoration-[#2563EB] transition-colors"
+                  >
+                    custom 3d product configurator development
+                  </Link>{' '}
+                  steps in. With 360-degree rotation, instant zoom, and modular part testing, buyers interact with 3D product options to submit <strong className="text-zinc-900 font-semibold">34% more quote requests</strong>, while order return rates drop by <strong className="text-zinc-900 font-semibold">up to 40%</strong>.
+                </p>
+                <p className="text-zinc-900 font-sans font-semibold leading-relaxed max-w-[66ch]">
+                  Commercial CGI creates the initial interest. A 3D Interactive Configurator gives the customer the confidence to pull out their corporate card and buy.
                 </p>
               </div>
-
-              {/* Step-by-Step Scenario Table */}
-              <div className="overflow-x-auto rounded-xl border border-zinc-200 shadow-sm bg-white mb-10">
-                <table className="w-full text-left text-xs sm:text-sm">
-                  <thead className="bg-zinc-900 text-white font-semibold">
-                    <tr>
-                      <th className="p-3 sm:p-4">Stage</th>
-                      <th className="p-3 sm:p-4 text-zinc-300">Traditional CGI Workflow</th>
-                      <th className="p-3 sm:p-4 text-blue-400">Master Asset Pipeline</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-zinc-200 text-zinc-700 font-sans">
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-bold text-zinc-900">Step 1: Briefing</td>
-                      <td className="p-3 sm:p-4 text-zinc-600">Brief 3 colorways × 12 SKUs = 36 new render orders</td>
-                      <td className="p-3 sm:p-4 text-zinc-900 font-medium">Update material files on existing model — 1 session</td>
-                    </tr>
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-bold text-zinc-900">Step 2: Studio Execution</td>
-                      <td className="p-3 sm:p-4 text-zinc-600">Re-texture, re-light, re-render per SKU — 5–12 days each</td>
-                      <td className="p-3 sm:p-4 text-zinc-900 font-medium">Batch render all angles, all colorways — 1–2 days</td>
-                    </tr>
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-bold text-zinc-900">Step 3: Approvals</td>
-                      <td className="p-3 sm:p-4 text-zinc-600">Approval round per batch — 3–5 days</td>
-                      <td className="p-3 sm:p-4 text-zinc-900 font-medium">Single approval round — all colorways simultaneously</td>
-                    </tr>
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-bold text-zinc-900">Step 4: Publishing</td>
-                      <td className="p-3 sm:p-4 text-zinc-600">Ecommerce upload, resize, format — 2–3 days</td>
-                      <td className="p-3 sm:p-4 text-zinc-900 font-medium">Automated output pipeline — same day</td>
-                    </tr>
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-bold text-zinc-900">Step 5: Configurator Sync</td>
-                      <td className="p-3 sm:p-4 text-zinc-600">Separate brief, separate agency — 4–6 weeks</td>
-                      <td className="p-3 sm:p-4 text-zinc-900 font-medium">Configurator material swap — same session as renders</td>
-                    </tr>
-                    <tr className="bg-zinc-900 text-white font-semibold">
-                      <td className="p-3 sm:p-4">Total Time to Live</td>
-                      <td className="p-3 sm:p-4 text-zinc-300">6–12 weeks</td>
-                      <td className="p-3 sm:p-4 text-[#3B82F6] font-bold">3–5 business days (70%+ Faster)</td>
-                    </tr>
-                    <tr className="bg-zinc-900 text-white font-semibold">
-                      <td className="p-3 sm:p-4">Total Cost (6 angles/SKU)</td>
-                      <td className="p-3 sm:p-4 text-zinc-300">$54,000 – $162,000</td>
-                      <td className="p-3 sm:p-4 text-emerald-400 font-bold">Included in retainer or one-time fee</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              {/* Clean Unified Highlight Stats Grid */}
-              <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 my-8">
-                <div className="bg-zinc-50 border border-zinc-200 p-5 rounded-2xl text-center hover:border-blue-200 transition-all shadow-sm">
-                  <div className="text-3xl sm:text-4xl font-extrabold text-[#2563EB]">70%</div>
-                  <div className="text-xs sm:text-sm text-zinc-600 font-medium mt-1">Average Timeline Reduction</div>
-                </div>
-                <div className="bg-zinc-50 border border-zinc-200 p-5 rounded-2xl text-center hover:border-blue-200 transition-all shadow-sm">
-                  <div className="text-3xl sm:text-4xl font-extrabold text-[#2563EB]">4 Days</div>
-                  <div className="text-xs sm:text-sm text-zinc-600 font-medium mt-1">Launch Time vs 6 Weeks</div>
-                </div>
-                <div className="bg-zinc-50 border border-zinc-200 p-5 rounded-2xl text-center hover:border-blue-200 transition-all shadow-sm">
-                  <div className="text-3xl sm:text-4xl font-extrabold text-[#2563EB]">1 Model</div>
-                  <div className="text-xs sm:text-sm text-zinc-600 font-medium mt-1">Powering Stills, WebGL & UE5</div>
-                </div>
-                <div className="bg-zinc-50 border border-zinc-200 p-5 rounded-2xl text-center hover:border-blue-200 transition-all shadow-sm">
-                  <div className="text-3xl sm:text-4xl font-extrabold text-[#2563EB]">$0</div>
-                  <div className="text-xs sm:text-sm text-zinc-600 font-medium mt-1">Extra Fee for New Output Types</div>
-                </div>
+              <div className="md:order-1">
+                <Frame src={jetourImg} cap="Jetour WebGL 3D Car Configurator engineered by Elipse Studio" alt="Jetour Real-Time WebGL Car Configurator" />
               </div>
             </article>
 
-            {/* SECTION 4 */}
-            <article className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 py-12 sm:py-14 border-b border-zinc-200 items-start">
-              <div>
+            {/* ── Entry 04: The Fragmented Agency Model ── */}
+            <article className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 py-12 sm:py-14 border-b border-zinc-200 items-center">
+              <div className="md:order-1">
                 <div className="font-serif font-extrabold text-5xl sm:text-6xl leading-none [color:transparent] [-webkit-text-stroke:1.5px_rgba(23,30,66,0.35)] select-none mb-4">
                   04
                 </div>
-                <h2 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 leading-tight mb-4">
-                  WebGL vs. Unreal Engine 5: Choosing the Right Tech Stack
-                </h2>
-                <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base mb-4">
-                  The master asset pipeline doesn&apos;t mean every output uses the same technology. Understanding where WebGL ends and where UE5 begins is the key to matching visual quality to commercial context without overspending.
+                <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 max-w-[22ch] leading-tight mb-4">
+                  The core bottleneck: the fragmented traditional agency model
+                </h3>
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
+                  If brands need both commercial CGI studio capabilities and interactive configurators, why do so many companies struggle to deploy them? The bottleneck is the traditional agency model.
                 </p>
-                <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base mb-4">
-                  Use WebGL when your buyer is on your product page, shopping, and needs instant visual confirmation. Speed of load is the conversion lever — four seconds of loading costs more sales than a slight reduction in visual fidelity.
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
+                  Most traditional 3D rendering services do not understand real-time web performance, draw calls, or low-poly optimization — they export raw models with millions of polygons that crash mobile browsers. On the flip side, most web development agencies lack cinematic artists who understand photographic lighting, color grading, or complex physics simulations.
                 </p>
-                <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base">
-                  Use UE5 when your buyer is in a dedicated presentation environment — a{' '}
-                  <Link href="/services/virtual-showrooms-digital-twins" className="text-[#2563EB] underline font-semibold hover:text-blue-800">
-                    virtual showroom
-                  </Link>
-                  , a trade show, a key account pitch — where they have time and attention, and where the visual experience itself is part of the value proposition.
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch]">
+                  Brands get caught in the middle: hiring two or three different vendors who cannot speak each other&apos;s technical language, leading to budget inflation and visual inconsistency.
                 </p>
               </div>
-
-              <div className="space-y-6">
-                {/* WebGL Card */}
-                <div className="bg-zinc-900 text-white p-6 sm:p-7 rounded-2xl shadow-xl border border-zinc-800 hover:border-zinc-700 transition-all">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-xl font-bold text-white">WebGL Configurator</h3>
-                    <span className="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/30 px-3 py-1 rounded-full font-semibold">$12k – $45k</span>
-                  </div>
-                  <p className="text-xs text-zinc-400 mb-4 font-semibold uppercase tracking-wider">Best for: Primary website, product pages, ecommerce portals</p>
-                  <ul className="space-y-2 text-xs sm:text-sm text-zinc-300">
-                    <li className="flex items-center gap-2.5"><FiCheck className="text-[#2563EB] shrink-0 text-base" /><span>Loads in under 2 seconds on mobile</span></li>
-                    <li className="flex items-center gap-2.5"><FiCheck className="text-[#2563EB] shrink-0 text-base" /><span>60fps on mid-range smartphones</span></li>
-                    <li className="flex items-center gap-2.5"><FiCheck className="text-[#2563EB] shrink-0 text-base" /><span>Zero plugin or app install required</span></li>
-                    <li className="flex items-center gap-2.5"><FiCheck className="text-[#2563EB] shrink-0 text-base" /><span>Native Shopify / WooCommerce integration</span></li>
-                    <li className="flex items-center gap-2.5"><FiCheck className="text-[#2563EB] shrink-0 text-base" /><span>Infinite simultaneous users — no GPU server cost</span></li>
-                  </ul>
-                </div>
-
-                {/* UE5 Card */}
-                <div className="bg-zinc-900 text-white p-6 sm:p-7 rounded-2xl shadow-xl border border-zinc-800 hover:border-zinc-700 transition-all">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-xl font-bold text-white">Unreal Engine 5 + Pixel Streaming</h3>
-                    <span className="text-xs bg-blue-500/10 text-blue-400 border border-blue-500/30 px-3 py-1 rounded-full font-semibold">$35k – $120k+</span>
-                  </div>
-                  <p className="text-xs text-zinc-400 mb-4 font-semibold uppercase tracking-wider">Best for: High-ticket luxury sectors, flagship campaigns</p>
-                  <ul className="space-y-2 text-xs sm:text-sm text-zinc-300">
-                    <li className="flex items-center gap-2.5"><FiCheck className="text-[#2563EB] shrink-0 text-base" /><span>Cinema-grade Lumen global illumination</span></li>
-                    <li className="flex items-center gap-2.5"><FiCheck className="text-[#2563EB] shrink-0 text-base" /><span>Nanite micro-polygon geometry photorealism</span></li>
-                    <li className="flex items-center gap-2.5"><FiCheck className="text-[#2563EB] shrink-0 text-base" /><span>Ray-traced reflections & depth of field</span></li>
-                    <li className="flex items-center gap-2.5"><FiCheck className="text-[#2563EB] shrink-0 text-base" /><span>Streams to any browser via Arcware / StreamPixel</span></li>
-                    <li className="flex items-center gap-2.5"><FiCheck className="text-[#2563EB] shrink-0 text-base" /><span>VR headset compatible (Meta Quest, PCVR)</span></li>
-                  </ul>
-                </div>
+              <div className="md:order-2">
+                <Frame src={boatImg} cap="Interactive 3D Product Configurator application engineered by Elipse Studio" alt="Interactive 3D Product Configurator" />
               </div>
             </article>
 
-            {/* SECTION 5 */}
-            <article className="py-12 sm:py-14 border-b border-zinc-200">
-              <div className="max-w-3xl mb-8">
+            {/* ── Entry 05: The Unified Master Asset Workflow ── */}
+            <article className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 py-12 sm:py-14 border-b border-zinc-200 items-center">
+              <div className="md:order-2">
                 <div className="font-serif font-extrabold text-5xl sm:text-6xl leading-none [color:transparent] [-webkit-text-stroke:1.5px_rgba(23,30,66,0.35)] select-none mb-4">
                   05
                 </div>
-                <h2 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 leading-tight mb-4">
-                  The Economic Impact: Real-World ROI Benchmarks
-                </h2>
-                <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base">
-                  Let&apos;s put concrete numbers on the shift. The following figures are composite benchmarks from commercial deployments across furniture, commercial equipment, and consumer goods brands:
+                <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 max-w-[22ch] leading-tight mb-4">
+                  The solution: the unified master asset production workflow
+                </h3>
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
+                  At Elipse Studio, we build our entire production pipeline around solving this friction point. Instead of starting from scratch for every marketing campaign, we build a single, production-grade 3D digital twin from your original engineering CAD data.
+                </p>
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
+                  Once that master digital asset is built, shaded, and approved, our studio splits the output across distinct technical channels: <strong className="text-zinc-900 font-semibold">1. Commercial CGI Visuals</strong> (4K advertising stills, product packaging, and animated commercials), <strong className="text-zinc-900 font-semibold">2. Browser-Native 3D Interactive Configurator</strong> (sub-2MB WebGL build loading under two seconds on mobile), and <strong className="text-zinc-900 font-semibold">3. Unreal Engine 5 Spatial Tech</strong> (photorealistic global illumination and spatial VR walkthroughs via pixel streaming).
                 </p>
               </div>
-
-              <div className="overflow-x-auto rounded-xl border border-zinc-200 shadow-sm bg-white mb-8">
-                <table className="w-full text-left text-xs sm:text-sm">
-                  <thead className="bg-zinc-900 text-white font-semibold">
-                    <tr>
-                      <th className="p-3 sm:p-4">Metric</th>
-                      <th className="p-3 sm:p-4">Traditional CGI-Only</th>
-                      <th className="p-3 sm:p-4">Master Asset Pipeline</th>
-                      <th className="p-3 sm:p-4 text-emerald-400">Improvement</th>
-                    </tr>
-                  </thead>
-                  <tbody className="divide-y divide-zinc-200 text-zinc-700 font-sans">
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-medium text-zinc-900">Cost per colorway launch (12 SKUs, 6 angles)</td>
-                      <td className="p-3 sm:p-4 text-red-600 font-semibold">$54,000 – $162,000</td>
-                      <td className="p-3 sm:p-4 text-emerald-700 font-semibold">$800 – $3,000</td>
-                      <td className="p-3 sm:p-4 font-bold text-emerald-600">94% cost reduction</td>
-                    </tr>
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-medium text-zinc-900">Time to live for new finish</td>
-                      <td className="p-3 sm:p-4">5–8 weeks</td>
-                      <td className="p-3 sm:p-4">3–5 business days</td>
-                      <td className="p-3 sm:p-4 font-bold text-emerald-600">70–85% faster</td>
-                    </tr>
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-medium text-zinc-900">Output formats from one cycle</td>
-                      <td className="p-3 sm:p-4">1 (static renders)</td>
-                      <td className="p-3 sm:p-4">5+ simultaneously</td>
-                      <td className="p-3 sm:p-4 font-bold text-emerald-600">5× output volume</td>
-                    </tr>
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-medium text-zinc-900">Configurator update after product change</td>
-                      <td className="p-3 sm:p-4">Separate project, weeks</td>
-                      <td className="p-3 sm:p-4">Same day</td>
-                      <td className="p-3 sm:p-4 font-bold text-emerald-600">Instant</td>
-                    </tr>
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-medium text-zinc-900">File ownership</td>
-                      <td className="p-3 sm:p-4">Studio retains working files</td>
-                      <td className="p-3 sm:p-4">Brand owns source files</td>
-                      <td className="p-3 sm:p-4 font-bold text-emerald-600">Full ownership</td>
-                    </tr>
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-medium text-zinc-900">Year 2 production cost vs Year 1</td>
-                      <td className="p-3 sm:p-4">Same or higher</td>
-                      <td className="p-3 sm:p-4">60–75% lower</td>
-                      <td className="p-3 sm:p-4 font-bold text-emerald-600">Compounds annually</td>
-                    </tr>
-                    <tr className="hover:bg-zinc-50">
-                      <td className="p-3 sm:p-4 font-medium text-zinc-900">Ecommerce quote conversion lift</td>
-                      <td className="p-3 sm:p-4">Baseline</td>
-                      <td className="p-3 sm:p-4">+34% quote conversion</td>
-                      <td className="p-3 sm:p-4 font-bold text-emerald-600">Commercial lift</td>
-                    </tr>
-                  </tbody>
-                </table>
+              <div className="md:order-1">
+                <Frame src={thumbnailImg} cap="Master CAD / 3D Asset Unified Production Pipeline Architecture" alt="Master Pipeline Architecture" />
               </div>
             </article>
 
-            {/* SECTION 6 */}
-            <article className="py-12 sm:py-14">
-              <div className="max-w-3xl mx-auto text-center mb-8">
+            {/* ── Entry 06: The Bottom-Line Impact ── */}
+            <article className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 py-12 sm:py-14 items-center">
+              <div className="md:order-1">
                 <div className="font-serif font-extrabold text-5xl sm:text-6xl leading-none [color:transparent] [-webkit-text-stroke:1.5px_rgba(23,30,66,0.35)] select-none mb-4">
                   06
                 </div>
-                <h2 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 leading-tight mb-4">
-                  Building Your Master Pipeline: Practical Implementation
-                </h2>
-                <p className="text-zinc-700 font-sans leading-relaxed text-sm sm:text-base mb-6 max-w-2xl mx-auto">
-                  How hard is the transition? The answer depends almost entirely on what 3D assets already exist in your organization.
+                <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 max-w-[22ch] leading-tight mb-4">
+                  The bottom-line impact: 70% faster production turnaround
+                </h3>
+                <p className="text-zinc-700 font-sans leading-relaxed max-w-[66ch] mb-4">
+                  When your visual production runs through a single unified pipeline, the economics of your marketing department shift overnight:
                 </p>
-
-                <div className="space-y-6 text-sm text-zinc-700 text-left">
-                  <div className="bg-zinc-50 border border-zinc-200 p-5 rounded-xl">
-                    <h3 className="text-base font-bold text-zinc-900 mb-2">1. If you have CAD files (SolidWorks, STEP, IGES)</h3>
-                    <p className="leading-relaxed">
-                      This is the fastest path. Engineering CAD files import directly into our production pipeline. We optimize polygon density, apply PBR materials, and deliver the first batch of outputs within two to four weeks.
-                    </p>
-                  </div>
-
-                  <div className="bg-zinc-50 border border-zinc-200 p-5 rounded-xl">
-                    <h3 className="text-base font-bold text-zinc-900 mb-2">2. If you have legacy CGI renders but no working files</h3>
-                    <p className="leading-relaxed">
-                      The most common scenario. We reconstruct the 3D master model from your physical product or reference renders. Reconstruction adds 2–4 weeks to the initial timeline but is a one-time investment.
-                    </p>
-                  </div>
-
-                  <div className="bg-zinc-50 border border-zinc-200 p-5 rounded-xl">
-                    <h3 className="text-base font-bold text-zinc-900 mb-2">3. If you are launching a new product line</h3>
-                    <p className="leading-relaxed">
-                      The ideal scenario. We build the master model while the factory is producing the first units. Marketing stills, configurators, and AR launch assets are ready before the physical product ships.
-                    </p>
-                  </div>
+                <div className="space-y-3 font-sans text-xs sm:text-sm text-zinc-700 max-w-[66ch]">
+                  <p>
+                    <strong className="text-zinc-900 font-semibold">Zero Duplicated Labor:</strong> You prepare and texture your product geometry once. You never pay a second vendor to rebuild what the first vendor already completed.
+                  </p>
+                  <p>
+                    <strong className="text-zinc-900 font-semibold">Instant Seasonal Resets:</strong> When your team introduces a new colorway, wood finish, or technical attachment, we update the master digital twin. That single update immediately updates your commercial marketing renders and your live web customizer simultaneously.
+                  </p>
+                  <p>
+                    <strong className="text-zinc-900 font-semibold">Uncompromised Brand Consistency:</strong> The lighting, material roughness, and color accuracy in your hero advertising match the live 3D customizer on your website with 100% precision.
+                  </p>
                 </div>
               </div>
-
+              <div className="md:order-2">
+                <Frame src={volveImg} cap="Single Master CAD Pipeline powering real-time web configurators and 4K commercial visuals simultaneously." alt="Volvo 3D Configurator Master Pipeline" />
+              </div>
             </article>
-
-
           </div>
         </section>
+
+
+
+        {/* ══════ CLOSING REFLECTIONS (LEAP FORMAT) ══════ */}
+        <section className="py-12 sm:py-16 my-12 sm:my-16 border-t border-zinc-200">
+          <div className="max-w-2xl mx-auto text-center">
+            <div className="font-serif italic text-[#2563EB] mb-3">
+              Closing reflections
+            </div>
+            <h3 className="font-serif font-medium text-2xl sm:text-3xl text-zinc-900 leading-tight mb-8">
+              Why high-growth brands stop choosing between CGI and interactive 3D
+            </h3>
+          </div>
+          <div className="max-w-2xl mx-auto space-y-4">
+            <p className="text-zinc-700 font-serif leading-relaxed">
+              High-growth brands do not treat visual content as a competition between CGI and interactive 3D.
+            </p>
+            <p className="font-serif italic text-lg text-zinc-900 leading-relaxed">
+              You need cinematic CGI to capture attention and tell an emotional brand story. You need a 3D Interactive Configurator to give buyers confidence and close the deal on your website.
+            </p>
+            <p className="text-zinc-700 font-serif leading-relaxed">
+              The secret to scaling visual production in 2026 is avoiding fragmented vendors. When you invest in a unified 3D pipeline, you get the absolute best of both worlds while eliminating months of production delays.
+            </p>
+            <p className="text-zinc-700 font-serif leading-relaxed">
+              If you have a product line, packaging project, or CAD catalog you want to review, reach out to our team at{' '}
+              <a href="mailto:info@elipsestudio.com" className="text-[#2563EB] font-semibold underline">
+                info@elipsestudio.com
+              </a>{' '}
+              or schedule an introductory review on our website. We will walk you through our master asset workflow and show you how to streamline your visual pipeline.
+            </p>
+          </div>
+          <div className="max-w-2xl mx-auto text-center mt-8">
+            <div className="font-serif italic text-2xl text-[#2563EB]">
+              Bilal Lania
+            </div>
+            <p className="text-xs uppercase tracking-wider text-zinc-500 font-medium mt-1">
+              CEO & Creative Director · Elipse Studio
+            </p>
+            <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+              <Link
+                href="/contact"
+                className="px-6 py-2.5 rounded-full bg-[#2563EB] text-white text-xs font-semibold hover:bg-blue-700 transition-all shadow-sm"
+              >
+                Schedule Pipeline Review ↗
+              </Link>
+              <a
+                href="mailto:info@elipsestudio.com"
+                className="px-6 py-2.5 rounded-full border border-neutral-300 text-xs font-semibold text-neutral-800 hover:bg-neutral-100 transition-all shadow-sm"
+              >
+                info@elipsestudio.com
+              </a>
+            </div>
+          </div>
+        </section>
+
       </main>
 
       <Footer />
