@@ -150,27 +150,37 @@ const AhmedFoodLayout = ({
 
   // Merge storyBlocks or fallback to overview + challenge
   const effectiveStoryBlocks = React.useMemo(() => {
-    if (storyBlocks && storyBlocks.length > 0) return storyBlocks;
-    const blocks = [];
-    if (overview) {
-      blocks.push({
-        tag: 'Overview',
-        heading: overviewHeading || 'Project Overview',
-        text: overview,
-        image: null,
-        position: 'left',
-      });
+    const list = [];
+    if (Array.isArray(storyBlocks) && storyBlocks.length > 0) {
+      list.push(...storyBlocks);
+    } else {
+      if (overview && typeof overview === 'string' && overview.trim().length > 0) {
+        list.push({
+          tag: 'Overview',
+          heading: overviewHeading || 'Project Overview',
+          text: overview.trim(),
+          image: null,
+          position: 'left',
+        });
+      }
+      if (challenge && typeof challenge === 'string' && challenge.trim().length > 0) {
+        list.push({
+          tag: 'The challenge',
+          heading: challengeHeading || 'Key Challenges',
+          text: challenge.trim(),
+          image: null,
+          position: 'right',
+        });
+      }
     }
-    if (challenge) {
-      blocks.push({
-        tag: 'The challenge',
-        heading: challengeHeading || 'Key Challenges',
-        text: challenge,
-        image: null,
-        position: 'right',
-      });
-    }
-    return blocks;
+
+    // STRICT: Only keep blocks that actually have content (text or image)
+    // Never show empty dummy boxes with just headings and no content
+    return list.filter((block) => {
+      const hasText = Boolean(block && block.text && typeof block.text === 'string' && block.text.trim().length > 0);
+      const hasImage = Boolean(block && block.image && typeof block.image === 'string' && block.image.trim().length > 0);
+      return hasText || hasImage;
+    });
   }, [storyBlocks, overview, challenge, overviewHeading, challengeHeading]);
 
   // Render Story Blocks (Overview & Challenge)
@@ -238,6 +248,31 @@ const AhmedFoodLayout = ({
     const hasThumbnails = galleryThumbnails && galleryThumbnails.length > 0;
     if (!hasThumbnails) return null;
 
+    const total = galleryThumbnails.length;
+    const fullGridCount = total >= 3 ? Math.floor(total / 3) * 3 : 0;
+    const gridItems = fullGridCount > 0 ? galleryThumbnails.slice(0, fullGridCount) : [];
+    const remainingItems = fullGridCount > 0 ? galleryThumbnails.slice(fullGridCount) : galleryThumbnails;
+
+    const renderThumbnailCard = (rawSrc, index) => {
+      const src = resolveImageUrl(rawSrc);
+      return (
+        <div
+          key={index}
+          onClick={() => setLightboxImg(src)}
+          className={`group relative aspect-[16/9] w-full rounded-xl overflow-hidden border transition-all duration-300 cursor-pointer shadow-lg shrink-0 ${
+            isLight ? 'border-neutral-200 bg-white hover:border-[#2563EB]' : 'border-zinc-800 bg-[#0D0D0D] hover:border-[#4169E1]/60'
+          }`}
+        >
+          <img
+            src={src}
+            alt={`Thumbnail render ${index + 1}`}
+            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
+          />
+        </div>
+      );
+    };
+
     return (
       <section className={`px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t border-b overflow-hidden transition-colors duration-300 ${isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#111] border-white/5'}`}>
         <div className="w-full">
@@ -247,34 +282,62 @@ const AhmedFoodLayout = ({
           <h2 className={`text-2xl sm:text-4xl lg:text-[44px] font-medium mb-8 md:mb-12 tracking-tight leading-tight ${isLight ? 'text-neutral-900' : 'text-[#F2F0EB]'}`}>
             {thumbnailsHeading || 'Thumbnails (16:9)'}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {galleryThumbnails.map((rawSrc, i) => {
-              const src = resolveImageUrl(rawSrc);
-              return (
-                <div
-                  key={i}
-                  onClick={() => setLightboxImg(src)}
-                  className={`group relative aspect-[16/9] rounded-xl overflow-hidden border transition-all duration-300 cursor-pointer shadow-lg ${isLight ? 'border-neutral-200 bg-white hover:border-[#2563EB]' : 'border-zinc-800 bg-[#0D0D0D] hover:border-[#4169E1]/60'}`}
-                >
-                  <img
-                    src={src}
-                    alt={`Thumbnail render ${i + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-              );
-            })}
-          </div>
+
+          {gridItems.length > 0 && (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6 w-full">
+              {gridItems.map((rawSrc, i) => renderThumbnailCard(rawSrc, i))}
+            </div>
+          )}
+
+          {remainingItems.length > 0 && (
+            <div className={`flex flex-wrap justify-center items-center gap-4 md:gap-6 w-full ${gridItems.length > 0 ? 'mt-4 md:mt-6' : ''}`}>
+              {remainingItems.map((rawSrc, i) => {
+                const globalIndex = gridItems.length + i;
+                const widthClass = remainingItems.length === 1 && total === 1
+                  ? 'w-full max-w-2xl'
+                  : 'w-full sm:w-[calc(50%-12px)] md:w-[calc((100%-2*24px)/3)]';
+                return (
+                  <div key={globalIndex} className={widthClass}>
+                    {renderThumbnailCard(rawSrc, globalIndex)}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
     );
   };
 
-  // Render Still Images (4 per row)
+  // Render Still Images (Top row 4 full width with no side gaps, remaining 3 centered with equal space)
   const renderStills = () => {
     const hasStills = galleryStills && galleryStills.length > 0;
     if (!hasStills) return null;
+
+    const total = galleryStills.length;
+    const fullGridCount = total >= 4 ? Math.floor(total / 4) * 4 : 0;
+    const gridItems = fullGridCount > 0 ? galleryStills.slice(0, fullGridCount) : [];
+    const remainingItems = fullGridCount > 0 ? galleryStills.slice(fullGridCount) : galleryStills;
+
+    const renderStillCard = (rawSrc, index) => {
+      const src = resolveImageUrl(rawSrc);
+      return (
+        <div
+          key={index}
+          onClick={() => setLightboxImg(src)}
+          className={`group relative aspect-[4/5] w-full rounded-xl overflow-hidden border transition-all duration-300 cursor-pointer shadow-lg shrink-0 ${
+            isLight ? 'border-neutral-200 bg-white hover:border-[#2563EB]' : 'border-white/10 bg-[#111] hover:border-[#4169E1]/60'
+          }`}
+        >
+          <img
+            src={src}
+            alt={`Still render ${index + 1}`}
+            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
+          />
+        </div>
+      );
+    };
 
     return (
       <section className={`px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t border-b overflow-hidden transition-colors duration-300 ${isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#111] border-white/5'}`}>
@@ -285,25 +348,30 @@ const AhmedFoodLayout = ({
           <h2 className={`text-2xl sm:text-4xl lg:text-[44px] font-medium mb-8 md:mb-12 tracking-tight leading-tight ${isLight ? 'text-neutral-900' : 'text-[#F2F0EB]'}`}>
             {stillsHeading || 'Still Images'}
           </h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-5">
-            {galleryStills.map((rawSrc, i) => {
-              const src = resolveImageUrl(rawSrc);
-              return (
-                <div
-                  key={i}
-                  onClick={() => setLightboxImg(src)}
-                  className="group relative aspect-[4/5] rounded-xl overflow-hidden border border-white/10 hover:border-[#4169E1]/60 transition-all duration-300 cursor-pointer shadow-lg bg-[#111]"
-                >
-                  <img
-                    src={src}
-                    alt={`Still render ${i + 1}`}
-                    className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
-                </div>
-              );
-            })}
-          </div>
+
+          {/* Top full row of 4 (spans 100% full width, edge-to-edge, NO space on left or right) */}
+          {gridItems.length > 0 && (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-5 w-full">
+              {gridItems.map((rawSrc, i) => renderStillCard(rawSrc, i))}
+            </div>
+          )}
+
+          {/* Bottom remaining row of 3 (centered with equal space on left and right) */}
+          {remainingItems.length > 0 && (
+            <div className={`flex flex-wrap justify-center items-center gap-3 sm:gap-4 md:gap-5 w-full ${gridItems.length > 0 ? 'mt-3 sm:mt-4 md:mt-5' : ''}`}>
+              {remainingItems.map((rawSrc, i) => {
+                const globalIndex = gridItems.length + i;
+                const widthClass = remainingItems.length === 1 && total === 1
+                  ? 'w-full max-w-[340px]'
+                  : 'w-[calc(50%-6px)] sm:w-[calc(50%-8px)] md:w-[calc((100%-3*20px)/4)]';
+                return (
+                  <div key={globalIndex} className={widthClass}>
+                    {renderStillCard(rawSrc, globalIndex)}
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </div>
       </section>
     );
@@ -353,7 +421,8 @@ const AhmedFoodLayout = ({
 
   // Render Results (Measurable Impact)
   const renderResults = () => {
-    if (!results || results.length === 0) return null;
+    const validResults = (results || []).filter(item => (item?.stat && String(item.stat).trim().length > 0) || (item?.label && String(item.label).trim().length > 0));
+    if (validResults.length === 0) return null;
     return (
       <section className={`px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t border-b overflow-hidden transition-colors duration-300 ${isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#111] border-white/5'}`}>
         <div className="w-full">
@@ -366,7 +435,7 @@ const AhmedFoodLayout = ({
             </h2>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
-            {results.map((item, i) => (
+            {validResults.map((item, i) => (
               <div key={i} className={`rounded-2xl p-6 sm:p-8 flex flex-col justify-center shadow-lg transition-all duration-300 hover:-translate-y-1 border ${isLight ? 'bg-white border-neutral-200' : 'bg-[#1A1A1A] border-white/10'}`}>
                 <div className={`text-3xl sm:text-4xl md:text-5xl font-bold leading-none mb-2 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}`}>{item.stat}</div>
                 <div className={`font-semibold text-sm sm:text-base mb-2 ${isLight ? 'text-neutral-900' : 'text-[#F2F0EB]'}`}>{item.label}</div>
@@ -381,7 +450,8 @@ const AhmedFoodLayout = ({
 
   // Render Process Steps (How We Did It)
   const renderProcess = () => {
-    if (!process || process.length === 0) return null;
+    const validProcess = (process || []).filter(item => (item?.title && String(item.title).trim().length > 0) || (item?.phase && String(item.phase).trim().length > 0) || (item?.desc && String(item.desc).trim().length > 0));
+    if (validProcess.length === 0) return null;
     return (
       <section className={`px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t transition-colors duration-300 ${isLight ? 'bg-white border-neutral-200' : 'bg-[#0D0D0D] border-white/5'}`}>
         <div className="w-full">
@@ -392,7 +462,7 @@ const AhmedFoodLayout = ({
             {processHeading || 'Our process'}
           </h2>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-            {process.map((item, i) => (
+            {validProcess.map((item, i) => (
               <div key={i} className={`rounded-2xl p-6 border shadow-lg transition-all duration-300 hover:-translate-y-1 flex flex-col ${isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#1A1A1A] border-white/10'}`}>
                 <div className="flex items-center gap-3 mb-3">
                   <span className={`text-2xl sm:text-3xl font-bold ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}`}>{item.step}</span>
@@ -479,7 +549,10 @@ const AhmedFoodLayout = ({
   };
 
   const effectiveVideoTabs = React.useMemo(() => {
-    const list = Array.isArray(videoTabs) ? videoTabs.filter((t) => t.url || t.label) : [];
+    // Only accept tabs that actually have a valid, non-empty URL
+    const list = Array.isArray(videoTabs)
+      ? videoTabs.filter((t) => t && typeof t.url === 'string' && t.url.trim().length > 0)
+      : [];
 
     if (heroVideo && typeof heroVideo === 'string' && heroVideo.trim()) {
       const cleanHero = heroVideo.trim();
@@ -505,8 +578,8 @@ const AhmedFoodLayout = ({
     return list;
   }, [videoTabs, heroVideo, heroAspectRatio, title]);
 
-  const hasVideoTabs = effectiveVideoTabs.length > 0;
-  const activeTabObj = hasVideoTabs ? effectiveVideoTabs[activeVideo] || effectiveVideoTabs[0] : null;
+  const hasVideoTabs = effectiveVideoTabs.length > 1;
+  const activeTabObj = effectiveVideoTabs.length > 0 ? (effectiveVideoTabs[activeVideo] || effectiveVideoTabs[0]) : null;
   const currentVideoUrl = activeTabObj?.url || heroVideo;
   const currentAspectRatio = activeTabObj?.aspectRatio || heroAspectRatio || 'video';
 
@@ -519,6 +592,16 @@ const AhmedFoodLayout = ({
     return [];
   }, [tickerWords]);
 
+  const titleFontSizeStyle = React.useMemo(() => {
+    const len = Math.max((title || '').trim().length, 1);
+    const calculatedVw = Math.min(6, Math.max(1.8, +(84 / (len * 0.58)).toFixed(2)));
+    const minRem = Math.min(1.5, Math.max(0.75, +(calculatedVw * 0.28).toFixed(2)));
+    const maxRem = Math.min(3.5, Math.max(1.5, +(calculatedVw * 0.65).toFixed(2)));
+    return {
+      fontSize: `clamp(${minRem}rem, ${calculatedVw}vw, ${maxRem}rem)`,
+    };
+  }, [title]);
+
   const renderStyledTitle = (rawTitle) => {
     if (!rawTitle) return '';
     const accentClass = isLight ? 'text-[#2563EB]' : 'text-[#4169E1]';
@@ -526,8 +609,8 @@ const AhmedFoodLayout = ({
     if (parts.length > 1) {
       return (
         <>
-          <span className="block">{parts[0].trim()}</span>
-          <span className={`${accentClass} block mt-1`}>{parts.slice(1).join(' ').trim()}</span>
+          <span>{parts[0].trim()}</span>{' '}
+          <span className={accentClass}>{parts.slice(1).join(' ').trim()}</span>
         </>
       );
     }
@@ -551,11 +634,14 @@ const AhmedFoodLayout = ({
     );
   };
 
-  const leftColumnText = heroIntroText || overview || subtitle || 'Interactive digital experience delivered with photorealistic precision, immersive interactivity, and state-of-the-art 3D real-time performance.';
-  const rightColTitle = heroReviewTitle || meta?.find((m) => m.label?.toLowerCase() === 'category' || m.label?.toLowerCase() === 'service')?.value || (title ? title.split(/[-:—]/)[0].trim() : '3D VISUALIZATION');
-  const rightColSubtitle = heroReviewSubtitle || meta?.find((m) => m.label?.toLowerCase() === 'client' || m.label?.toLowerCase() === 'year' || m.label?.toLowerCase() === 'deliverables')?.value || 'ELIPSE PRODUCTION';
-  const quoteText = heroQuoteText || results?.[0]?.desc || 'Deals happen on trust. In new markets, you cannot win from behind a desk.';
-  const quoteAuthor = heroQuoteAuthor || meta?.find((m) => m.label?.toLowerCase() === 'client')?.value || 'Elipse Studio';
+  // Only display side cards if their text content has been explicitly entered by the user
+  const hasLeftColumn = Boolean(heroIntroText && typeof heroIntroText === 'string' && heroIntroText.trim().length > 0);
+  const hasRightColumn = Boolean(heroQuoteText && typeof heroQuoteText === 'string' && heroQuoteText.trim().length > 0);
+  const leftColumnText = heroIntroText?.trim() || '';
+  const rightColTitle = heroReviewTitle?.trim() || (title ? title.split(/[-:—]/)[0].trim() : 'REVIEW');
+  const rightColSubtitle = heroReviewSubtitle?.trim() || meta?.find((m) => m.label?.toLowerCase() === 'client' || m.label?.toLowerCase() === 'year' || m.label?.toLowerCase() === 'deliverables')?.value || '';
+  const quoteText = heroQuoteText?.trim() || '';
+  const quoteAuthor = heroQuoteAuthor?.trim() || meta?.find((m) => m.label?.toLowerCase() === 'client')?.value || 'Elipse Studio';
   const starsCount = Math.min(5, Math.max(1, Number(heroStars || 5)));
 
   return (
@@ -580,7 +666,10 @@ const AhmedFoodLayout = ({
         <div className="max-w-[1600px] mx-auto flex flex-col items-center text-center w-full px-0 sm:px-6 my-auto">
 
           {/* ── Main Center Headline ── */}
-          <h1 className={`text-[25px] xs:text-[27px] sm:text-3xl md:text-4xl lg:text-5xl xl:text-[54px] font-bold tracking-tight max-w-4xl leading-tight mb-2 sm:mb-3 px-1 sm:px-4 ${isLight ? 'text-neutral-900' : 'text-white'}`}>
+          <h1
+            style={titleFontSizeStyle}
+            className={`font-bold tracking-tight w-full max-w-full whitespace-nowrap text-center leading-tight mb-2 sm:mb-3 px-1 sm:px-4 ${isLight ? 'text-neutral-900' : 'text-white'}`}
+          >
             {renderStyledTitle(title)}
           </h1>
 
@@ -610,37 +699,49 @@ const AhmedFoodLayout = ({
             </div>
           )}
 
-          {/* ── 3-Column Content Grid: Left (lg:col-span-2) | Center Video (lg:col-span-8) | Right (lg:col-span-2) ── */}
-          <div className="w-full grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 xl:gap-8 items-center relative mt-2 sm:mt-4 mb-4 sm:mb-6">
+          {/* ── Hero Content: Optional Left Column | Center Media | Optional Right Column ── */}
+          <div className={`w-full items-center relative mt-2 sm:mt-4 mb-4 sm:mb-6 ${hasLeftColumn && hasRightColumn
+            ? 'grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 xl:gap-8'
+            : hasLeftColumn || hasRightColumn
+              ? 'grid grid-cols-1 lg:grid-cols-12 gap-4 lg:gap-6 xl:gap-8'
+              : 'flex flex-col items-center justify-center max-w-[1040px] xl:max-w-[1150px] mx-auto'
+            }`}>
 
-            {/* Left Column: Icon + Intro + CTA Button (Hidden on mobile, visible on desktop like Image 1) */}
-            <div className="hidden lg:flex lg:col-span-2 text-center lg:text-left space-y-3 px-1 sm:px-0 w-full min-w-0 flex-col items-center lg:items-start">
-              <div className={`w-9 h-9 rounded-full ${isLight ? 'bg-blue-50 border-blue-100 text-[#2563EB]' : 'bg-blue-950/40 border-blue-900/50 text-[#4169E1]'} border flex items-center justify-center text-lg shadow-sm mx-auto lg:mx-0`}>
-                💡
+            {/* Left Column: Only rendered if explicitly provided */}
+            {hasLeftColumn && (
+              <div className={`hidden lg:flex ${hasRightColumn ? 'lg:col-span-2' : 'lg:col-span-3'} text-center lg:text-left space-y-3 px-1 sm:px-0 w-full min-w-0 flex-col items-center lg:items-start`}>
+                <div className={`w-9 h-9 rounded-full ${isLight ? 'bg-blue-50 border-blue-100 text-[#2563EB]' : 'bg-blue-950/40 border-blue-900/50 text-[#4169E1]'} border flex items-center justify-center text-lg shadow-sm mx-auto lg:mx-0`}>
+                  💡
+                </div>
+                <p className={`text-xs sm:text-[13px] xl:text-sm leading-relaxed ${isLight ? 'text-neutral-600' : 'text-zinc-400'}`}>
+                  {leftColumnText}
+                </p>
+                {ctaUrl ? (
+                  <a
+                    href={ctaUrl}
+                    className={`w-full sm:w-auto px-5 py-2 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center inline-block ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
+                  >
+                    {ctaText || 'Explore Insights'}
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleStartProject}
+                    className={`w-full sm:w-auto px-5 py-2 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
+                  >
+                    {ctaText || 'Explore Insights'}
+                  </button>
+                )}
               </div>
-              <p className={`text-xs sm:text-[13px] xl:text-sm leading-relaxed ${isLight ? 'text-neutral-600' : 'text-zinc-400'}`}>
-                {leftColumnText}
-              </p>
-              {ctaUrl ? (
-                <a
-                  href={ctaUrl}
-                  className={`w-full sm:w-auto px-5 py-2 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center inline-block ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
-                >
-                  {ctaText || 'Explore Insights'}
-                </a>
-              ) : (
-                <button
-                  type="button"
-                  onClick={handleStartProject}
-                  className={`w-full sm:w-auto px-5 py-2 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
-                >
-                  {ctaText || 'Explore Insights'}
-                </button>
-              )}
-            </div>
+            )}
 
-            {/* Center Column: Media Player Container (Expanded to lg:col-span-8 like Image 1) */}
-            <div className="lg:col-span-8 relative flex flex-col items-center justify-center px-0 sm:px-0 w-full">
+            {/* Center Column: Media Player Container */}
+            <div className={`${hasLeftColumn && hasRightColumn
+              ? 'lg:col-span-8'
+              : hasLeftColumn || hasRightColumn
+                ? 'lg:col-span-9'
+                : 'w-full'
+              } relative flex flex-col items-center justify-center px-0 sm:px-0 w-full`}>
               {/* Circular backdrop glow */}
               <div className={`absolute w-80 h-80 sm:w-[34rem] sm:h-[34rem] lg:w-[44rem] lg:h-[44rem] ${isLight ? 'bg-neutral-100 border-neutral-200/60' : 'bg-white/[0.03] border-white/5'} rounded-full -z-10 border flex items-center justify-center pointer-events-none`}>
                 <span className="absolute bottom-6 text-neutral-400 text-2xl select-none">⚡</span>
@@ -687,8 +788,42 @@ const AhmedFoodLayout = ({
                 ) : null}
               </div>
 
+              {/* ── Featured CTA Button: Centered directly below the Hero Media ── */}
+              {(ctaUrl || (ctaText && ctaText.trim().length > 0)) && (
+                <div className="w-full flex items-center justify-center mt-4 sm:mt-5 z-20">
+                  {ctaUrl ? (
+                    <a
+                      href={ctaUrl}
+                      target={ctaUrl.startsWith('http') ? '_blank' : undefined}
+                      rel={ctaUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+                      className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm !text-white transition-all duration-300 no-underline shadow-lg active:scale-95 ${
+                        isLight
+                          ? 'bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_16px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.5)] border border-blue-600/20'
+                          : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#3158D4] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
+                      }`}
+                    >
+                      <FaPaperPlane className="text-[11px] sm:text-xs !text-white fill-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" aria-hidden="true" />
+                      <span className="!text-white font-bold tracking-wider leading-none">{ctaText || 'View Project'}</span>
+                    </a>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={handleStartProject}
+                      className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm !text-white transition-all duration-300 border-none cursor-pointer shadow-lg active:scale-95 ${
+                        isLight
+                          ? 'bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_16px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.5)] border border-blue-600/20'
+                          : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#3158D4] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
+                      }`}
+                    >
+                      <FaPaperPlane className="text-[11px] sm:text-xs !text-white fill-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" aria-hidden="true" />
+                      <span className="!text-white font-bold tracking-wider leading-none">{ctaText || 'View Project'}</span>
+                    </button>
+                  )}
+                </div>
+              )}
+
               {/* ── Fixed Editorial Pill Bar (Single-row sleek capsule on all devices) ── */}
-              <div className="w-full overflow-x-auto no-scrollbar py-1 px-2.5 mt-3.5 sm:mt-5 flex items-center justify-start sm:justify-center">
+              <div className="w-full overflow-x-auto no-scrollbar py-1 px-2.5 mt-3 sm:mt-4 flex items-center justify-start sm:justify-center">
                 <div className={`mx-auto inline-flex flex-nowrap items-center justify-center gap-2 sm:gap-3.5 px-3.5 xs:px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-medium z-20 transition-all duration-300 shrink-0 whitespace-nowrap shadow-md ${isLight
                   ? 'bg-white text-neutral-800 border border-neutral-300'
                   : 'bg-neutral-900 text-white border border-neutral-800 shadow-xl'
@@ -729,24 +864,30 @@ const AhmedFoodLayout = ({
               </div>
             </div>
 
-            {/* Right Column: Stars + Category/Title + Quote card (Hidden on mobile, visible on desktop like Image 1) */}
-            <div className="hidden lg:flex lg:col-span-2 text-center lg:text-left flex-col items-center lg:items-start justify-center space-y-2 lg:pl-1 px-1 sm:px-0 w-full">
-              <div className={`flex gap-1 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} justify-center lg:justify-start text-sm sm:text-base`}>
-                {[...Array(starsCount)].map((_, i) => <span key={i}>★</span>)}
+            {/* Right Column: Only rendered if explicitly provided */}
+            {hasRightColumn && (
+              <div className={`hidden lg:flex ${hasLeftColumn ? 'lg:col-span-2' : 'lg:col-span-3'} text-center lg:text-left flex-col items-center lg:items-start justify-center space-y-2 lg:pl-1 px-1 sm:px-0 w-full`}>
+                <div className={`flex gap-1 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} justify-center lg:justify-start text-sm sm:text-base`}>
+                  {[...Array(starsCount)].map((_, i) => <span key={i}>★</span>)}
+                </div>
+                <div className={`text-xl sm:text-2xl font-extrabold tracking-tight leading-none ${isLight ? 'text-neutral-900' : 'text-white'}`}>
+                  {rightColTitle}
+                </div>
+                {rightColSubtitle && (
+                  <p className="text-[11px] sm:text-xs text-neutral-500 uppercase tracking-wider font-semibold">
+                    {rightColSubtitle}
+                  </p>
+                )}
+                <div className={`mt-2 ${isLight ? 'bg-blue-50 border-blue-100 text-zinc-700' : 'bg-[#141414] border-zinc-800 text-zinc-300'} border p-3.5 rounded-2xl text-center lg:text-left w-full shadow-sm`}>
+                  <p className="text-[11px] sm:text-[12px] font-medium leading-snug">
+                    &ldquo;{quoteText}&rdquo;
+                  </p>
+                  {quoteAuthor && (
+                    <p className={`text-[10px] sm:text-[11px] font-bold ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} mt-1`}>— {quoteAuthor}</p>
+                  )}
+                </div>
               </div>
-              <div className={`text-xl sm:text-2xl font-extrabold tracking-tight leading-none ${isLight ? 'text-neutral-900' : 'text-white'}`}>
-                {rightColTitle}
-              </div>
-              <p className="text-[11px] sm:text-xs text-neutral-500 uppercase tracking-wider font-semibold">
-                {rightColSubtitle}
-              </p>
-              <div className={`mt-2 ${isLight ? 'bg-blue-50 border-blue-100 text-zinc-700' : 'bg-[#141414] border-zinc-800 text-zinc-300'} border p-3.5 rounded-2xl text-center lg:text-left w-full shadow-sm`}>
-                <p className="text-[11px] sm:text-[12px] font-medium leading-snug">
-                  &ldquo;{quoteText}&rdquo;
-                </p>
-                <p className={`text-[10px] sm:text-[11px] font-bold ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} mt-1`}>— {quoteAuthor}</p>
-              </div>
-            </div>
+            )}
 
           </div>
 
@@ -851,42 +992,32 @@ const AhmedFoodLayout = ({
       )}
 
       {/* CTA / BOTTOM NAVIGATION */}
-      <footer className="px-4 sm:px-6 md:px-8 py-6 md:py-10 bg-[#0D0D0D] border-t border-[#1A1A1A]">
-        <div className="flex flex-wrap items-center justify-between gap-3 w-full">
-          <div className="flex items-center gap-2 sm:gap-3 flex-wrap">
+      <footer className={`px-4 sm:px-6 md:px-8 py-5 sm:py-6 md:py-8 border-t border-b transition-colors duration-300 ${
+        isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#0D0D0D] border-white/5'
+      }`}>
+        <div className="flex items-center justify-between gap-3 w-full">
+          <div>
             <button
-              className="inline-flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[13px] font-medium px-3 sm:px-5 py-2 sm:py-2.5 border border-[#333] rounded-[6px] hover:border-[#F2F0EB] hover:text-[#F2F0EB] transition-all duration-200 text-zinc-400 bg-transparent cursor-pointer whitespace-nowrap"
+              className={`inline-flex items-center gap-2 text-xs sm:text-sm font-semibold px-4 sm:px-5 py-2.5 rounded-full border transition-all duration-200 cursor-pointer active:scale-95 ${
+                isLight
+                  ? 'border-neutral-300 bg-white text-neutral-800 hover:border-neutral-400 hover:text-black shadow-sm'
+                  : 'border-white/10 bg-[#141414] text-zinc-300 hover:border-white/30 hover:text-white shadow-sm'
+              }`}
               onClick={() => router.push('/')}
             >
-              <FaThLarge aria-hidden="true" /> All work
+              <FaThLarge aria-hidden="true" className="text-xs" /> All work
             </button>
-            {ctaUrl ? (
-              <a
-                href={ctaUrl}
-                target={ctaUrl.startsWith('http') ? '_blank' : undefined}
-                rel={ctaUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
-                className="inline-flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[13px] font-semibold px-3 sm:px-5 py-2 sm:py-2.5 bg-[#4169E1] text-white rounded-[6px] hover:bg-[#3158D4] transition-all duration-200 no-underline whitespace-nowrap"
-              >
-                <FaPaperPlane aria-hidden="true" /> {ctaText || 'View Project'}
-              </a>
-            ) : (
-              <button
-                className="inline-flex items-center gap-1.5 sm:gap-2 text-[10px] sm:text-[13px] font-semibold px-3 sm:px-5 py-2 sm:py-2.5 bg-[#4169E1] text-white rounded-[6px] hover:bg-[#3158D4] transition-all duration-200 border-none cursor-pointer whitespace-nowrap"
-                onClick={handleStartProject}
-              >
-                <FaPaperPlane aria-hidden="true" /> Start a project
-              </button>
-            )}
           </div>
 
           {/* Right side: 1 button (Next Project) */}
           {nextProject && (
-            <div className="flex items-center">
+            <div>
               <button
-                className="inline-flex items-center justify-center gap-1.5 sm:gap-2 text-[10px] sm:text-[13px] font-semibold px-3 sm:px-6 py-2 sm:py-2.5 bg-[#4169E1] text-white rounded-[6px] hover:bg-[#3158D4] transition-all duration-200 border-none cursor-pointer whitespace-nowrap"
+                className="group inline-flex items-center justify-center gap-2 text-xs sm:text-sm font-semibold px-5 sm:px-6 py-2.5 bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#3158D4] text-white rounded-full shadow-[0_0_15px_rgba(65,105,225,0.4)] hover:shadow-[0_0_20px_rgba(65,105,225,0.6)] transition-all duration-200 border-none cursor-pointer active:scale-95 shrink-0"
                 onClick={() => router.push(nextProject.path)}
               >
-                Next Project →
+                <span>Next Project</span>
+                <span className="transition-transform group-hover:translate-x-0.5">→</span>
               </button>
             </div>
           )}

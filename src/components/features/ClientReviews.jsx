@@ -264,7 +264,7 @@ const ClientReviews = ({ initialReviews = null }) => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-black py-8 md:py-14 overflow-hidden font-sans flex flex-col justify-center relative"
+      className="w-full bg-black pt-3 sm:pt-6 md:pt-14 pb-8 md:pb-14 overflow-hidden font-sans flex flex-col justify-center relative"
     >
       <div className="w-full relative">
         <div className="flex justify-between items-center px-[15px] md:px-[40px] mb-6 md:mb-10">

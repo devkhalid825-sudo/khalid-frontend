@@ -242,34 +242,47 @@ const CaseStudyDashboard = () => {
     let storyBlocks = [];
     let sectionOrder = [...defaultSectionOrder];
 
-    if (Array.isArray(parsedSections) && parsedSections.length > 0 && (parsedSections[0].heading || parsedSections[0].text || parsedSections[0].content)) {
+    if (Array.isArray(parsedSections) && parsedSections.length > 0) {
       if (parsedSections[0]?.sectionOrder && Array.isArray(parsedSections[0].sectionOrder)) {
         sectionOrder = normalizeSectionOrder(parsedSections[0].sectionOrder);
       }
-      storyBlocks = parsedSections.map((s, idx) => ({
+      const validStorySections = parsedSections.filter(s =>
+        !s.isMetaOnly && (
+          (s.heading && s.heading.trim().length > 0) ||
+          (s.text && s.text.trim().length > 0) ||
+          (s.content && s.content.trim().length > 0) ||
+          (s.image && s.image.trim().length > 0)
+        )
+      );
+      storyBlocks = validStorySections.map((s, idx) => ({
         tag: s.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Section ${idx + 1}`)),
-        heading: s.heading || (idx === 0 ? cs.overviewHeading : cs.challengeHeading) || '',
+        heading: s.heading !== undefined ? s.heading : '',
         text: s.text || s.content || '',
         image: s.image || '',
         position: s.position || (idx % 2 === 0 ? 'left' : 'right'),
       }));
     } else {
-      storyBlocks = [
-        {
+      const ovText = (cs.overviewText || cs.overview || '').trim();
+      const chText = (cs.challengeText || cs.challenge || '').trim();
+      storyBlocks = [];
+      if (ovText || (cs.overviewHeading && cs.overviewHeading.trim().length > 0)) {
+        storyBlocks.push({
           tag: 'Overview',
           heading: cs.overviewHeading || '',
-          text: cs.overviewText || cs.overview || '',
+          text: ovText,
           image: '',
           position: 'left',
-        },
-        {
+        });
+      }
+      if (chText || (cs.challengeHeading && cs.challengeHeading.trim().length > 0)) {
+        storyBlocks.push({
           tag: 'The challenge',
           heading: cs.challengeHeading || '',
-          text: cs.challengeText || cs.challenge || '',
+          text: chText,
           image: '',
           position: 'right',
-        },
-      ];
+        });
+      }
     }
 
     const rawCats = parseJSON(cs.galleryCategories, []);
@@ -475,14 +488,27 @@ const CaseStudyDashboard = () => {
     });
 
     // Build sections with sectionOrder stored in the first element
-    const finalSections = updatedStoryBlocks.map((b, idx) => ({
-      tag: b.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Section ${idx + 1}`)),
-      heading: b.heading || '',
-      text: b.text || '',
-      image: b.image || '',
-      position: b.position || (idx % 2 === 0 ? 'left' : 'right'),
-      ...(idx === 0 ? { sectionOrder: form.sectionOrder || defaultSectionOrder } : {}),
-    }));
+    let finalSections = [];
+    if (updatedStoryBlocks.length > 0) {
+      finalSections = updatedStoryBlocks.map((b, idx) => ({
+        tag: b.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Section ${idx + 1}`)),
+        heading: b.heading || '',
+        text: b.text || '',
+        image: b.image || '',
+        position: b.position || (idx % 2 === 0 ? 'left' : 'right'),
+        ...(idx === 0 ? { sectionOrder: form.sectionOrder || defaultSectionOrder } : {}),
+      }));
+    } else {
+      finalSections = [{
+        isMetaOnly: true,
+        tag: '',
+        heading: '',
+        text: '',
+        image: '',
+        position: 'left',
+        sectionOrder: form.sectionOrder || defaultSectionOrder,
+      }];
+    }
 
     const { storyBlocks, galleryThumbnails, galleryStills, sectionOrder, ...formRest } = form;
     const payload = {
@@ -492,17 +518,17 @@ const CaseStudyDashboard = () => {
       heroImage: largeBannerUrl,
       heroVideo: form.heroVideo || form.videoUrl,
       videoUrl: form.heroVideo || form.videoUrl,
-      overviewHeading: finalSections[0]?.heading || form.overviewHeading || '',
-      overviewText: finalSections[0]?.text || form.overviewText || '',
-      challengeHeading: finalSections[1]?.heading || form.challengeHeading || '',
-      challengeText: finalSections[1]?.text || form.challengeText || '',
+      overviewHeading: updatedStoryBlocks[0]?.heading || '',
+      overviewText: updatedStoryBlocks[0]?.text || '',
+      challengeHeading: updatedStoryBlocks[1]?.heading || '',
+      challengeText: updatedStoryBlocks[1]?.text || '',
       sections: JSON.stringify(finalSections),
       results: JSON.stringify(form.results.filter(r => r.stat || r.label)),
       processSteps: JSON.stringify(form.processSteps.filter(p => p.phase || p.title)),
       galleryCategories: JSON.stringify(galleryCategoriesPayload),
       videoTabs: JSON.stringify(form.videoTabs.filter(v => v.label || v.url)),
-      ctaUrl: form.ctaUrl || null,
-      ctaText: form.ctaText || null,
+      ctaUrl: form.ctaUrl || '',
+      ctaText: form.ctaText || '',
     };
 
     if (editing) {

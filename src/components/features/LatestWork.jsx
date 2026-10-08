@@ -192,13 +192,13 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
     <section
       id="latest-work"
       className={`relative transition-colors duration-300 ${isLightMode ? 'bg-white text-zinc-900' : 'bg-black text-white'
-        } pt-0 md:pt-6 lg:pt-8 pb-12 md:pb-20`}
+        } pt-6 sm:pt-8 md:pt-10 lg:pt-12 pb-3 sm:pb-6 md:pb-16`}
     >
       {isLightMode && (
         <div className="absolute bottom-0 left-0 w-full h-24 md:h-32 bg-gradient-to-b from-transparent to-black pointer-events-none"></div>
       )}
 
-      <div className="w-full mx-auto px-[15px] md:px-[40px] pt-0 md:pt-4">
+      <div className="w-full mx-auto px-[15px] md:px-[40px] pt-1 md:pt-4">
         <div className="flex items-center justify-between gap-4 mb-6 md:mb-6">
           <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1]">
             Latest Work
@@ -231,28 +231,41 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
           </div>
         </div>
 
-        {/* ── Task B1: 4 Pillar Tabs (pill-button style) ── */}
-        <div className="relative mb-4 md:mb-8">
-          <div className="flex flex-wrap gap-2 md:gap-3 pb-4 items-center">
-            {PILLAR_TABS.map((tab) => {
-              const isActive = activeTab === tab.key && !searchTerm;
-              return (
-                <button
-                  key={tab.key}
-                  onClick={() => handleTabChange(tab.key)}
-                  suppressHydrationWarning
-                  className={`px-4 md:px-5 py-2 md:py-2.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-300 whitespace-nowrap cursor-pointer shrink-0 ${isActive
-                    ? 'bg-[#2563EB] text-white shadow-md shadow-[#2563EB]/30'
-                    : isLightMode
-                      ? 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 border border-zinc-200/70'
-                      : 'bg-zinc-900/90 text-zinc-400 hover:bg-zinc-800 hover:text-white border border-zinc-800'
-                    }`}
-                >
-                  {tab.label}
-                </button>
-              );
-            })}
+        {/* ── 4 Pillar Tabs (Responsive pill-button style) ── */}
+        <div className="relative mb-5 md:mb-8 w-full -mx-[15px] px-[15px] md:mx-0 md:px-0">
+          <div className="overflow-x-auto no-scrollbar">
+            <div className="flex items-center gap-2 sm:gap-2.5 md:gap-3 pb-2 pt-1 min-w-max md:min-w-0 md:flex-wrap pr-8 md:pr-0">
+              {PILLAR_TABS.map((tab) => {
+                const isActive = activeTab === tab.key && !searchTerm;
+                return (
+                  <button
+                    key={tab.key}
+                    onClick={() => handleTabChange(tab.key)}
+                    suppressHydrationWarning
+                    className={`h-9 md:h-10 px-4 md:px-5.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-200 whitespace-nowrap cursor-pointer shrink-0 inline-flex items-center justify-center active:scale-95 ${isActive
+                      ? isLightMode
+                        ? 'bg-[#2563EB] text-white shadow-[0_2px_10px_rgba(37,99,235,0.35)] border border-blue-600/30 font-bold'
+                        : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] text-white shadow-[0_0_15px_rgba(65,105,225,0.45)] border border-blue-400/30 font-bold'
+                      : isLightMode
+                        ? 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 border border-zinc-200/80'
+                        : 'bg-[#121212] text-zinc-400 hover:bg-[#1C1C1C] hover:text-white border border-white/10'
+                      }`}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
+            </div>
           </div>
+          {/* Subtle Right Edge Fade Indicator on Mobile (ultra-slim feather) */}
+          <div
+            className={`absolute right-0 top-0 bottom-2 w-3.5 md:hidden pointer-events-none z-10 ${
+              isLightMode
+                ? 'bg-gradient-to-l from-white/80 to-transparent'
+                : 'bg-gradient-to-l from-black/80 to-transparent'
+            }`}
+            aria-hidden="true"
+          />
         </div>
       </div>
 
@@ -264,11 +277,11 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
         </div>
 
         {filteredProjects.length > 6 && (
-          <div className="flex justify-center mt-8 pb-6 md:pb-8">
+          <div className="flex justify-center mt-6 md:mt-8 pb-0 md:pb-2">
             <button
               onClick={filteredProjects.length > visibleCount ? loadMore : () => setVisibleCount(6)}
               suppressHydrationWarning
-              className={`group relative flex items-center gap-3 border rounded-full px-10 py-4 text-sm font-medium tracking-widest uppercase hover:scale-105 transition-all duration-500 ${isLightMode
+              className={`group relative flex items-center gap-3 border rounded-full px-8 sm:px-10 py-3 sm:py-4 text-xs sm:text-sm font-medium tracking-widest uppercase hover:scale-105 transition-all duration-300 ${isLightMode
                 ? 'bg-black/5 border-black/20 hover:bg-black hover:text-white'
                 : 'bg-white/5 border-white/20 hover:bg-white hover:text-black'
                 }`}

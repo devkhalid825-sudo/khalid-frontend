@@ -118,7 +118,7 @@ const ProjectArticle = ({ slug, initialData }) => {
   const rawVideoTabs = safeJson(project.videoTabs, []) || [];
   const secVideoTabs = firstSec.videoTabs || [];
   const videoTabs = (rawVideoTabs.length > 0 ? rawVideoTabs : secVideoTabs)
-    .filter(t => t.label || t.url)
+    .filter(t => t && typeof t.url === 'string' && t.url.trim().length > 0)
     .map(t => ({
       ...t,
       url: getYoutubeEmbed(t.url) || t.url,

@@ -105,11 +105,14 @@ const CaseStudyDetail = ({ slug, initialData }) => {
   let sectionOrder = defaultSectionOrder;
   let storyBlocks = [];
 
-  if (Array.isArray(parsedSections) && parsedSections.length > 0 && (parsedSections[0].heading || parsedSections[0].text || parsedSections[0].content)) {
-    if (parsedSections[0]?.sectionOrder && Array.isArray(parsedSections[0].sectionOrder)) {
-      sectionOrder = parsedSections[0].sectionOrder;
-    }
-    storyBlocks = parsedSections.map((s, idx) => ({
+  if (Array.isArray(parsedSections) && parsedSections[0]?.sectionOrder && Array.isArray(parsedSections[0].sectionOrder)) {
+    sectionOrder = parsedSections[0].sectionOrder;
+  }
+
+  const validStorySections = Array.isArray(parsedSections) ? parsedSections.filter(s => !s.isMetaOnly && ((s.text && s.text.trim()) || (s.content && s.content.trim()) || s.image)) : [];
+
+  if (validStorySections.length > 0) {
+    storyBlocks = validStorySections.map((s, idx) => ({
       tag: s.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Block ${idx + 1}`)),
       heading: s.heading || (idx === 0 ? cs.overviewHeading : cs.challengeHeading) || '',
       text: s.text || s.content || '',
@@ -147,9 +150,9 @@ const CaseStudyDetail = ({ slug, initialData }) => {
         heroVideo={heroVideo}
         smallBanner={smallBanner}
         overviewHeading={cs.overviewHeading || 'Project overview'}
-        overview={cs.overviewText || cs.overview}
+        overview={validStorySections.length > 0 ? (cs.overviewText || '') : (Array.isArray(parsedSections) && parsedSections.length > 0 ? '' : (cs.overviewText || cs.overview))}
         challengeHeading={cs.challengeHeading || 'Key challenges'}
-        challenge={cs.challengeText || cs.challenge}
+        challenge={validStorySections.length > 0 ? (cs.challengeText || '') : (Array.isArray(parsedSections) && parsedSections.length > 0 ? '' : (cs.challengeText || cs.challenge))}
         storyBlocks={storyBlocks}
         galleryThumbnails={galleryThumbnails}
         galleryStills={galleryStills}
@@ -158,7 +161,7 @@ const CaseStudyDetail = ({ slug, initialData }) => {
         results={safeJson(cs.results, [])}
         process={safeJson(cs.processSteps || cs.process, [])}
         galleryCategories={otherCats.length > 0 ? otherCats : undefined}
-        videoTabs={safeJson(cs.videoTabs, [])}
+        videoTabs={(safeJson(cs.videoTabs, []) || []).filter(t => t && typeof t.url === 'string' && t.url.trim().length > 0)}
         ctaUrl={cs.ctaUrl || '/contact'}
         ctaText={cs.ctaText || 'Start a project'}
         nextProject={nextCs ? { path: `/case-study/${nextCs.slug}`, name: nextCs.title } : undefined}

@@ -87,7 +87,7 @@ const emptyForm = {
   results: [],
   processSteps: [],
   sectionOrder: defaultSectionOrder,
-  videoTabs: [{ label: '', url: '', aspectRatio: 'video' }],
+  videoTabs: [],
   ctaUrl: '', ctaText: '',
   heroIntroText: '',
   heroStars: 5,
@@ -154,10 +154,7 @@ const demoData = {
   description: '<h2>Project Background</h2><p>Enterprise VR Training represents a leap forward in high-stakes procedural learning. By replacing passive manuals with photorealistic, physics-driven simulations, learners gain real-time tactical muscle memory with zero real-world risk.</p>',
   ctaUrl: '/contact',
   ctaText: 'Start a project',
-  videoTabs: [
-    { label: 'Video 1', url: '', aspectRatio: 'video' },
-    { label: 'Reel 2', url: '', aspectRatio: 'reel' },
-  ],
+  videoTabs: [],
 };
 
 const SortableProjectItem = ({ project, onEdit, onDelete, onMoveUp, onMoveDown, isFirst, isLast }) => {
@@ -280,7 +277,7 @@ const ProjectDashboard = () => {
       storyBlocks: emptyForm.storyBlocks.map(b => ({ ...b })),
       results: emptyForm.results.map(r => ({ ...r })),
       processSteps: emptyForm.processSteps.map(p => ({ ...p })),
-      videoTabs: [{ label: '', url: '' }],
+      videoTabs: [],
       sectionOrder: [...defaultSectionOrder],
     });
     setStoryBlockFiles({});
@@ -297,34 +294,47 @@ const ProjectDashboard = () => {
     let storyBlocks = [];
     let sectionOrder = [...defaultSectionOrder];
 
-    if (Array.isArray(parsedSections) && parsedSections.length > 0 && (parsedSections[0].heading || parsedSections[0].text || parsedSections[0].content)) {
+    if (Array.isArray(parsedSections) && parsedSections.length > 0) {
       if (parsedSections[0]?.sectionOrder && Array.isArray(parsedSections[0].sectionOrder)) {
         sectionOrder = normalizeSectionOrder(parsedSections[0].sectionOrder);
       }
-      storyBlocks = parsedSections.map((s, idx) => ({
+      const validStorySections = parsedSections.filter(s =>
+        !s.isMetaOnly && (
+          (s.heading && s.heading.trim().length > 0) ||
+          (s.text && s.text.trim().length > 0) ||
+          (s.content && s.content.trim().length > 0) ||
+          (s.image && s.image.trim().length > 0)
+        )
+      );
+      storyBlocks = validStorySections.map((s, idx) => ({
         tag: s.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Section ${idx + 1}`)),
-        heading: s.heading || (idx === 0 ? project.overviewHeading : project.challengeHeading) || '',
+        heading: s.heading !== undefined ? s.heading : '',
         text: s.text || s.content || '',
         image: s.image || '',
         position: s.position || (idx % 2 === 0 ? 'left' : 'right'),
       }));
     } else {
-      storyBlocks = [
-        {
+      const ovText = (project.overviewText || '').trim();
+      const chText = (project.challengeText || '').trim();
+      storyBlocks = [];
+      if (ovText || (project.overviewHeading && project.overviewHeading.trim().length > 0)) {
+        storyBlocks.push({
           tag: 'Overview',
           heading: project.overviewHeading || '',
-          text: project.overviewText || '',
+          text: ovText,
           image: '',
           position: 'left',
-        },
-        {
+        });
+      }
+      if (chText || (project.challengeHeading && project.challengeHeading.trim().length > 0)) {
+        storyBlocks.push({
           tag: 'The challenge',
           heading: project.challengeHeading || '',
-          text: project.challengeText || '',
+          text: chText,
           image: '',
           position: 'right',
-        },
-      ];
+        });
+      }
     }
 
     const rawCats = parseJSON(project.galleryCategories, []);
@@ -345,21 +355,33 @@ const ProjectDashboard = () => {
       });
     }
 
-    const firstSec = storyBlocks[0] || {};
-    const subtitle = firstSec.subtitle || project.subtitle || project.metaDescription || '';
-    const heroAspectRatio = firstSec.heroAspectRatio || project.heroAspectRatio || 'video';
-    const tickerWords = firstSec.tickerWords || project.tickerWords || '';
+    const firstSec = (Array.isArray(parsedSections) && parsedSections.length > 0) ? parsedSections[0] : (storyBlocks[0] || {});
+    const subtitle = firstSec.subtitle !== undefined ? firstSec.subtitle : (project.subtitle || project.metaDescription || '');
+    const heroAspectRatio = firstSec.heroAspectRatio !== undefined ? firstSec.heroAspectRatio : (project.heroAspectRatio || 'video');
+    const tickerWords = firstSec.tickerWords !== undefined ? firstSec.tickerWords : (project.tickerWords || '');
 
     setForm({
-      title: project.title || '', subtitle, metaTitle: project.metaTitle || '', metaDescription: project.metaDescription || '',
-      category: project.category || 'Configurator', image: project.image || '',
-      heroImage: project.heroImage || '', heroVideo: project.heroVideo || '',
+      title: project.title || '',
+      subtitle,
+      metaTitle: project.metaTitle || '',
+      metaDescription: project.metaDescription || '',
+      category: project.category || 'Configurator',
+      image: project.image || '',
+      heroImage: project.heroImage || '',
+      heroVideo: project.heroVideo || '',
       heroType: (project.heroVideo && !project.heroImage) ? 'video' : 'image',
-      heroAspectRatio, tickerWords,
-      path: project.path || '', description: project.description || '',
-      client: project.client || '', service: project.service || '', duration: project.duration || '', deliverables: project.deliverables || '',
-      overviewHeading: project.overviewHeading || '', overviewText: project.overviewText || '',
-      challengeHeading: project.challengeHeading || '', challengeText: project.challengeText || '',
+      heroAspectRatio,
+      tickerWords,
+      path: project.path || '',
+      description: project.description || '',
+      client: project.client || '',
+      service: project.service || '',
+      duration: project.duration || '',
+      deliverables: project.deliverables || '',
+      overviewHeading: storyBlocks[0]?.heading || '',
+      overviewText: storyBlocks[0]?.text || '',
+      challengeHeading: storyBlocks[1]?.heading || '',
+      challengeText: storyBlocks[1]?.text || '',
       storyBlocks,
       galleryThumbnails,
       galleryStills,
@@ -368,35 +390,29 @@ const ProjectDashboard = () => {
       processSteps: parseJSON(project.processSteps, []),
       sectionOrder,
       videoTabs: (() => {
-        let vts = parseJSON(project.videoTabs, []);
-        if (!vts || vts.length === 0) vts = firstSec.videoTabs || [];
-        if (!vts || vts.length === 0) {
-          return [
-            { label: 'Video 1', url: project.heroVideo || '', aspectRatio: heroAspectRatio },
-            { label: 'Reel 2', url: '', aspectRatio: 'reel' },
-          ];
+        const hasProjectVideoTabs = project.videoTabs !== undefined && project.videoTabs !== null;
+        let vts = hasProjectVideoTabs ? parseJSON(project.videoTabs, []) : (firstSec.videoTabs || []);
+        if (Array.isArray(vts)) {
+          vts = vts.filter(t => t && t.url && typeof t.url === 'string' && t.url.trim().length > 0);
         }
-        if (vts.length === 1) {
-          return [...vts, { label: 'Reel 2', url: '', aspectRatio: 'reel' }];
-        }
-        return vts;
+        return Array.isArray(vts) ? vts : [];
       })(),
-      ctaUrl: project.ctaUrl || firstSec.ctaUrl || '',
-      ctaText: project.ctaText || firstSec.ctaText || '',
-      heroIntroText: firstSec.heroIntroText || project.heroIntroText || '',
-      heroStars: firstSec.heroStars || project.heroStars || 5,
-      heroReviewTitle: firstSec.heroReviewTitle || project.heroReviewTitle || '',
-      heroReviewSubtitle: firstSec.heroReviewSubtitle || project.heroReviewSubtitle || '',
-      heroQuoteText: firstSec.heroQuoteText || project.heroQuoteText || '',
-      heroQuoteAuthor: firstSec.heroQuoteAuthor || project.heroQuoteAuthor || '',
-      thumbnailsHeading: firstSec.thumbnailsHeading || project.thumbnailsHeading || '',
-      thumbnailsEyebrow: firstSec.thumbnailsEyebrow || project.thumbnailsEyebrow || '',
-      stillsHeading: firstSec.stillsHeading || project.stillsHeading || '',
-      stillsEyebrow: firstSec.stillsEyebrow || project.stillsEyebrow || '',
-      resultsHeading: firstSec.resultsHeading || project.resultsHeading || '',
-      resultsEyebrow: firstSec.resultsEyebrow || project.resultsEyebrow || '',
-      processHeading: firstSec.processHeading || project.processHeading || '',
-      processEyebrow: firstSec.processEyebrow || project.processEyebrow || '',
+      ctaUrl: firstSec.ctaUrl !== undefined ? firstSec.ctaUrl : (project.ctaUrl || ''),
+      ctaText: firstSec.ctaText !== undefined ? firstSec.ctaText : (project.ctaText || ''),
+      heroIntroText: firstSec.heroIntroText !== undefined ? firstSec.heroIntroText : (project.heroIntroText || ''),
+      heroStars: firstSec.heroStars !== undefined ? firstSec.heroStars : (project.heroStars || 5),
+      heroReviewTitle: firstSec.heroReviewTitle !== undefined ? firstSec.heroReviewTitle : (project.heroReviewTitle || ''),
+      heroReviewSubtitle: firstSec.heroReviewSubtitle !== undefined ? firstSec.heroReviewSubtitle : (project.heroReviewSubtitle || ''),
+      heroQuoteText: firstSec.heroQuoteText !== undefined ? firstSec.heroQuoteText : (project.heroQuoteText || ''),
+      heroQuoteAuthor: firstSec.heroQuoteAuthor !== undefined ? firstSec.heroQuoteAuthor : (project.heroQuoteAuthor || ''),
+      thumbnailsHeading: firstSec.thumbnailsHeading !== undefined ? firstSec.thumbnailsHeading : (project.thumbnailsHeading || ''),
+      thumbnailsEyebrow: firstSec.thumbnailsEyebrow !== undefined ? firstSec.thumbnailsEyebrow : (project.thumbnailsEyebrow || ''),
+      stillsHeading: firstSec.stillsHeading !== undefined ? firstSec.stillsHeading : (project.stillsHeading || ''),
+      stillsEyebrow: firstSec.stillsEyebrow !== undefined ? firstSec.stillsEyebrow : (project.stillsEyebrow || ''),
+      resultsHeading: firstSec.resultsHeading !== undefined ? firstSec.resultsHeading : (project.resultsHeading || ''),
+      resultsEyebrow: firstSec.resultsEyebrow !== undefined ? firstSec.resultsEyebrow : (project.resultsEyebrow || ''),
+      processHeading: firstSec.processHeading !== undefined ? firstSec.processHeading : (project.processHeading || ''),
+      processEyebrow: firstSec.processEyebrow !== undefined ? firstSec.processEyebrow : (project.processEyebrow || ''),
     });
     setStoryBlockFiles({});
     setThumbnailFiles([]);
@@ -603,43 +619,51 @@ const ProjectDashboard = () => {
     });
 
     // Build sections with sectionOrder, heroAspectRatio, tickerWords, subtitle stored in first element
-    const baseStoryBlocks = updatedStoryBlocks.length > 0 ? updatedStoryBlocks : [{
-      tag: 'Overview',
-      heading: form.overviewHeading || '',
-      text: form.overviewText || '',
-      image: '',
-      position: 'left',
-    }];
-    const finalSections = baseStoryBlocks.map((b, idx) => ({
-      tag: b.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Section ${idx + 1}`)),
-      heading: b.heading || '',
-      text: b.text || '',
-      image: b.image || '',
-      position: b.position || (idx % 2 === 0 ? 'left' : 'right'),
-      ...(idx === 0 ? {
-        sectionOrder: form.sectionOrder || defaultSectionOrder,
-        heroAspectRatio: form.heroAspectRatio || 'video',
-        tickerWords: form.tickerWords || '',
-        subtitle: form.subtitle || '',
-        videoTabs: form.videoTabs.filter(v => v.label || v.url),
-        heroIntroText: form.heroIntroText || '',
-        heroStars: form.heroStars || 5,
-        heroReviewTitle: form.heroReviewTitle || '',
-        heroReviewSubtitle: form.heroReviewSubtitle || '',
-        heroQuoteText: form.heroQuoteText || '',
-        heroQuoteAuthor: form.heroQuoteAuthor || '',
-        ctaUrl: form.ctaUrl || '',
-        ctaText: form.ctaText || '',
-        thumbnailsHeading: form.thumbnailsHeading || '',
-        thumbnailsEyebrow: form.thumbnailsEyebrow || '',
-        stillsHeading: form.stillsHeading || '',
-        stillsEyebrow: form.stillsEyebrow || '',
-        resultsHeading: form.resultsHeading || '',
-        resultsEyebrow: form.resultsEyebrow || '',
-        processHeading: form.processHeading || '',
-        processEyebrow: form.processEyebrow || '',
-      } : {}),
-    }));
+    const metadataPayload = {
+      sectionOrder: form.sectionOrder || defaultSectionOrder,
+      heroAspectRatio: form.heroAspectRatio || 'video',
+      tickerWords: form.tickerWords || '',
+      subtitle: form.subtitle || '',
+      videoTabs: form.videoTabs.filter(v => v && v.url && typeof v.url === 'string' && v.url.trim().length > 0),
+      heroIntroText: form.heroIntroText || '',
+      heroStars: form.heroStars || 5,
+      heroReviewTitle: form.heroReviewTitle || '',
+      heroReviewSubtitle: form.heroReviewSubtitle || '',
+      heroQuoteText: form.heroQuoteText || '',
+      heroQuoteAuthor: form.heroQuoteAuthor || '',
+      ctaUrl: form.ctaUrl || '',
+      ctaText: form.ctaText || '',
+      thumbnailsHeading: form.thumbnailsHeading || '',
+      thumbnailsEyebrow: form.thumbnailsEyebrow || '',
+      stillsHeading: form.stillsHeading || '',
+      stillsEyebrow: form.stillsEyebrow || '',
+      resultsHeading: form.resultsHeading || '',
+      resultsEyebrow: form.resultsEyebrow || '',
+      processHeading: form.processHeading || '',
+      processEyebrow: form.processEyebrow || '',
+    };
+
+    let finalSections = [];
+    if (updatedStoryBlocks.length > 0) {
+      finalSections = updatedStoryBlocks.map((b, idx) => ({
+        tag: b.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Section ${idx + 1}`)),
+        heading: b.heading || '',
+        text: b.text || '',
+        image: b.image || '',
+        position: b.position || (idx % 2 === 0 ? 'left' : 'right'),
+        ...(idx === 0 ? metadataPayload : {}),
+      }));
+    } else {
+      finalSections = [{
+        isMetaOnly: true,
+        tag: '',
+        heading: '',
+        text: '',
+        image: '',
+        position: 'left',
+        ...metadataPayload,
+      }];
+    }
 
     const {
       heroType, heroAspectRatio, tickerWords, subtitle, storyBlocks,
@@ -656,17 +680,17 @@ const ProjectDashboard = () => {
       heroImage: heroType === 'image' ? heroImageUrl : '',
       heroVideo: heroType === 'video' ? form.heroVideo : '',
       metaDescription: form.subtitle || form.metaDescription || '',
-      overviewHeading: finalSections[0]?.heading || form.overviewHeading || '',
-      overviewText: finalSections[0]?.text || form.overviewText || '',
-      challengeHeading: finalSections[1]?.heading || form.challengeHeading || '',
-      challengeText: finalSections[1]?.text || form.challengeText || '',
+      overviewHeading: updatedStoryBlocks[0]?.heading || '',
+      overviewText: updatedStoryBlocks[0]?.text || '',
+      challengeHeading: updatedStoryBlocks[1]?.heading || '',
+      challengeText: updatedStoryBlocks[1]?.text || '',
       sections: JSON.stringify(finalSections),
       galleryCategories: JSON.stringify(galleryCategoriesPayload),
       results: JSON.stringify(form.results.filter(r => r.stat || r.label)),
       processSteps: JSON.stringify(form.processSteps.filter(p => p.phase || p.title)),
-      videoTabs: JSON.stringify(form.videoTabs.filter(v => v.label || v.url)),
-      ctaUrl: form.ctaUrl || null,
-      ctaText: form.ctaText || null,
+      videoTabs: JSON.stringify(form.videoTabs.filter(v => v && v.url && typeof v.url === 'string' && v.url.trim().length > 0)),
+      ctaUrl: form.ctaUrl || '',
+      ctaText: form.ctaText || '',
     };
 
     let res;
@@ -899,11 +923,9 @@ const ProjectDashboard = () => {
                           <span className="text-[10px] font-bold text-[#4169E1] uppercase tracking-wider">
                             Tab #{i + 1}
                           </span>
-                          {form.videoTabs.length > 1 && (
-                            <button type="button" onClick={() => removeArrayItem('videoTabs', i)} className="text-red-400 hover:text-red-300 text-xs inline-flex items-center gap-1">
-                              <FiX size={12} /> Remove Tab
-                            </button>
-                          )}
+                          <button type="button" onClick={() => removeArrayItem('videoTabs', i)} className="text-red-400 hover:text-red-300 text-xs inline-flex items-center gap-1">
+                            <FiX size={12} /> Remove Tab
+                          </button>
                         </div>
                         <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
                           <div className="sm:w-1/3">
@@ -1183,15 +1205,14 @@ const ProjectDashboard = () => {
                             >
                               <FiChevronDown size={14} />
                             </button>
-                            {(form.storyBlocks || []).length > 1 && (
-                              <button
-                                type="button"
-                                onClick={() => removeArrayItem('storyBlocks', i)}
-                                className="p-1 text-red-400 hover:text-red-300"
-                              >
-                                <FiX size={14} />
-                              </button>
-                            )}
+                            <button
+                              type="button"
+                              onClick={() => removeArrayItem('storyBlocks', i)}
+                              className="p-1 text-red-400 hover:text-red-300"
+                              title="Remove block"
+                            >
+                              <FiX size={14} />
+                            </button>
                           </div>
                         </div>
 
@@ -1542,7 +1563,7 @@ const ProjectDashboard = () => {
                     <div className="flex items-center gap-1 mt-1">
                       <button type="button" disabled={i === 0} onClick={() => moveArrayItem('results', i, -1)} className="p-1 text-[#666] hover:text-[#4169E1] disabled:opacity-20"><FiChevronUp size={14} /></button>
                       <button type="button" disabled={i === form.results.length - 1} onClick={() => moveArrayItem('results', i, 1)} className="p-1 text-[#666] hover:text-[#4169E1] disabled:opacity-20"><FiChevronDown size={14} /></button>
-                      {form.results.length > 1 && <button type="button" onClick={() => removeArrayItem('results', i)} className="p-1 text-red-400 hover:text-red-300"><FiX size={14} /></button>}
+                      <button type="button" onClick={() => removeArrayItem('results', i)} className="p-1 text-red-400 hover:text-red-300" title="Remove result"><FiX size={14} /></button>
                     </div>
                   </div>
                 ))}
@@ -1587,7 +1608,7 @@ const ProjectDashboard = () => {
                     <div className="flex items-center gap-1 mt-1">
                       <button type="button" disabled={i === 0} onClick={() => moveArrayItem('processSteps', i, -1)} className="p-1 text-[#666] hover:text-[#4169E1] disabled:opacity-20"><FiChevronUp size={14} /></button>
                       <button type="button" disabled={i === form.processSteps.length - 1} onClick={() => moveArrayItem('processSteps', i, 1)} className="p-1 text-[#666] hover:text-[#4169E1] disabled:opacity-20"><FiChevronDown size={14} /></button>
-                      {form.processSteps.length > 1 && <button type="button" onClick={() => removeArrayItem('processSteps', i)} className="p-1 text-red-400 hover:text-red-300"><FiX size={14} /></button>}
+                      <button type="button" onClick={() => removeArrayItem('processSteps', i)} className="p-1 text-red-400 hover:text-red-300" title="Remove step"><FiX size={14} /></button>
                     </div>
                   </div>
                 ))}

@@ -98,22 +98,25 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
   let sectionOrder = defaultSectionOrder;
   let storyBlocks = [];
 
-  const isStoryBlockArray = Array.isArray(sections) && sections.length > 0 && (sections[0].heading || sections[0].text || sections[0].content);
+  if (Array.isArray(sections) && sections[0]?.sectionOrder && Array.isArray(sections[0].sectionOrder)) {
+    sectionOrder = sections[0].sectionOrder;
+  }
+
+  const validSections = Array.isArray(sections) ? sections.filter(s => !s.isMetaOnly && ((s.text && s.text.trim()) || (s.content && s.content.trim()) || s.image)) : [];
+  const isStoryBlockArray = validSections.length > 0;
 
   if (isStoryBlockArray) {
-    if (sections[0]?.sectionOrder && Array.isArray(sections[0].sectionOrder)) {
-      sectionOrder = sections[0].sectionOrder;
-    }
-    storyBlocks = sections.map((s, idx) => ({
+    storyBlocks = validSections.map((s, idx) => ({
       tag: s.tag || (idx === 0 ? 'Overview' : (idx === 1 ? 'The challenge' : `Block ${idx + 1}`)),
       heading: s.heading || (idx === 0 ? data.overviewHeading : data.challengeHeading) || '',
-      text: s.text || s.content || '',
+      text: (s.text || s.content || '').trim(),
       image: toCdnUrl(s.image),
       position: s.position || (idx % 2 === 0 ? 'left' : 'right'),
     }));
-  } else {
-    const ovText = data.overviewText || data.overview || '';
-    const chText = data.challengeText || data.challenge || '';
+  } else if (!Array.isArray(sections) || sections.length === 0) {
+    // Only fall back to legacy columns if sections array was never defined on this record
+    const ovText = (data.overviewText || data.overview || '').trim();
+    const chText = (data.challengeText || data.challenge || '').trim();
     if (ovText || chText) {
       if (ovText) {
         storyBlocks.push({
@@ -159,7 +162,7 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
   const rawVideoTabs = safeJson(data.videoTabs, []) || [];
   const secVideoTabs = sections[0]?.videoTabs || [];
   const videoTabs = (rawVideoTabs.length > 0 ? rawVideoTabs : secVideoTabs)
-    .filter((t) => t.label || t.url)
+    .filter((t) => t && typeof t.url === 'string' && t.url.trim().length > 0)
     .map((t) => ({
       ...t,
       url: getYoutubeEmbed(t.url) || t.url,
@@ -179,9 +182,9 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
       heroAspectRatio={heroAspectRatio}
       tickerWords={tickerWords}
       videoTabs={videoTabs.length > 0 ? videoTabs : undefined}
-      overview={data.overviewText || data.overview || ''}
+      overview={isStoryBlockArray ? (data.overviewText || '') : (Array.isArray(sections) && sections.length > 0 ? '' : (data.overviewText || data.overview || ''))}
       overviewHeading={data.overviewHeading || (isCaseStudy ? 'Case study overview' : 'Project overview')}
-      challenge={data.challengeText || data.challenge || ''}
+      challenge={isStoryBlockArray ? (data.challengeText || '') : (Array.isArray(sections) && sections.length > 0 ? '' : (data.challengeText || data.challenge || ''))}
       challengeHeading={data.challengeHeading || 'Key challenges'}
       storyBlocks={storyBlocks}
       galleryThumbnails={galleryThumbnails}
@@ -193,22 +196,22 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
       process={process}
       galleryCategories={otherGalleryCategories}
       nextProject={nextProject || undefined}
-      ctaUrl={data.ctaUrl || sections[0]?.ctaUrl || undefined}
-      ctaText={data.ctaText || sections[0]?.ctaText || undefined}
-      heroIntroText={sections[0]?.heroIntroText || data.heroIntroText}
-      heroStars={sections[0]?.heroStars || data.heroStars}
-      heroReviewTitle={sections[0]?.heroReviewTitle || data.heroReviewTitle}
-      heroReviewSubtitle={sections[0]?.heroReviewSubtitle || data.heroReviewSubtitle}
-      heroQuoteText={sections[0]?.heroQuoteText || data.heroQuoteText}
-      heroQuoteAuthor={sections[0]?.heroQuoteAuthor || data.heroQuoteAuthor}
-      thumbnailsHeading={sections[0]?.thumbnailsHeading || data.thumbnailsHeading}
-      thumbnailsEyebrow={sections[0]?.thumbnailsEyebrow || data.thumbnailsEyebrow}
-      stillsHeading={sections[0]?.stillsHeading || data.stillsHeading}
-      stillsEyebrow={sections[0]?.stillsEyebrow || data.stillsEyebrow}
-      resultsHeading={sections[0]?.resultsHeading || data.resultsHeading}
-      resultsEyebrow={sections[0]?.resultsEyebrow || data.resultsEyebrow}
-      processHeading={sections[0]?.processHeading || data.processHeading}
-      processEyebrow={sections[0]?.processEyebrow || data.processEyebrow}
+      ctaUrl={sections[0]?.ctaUrl !== undefined ? (sections[0].ctaUrl || undefined) : (data.ctaUrl || undefined)}
+      ctaText={sections[0]?.ctaText !== undefined ? (sections[0].ctaText || undefined) : (data.ctaText || undefined)}
+      heroIntroText={sections[0]?.heroIntroText !== undefined ? sections[0].heroIntroText : data.heroIntroText}
+      heroStars={sections[0]?.heroStars !== undefined ? sections[0].heroStars : data.heroStars}
+      heroReviewTitle={sections[0]?.heroReviewTitle !== undefined ? sections[0].heroReviewTitle : data.heroReviewTitle}
+      heroReviewSubtitle={sections[0]?.heroReviewSubtitle !== undefined ? sections[0].heroReviewSubtitle : data.heroReviewSubtitle}
+      heroQuoteText={sections[0]?.heroQuoteText !== undefined ? sections[0].heroQuoteText : data.heroQuoteText}
+      heroQuoteAuthor={sections[0]?.heroQuoteAuthor !== undefined ? sections[0].heroQuoteAuthor : data.heroQuoteAuthor}
+      thumbnailsHeading={sections[0]?.thumbnailsHeading !== undefined ? sections[0].thumbnailsHeading : data.thumbnailsHeading}
+      thumbnailsEyebrow={sections[0]?.thumbnailsEyebrow !== undefined ? sections[0].thumbnailsEyebrow : data.thumbnailsEyebrow}
+      stillsHeading={sections[0]?.stillsHeading !== undefined ? sections[0].stillsHeading : data.stillsHeading}
+      stillsEyebrow={sections[0]?.stillsEyebrow !== undefined ? sections[0].stillsEyebrow : data.stillsEyebrow}
+      resultsHeading={sections[0]?.resultsHeading !== undefined ? sections[0].resultsHeading : data.resultsHeading}
+      resultsEyebrow={sections[0]?.resultsEyebrow !== undefined ? sections[0].resultsEyebrow : data.resultsEyebrow}
+      processHeading={sections[0]?.processHeading !== undefined ? sections[0].processHeading : data.processHeading}
+      processEyebrow={sections[0]?.processEyebrow !== undefined ? sections[0].processEyebrow : data.processEyebrow}
     />
   );
 };
