@@ -57,7 +57,7 @@ const UsFooter = () => {
             <p className="footer-col-text"><Link href="tel:+16302970428">+1 630-297-0428</Link></p>
             <ul className="footer-links">
               <li><Link href="mailto:info@elipsestudio.com">info@elipsestudio.com</Link></li>
-              <li><a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" target="_blank" rel="noopener">Book a Call ↗</a></li>
+              <li><a data-track-id="us-footer-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" target="_blank" rel="noopener">Book a Call ↗</a></li>
               <li><Link href="/portfolio">Portfolio ↗</Link></li>
             </ul>
           </div>

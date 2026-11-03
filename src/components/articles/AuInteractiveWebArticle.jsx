@@ -30,7 +30,7 @@ import _heroImg from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import _mainPng from '../../assets/ElipseImages/projects/Streeing-1.webp';
 import _volvoHero from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import _jetourImg from '../../assets/About-page/Jetour.webp';
-import _kiaImg from '../../assets/About-page/kia.webp';
+import _kiaImg from '../../assets/About-page/newkia.png';
 import _sharkImg from '../../assets/About-page/shark.webp';
 
 const heroImg = getImgSrc(_heroImg);
@@ -221,7 +221,7 @@ export default function AuInteractiveWebArticle() {
             {/* ── Bottom Dark Pill Bar ── */}
             <div className="mt-10 sm:mt-16 hidden sm:inline-flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 bg-neutral-900 text-white px-5 sm:px-7 py-3.5 sm:py-3 rounded-2xl sm:rounded-full shadow-xl text-xs sm:text-sm font-medium border border-neutral-800">
               <a
-                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting?month=2026-09"
+                data-track-id="article-calendly-1" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="font-semibold text-emerald-400 hover:text-emerald-300 transition-colors text-center"
@@ -597,7 +597,7 @@ export default function AuInteractiveWebArticle() {
 
             <div className="flex flex-row items-center justify-center gap-2.5 sm:gap-4 w-full max-w-lg sm:max-w-none mx-auto sm:w-auto">
               <a
-                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting?month=2026-09"
+                data-track-id="article-calendly-2" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex-1 sm:flex-none inline-flex items-center justify-center gap-2 px-4 sm:px-8 py-3 sm:py-3.5 rounded-full bg-[#2563EB] hover:bg-blue-700 text-white font-semibold text-xs sm:text-sm whitespace-nowrap shadow-md hover:shadow-lg transition-all hover:scale-[1.02] active:scale-[0.98]"

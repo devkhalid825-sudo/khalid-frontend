@@ -23,6 +23,7 @@ import figmaOneImgRaw from '../../assets/web-app-ui/f-1.webp';
 import figmaTwoImgRaw from '../../assets/web-app-ui/f-2.webp';
 import figmaThreeImgRaw from '../../assets/web-app-ui/f-3.webp';
 
+import { withCalendlyAttribution } from '@/components/analytics/tracking';
 const firstWebImg = getImgSrc(firstWebImgRaw);
 const secondWebImg = getImgSrc(secondWebImgRaw);
 const thirdWebImg = getImgSrc(thirdWebImgRaw);
@@ -578,7 +579,7 @@ const UiUxDesignAppsWebPage = () => {
         {/* 2 CTAs Directly Below Portfolio Gallery */}
         <div className="mt-14 sm:mt-16 flex flex-row flex-wrap items-center justify-center gap-3.5 sm:gap-4 w-full">
           <button
-            onClick={() => router.push('/contact')}
+            data-track-destination="/contact" onClick={() => router.push('/contact')}
             className="px-6 sm:px-8 py-3.5 bg-[#4169E1] hover:bg-[#3158D4] text-white font-semibold text-xs sm:text-sm rounded-full transition-all duration-300 shadow-lg shadow-[#4169E1]/25 hover:shadow-[#4169E1]/40 hover:scale-[1.03] cursor-pointer flex items-center gap-2"
           >
             <span>Book a Free Consultation</span>
@@ -587,7 +588,9 @@ const UiUxDesignAppsWebPage = () => {
             </svg>
           </button>
           <button
-            onClick={() => window.open('https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting', '_blank')}
+            data-track-id="service-technical-call-calendly"
+            data-track-destination="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+            onClick={(e) => window.open(withCalendlyAttribution('https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting', e.currentTarget), '_blank')}
             className="px-6 sm:px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/40 text-white font-semibold text-xs sm:text-sm rounded-full transition-all duration-300 hover:scale-[1.03] cursor-pointer flex items-center gap-2"
           >
             <span>Schedule a 15-Min Technical Call</span>

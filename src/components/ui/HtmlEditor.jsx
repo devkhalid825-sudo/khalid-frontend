@@ -89,7 +89,7 @@ const HtmlEditor = ({ value, onChange, label, minHeight = 300 }) => {
   <h3 class="callout-heading">Replace Costly Film Sets with Cinema-Caliber 3D CGI</h3>
   <p class="callout-body">Eliminate unpredictable live-action food shoots. Send us your campaign brief or product CAD files, and our lead animation director will provide a 3D commercial feasibility breakdown within 24 hours.</p>
   <div class="callout-btn-wrap">
-    <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" target="_blank" rel="noopener noreferrer" class="callout-btn">
+    <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" target="_blank" rel="noopener noreferrer" class="callout-btn" data-track-id="blog-callout-calendly">
       <span>Schedule a 15-Minute Scoping Call</span>
       <span>→</span>
     </a>

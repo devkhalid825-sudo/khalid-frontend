@@ -116,7 +116,7 @@ export default function IndustryHero({
           </Link>
           <button
             type="button"
-            onClick={onStartProject}
+            data-track-destination="/contact" onClick={onStartProject}
             className="px-6 sm:px-8 py-3 rounded-full text-xs sm:text-sm font-semibold bg-white/[0.04] hover:bg-white/10 text-zinc-300 hover:text-white border border-white/10 hover:border-white/30 transition-all duration-200 cursor-pointer min-h-[44px] flex items-center justify-center"
           >
             Start a Project →

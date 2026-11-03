@@ -91,7 +91,7 @@ return (
                                 </p>
                                 <div className="flex flex-wrap gap-4">
                                     <button
-                                        onClick={() => navigate('/contact')}
+                                        data-track-destination="/contact" onClick={() => navigate('/contact')}
                                         className="px-6 py-3 bg-[#4169E1] text-white rounded-full text-sm font-medium hover:bg-[#3558c8] transition-all shadow-lg shadow-[#4169E1]/20"
                                     >
                                         Discuss Your Project
@@ -174,13 +174,13 @@ return (
                                     </p>
                                     <div className="flex flex-wrap gap-2.5">
                                         <button
-                                            onClick={() => navigate('/contact')}
+                                            data-track-destination="/contact" onClick={() => navigate('/contact')}
                                             className="inline-flex items-center gap-2 bg-[#4169E1] hover:bg-[#3158D4] text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-all shadow-lg shadow-[#4169E1]/20"
                                         >
                                             Start a Project <FiArrowRight className="w-3.5 h-3.5" />
                                         </button>
                                         <button
-                                            onClick={() => navigate('/portfolio')}
+                                            data-track-destination="/portfolio" onClick={() => navigate('/portfolio')}
                                             className="inline-flex items-center gap-2 border border-white/[0.08] hover:border-white/[0.2] text-zinc-400 hover:text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-all"
                                         >
                                             View Portfolio

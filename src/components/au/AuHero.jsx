@@ -28,8 +28,8 @@ const AuHero = ({
             {lead && <p className="au-hero-lead">{lead}</p>}
             {showActions && (
               <div className="au-hero-actions">
-                <Link href={primaryHref} className="au-btn au-btn-primary">{primaryLabel}</Link>
-                <a href={secondaryHref} className="au-btn au-btn-outline" target="_blank" rel="noopener noreferrer">{secondaryLabel}</a>
+                <Link data-track-id="au-hero-primary" href={primaryHref} className="au-btn au-btn-primary">{primaryLabel}</Link>
+                <a data-track-id="au-hero-secondary" href={secondaryHref} className="au-btn au-btn-outline" target="_blank" rel="noopener noreferrer">{secondaryLabel}</a>
               </div>
             )}
             {stats.length > 0 && (

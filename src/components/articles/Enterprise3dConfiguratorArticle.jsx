@@ -32,7 +32,7 @@ import { getImgSrc } from '../../utils/api';
 import _volvoHero from '../../assets/About-page/shark.webp';
 import _volvoUi from '../../assets/About-page/volvo-ui.png';
 import _jetour from '../../assets/About-page/Jetour.webp';
-import _kia from '../../assets/About-page/kia.webp';
+import _kia from '../../assets/About-page/newkia.png';
 import _steeringImg from '../../assets/ElipseImages/projects/Streeing-1.webp';
 import _configuratorBlogs from '../../assets/About-page/configurator-blogs.png';
 import _hero from '../../assets/About-page/kia-1.png';
@@ -242,7 +242,7 @@ const Enterprise3dConfiguratorArticle = () => {
             {/* ── Bottom Dark Pill Bar ── */}
             <div className="mt-4 sm:mt-6 hidden sm:flex flex-row items-center gap-4 bg-neutral-900 text-white px-6 py-3 rounded-full shadow-xl">
               <a
-                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                data-track-id="article-calendly-1" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs sm:text-sm font-semibold text-white underline hover:text-zinc-300 transition-colors"
@@ -1051,7 +1051,7 @@ const Enterprise3dConfiguratorArticle = () => {
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-lg mx-auto">
               <a
-                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                data-track-id="article-calendly-2" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-6 py-3 rounded-full bg-black hover:bg-neutral-800 active:scale-95 text-white font-sans font-semibold text-xs sm:text-sm shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"

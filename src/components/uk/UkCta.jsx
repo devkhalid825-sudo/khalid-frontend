@@ -14,7 +14,7 @@ const UkCta = ({ title = 'Ready to get started?', body = '', primaryLabel = 'Get
           <Link href={primaryHref} className="uk-btn uk-btn-primary">{primaryLabel}</Link>
         )}
         {!hideSecondary && (
-          <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="uk-btn uk-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
+          <a data-track-id="uk-cta-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="uk-btn uk-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
         )}
       </div>
     </div>

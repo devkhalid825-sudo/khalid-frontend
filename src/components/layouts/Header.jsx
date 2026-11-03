@@ -334,7 +334,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
                 )}
               </div>
               <button
-                onClick={() => {
+                data-track-id="header-contact-us" data-track-destination="/contact" onClick={() => {
                   setIsMenuOpen(false);
                   router.push('/contact');
                 }}
@@ -401,7 +401,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
 
               <div className="flex items-center gap-2 sm:gap-4 relative z-50 shrink-0 self-center">
                 <button
-                  onClick={() => {
+                  data-track-id="header-contact-us" data-track-destination="/contact" onClick={() => {
                     setIsMenuOpen(false);
                     router.push('/contact');
                   }}

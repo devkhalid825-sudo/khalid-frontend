@@ -19,7 +19,7 @@ import { getImgSrc } from '../../utils/api';
 // Configurator Service Images (same verified assets as Automotive 3D Configurator)
 import _volvoHero from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import _sharkImg from '../../assets/About-page/shark.webp';
-import _kiaImg from '../../assets/About-page/kia.webp';
+import _kiaImg from '../../assets/About-page/newkia.png';
 import _seatImg from '../../assets/About-page/seat.webp';
 import _inverxImg from '../../assets/About-page/Jetour.webp';
 import _inverexImg from '../../assets/ElipseImages/projects/G-1.webp';

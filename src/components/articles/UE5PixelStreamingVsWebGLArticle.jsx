@@ -22,7 +22,7 @@ import { getImgSrc } from '../../utils/api';
 import _volvoHero from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import _volvoUi from '../../assets/About-page/volvo-ui.png';
 import _jetour from '../../assets/About-page/Jetour.webp';
-import _kia from '../../assets/About-page/kia.webp';
+import _kia from '../../assets/About-page/newkia.png';
 
 const volvoHero = getImgSrc(_volvoHero);
 const volvoUi = getImgSrc(_volvoUi);
@@ -234,7 +234,7 @@ const UE5PixelStreamingVsWebGLArticle = () => {
             {/* ── Bottom Dark Pill Bar ── */}
             <div className="mt-10 sm:mt-14 hidden sm:flex flex-row items-center gap-4 bg-neutral-900 text-white px-6 py-3 rounded-full shadow-lg">
               <a
-                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                data-track-id="article-calendly-1" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs sm:text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
@@ -512,7 +512,7 @@ const UE5PixelStreamingVsWebGLArticle = () => {
 
           <div className="max-w-xl mx-auto flex flex-col sm:flex-row items-center justify-center gap-3">
             <a
-              href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+              data-track-id="article-calendly-2" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
               target="_blank"
               rel="noopener noreferrer"
               className="w-full sm:w-auto px-6 py-3 rounded-full bg-[#2563EB] hover:bg-blue-700 active:scale-95 text-white font-sans font-semibold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"

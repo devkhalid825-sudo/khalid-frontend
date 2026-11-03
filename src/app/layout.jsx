@@ -76,6 +76,28 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={inter.variable} suppressHydrationWarning>
       <head>
+        {/* Google Consent Mode v2 defaults — must run before gtag.js and GTM.
+            Denied by default in EEA/UK/CH, granted elsewhere; a saved banner choice overrides both. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              window.gtag = gtag;
+              var denied = { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied' };
+              gtag('consent', 'default', Object.assign({}, denied, { wait_for_update: 500, region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IS','IE','IT','LV','LI','LT','LU','MT','NL','NO','PL','PT','RO','SK','SI','ES','SE','GB','CH'] }));
+              gtag('consent', 'default', { ad_storage: 'granted', ad_user_data: 'granted', ad_personalization: 'granted', analytics_storage: 'granted' });
+              try {
+                var c = localStorage.getItem('elipse_cookie_consent');
+                if (c === 'granted' || c === 'denied') {
+                  gtag('consent', 'update', { ad_storage: c, ad_user_data: c, ad_personalization: c, analytics_storage: c });
+                } else if (navigator.globalPrivacyControl === true) {
+                  gtag('consent', 'update', { ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+                }
+              } catch (e) {}
+            `,
+          }}
+        />
         {/* Google tag (gtag.js) */}
         <script
           async
@@ -88,6 +110,15 @@ export default function RootLayout({ children }) {
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
 
+              // Calendly's /thank-you redirect can carry invitee name/email/phone: remove them from the
+              // address bar BEFORE GA4 reads the URL (page_location must not be pinned, or SPA page_views stop).
+              try {
+                var gaUrl = new URL(location.href), gaPii = false;
+                Array.from(gaUrl.searchParams.keys()).forEach(function (k) {
+                  if (/^(invitee_(full_name|first_name|last_name|email)|text_reminder_number|guest_?emails?|answer_\\d+|salesforce_uuid)$/i.test(k)) { gaUrl.searchParams.delete(k); gaPii = true; }
+                });
+                if (gaPii) history.replaceState(history.state, '', gaUrl.toString());
+              } catch (e) {}
               gtag('config', 'G-4VLP3K6ZJS');
             `,
           }}
@@ -123,14 +154,7 @@ export default function RootLayout({ children }) {
             })();
           `}
         </Script>
-        {/* Instantly.ai / Leadsy Website Visitor Pixel */}
-        <Script
-          id="vtag-ai-js"
-          src="https://r2.leadsy.ai/tag.js"
-          data-pid="1Esz3xQn945NMkX0S"
-          data-version="062024"
-          strategy="afterInteractive"
-        />
+        {/* Instantly.ai / Leadsy visitor pixel is loaded by CookieConsent (respects the visitor's choice). */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
@@ -157,6 +181,14 @@ export default function RootLayout({ children }) {
         />
       </head>
       <body className="font-sans antialiased bg-black text-white transition-colors duration-300" suppressHydrationWarning>
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
         <SiteShell>{children}</SiteShell>
       </body>
     </html>

@@ -14,7 +14,7 @@ const UsCta = ({ title = 'Ready to get started?', body = '', primaryLabel = 'Get
           <Link href={primaryHref} className="us-btn us-btn-primary">{primaryLabel}</Link>
         )}
         {!hideSecondary && (
-          <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="us-btn us-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
+          <a data-track-id="us-cta-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="us-btn us-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
         )}
       </div>
     </div>

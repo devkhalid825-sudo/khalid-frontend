@@ -7,6 +7,7 @@ import ReCaptcha from '@/components/common/ReCaptcha';
 import { useRateLimitTimer } from '@/hooks/useRateLimitTimer';
 import { useTheme } from '@/components/providers/ThemeProvider';
 
+import { trackFormSubmission, CALENDLY_DEFAULT_URL } from '@/components/analytics/tracking';
 const PILLARS = [
   { id: 'configurators', label: 'Interactive 3D Web & Product Configurators', note: 'WebGL / Three.js / PlayCanvas' },
   { id: 'archviz', label: 'Real-Time ArchViz & Spatial VR/AR', note: 'Unreal Engine 5' },
@@ -88,6 +89,7 @@ const ContactForm = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const formEl = e.currentTarget;
         setSubmitStatus(null);
         setErrorMessage('');
 
@@ -129,20 +131,7 @@ const ContactForm = () => {
                 setRecaptchaToken('');
                 recaptchaRef.current?.reset();
 
-                // GA4 Lead Conversion Event
-                if (typeof window !== 'undefined' && window.gtag) {
-                    window.gtag('event', 'generate_lead', {
-                        event_category: 'Engagement',
-                        event_label: 'Contact Form Submission',
-                        value: 1
-                    });
-                }
-
-                window.dataLayer = window.dataLayer || [];
-                window.dataLayer.push({
-                    'event': 'form_submission',
-                    'form_type': 'contact_page'
-                });
+                trackFormSubmission('contact_page', formEl);
             } else if (status === 429) {
                 triggerCooldown(data?.retryAfter || 900);
                 setSubmitStatus('error');
@@ -182,6 +171,11 @@ const ContactForm = () => {
     };
 
     const [activeTab, setActiveTab] = useState('form'); // 'form' | 'calendly'
+    // embed_domain/embed_type make Calendly postMessage 'calendly.event_scheduled' to this page;
+    // utm_* tag the booking with its origin. Only rendered client-side (after the tab click).
+    const calendlyEmbedSrc = typeof window === 'undefined'
+        ? `${CALENDLY_DEFAULT_URL}?hide_gdpr_banner=1&background_color=0c0c0c&text_color=ffffff&primary_color=4169e1`
+        : `${CALENDLY_DEFAULT_URL}?hide_gdpr_banner=1&background_color=0c0c0c&text_color=ffffff&primary_color=4169e1&embed_domain=${encodeURIComponent(window.location.hostname)}&embed_type=Inline&utm_source=elipsestudio.com&utm_medium=website_cta&utm_campaign=${encodeURIComponent(window.location.pathname)}&utm_content=calendly_embed&utm_term=calendly-embed`;
 
     return (
         <div className="bg-[#0c0c0c] rounded-2xl sm:rounded-[2rem] md:rounded-[3rem] p-4 sm:p-7 md:p-10 lg:p-12 relative border border-white/10 w-full shadow-2xl">
@@ -202,7 +196,7 @@ const ContactForm = () => {
 
                 <button
                     type="button"
-                    onClick={() => setActiveTab('calendly')}
+                    data-track-id="contact-book-call-tab" data-track-destination="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" onClick={() => setActiveTab('calendly')}
                     className={`flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-xl text-[11px] sm:text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer ${
                         activeTab === 'calendly'
                             ? 'bg-[#4169E1] text-white shadow-lg shadow-[#4169E1]/30'
@@ -408,7 +402,7 @@ const ContactForm = () => {
                         </div>
                         <button
                             type="button"
-                            onClick={() => setActiveTab('calendly')}
+                            data-track-id="contact-book-direct-call" data-track-destination="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" onClick={() => setActiveTab('calendly')}
                             className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full border border-[#4169E1]/40 bg-[#4169E1]/10 hover:bg-[#4169E1]/20 text-[#4169E1] text-[11px] sm:text-xs font-semibold transition-all shrink-0 cursor-pointer flex items-center gap-1.5"
                         >
                             <span>Book Direct Call</span>
@@ -435,7 +429,7 @@ const ContactForm = () => {
 
                     <div className="relative rounded-xl sm:rounded-2xl border border-white/10 bg-[#0c0c0c] w-full overflow-hidden">
                         <iframe
-                            src="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting?hide_gdpr_banner=1&background_color=0c0c0c&text_color=ffffff&primary_color=4169e1"
+                            src={calendlyEmbedSrc}
                             title="Schedule a 15-minute technical scoping call"
                             width="100%"
                             height="940"
@@ -454,7 +448,7 @@ const ContactForm = () => {
                             ← Back to Project Brief Form
                         </button>
                         <a
-                            href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                            data-track-id="contact-embed-open-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                             target="_blank"
                             rel="noopener noreferrer"
                             className="text-[11px] sm:text-xs text-[#4169E1] hover:underline"

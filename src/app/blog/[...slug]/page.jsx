@@ -7,6 +7,8 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  'unreal-engine-5-cloud-pixel-streaming-automotive-configurators-2026': dynamic(() => import('@/components/articles/UE5CloudPixelStreamingAutomotiveArticle')),
+  'ue5-cloud-pixel-streaming-automotive-configurator': dynamic(() => import('@/components/articles/UE5CloudPixelStreamingAutomotiveArticle')),
   'enterprise-3d-configurator-development-webgl-threejs-playcanvas-vs-pixel-streaming-2026': dynamic(() => import('@/components/articles/Enterprise3dConfiguratorArticle')),
   'enterprise-3d-configurator-development': dynamic(() => import('@/components/articles/Enterprise3dConfiguratorArticle')),
   'enterprise-3d-configurator-webgl-playcanvas-threejs-vs-pixel-streaming-2026': dynamic(() => import('@/components/articles/Enterprise3dConfiguratorArticle')),
@@ -55,6 +57,31 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  'unreal-engine-5-cloud-pixel-streaming-automotive-configurators-2026': {
+    title: 'What Is Unreal Engine 5 Cloud Pixel Streaming for Automotive Configurators? | Elipse Studio',
+    description: 'How UE5.5 Cloud Pixel Streaming delivers hardware ray-traced, photorealistic automotive configurators to any device. WebGL vs pixel streaming, Nanite tessellation, showroom iPad deployment, latency, and production requirements for OEMs in 2026.',
+    keywords: [
+      'unreal engine 5 pixel streaming automotive',
+      'cloud pixel streaming car configurator',
+      'ue5 automotive configurator',
+      'pixel streaming vs webgl configurator',
+      'showroom ipad car configurator',
+      'nanite tessellation automotive',
+      'hardware ray tracing car configurator',
+      'pixel streaming latency usa',
+      'Elipse Studio',
+      'Bilal Lania',
+    ],
+    canonical: `${SITE_URL}/blog/unreal-engine-5-cloud-pixel-streaming-automotive-configurators-2026`,
+    ogImage: `${SITE_URL}/assets/industies-hero-image/Jetour.webp`,
+  },
+  'ue5-cloud-pixel-streaming-automotive-configurator': {
+    title: 'What Is Unreal Engine 5 Cloud Pixel Streaming for Automotive Configurators? | Elipse Studio',
+    description: 'How UE5.5 Cloud Pixel Streaming delivers hardware ray-traced, photorealistic automotive configurators to any device. WebGL vs pixel streaming, Nanite tessellation, showroom iPad deployment, latency, and production requirements for OEMs in 2026.',
+    keywords: ['unreal engine 5 pixel streaming automotive', 'cloud pixel streaming car configurator', 'Elipse Studio'],
+    canonical: `${SITE_URL}/blog/unreal-engine-5-cloud-pixel-streaming-automotive-configurators-2026`,
+    ogImage: `${SITE_URL}/assets/industies-hero-image/Jetour.webp`,
+  },
   'enterprise-3d-configurator-development-webgl-threejs-playcanvas-vs-pixel-streaming-2026': {
     title: 'Enterprise 3D Configurator Development: WebGL, PlayCanvas and Three.js vs Cloud Pixel Streaming — The 2026 CTO Decision Matrix | Elipse Studio',
     description: 'Should your enterprise 3D configurator render browser-native or stream via cloud GPUs? Complete architectural evaluation: Three.js and PlayCanvas vs UE5 Pixel Streaming. Memory budgets, Draco/KTX2 optimization, Shopify Cart Transform API, and 3-year TCO.',
@@ -273,7 +300,7 @@ const staticArticleMetadata = {
       'Bilal Lania',
     ],
     canonical: `${SITE_URL}/blog/3d-product-configurator-australia-2026`,
-    ogImage: `${SITE_URL}/assets/About-page/kia.webp`,
+    ogImage: `${SITE_URL}/assets/About-page/newkia.png`,
   },
   'cad-to-webgl-enterprise-3d-optimization-pipeline-2026': {
     title: 'CAD to WebGL: How Enterprise Brands Convert Heavy Engineering Files into Sub-2MB Interactive 3D Web Experiences (2026 Guide) | Elipse Studio',
@@ -529,9 +556,11 @@ function staticArticleSchemas(slugStr, meta) {
   const isCadToWebgl = slugStr === 'cad-to-webgl-enterprise-3d-optimization-pipeline-2026';
   const isAutomotiveConfigurator = slugStr === 'automotive-3d-configurator-dealership-conversion-2026' || slugStr === 'automotive-configurator';
   const isAuProductConfigurator = slugStr === '3d-product-configurator-australia-2026';
+  const isUe5CloudAutomotive = slugStr === 'unreal-engine-5-cloud-pixel-streaming-automotive-configurators-2026' || slugStr === 'ue5-cloud-pixel-streaming-automotive-configurator';
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isUe5CloudAutomotive) return '2026-11-03';
     if (isAnamorphicBillboard) return '2026-10-30';
     if (isCommercialCgi) return '2026-10-29';
     if (isSpatialCommerce) return '2026-10-26';
@@ -792,6 +821,25 @@ function staticArticleSchemas(slugStr, meta) {
     },
   ]);
 
+  const ue5CloudAutomotiveFaq = buildFaqSchema([
+    {
+      q: 'What is Unreal Engine 5 Cloud Pixel Streaming for automotive configurators?',
+      a: 'It is a delivery architecture where the Unreal Engine render runs on a remote datacenter GPU (typically an NVIDIA A10 or A100) and rendered frames are streamed to the buyer browser as live compressed video via WebRTC. The device only decodes video and sends input events, so every buyer sees the same photorealistic, hardware ray-traced render regardless of their hardware.',
+    },
+    {
+      q: 'How does UE5 Pixel Streaming differ from a WebGL car configurator?',
+      a: 'WebGL renders on the buyer device using pre-computed environment maps, baked lighting, and normal maps, so quality is capped by their GPU. UE5 Pixel Streaming runs the full Unreal Engine pipeline on the server, including hardware ray tracing, Nanite tessellation, and Lumen global illumination, and streams the result as video.',
+    },
+    {
+      q: 'What latency can a US pixel streaming deployment achieve?',
+      a: 'A US East Coast server typically achieves 30–60ms to East Coast users and 80–120ms to West Coast users. A multi-region East and West Coast configuration keeps a national audience under 100ms, and showroom deployments in the same datacenter region consistently achieve under 50ms.',
+    },
+    {
+      q: 'Can existing V-Ray or Arnold automotive assets be reused for UE5 pixel streaming?',
+      a: 'Usually yes. Existing high-quality offline-render geometry can typically be adapted for UE5.5 with material re-parameterisation. Assets produced only for WebGL configurators may need geometry upgrades to support Nanite tessellation.',
+    },
+  ]);
+
   if (isAnamorphicBillboard) extraSchemas = [anamorphicBillboardFaq, authorSchema];
   if (isCommercialCgi) extraSchemas = [commercialCgiFaq, authorSchema];
   if (isSpatialCommerce) extraSchemas = [spatialCommerceFaq, authorSchema];
@@ -804,6 +852,7 @@ function staticArticleSchemas(slugStr, meta) {
   if (isCadToWebgl) extraSchemas = [cadToWebglFaq, authorSchema];
   if (isAutomotiveConfigurator) extraSchemas = [automotiveConfiguratorFaq, authorSchema];
   if (isAuProductConfigurator) extraSchemas = [auProductConfiguratorFaq, authorSchema];
+  if (isUe5CloudAutomotive) extraSchemas = [ue5CloudAutomotiveFaq, authorSchema];
 
   return [schema, breadcrumb, ...extraSchemas].filter(Boolean);
 }

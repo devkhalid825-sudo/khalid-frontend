@@ -28,8 +28,8 @@ const UsHero = ({
             {lead && <p className="us-hero-lead">{lead}</p>}
             {showActions && (
               <div className="us-hero-actions">
-                <Link href={primaryHref} className="us-btn us-btn-primary">{primaryLabel}</Link>
-                <a href={secondaryHref} className="us-btn us-btn-outline" target="_blank" rel="noopener noreferrer">{secondaryLabel}</a>
+                <Link data-track-id="us-hero-primary" href={primaryHref} className="us-btn us-btn-primary">{primaryLabel}</Link>
+                <a data-track-id="us-hero-secondary" href={secondaryHref} className="us-btn us-btn-outline" target="_blank" rel="noopener noreferrer">{secondaryLabel}</a>
               </div>
             )}
             {stats.length > 0 && (

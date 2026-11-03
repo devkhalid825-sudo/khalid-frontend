@@ -7,6 +7,7 @@ import { apiCall, getImgSrc } from '@/utils/api';
 
 import logo from '@/assets/images/Elipse2.webp';
 
+import { trackEmailSignup } from '@/components/analytics/tracking';
 const FooterColumn = ({ title, sectionKey, as: Tag = 'div', ariaLabel, isOpen, onToggle, alwaysOpen = false, children }) => {
   if (alwaysOpen) {
     return (
@@ -66,6 +67,7 @@ const Footer = () => {
     const { status: resStatus } = await apiCall('/meetings/join', 'POST', { email: footerEmail });
     if (resStatus === 201) {
       setStatus('success');
+      trackEmailSignup('footer_newsletter');
       setFooterEmail('');
       setTimeout(() => setStatus(''), 3000);
     } else {
@@ -242,17 +244,8 @@ const Footer = () => {
                     <p className="footer-office-text">Hanover Park, IL 60133</p>
                     <p className="pt-0.5 text-white/90 font-medium">
                       <a
-                        href="tel:+16302970428"
+                        data-track-id="footer-phone-us" href="tel:+16302970428"
                         className="hover:text-white transition-colors footer-office-link"
-                        onClick={() => {
-                          if (typeof window !== 'undefined' && window.gtag) {
-                            window.gtag('event', 'generate_lead', {
-                              event_category: 'Contact',
-                              event_label: 'Phone Call Click - Footer USA',
-                              value: 1,
-                            });
-                          }
-                        }}
                       >
                         +1 630-297-0428
                       </a>
@@ -266,32 +259,14 @@ const Footer = () => {
                     <p className="footer-office-text">Block 13D-3, Gulshan-e-Iqbal, 75300</p>
                     <div className="pt-1 text-white/90 font-medium flex flex-col gap-0.5">
                       <a
-                        href="tel:+923471245257"
+                        data-track-id="footer-phone-pk-1" href="tel:+923471245257"
                         className="hover:text-white transition-colors footer-office-link"
-                        onClick={() => {
-                          if (typeof window !== 'undefined' && window.gtag) {
-                            window.gtag('event', 'generate_lead', {
-                              event_category: 'Contact',
-                              event_label: 'Phone Call Click - Footer PK 1',
-                              value: 1,
-                            });
-                          }
-                        }}
                       >
                         +92 347 1245257
                       </a>
                       <a
-                        href="tel:+923323141556"
+                        data-track-id="footer-phone-pk-2" href="tel:+923323141556"
                         className="hover:text-white transition-colors footer-office-link"
-                        onClick={() => {
-                          if (typeof window !== 'undefined' && window.gtag) {
-                            window.gtag('event', 'generate_lead', {
-                              event_category: 'Contact',
-                              event_label: 'Phone Call Click - Footer PK 2',
-                              value: 1,
-                            });
-                          }
-                        }}
                       >
                         +92 332 3141556
                       </a>
@@ -302,17 +277,8 @@ const Footer = () => {
                   <div className="pt-2 border-t border-white/10">
                     <p className="text-white font-medium">
                       <a
-                        href="mailto:info@elipsestudio.com"
+                        data-track-id="footer-email" href="mailto:info@elipsestudio.com"
                         className="hover:text-[#4169E1] transition-colors"
-                        onClick={() => {
-                          if (typeof window !== 'undefined' && window.gtag) {
-                            window.gtag('event', 'generate_lead', {
-                              event_category: 'Contact',
-                              event_label: 'Email Click - Footer',
-                              value: 1,
-                            });
-                          }
-                        }}
                       >
                         info@elipsestudio.com
                       </a>
@@ -369,8 +335,20 @@ const Footer = () => {
 
         <div className="border-t border-white/10 mt-8 mb-8 w-full footer-divider"></div>
 
-        <div className="text-center text-[11px] md:text-[13px] text-white/60 tracking-[0.2em] md:tracking-[0.3em] font-light uppercase flex flex-col gap-3 md:gap-4 footer-copyright">
+        <div className="text-center text-[11px] md:text-[13px] text-white/60 tracking-[0.2em] md:tracking-[0.3em] font-light uppercase flex flex-wrap items-center justify-center gap-x-4 md:gap-x-6 gap-y-2 footer-copyright">
           <span>© Elipse Studio. All rights reserved.</span>
+          <span aria-hidden="true">·</span>
+          <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
+          <span aria-hidden="true">·</span>
+          <Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms of Service</Link>
+          <span aria-hidden="true">·</span>
+          <button
+            type="button"
+            onClick={() => window.dispatchEvent(new Event('elipse:open-cookie-settings'))}
+            className="uppercase tracking-[inherit] hover:text-white transition-colors cursor-pointer"
+          >
+            Cookie Settings
+          </button>
         </div>
       </div>
     </footer>

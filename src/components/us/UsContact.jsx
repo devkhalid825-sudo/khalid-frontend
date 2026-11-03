@@ -8,6 +8,7 @@ import { servicesList } from '../../data/servicesList';
 import ReCaptcha from '../common/ReCaptcha';
 import { useRateLimitTimer } from '@/hooks/useRateLimitTimer';
 
+import { trackFormSubmission } from '@/components/analytics/tracking';
 const validators = {
   first_name: (v) => '',
   last_name: (v) => '',
@@ -83,13 +84,7 @@ const UsContact = ({
     try {
       const { status: httpStatus, data } = await apiCall('/contact/contact', 'POST', payload);
       if (httpStatus === 200) {
-        if (typeof window !== 'undefined' && window.gtag) {
-          window.gtag('event', 'generate_lead', {
-            event_category: 'Engagement',
-            event_label: 'US Contact Form Submission',
-            value: 1,
-          });
-        }
+        trackFormSubmission('us_contact', form);
         form.reset();
         setErrors({});
         setRecaptchaToken('');
@@ -237,36 +232,18 @@ const UsContact = ({
             <p>Or reach out directly for a quicker response</p>
             <div className="us-cta-actions">
               <a
-                href="https://wa.me/923471245257"
+                data-track-id="us-contact-whatsapp" href="https://wa.me/923471245257"
                 className="us-btn us-btn-outline"
                 target="_blank"
                 rel="noopener"
-                onClick={() => {
-                  if (typeof window !== 'undefined' && window.gtag) {
-                    window.gtag('event', 'generate_lead', {
-                      event_category: 'Contact',
-                      event_label: 'WhatsApp Click - US Contact Page',
-                      value: 1,
-                    });
-                  }
-                }}
               >
                 <FaWhatsapp style={{ marginRight: 6, verticalAlign: '-2px' }} /> Message on WhatsApp
               </a>
               <a
-                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                data-track-id="us-contact-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 className="us-btn us-btn-outline"
                 target="_blank"
                 rel="noopener"
-                onClick={() => {
-                  if (typeof window !== 'undefined' && window.gtag) {
-                    window.gtag('event', 'generate_lead', {
-                      event_category: 'Contact',
-                      event_label: 'Schedule Call Click - US Contact Page',
-                      value: 1,
-                    });
-                  }
-                }}
               >
                 <SiCalendly style={{ marginRight: 6, verticalAlign: '-2px' }} /> Schedule an Intro Call
               </a>
@@ -279,16 +256,7 @@ const UsContact = ({
           <p>
             <strong>Elipse Studio USA</strong> — Hanover Park, IL<br />
             <a href="tel:+16302970428">+1 630-297-0428</a> · <a
-              href="mailto:info@elipsestudio.com"
-              onClick={() => {
-                if (typeof window !== 'undefined' && window.gtag) {
-                  window.gtag('event', 'generate_lead', {
-                    event_category: 'Contact',
-                    event_label: 'Email Click - US Contact Page',
-                    value: 1,
-                  });
-                }
-              }}
+              data-track-id="us-contact-email" href="mailto:info@elipsestudio.com"
             >
               info@elipsestudio.com
             </a><br />

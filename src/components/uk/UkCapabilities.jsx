@@ -16,7 +16,7 @@ const UkCapabilities = ({ items = [] }) => (
       </div>
       <div className="uk-section-ctas">
         <Link href="/contact" className="uk-btn uk-btn-primary">Get a Free Estimate</Link>
-        <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="uk-btn uk-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
+        <a data-track-id="uk-capabilities-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="uk-btn uk-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
       </div>
     </div>
   </section>

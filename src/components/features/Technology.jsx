@@ -250,6 +250,7 @@ const LiveDemo = () => {
             <button
               type="button"
               onClick={handleLaunch}
+              data-track-demo="technology-live-demo"
               className="relative z-10 px-8 py-3.5 md:px-10 md:py-4 bg-[#4169E1] hover:bg-[#3558c8] active:bg-[#2e4fba] text-white text-sm md:text-base font-semibold tracking-wide rounded-full transition-all duration-300 shadow-lg shadow-[#4169E1]/40 hover:shadow-[#4169E1]/60 hover:scale-105 active:scale-95 flex items-center gap-2.5 cursor-pointer"
             >
               <svg

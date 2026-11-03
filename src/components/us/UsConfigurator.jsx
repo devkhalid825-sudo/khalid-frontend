@@ -73,6 +73,7 @@ const UsConfigurator = ({
         ) : (
           <div
             role="button"
+            data-track-demo={`configurator-us-${String(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`}
             tabIndex={0}
             onClick={() => setIsActivated(true)}
             onKeyDown={(e) => {

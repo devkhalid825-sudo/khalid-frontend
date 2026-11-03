@@ -463,13 +463,13 @@ const IndustryLayout = ({
                         <p className="text-sm md:text-lg lg:text-xl font-light leading-relaxed text-white/70 mb-6 md:mb-8 max-w-2xl mx-auto">{midCta.text}</p>
                         <div className="flex flex-wrap justify-center gap-3 md:gap-4">
                             <button
-                                onClick={() => navigate('/portfolio')}
+                                data-track-destination="/portfolio" onClick={() => navigate('/portfolio')}
                                 className="px-6 md:px-8 py-3 md:py-3.5 bg-[#4169E1] text-white rounded-full font-semibold hover:bg-[#3158D4] transition-colors text-xs md:text-sm"
                             >
                                 {midCta.buttonText}
                             </button>
                             <button
-                                onClick={() => navigate('/contact')}
+                                data-track-destination="/contact" onClick={() => navigate('/contact')}
                                 className="px-6 md:px-8 py-3 md:py-3.5 border border-[#333] hover:border-white text-[#888] hover:text-[#F2F0EB] rounded-full transition-all text-xs md:text-sm"
                             >
                                 Book a Discovery Call
@@ -560,7 +560,7 @@ const IndustryLayout = ({
                                 {finalCta.buttonText}
                             </button>
                             <button
-                                onClick={() => navigate('/contact')}
+                                data-track-destination="/contact" onClick={() => navigate('/contact')}
                                 className="px-6 md:px-8 py-3 md:py-3.5 border border-[#333] hover:border-white text-[#888] hover:text-[#F2F0EB] rounded-full transition-all text-xs md:text-sm"
                             >
                                 Book a Discovery Call
@@ -575,13 +575,13 @@ const IndustryLayout = ({
                 <div className="flex gap-[10px] flex-wrap">
                     <button
                         className="inline-flex items-center gap-[8px] text-[13px] font-medium px-[20px] py-[10px] border border-[#333] rounded-[6px] hover:border-[#F2F0EB] hover:text-[#F2F0EB] transition-all duration-200 text-[#888] bg-transparent cursor-pointer"
-                        onClick={() => navigate('/')}
+                        data-track-destination="/" onClick={() => navigate('/')}
                     >
                         <FaThLarge aria-hidden="true" /> All work
                     </button>
                     <button
                         className="inline-flex items-center gap-[8px] text-[13px] font-semibold px-[20px] py-[10px] bg-[#4169E1] text-white rounded-[6px] hover:bg-[#3158D4] transition-all duration-200 border-none cursor-pointer"
-                        onClick={handleStartProject}
+                        data-track-destination="/contact" onClick={handleStartProject}
                     >
                         <FaPaperPlane aria-hidden="true" /> Start a project
                     </button>

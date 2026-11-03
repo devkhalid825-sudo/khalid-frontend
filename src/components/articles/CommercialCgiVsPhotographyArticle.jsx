@@ -213,7 +213,7 @@ const CommercialCgiVsPhotographyArticle = () => {
             {/* ── Bottom Dark Pill Bar ── */}
             <div className="mt-10 sm:mt-14 hidden sm:flex flex-row items-center gap-4 bg-neutral-900 text-white px-6 py-3 rounded-full shadow-xl">
               <a
-                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                data-track-id="article-calendly-1" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs sm:text-sm font-semibold text-white underline hover:text-zinc-300 transition-colors"
@@ -730,7 +730,7 @@ const CommercialCgiVsPhotographyArticle = () => {
             {/* Action Buttons */}
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 max-w-lg mx-auto">
               <a
-                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                data-track-id="article-calendly-2" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-black hover:bg-neutral-800 active:scale-95 text-white font-sans font-semibold text-xs sm:text-sm shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2 cursor-pointer"

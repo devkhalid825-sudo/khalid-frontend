@@ -19,7 +19,7 @@ import steeringImgRaw from '../../assets/ElipseImages/projects/Streeing-1.webp';
 import vfxImgRaw from '../../assets/About-page/QORDEN.webp';
 import ahmedFoodRaw from '../../assets/Ahmed-food/jam&spread/15.webp';
 import renderingImgRaw from '../../assets/Ahmed-food/jelly/03.webp';
-import kiaRaw from '../../assets/About-page/kia.webp';
+import kiaRaw from '../../assets/About-page/newkia.png';
 import spatialCommerceRaw from '../../assets/About-page/spatial-commerce.png';
 import highTicketRaw from '../../assets/About-page/high-ticket.png';
 import sharkRaw from '../../assets/About-page/shark.webp';

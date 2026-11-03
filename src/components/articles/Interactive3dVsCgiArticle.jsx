@@ -16,7 +16,7 @@ import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 
 import _jetourImg from '../../assets/ElipseImages/blogs/jetour.webp';
-import _kiaImg from '../../assets/About-page/kia.webp';
+import _kiaImg from '../../assets/About-page/newkia.png';
 import _ahmedFoodImg from '../../assets/Ahmed-food/jam&spread/15.webp';
 import _volveImg from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import _boatImg from '../../assets/About-page/marine.webp';
@@ -196,7 +196,7 @@ const Interactive3dVsCgiArticle = () => {
             {/* ── Bottom Dark Pill Bar ── */}
             <div className="mt-12 sm:mt-16 hidden sm:flex flex-row items-center gap-4 bg-neutral-900 text-white px-6 py-3 rounded-full shadow-xl">
               <a
-                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                data-track-id="article-calendly-1" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="text-xs sm:text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"

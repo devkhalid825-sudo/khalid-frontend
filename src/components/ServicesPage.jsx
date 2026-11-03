@@ -71,11 +71,11 @@ const ServicesPage = () => {
                                         Interactive 3D configurators, real-time ArchViz &amp; VR/AR, and cinematic product visuals — built for brands, developers, and enterprises that demand the highest standard.
                                     </p>
                                     <div className="flex flex-row flex-wrap gap-3 md:gap-4">
-                                        <button onClick={() => router.push('/contact')}
+                                        <button data-track-destination="/contact" onClick={() => router.push('/contact')}
                                             className="bg-[#4169E1] hover:bg-[#3558c8] text-white px-5 md:px-8 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40 cursor-pointer">
                                             Start a Project
                                         </button>
-                                        <button onClick={() => router.push('/portfolio')}
+                                        <button data-track-destination="/portfolio" onClick={() => router.push('/portfolio')}
                                             className="text-white/70 hover:text-white border border-white/20 hover:border-white/40 px-6 md:px-8 py-2.5 md:py-3 rounded-full text-xs md:text-base font-medium transition-all cursor-pointer">
                                             View Our Work
                                         </button>

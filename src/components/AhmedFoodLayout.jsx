@@ -10,6 +10,7 @@ import { useTheme } from '@/components/providers/ThemeProvider';
 import { BACKEND_ORIGIN, toCdnUrl } from '../utils/api';
 import MidArticleCta from '@/components/blog/MidArticleCta';
 
+import { fixCalendlyUrl, CALENDLY_DEFAULT_URL } from '@/components/analytics/tracking';
 export const resolveImageUrl = (src) => {
   if (!src || typeof src !== 'string') return src || '';
   if (src.includes('elipsestudio.com/photo-') || src.includes('elipsestudio.com/premium_photo-')) {
@@ -272,8 +273,8 @@ const AhmedFoodLayout = ({
       const src = resolveImageUrl(rawSrc);
       const altText = isAhmedFood
         ? (index < 6
-            ? `Ahmed Foods Mixed Fruit Jam 3D Commercial Render - Frame ${index + 1}`
-            : index < 12
+          ? `Ahmed Foods Mixed Fruit Jam 3D Commercial Render - Frame ${index + 1}`
+          : index < 12
             ? `Ahmed Foods Crystal Jelly 3D Packaging Animation - Shot ${index + 1}`
             : `Ahmed Foods Bombay Biryani CGI Commercial Visual - Detail ${index + 1}`)
         : `${cleanTitle} 3D Commercial Render - Frame ${index + 1}`;
@@ -508,20 +509,18 @@ const AhmedFoodLayout = ({
               return (
                 <div
                   key={i}
-                  className={`rounded-2xl p-6 sm:p-8 border shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-[#4169E1]/40 flex flex-col text-left ${
-                    isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#141414] border-white/10'
-                  } ${cardWidthClass}`}
+                  className={`rounded-2xl p-6 sm:p-8 border shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-[#4169E1]/40 flex flex-col text-left ${isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#141414] border-white/10'
+                    } ${cardWidthClass}`}
                 >
                   <div className="flex items-center justify-between gap-3 mb-4">
                     <span className={`text-2xl sm:text-3xl font-black tracking-tight shrink-0 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}`}>
                       {item.step || `0${i + 1}`}
                     </span>
                     {item.phase && (
-                      <span className={`text-[10px] sm:text-[11px] font-semibold px-3 py-1 rounded-full uppercase tracking-[0.08em] whitespace-nowrap shrink-0 ${
-                        isLight
-                          ? 'bg-[#2563EB]/10 text-[#2563EB]'
-                          : 'bg-[#4169E1]/15 text-[#4169E1] border border-[#4169E1]/30'
-                      }`}>
+                      <span className={`text-[10px] sm:text-[11px] font-semibold px-3 py-1 rounded-full uppercase tracking-[0.08em] whitespace-nowrap shrink-0 ${isLight
+                        ? 'bg-[#2563EB]/10 text-[#2563EB]'
+                        : 'bg-[#4169E1]/15 text-[#4169E1] border border-[#4169E1]/30'
+                        }`}>
                         {item.phase}
                       </span>
                     )}
@@ -546,8 +545,8 @@ const AhmedFoodLayout = ({
     const toolsList = Array.isArray(creditsTools)
       ? creditsTools
       : typeof creditsTools === 'string'
-      ? creditsTools.split(',').map((t) => t.trim()).filter(Boolean)
-      : [];
+        ? creditsTools.split(',').map((t) => t.trim()).filter(Boolean)
+        : [];
     if (!creditsHeading && toolsList.length === 0 && !creditsAgency) return null;
 
     return (
@@ -573,11 +572,10 @@ const AhmedFoodLayout = ({
                 {toolsList.map((tool, idx) => (
                   <span
                     key={idx}
-                    className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${
-                      isLight
-                        ? 'bg-[#EBF2FF] text-[#2563EB] border-[#BFDBFE]'
-                        : 'bg-[#4169E1]/15 text-[#4169E1] border-[#4169E1]/35'
-                    }`}
+                    className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${isLight
+                      ? 'bg-[#EBF2FF] text-[#2563EB] border-[#BFDBFE]'
+                      : 'bg-[#4169E1]/15 text-[#4169E1] border-[#4169E1]/35'
+                      }`}
                   >
                     {tool}
                   </span>
@@ -600,9 +598,8 @@ const AhmedFoodLayout = ({
     return (
       <section className={`px-4 sm:px-6 md:px-8 py-10 md:py-16 transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-[#0D0D0D]'}`}>
         <div className="w-full max-w-4xl mx-auto">
-          <div className={`p-8 sm:p-12 rounded-3xl border transition-all shadow-sm ${
-            isLight ? 'bg-white border-neutral-200' : 'bg-[#141414] border-white/10'
-          }`}>
+          <div className={`p-8 sm:p-12 rounded-3xl border transition-all shadow-sm ${isLight ? 'bg-white border-neutral-200' : 'bg-[#141414] border-white/10'
+            }`}>
             <div className="text-center mb-8 sm:mb-10">
               <p className={`text-[11px] sm:text-[12px] font-bold tracking-[0.2em] uppercase mb-3 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}`}>
                 FAQ
@@ -620,9 +617,8 @@ const AhmedFoodLayout = ({
                 return (
                   <div
                     key={idx}
-                    className={`border-b transition-colors duration-200 ${
-                      isLight ? 'border-neutral-200' : 'border-white/10'
-                    }`}
+                    className={`border-b transition-colors duration-200 ${isLight ? 'border-neutral-200' : 'border-white/10'
+                      }`}
                   >
                     <button
                       type="button"
@@ -631,31 +627,27 @@ const AhmedFoodLayout = ({
                       aria-expanded={isOpen}
                     >
                       <span
-                        className={`text-base sm:text-lg font-medium pr-4 transition-colors ${
-                          isLight
-                            ? isOpen ? 'text-[#2563EB] font-semibold' : 'text-neutral-900 group-hover:text-[#2563EB]'
-                            : isOpen ? 'text-[#4169E1] font-semibold' : 'text-[#F2F0EB] group-hover:text-white'
-                        }`}
+                        className={`text-base sm:text-lg font-medium pr-4 transition-colors ${isLight
+                          ? isOpen ? 'text-[#2563EB] font-semibold' : 'text-neutral-900 group-hover:text-[#2563EB]'
+                          : isOpen ? 'text-[#4169E1] font-semibold' : 'text-[#F2F0EB] group-hover:text-white'
+                          }`}
                       >
                         {cleanQ}
                       </span>
                       <span
-                        className={`text-2xl font-light transition-transform duration-300 shrink-0 select-none ${
-                          isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'
-                        } ${isOpen ? 'rotate-45' : ''}`}
+                        className={`text-2xl font-light transition-transform duration-300 shrink-0 select-none ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'
+                          } ${isOpen ? 'rotate-45' : ''}`}
                       >
                         +
                       </span>
                     </button>
                     <div
-                      className={`overflow-hidden transition-all duration-300 ${
-                        isOpen ? 'max-h-[800px] opacity-100 pb-5' : 'max-h-0 opacity-0'
-                      }`}
+                      className={`overflow-hidden transition-all duration-300 ${isOpen ? 'max-h-[800px] opacity-100 pb-5' : 'max-h-0 opacity-0'
+                        }`}
                     >
                       <p
-                        className={`text-sm sm:text-base font-light leading-relaxed whitespace-pre-line text-left ${
-                          isLight ? 'text-zinc-600' : 'text-zinc-300'
-                        }`}
+                        className={`text-sm sm:text-base font-light leading-relaxed whitespace-pre-line text-left ${isLight ? 'text-zinc-600' : 'text-zinc-300'
+                          }`}
                       >
                         {cleanA}
                       </p>
@@ -1031,9 +1023,8 @@ const AhmedFoodLayout = ({
 
           {/* ── Main Center Headline (30% smaller, balanced 2-line layout with brand on Line 1 & project on Line 2) ── */}
           <h1
-            className={`text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[45px] font-extrabold tracking-tight w-full max-w-4xl lg:max-w-5xl mx-auto text-center leading-[1.18] sm:leading-[1.2] mb-3 sm:mb-5 px-2 sm:px-4 break-words ${
-              isLight ? 'text-neutral-900' : 'text-white'
-            }`}
+            className={`text-xl xs:text-2xl sm:text-3xl md:text-4xl lg:text-[40px] xl:text-[45px] font-extrabold tracking-tight w-full max-w-4xl lg:max-w-5xl mx-auto text-center leading-[1.18] sm:leading-[1.2] mb-3 sm:mb-5 px-2 sm:px-4 break-words ${isLight ? 'text-neutral-900' : 'text-white'
+              }`}
           >
             {renderStyledTitle(title)}
           </h1>
@@ -1132,7 +1123,7 @@ const AhmedFoodLayout = ({
                 ) : (
                   <button
                     type="button"
-                    onClick={handleStartProject}
+                    data-track-destination="#contact" onClick={handleStartProject}
                     className={`w-full sm:w-auto px-5 py-2 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
                   >
                     {ctaText || 'Explore Insights'}
@@ -1213,7 +1204,7 @@ const AhmedFoodLayout = ({
                   ) : (
                     <button
                       type="button"
-                      onClick={handleStartProject}
+                      data-track-destination="#contact" onClick={handleStartProject}
                       className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm !text-white transition-all duration-300 border-none cursor-pointer shadow-lg active:scale-95 ${isLight
                         ? 'bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_16px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.5)] border border-blue-600/20'
                         : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#3158D4] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
@@ -1226,26 +1217,26 @@ const AhmedFoodLayout = ({
                 </div>
               )}
 
-              {/* ── Fixed Editorial Pill Bar (Single-row sleek capsule on all devices, perfectly centered) ── */}
-              <div className="w-full overflow-x-auto no-scrollbar py-1 px-1 sm:px-2.5 mt-3 sm:mt-4 flex items-center justify-center text-center">
-                <div className={`mx-auto inline-flex flex-nowrap items-center justify-center gap-2 sm:gap-3.5 px-3.5 xs:px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-medium z-20 transition-all duration-300 shrink-0 whitespace-nowrap shadow-md ${isLight
+              {/* ── Fixed Editorial Pill Bar ── */}
+              <div className="w-full mt-4 sm:mt-5 flex flex-col items-center justify-center px-2">
+                <div className={`w-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-medium z-20 transition-all duration-300 shadow-md ${isLight
                   ? 'bg-white text-neutral-800 border border-neutral-300'
                   : 'bg-neutral-900 text-white border border-neutral-800 shadow-xl'
                   }`}>
                   <a
-                    href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                    data-track-id="project-hero-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                     target="_blank"
                     rel="noopener noreferrer"
                     className={`font-semibold transition-colors whitespace-nowrap shrink-0 ${isLight ? 'text-[#00a86b] hover:text-[#008f5a]' : 'text-emerald-400 hover:text-emerald-300'
                       }`}
                   >
-                    Book a <span className="hidden md:inline">technical </span>scoping call ↗
+                    Book a scoping call ↗
                   </a>
-                  <span className={`h-3.5 w-px shrink-0 ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
+                  <span className={`h-3.5 w-px shrink-0 hidden sm:block ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
                   <span className={`whitespace-nowrap shrink-0 ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
-                    By Elipse Studio<span className="hidden md:inline"> Editorial Team</span>
+                    By Elipse Studio
                   </span>
-                  <span className={`h-3.5 w-px shrink-0 ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
+                  <span className={`h-3.5 w-px shrink-0 hidden sm:block ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
                   <button
                     type="button"
                     onClick={handleCopyLink}
@@ -1403,28 +1394,25 @@ const AhmedFoodLayout = ({
 
 
 
-            {/* ── 1. NEXT PROJECT LINK ── */}
+      {/* ── 1. NEXT PROJECT LINK ── */}
       {nextProject && (nextProject.path || nextProject.title || nextProject.name) && (
         <section className={`px-4 sm:px-6 md:px-8 pt-10 md:pt-16 pb-4 md:pb-6 transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'}`}>
           <div className="w-full max-w-7xl mx-auto">
             <Link
               href={nextProject.path || '#'}
-              className={`group block p-6 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-300 ${
-                isLight
-                  ? 'bg-[#F9FAFB] border-neutral-200 hover:border-[#2563EB] shadow-sm hover:shadow-md'
-                  : 'bg-[#141414] border-white/10 hover:border-[#4169E1]/50 shadow-lg'
-              }`}
+              className={`group block p-6 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl border transition-all duration-300 ${isLight
+                ? 'bg-[#F9FAFB] border-neutral-200 hover:border-[#2563EB] shadow-sm hover:shadow-md'
+                : 'bg-[#141414] border-white/10 hover:border-[#4169E1]/50 shadow-lg'
+                }`}
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <span className={`inline-flex items-center px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] mb-2.5 ${
-                    isLight ? 'bg-blue-50 text-[#2563EB]' : 'bg-[#4169E1]/15 text-[#4169E1]'
-                  }`}>
+                  <span className={`inline-flex items-center px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] mb-2.5 ${isLight ? 'bg-blue-50 text-[#2563EB]' : 'bg-[#4169E1]/15 text-[#4169E1]'
+                    }`}>
                     Next Project
                   </span>
-                  <h3 className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-tight transition-colors duration-200 ${
-                    isLight ? 'text-neutral-900 group-hover:text-[#2563EB]' : 'text-white group-hover:text-[#4169E1]'
-                  }`}>
+                  <h3 className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-tight transition-colors duration-200 ${isLight ? 'text-neutral-900 group-hover:text-[#2563EB]' : 'text-white group-hover:text-[#4169E1]'
+                    }`}>
                     {nextProject.title || nextProject.name}
                   </h3>
                 </div>
@@ -1446,19 +1434,19 @@ const AhmedFoodLayout = ({
         const customBody = calloutBody !== undefined && calloutBody !== null ? String(calloutBody).trim() : '';
 
         // If inputs are provided, use them. If it's Ahmed Food and not explicitly cleared, use defaults.
-        const headline = calloutHeadline !== undefined 
-          ? customHeadline 
+        const headline = calloutHeadline !== undefined
+          ? customHeadline
           : (isAhmedFood ? 'Replace Costly Film Sets with Cinema-Caliber 3D CGI' : 'Planning a 3D commercial campaign?');
-        const eyebrow = calloutEyebrow !== undefined 
-          ? customEyebrow 
+        const eyebrow = calloutEyebrow !== undefined
+          ? customEyebrow
           : (isAhmedFood ? 'READY TO ELEVATE YOUR COMMERCIAL CAMPAIGNS?' : 'BOOK A 15-MINUTE SCOPING CALL');
-        const bodyText = calloutBody !== undefined 
-          ? customBody 
+        const bodyText = calloutBody !== undefined
+          ? customBody
           : (isAhmedFood ? 'Eliminate unpredictable live-action food shoots. Send us your campaign brief or product CAD files, and our lead animation director will provide a 3D commercial feasibility breakdown within 24 hours.' : 'Planning a 3D commercial campaign? Schedule a 15-Minute Scoping Call with our lead technical animation director to discuss project requirements.');
         const rawBtnText = (calloutButtonText && String(calloutButtonText).trim()) || 'Schedule a 15-Minute Scoping Call';
         // Auto-strip any trailing arrow (→, ->, ↗, etc.) so duplicate arrows never happen
         const btnText = rawBtnText.replace(/[\s\-_]*(?:→|->|↗|&rarr;)\s*$/gi, '').trim();
-        const btnUrl = (calloutButtonUrl && String(calloutButtonUrl).trim()) || 'https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting';
+        const btnUrl = fixCalendlyUrl((calloutButtonUrl && String(calloutButtonUrl).trim()) || CALENDLY_DEFAULT_URL);
 
         // STRICT: If no headline AND no body AND no eyebrow, render ABSOLUTELY NOTHING (zero empty space/margin)
         if (!headline && !bodyText && !eyebrow) return null;
@@ -1466,37 +1454,33 @@ const AhmedFoodLayout = ({
         return (
           <section className={`px-4 sm:px-6 md:px-8 pt-8 md:pt-14 pb-4 md:pb-6 transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'}`}>
             <div className="w-full max-w-7xl mx-auto">
-              <div className={`p-5 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl border text-left transition-colors duration-300 ${
-                isLight 
-                  ? 'bg-[#F9FAFB] border-neutral-200 shadow-sm' 
-                  : 'bg-[#141414] border-white/10'
-              }`}>
+              <div className={`p-5 sm:p-8 md:p-10 rounded-2xl md:rounded-3xl border text-left transition-colors duration-300 ${isLight
+                ? 'bg-[#F9FAFB] border-neutral-200 shadow-sm'
+                : 'bg-[#141414] border-white/10'
+                }`}>
                 {eyebrow && (
                   <div className="mb-3.5">
-                    <span className={`inline-flex items-center px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] ${
-                      isLight 
-                        ? 'bg-blue-50 text-[#2563EB]' 
-                        : 'bg-[#4169E1]/15 text-[#4169E1]'
-                    }`}>
+                    <span className={`inline-flex items-center px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] ${isLight
+                      ? 'bg-blue-50 text-[#2563EB]'
+                      : 'bg-[#4169E1]/15 text-[#4169E1]'
+                      }`}>
                       {eyebrow}
                     </span>
                   </div>
                 )}
-                <h3 className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-3 leading-tight ${
-                  isLight ? 'text-neutral-900' : 'text-white'
-                }`}>
+                <h3 className={`text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-3 leading-tight ${isLight ? 'text-neutral-900' : 'text-white'
+                  }`}>
                   {headline}
                 </h3>
                 {bodyText && (
-                  <p className={`text-xs sm:text-sm md:text-[15px] font-normal leading-relaxed max-w-3xl mb-6 ${
-                    isLight ? 'text-neutral-600' : 'text-zinc-400'
-                  }`}>
+                  <p className={`text-xs sm:text-sm md:text-[15px] font-normal leading-relaxed max-w-3xl mb-6 ${isLight ? 'text-neutral-600' : 'text-zinc-400'
+                    }`}>
                     {bodyText}
                   </p>
                 )}
                 <div className="w-full sm:w-auto flex justify-start">
                   <a
-                    href={btnUrl}
+                    data-track-id="project-callout-calendly" href={btnUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-6 py-3 rounded-full text-[11px] xs:text-xs sm:text-sm font-bold uppercase tracking-wider text-white bg-[#2563EB] hover:bg-[#1D4ED8] transition-all duration-200 shadow-md hover:shadow-lg no-underline cursor-pointer active:scale-95 text-center whitespace-nowrap"
@@ -1511,7 +1495,7 @@ const AhmedFoodLayout = ({
         );
       })()}
 
-{/* ── 3. CLEAN FOOTER ── */}
+
       <Footer />
     </div>
   );

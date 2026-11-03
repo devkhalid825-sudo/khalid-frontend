@@ -78,7 +78,7 @@ const Home = ({ initialFeatured, initialProjects, initialReviews, initialBlogs, 
                 Book Project Consultation
               </Link>
               <a
-                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                data-track-id="home-hero-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center text-center whitespace-nowrap px-6 py-3.5 sm:px-8 sm:py-3.5 md:px-10 md:py-4 border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white rounded-full text-xs sm:text-sm md:text-base font-semibold transition-all backdrop-blur-sm"

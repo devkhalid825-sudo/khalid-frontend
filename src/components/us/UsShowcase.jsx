@@ -17,7 +17,7 @@ const UsShowcase = ({ eyebrow, title, body, checklist = [], media, reverse = fal
             </ul>
             <div className="us-section-ctas us-section-ctas--left">
               <Link href="/contact" className="us-btn us-btn-primary">Get a Free Estimate</Link>
-              <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="us-btn us-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
+              <a data-track-id="us-showcase-calendly-1" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="us-btn us-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
             </div>
           </div>
         </>
@@ -32,7 +32,7 @@ const UsShowcase = ({ eyebrow, title, body, checklist = [], media, reverse = fal
             </ul>
             <div className="us-section-ctas us-section-ctas--left">
               <Link href="/contact" className="us-btn us-btn-primary">Get a Free Estimate</Link>
-              <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="us-btn us-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
+              <a data-track-id="us-showcase-calendly-2" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="us-btn us-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
             </div>
           </div>
           <div>{media}</div>

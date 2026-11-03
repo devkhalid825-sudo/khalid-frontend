@@ -14,7 +14,7 @@ const AuCta = ({ title = 'Ready to get started?', body = '', primaryLabel = 'Get
           <Link href={primaryHref} className="au-btn au-btn-primary">{primaryLabel}</Link>
         )}
         {!hideSecondary && (
-          <a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="au-btn au-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
+          <a data-track-id="au-cta-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" className="au-btn au-btn-outline" target="_blank" rel="noopener">Schedule a Call</a>
         )}
       </div>
     </div>

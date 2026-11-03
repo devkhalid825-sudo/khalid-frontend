@@ -194,7 +194,7 @@ const ArchVizHeader = () => {
           {/* Right actions: Contact & Hamburger menu */}
           <div className="flex items-center gap-3 sm:gap-5 relative z-50 shrink-0 self-center">
             <button
-              onClick={() => {
+              data-track-destination="/contact" onClick={() => {
                 setIsMenuOpen(false);
                 router.push('/contact');
               }}

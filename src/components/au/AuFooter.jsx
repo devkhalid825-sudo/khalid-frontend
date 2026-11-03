@@ -54,7 +54,7 @@ const AuFooter = () => {
             <p className="footer-col-text">Sydney, NSW &amp; Melbourne, VIC, Australia</p>
             <ul className="footer-links">
               <li><Link href="mailto:info@elipsestudio.com">info@elipsestudio.com</Link></li>
-              <li><a href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" target="_blank" rel="noopener">Book a Call ↗</a></li>
+              <li><a data-track-id="au-footer-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" target="_blank" rel="noopener">Book a Call ↗</a></li>
               <li><Link href="/portfolio">Portfolio ↗</Link></li>
             </ul>
           </div>

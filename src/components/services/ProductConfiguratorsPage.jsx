@@ -13,13 +13,14 @@ import volvoImgRaw from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import inverexImgRaw from '../../assets/ElipseImages/projects/G-1.webp';
 import seatImgRaw from '../../assets/ElipseImages/projects/seat-2-1.webp';
 import sharkImgRaw from '../../assets/About-page/shark.webp';
-import kiaImgRaw from '../../assets/About-page/kia.webp';
+import kiaImgRaw from '../../assets/About-page/newkia.png';
 import marineImgRaw from '../../assets/About-page/marine.webp';
 import inverxImgRaw from '../../assets/About-page/inverx.webp';
 import tshirtImgRaw from '../../assets/About-page/t-shirt.webp';
 import capImgRaw from '../../assets/web-app-ui/cap.webp';
 import clothImgRaw from '../../assets/web-app-ui/cloth.webp';
 
+import { withCalendlyAttribution } from '@/components/analytics/tracking';
 const volvoImg = getImgSrc(volvoImgRaw);
 const inverexImg = getImgSrc(inverexImgRaw);
 const sharkImg = getImgSrc(sharkImgRaw);
@@ -301,7 +302,8 @@ const CAR_CONFIGURATOR_COLORS = [
   { id: 'grey', name: 'Gravity Grey', hex: '#9CA0A5' },
 ];
 
-const KIA_FALLBACK_IMG = '/assets/About-page/kia.webp';
+const KIA_FALLBACK_IMG = '/assets/About-page/newkia.png';
+const KIA_LIVE_CONFIGURATOR_URL = 'https://legacy.elipsestudio.com/Kia/';
 const SECONDARY_FALLBACK = '/assets/ElipseImages/hero/volve-configrator.webp';
 
 /**
@@ -348,12 +350,6 @@ const CarConfiguratorViewer = () => {
     setTimeout(() => {
       sendColor(activeColor);
     }, 1000);
-  };
-
-  const handleLaunch = () => {
-    setActivated(true);
-    setIsLoaded(false);
-    setIframeError(false);
   };
 
   const handleClose = () => {
@@ -470,13 +466,12 @@ const CarConfiguratorViewer = () => {
             }}
             className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
           />
-          {/* Subtle Contrast Overlay */}
-          <div className="absolute inset-0 bg-black/35 backdrop-blur-[1px] transition-colors duration-300 group-hover:bg-black/25" />
-
-          {/* Launch Configurator Button */}
-          <button
-            type="button"
-            onClick={handleLaunch}
+          {/* Launch Configurator Button — opens the live Kia configurator in a new tab */}
+          <a
+            href={KIA_LIVE_CONFIGURATOR_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            data-track-demo="configurator-services-launch"
             className="relative z-10 px-7 py-3.5 sm:px-9 sm:py-4 bg-[#4169E1] hover:bg-[#3558c8] active:bg-[#2e4fba] text-white text-xs sm:text-sm md:text-base font-semibold tracking-wide rounded-full transition-all duration-300 shadow-[0_8px_25px_rgba(65,105,225,0.5)] hover:shadow-[0_12px_35px_rgba(65,105,225,0.7)] hover:scale-105 active:scale-95 flex items-center gap-2.5 sm:gap-3 cursor-pointer select-none"
           >
             <svg
@@ -486,7 +481,7 @@ const CarConfiguratorViewer = () => {
               <path d="M8 5v14l11-7z" />
             </svg>
             <span>Launch 3D Configurator</span>
-          </button>
+          </a>
         </div>
       )}
     </div>
@@ -567,13 +562,14 @@ const ProductConfiguratorsPage = () => {
         );
       });
       if (match) {
-        const liveImg = match.image || match.heroImage;
+        const isKia = (build.projectPath || '').includes('kia') || (build.title || '').toLowerCase().includes('kia');
+        const liveImg = isKia ? null : (match.image || match.heroImage);
         const resolvedImg = liveImg
           ? (liveImg.startsWith('http') ? liveImg : `${BACKEND_ORIGIN}${liveImg.startsWith('/') ? '' : '/'}${liveImg}`)
           : build.image;
         return {
           ...build,
-          image: resolvedImg || build.image,
+          image: isKia ? build.image : (resolvedImg || build.image),
           title: match.title || build.title,
           desc: match.description ? match.description.replace(/<[^>]*>/g, '').slice(0, 160) : build.desc,
           projectPath: match.path || build.projectPath,
@@ -827,7 +823,7 @@ const ProductConfiguratorsPage = () => {
         {/* 2 CTAs Directly Below Portfolio Gallery */}
         <div className="mt-14 sm:mt-16 flex flex-row flex-wrap items-center justify-center gap-3.5 sm:gap-4 w-full">
           <button
-            onClick={() => router.push('/contact')}
+            data-track-destination="/contact" onClick={() => router.push('/contact')}
             className="px-6 sm:px-8 py-3.5 bg-[#4169E1] hover:bg-[#3158D4] text-white font-semibold text-xs sm:text-sm rounded-full transition-all duration-300 shadow-lg shadow-[#4169E1]/25 hover:shadow-[#4169E1]/40 hover:scale-[1.03] cursor-pointer flex items-center gap-2"
           >
             <span>Book a Free Consultation</span>
@@ -836,7 +832,9 @@ const ProductConfiguratorsPage = () => {
             </svg>
           </button>
           <button
-            onClick={() => window.open('https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting', '_blank')}
+            data-track-id="service-technical-call-calendly"
+            data-track-destination="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+            onClick={(e) => window.open(withCalendlyAttribution('https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting', e.currentTarget), '_blank')}
             className="px-6 sm:px-8 py-3.5 bg-white/5 hover:bg-white/10 border border-white/20 hover:border-white/40 text-white font-semibold text-xs sm:text-sm rounded-full transition-all duration-300 hover:scale-[1.03] cursor-pointer flex items-center gap-2"
           >
             <span>Schedule a 15-Min Technical Call</span>

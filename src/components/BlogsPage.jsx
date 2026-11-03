@@ -37,7 +37,7 @@ import vfxImgRaw from '../assets/About-page/QORDEN.webp';
 import ahmedFoodRaw from '../assets/Ahmed-food/jam&spread/15.webp';
 
 import renderingRaw from '../assets/Ahmed-food/jelly/03.webp';
-import kiaRaw from '../assets/About-page/kia.webp';
+import kiaRaw from '../assets/About-page/newkia.png';
 import spatialCommerceRaw from '../assets/About-page/spatial-commerce.png';
 import highTicketRaw from '../assets/About-page/high-ticket.png';
 import sharkRaw from '../assets/About-page/shark.webp';
@@ -46,6 +46,7 @@ import timBarthRaw from '../assets/About-page/tim-barth.webp';
 import modernVillaRaw from '../assets/About-page/Nevegan.jpg';
 import jetourRaw from '../assets/About-page/Jetour.webp';
 import roohafzaRaw from '../assets/About-page/roohafza.webp';
+import volvoRaw from '../assets/About-page/volvo-thumbnail.webp';
 
 const jetour = getImgSrc(jetourRaw);
 const roohafza = getImgSrc(roohafzaRaw);
@@ -76,14 +77,24 @@ const edu1 = getImgSrc(edu1Raw);
 const vrHero = getImgSrc(vrHeroRaw);
 const articleImg1 = getImgSrc(articleImg1Raw);
 const articleImg2 = getImgSrc(articleImg2Raw);
+const volvo = getImgSrc(volvoRaw);
 
 const staticImages = {
     elephantImg, configuratorHero, arThumbnail, hero, hero4, techBg, volveImg,
     questImg, mainHeroImage, animationMainImg, furnitureImg, edu1, vrHero,
-    articleImg1, articleImg2, steeringImg, vfxImg, ahmedFoodImg, rendering, kia, marine, timBarth
+    articleImg1, articleImg2, steeringImg, vfxImg, ahmedFoodImg, rendering, kia, marine, timBarth, volvo
 };
 
 const staticPosts = [
+    {
+        id: 'static-ue5-cloud-pixel-streaming-automotive-2026',
+        title: 'What Is Unreal Engine 5 Cloud Pixel Streaming for Automotive Configurators?',
+        excerpt: 'How UE5.5 Cloud Pixel Streaming moves rendering onto datacenter GPUs to deliver hardware ray-traced, photorealistic car configurators to any showroom iPad, laptop, or browser — plus deployment, latency, and production requirements.',
+        image: volvo,
+        date: 'NOVEMBER 3, 2026',
+        category: 'Automotive & Pixel Streaming',
+        url: '/blog/unreal-engine-5-cloud-pixel-streaming-automotive-configurators-2026',
+    },
     {
         id: 'static-enterprise-3d-configurator-development-2026',
         title: 'Enterprise 3D Configurator Development: WebGL, PlayCanvas and Three.js vs Cloud Pixel Streaming — The 2026 CTO Decision Matrix',

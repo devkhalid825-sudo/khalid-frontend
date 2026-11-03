@@ -73,6 +73,7 @@ const AuConfigurator = ({
         ) : (
           <div
             role="button"
+            data-track-demo={`configurator-au-${String(title).toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')}`}
             tabIndex={0}
             onClick={() => setIsActivated(true)}
             onKeyDown={(e) => {

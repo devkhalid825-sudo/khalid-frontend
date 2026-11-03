@@ -28,8 +28,8 @@ const UkHero = ({
             {lead && <p className="uk-hero-lead">{lead}</p>}
             {showActions && (
               <div className="uk-hero-actions">
-                <Link href={primaryHref} className="uk-btn uk-btn-primary">{primaryLabel}</Link>
-                <a href={secondaryHref} className="uk-btn uk-btn-outline" target="_blank" rel="noopener noreferrer">{secondaryLabel}</a>
+                <Link data-track-id="uk-hero-primary" href={primaryHref} className="uk-btn uk-btn-primary">{primaryLabel}</Link>
+                <a data-track-id="uk-hero-secondary" href={secondaryHref} className="uk-btn uk-btn-outline" target="_blank" rel="noopener noreferrer">{secondaryLabel}</a>
               </div>
             )}
             {stats.length > 0 && (
