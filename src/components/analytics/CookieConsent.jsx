@@ -91,13 +91,13 @@ export default function CookieConsent() {
       role="dialog"
       aria-live="polite"
       aria-label="Cookie consent"
-      className="fixed inset-x-3 bottom-3 md:inset-x-auto md:left-6 md:bottom-6 md:max-w-md z-[60] rounded-2xl border border-white/15 bg-[#0d0d0f]/95 backdrop-blur-md text-white shadow-2xl p-5 md:p-6"
+      className="fixed inset-x-3 bottom-3 md:inset-x-auto md:left-6 md:bottom-6 md:max-w-md z-[60] rounded-2xl border border-neutral-200/90 bg-white/95 backdrop-blur-md text-neutral-900 shadow-[0_20px_50px_rgba(0,0,0,0.16)] p-5 md:p-6"
     >
-      <p className="text-sm font-semibold mb-2">We value your privacy</p>
-      <p className="text-[13px] leading-relaxed font-light text-white/70">
+      <p className="text-sm font-semibold mb-2 text-neutral-900">We value your privacy</p>
+      <p className="text-[13px] leading-relaxed font-normal text-neutral-600">
         We use cookies for analytics and to show you relevant Elipse Studio ads on other platforms such as LinkedIn,
         Meta and Google. Essential cookies are always on. Read our{' '}
-        <Link href="/privacy-policy" className="text-[#8aa4f0] underline underline-offset-4 hover:text-white">
+        <Link href="/privacy-policy" className="text-[#2563EB] underline underline-offset-4 hover:text-[#1d4ed8] font-medium transition-colors">
           Privacy Policy
         </Link>
         .
@@ -106,14 +106,14 @@ export default function CookieConsent() {
         <button
           type="button"
           onClick={() => choose('denied')}
-          className="flex-1 px-4 py-2.5 rounded-full border border-white/20 text-sm hover:bg-white/10 transition-colors cursor-pointer"
+          className="flex-1 px-4 py-2.5 rounded-full border border-neutral-300 text-neutral-700 text-sm font-medium hover:bg-neutral-100 hover:text-neutral-900 transition-colors cursor-pointer"
         >
           Reject
         </button>
         <button
           type="button"
           onClick={() => choose('granted')}
-          className="flex-1 px-4 py-2.5 rounded-full bg-white text-black text-sm font-medium hover:bg-white/90 transition-colors cursor-pointer"
+          className="flex-1 px-4 py-2.5 rounded-full bg-[#0D0D0D] text-white text-sm font-medium hover:bg-black transition-colors cursor-pointer shadow-sm"
         >
           Accept all
         </button>
