@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import Script from 'next/script';
 import { FaWhatsapp } from '@/components/ui/Icons';
 import FramerProvider from '@/components/providers/FramerProvider';
 import { ThemeProvider } from '@/components/providers/ThemeProvider';
@@ -16,10 +15,6 @@ export default function SiteShell({ children }) {
   return (
     <ThemeProvider>
       <FramerProvider>
-        <Script
-          src="https://www.google.com/recaptcha/api.js?render=explicit"
-          strategy="lazyOnload"
-        />
         <div className="site-shell-container font-sans antialiased bg-black text-white min-h-screen transition-colors duration-300">
           <main id="main-content" className="flex flex-col">
             {children}

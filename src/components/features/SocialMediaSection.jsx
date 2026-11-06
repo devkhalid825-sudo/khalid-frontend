@@ -129,6 +129,30 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
     }
   }, []);
 
+  const handlePrev = useCallback(() => {
+    const swiper = marqueeSwiperRef.current || mobileSwiperRef.current;
+    if (!swiper) return;
+    if (swiper.params?.loop) {
+      swiper.slidePrev();
+    } else if (swiper.isBeginning) {
+      swiper.slideTo((swiper.slides?.length || items.length) - 1);
+    } else {
+      swiper.slidePrev();
+    }
+  }, [items.length]);
+
+  const handleNext = useCallback(() => {
+    const swiper = marqueeSwiperRef.current || mobileSwiperRef.current;
+    if (!swiper) return;
+    if (swiper.params?.loop) {
+      swiper.slideNext();
+    } else if (swiper.isEnd) {
+      swiper.slideTo(0);
+    } else {
+      swiper.slideNext();
+    }
+  }, []);
+
   useEffect(() => {
     if (items.length > 0) return;
     const fetchItems = async () => {
@@ -179,10 +203,11 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
             Social Media
           </h2>
 
-          <div className="hidden md:flex items-center gap-2">
+          <div className="flex items-center gap-2">
             <button
-              onClick={() => marqueeSwiperRef.current?.slidePrev()}
-              className="w-11 h-11 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all active:scale-95 cursor-pointer"
+              type="button"
+              onClick={handlePrev}
+              className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all active:scale-95 cursor-pointer"
               aria-label="Previous social media"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
@@ -190,8 +215,9 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
               </svg>
             </button>
             <button
-              onClick={() => marqueeSwiperRef.current?.slideNext()}
-              className="w-11 h-11 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all active:scale-95 cursor-pointer"
+              type="button"
+              onClick={handleNext}
+              className="w-10 h-10 md:w-11 md:h-11 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all active:scale-95 cursor-pointer"
               aria-label="Next social media"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
@@ -274,21 +300,24 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
           </>
         )}
 
-        {/* Desktop Swiper: Button-controlled (no auto-loop, no drag) */}
+        {/* Desktop Swiper: Button-controlled (supports looping and fluid clicks) */}
         {isMobile !== true && (
-          <Swiper
-            onSwiper={(swiper) => {
-              marqueeSwiperRef.current = swiper;
-            }}
-            modules={[]}
-            loop={false}
-            speed={600}
-            slidesPerView="auto"
-            spaceBetween={16}
-            grabCursor={false}
-            allowTouchMove={false}
-            className="!overflow-visible px-0 max-md:!hidden [&>.swiper-wrapper]:!flex [&>.swiper-wrapper]:!justify-center"
-          >
+          <div className="max-md:!hidden px-[15px] md:px-[40px]">
+            <Swiper
+              onSwiper={(swiper) => {
+                marqueeSwiperRef.current = swiper;
+              }}
+              modules={[]}
+              loop={items.length > 2}
+              speed={600}
+              slidesPerView="auto"
+              spaceBetween={16}
+              grabCursor={true}
+              allowTouchMove={true}
+              observer={true}
+              observeParents={true}
+              className="!overflow-visible"
+            >
             {items.map((item) => (
               <SwiperSlide key={item.id} className="!w-[240px] sm:!w-[270px] md:!w-[290px] lg:!w-[305px] py-2 md:py-3">
                 <div className="block w-full h-full">
@@ -316,7 +345,8 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
                 </div>
               </SwiperSlide>
             ))}
-          </Swiper>
+            </Swiper>
+          </div>
         )}
         {/* Social Media Icons below the videos */}
         <div className="flex items-center justify-center gap-3 sm:gap-4 mt-6 md:mt-8">

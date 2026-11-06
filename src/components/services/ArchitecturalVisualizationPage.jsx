@@ -357,9 +357,8 @@ const ArchvizVideoPlayer = () => {
             alt="Elipse Studio Architectural Visualization Reel"
             loading="lazy"
             decoding="async"
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
-          <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300" />
           <div className="absolute w-16 sm:w-20 h-16 sm:h-20 rounded-full bg-[#4169E1] text-white flex items-center justify-center shadow-[0_0_30px_rgba(65,105,225,0.6)] group-hover:scale-110 group-hover:bg-[#3158D4] transition-all duration-300 z-10">
             <svg className="w-7 sm:w-8 h-7 sm:h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
@@ -410,7 +409,35 @@ const CapabilitiesGrid = () => {
   );
 };
 
+const ARCHVIZ_FAQS = [
+  {
+    q: 'What is real-time Architectural Visualization?',
+    a: 'Unlike static renders, real-time ArchViz allows users to freely walk through and interact with a 3D space, much like a video game, using Unreal Engine.',
+  },
+  {
+    q: 'Do you provide VR walkthroughs?',
+    a: 'Yes, we build fully immersive VR simulations compatible with Meta Quest and other major headsets.',
+  },
+  {
+    q: 'What is the difference between CGI renders and Pixel Streaming?',
+    a: 'CGI renders are pre-calculated videos. Pixel Streaming runs a heavy 3D application on cloud servers and streams it to the user\'s web browser, requiring no high-end PC.',
+  },
+  {
+    q: 'What software pipeline do you use?',
+    a: 'We utilize Unreal Engine 5, 3ds Max, Blender, and proprietary cloud streaming technologies.',
+  },
+  {
+    q: 'Can materials and lighting be changed in real-time?',
+    a: 'Yes, our interactive ArchViz solutions allow users to swap floorings, wall colors, and adjust lighting instantly.',
+  },
+  {
+    q: 'How long does a standard ArchViz project take?',
+    a: 'Timelines vary by scale, but a standard high-quality interactive interior takes roughly 3 to 5 weeks.',
+  },
+];
+
 const ArchitecturalVisualizationPage = () => {
+  const [openFaq, setOpenFaq] = useState(null);
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('all');
   const [visibleCount, setVisibleCount] = useState(6);
@@ -451,12 +478,14 @@ const ArchitecturalVisualizationPage = () => {
             </svg>
             <span>Uncompromising Visual Precision</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[44px] font-bold tracking-tight leading-[1.2] text-white">
-            From Raw CAD Blueprint to<br />
-            <span className="bg-gradient-to-r from-white via-[#8ca8ff] to-[#4169E1] bg-clip-text text-transparent whitespace-nowrap inline-block">
-              Interactive Virtual Tour
+          <h1 className="text-[clamp(1.5rem,4.2vw,3.25rem)] font-bold tracking-tight leading-[1.18] text-white max-w-5xl mx-auto">
+            <span className="block">High-End 3D Architectural Visualization</span>
+            <span className="block bg-gradient-to-r from-white via-[#8ca8ff] to-[#4169E1] bg-clip-text text-transparent">
+              &amp; Real-Time VR
             </span>
-          </h2>
+          </h1>
+
+
           <p className="text-sm sm:text-base md:text-lg mt-3 leading-relaxed font-light text-zinc-300 max-w-2xl mx-auto">
             Experience our geometric precision, physically-based materials, and natural atmospheric lighting calibrated specifically for high-net-worth real estate buyers.
           </p>
@@ -464,6 +493,19 @@ const ArchitecturalVisualizationPage = () => {
 
         {/* Video Player */}
         <ArchvizVideoPlayer />
+
+        {/* AEO Definition Box (Positioned below main container) */}
+        <div className="max-w-4xl mx-auto mt-8 sm:mt-12 p-5 sm:p-6 rounded-2xl bg-[#0E0E10] border border-[#4169E1]/30 text-left shadow-[0_4px_25px_rgba(65,105,225,0.08)]">
+          <div className="flex items-center gap-2 mb-2.5">
+            <span className="w-2 h-2 rounded-full bg-[#4169E1] animate-pulse" />
+            <span className="text-[11px] font-mono uppercase tracking-wider text-[#4169E1] font-semibold">
+              AEO Quick Summary · ArchViz Definition
+            </span>
+          </div>
+          <p className="text-sm sm:text-base text-zinc-200 leading-relaxed font-light">
+            Architectural Visualization (ArchViz) is the process of creating highly realistic 3D renderings, animations, and virtual reality (VR) walkthroughs of buildings before they are constructed. It helps real estate developers showcase properties with photorealistic accuracy.
+          </p>
+        </div>
 
         {/* Comparison Grid: Traditional vs Elipse Studio */}
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 sm:mt-16">
@@ -821,6 +863,52 @@ const ArchitecturalVisualizationPage = () => {
       {/* ======================================================== */}
       {/* 5. CLIENT REVIEWS & TESTIMONIALS                        */}
       {/* ======================================================== */}
+      {/* ======================================================== */}
+      {/* FAQ ACCORDION SECTION                                    */}
+      {/* ======================================================== */}
+      <section className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-[#070709]" id="faq">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10 sm:mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#4169E1]/10 border border-[#4169E1]/25 text-[#4169E1] mb-3">
+              <span>FAQ</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-400 mt-2 font-light max-w-xl mx-auto">
+              Common questions developers, architects, and sales teams ask about our real-time ArchViz and VR services.
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto divide-y divide-white/10 border-y border-white/10">
+            {ARCHVIZ_FAQS.map((f, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div key={i} className="py-4 sm:py-5 transition-colors">
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? null : i)}
+                    aria-expanded={isOpen}
+                    className="w-full flex items-center justify-between gap-4 text-left group cursor-pointer"
+                  >
+                    <span className={`text-base sm:text-lg font-medium transition-colors ${isOpen ? 'text-[#4169E1]' : 'text-zinc-200 group-hover:text-white'}`}>
+                      {f.q}
+                    </span>
+                    <span className={`text-xl font-mono text-[#4169E1] transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-45' : ''}`}>
+                      +
+                    </span>
+                  </button>
+                  {isOpen && (
+                    <div className="mt-3 text-sm sm:text-base text-zinc-400 font-light leading-relaxed pr-6">
+                      {f.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       <div id="testimonials">
         <ClientReviews />
       </div>

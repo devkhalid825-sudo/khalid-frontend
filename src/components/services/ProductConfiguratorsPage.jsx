@@ -50,6 +50,7 @@ const CONFIGURATOR_BUILDS = [
     desc: 'Interactive 3D exterior and interior vehicle customizer with photoreal material switching, camera presets, and real-time lighting.',
     image: volvoImg,
     tech: 'Unreal Engine · WebGL',
+    liveLink: 'https://legacy.elipsestudio.com/Volvo-Configurator/',
     youtubeLink: 'https://youtu.be/rO1sg3y3TF0?si=9yv7WSm0m5AwqG0p',
     projectPath: '/project/volvo-configurator',
     tags: ['Car', 'Automotive'],
@@ -134,7 +135,7 @@ const CONFIGURATOR_BUILDS = [
     tags: ['Apparel'],
   },
 
- 
+
 
   {
     title: 'Fruit Juice 3D Configurator',
@@ -527,7 +528,35 @@ const CapabilitiesGrid = () => {
   );
 };
 
+const CONFIGURATOR_FAQS = [
+  {
+    q: 'What is a 3D product configurator?',
+    a: 'An interactive tool allowing users to customize product colors, parts, and materials in real-time on your website.',
+  },
+  {
+    q: 'Will a 3D configurator slow down my website?',
+    a: 'No. We use optimized WebGL and PlayCanvas/Three.js frameworks to ensure fast loading times at 60 FPS without heavy downloads.',
+  },
+  {
+    q: 'Can it integrate with Shopify or WooCommerce?',
+    a: 'Yes, our configurators seamlessly integrate with major eCommerce platforms via API.',
+  },
+  {
+    q: 'Does it require users to download an app?',
+    a: 'Absolutely not. It runs directly in the mobile or desktop web browser.',
+  },
+  {
+    q: 'What assets do you need from us to start?',
+    a: 'We can work with CAD files, standard 3D models, or high-quality reference photos with dimensions.',
+  },
+  {
+    q: 'How does this improve ROI?',
+    a: 'Interactive 3D increases buyer confidence, leading to higher add-to-cart rates and fewer returns.',
+  },
+];
+
 const ProductConfiguratorsPage = () => {
+  const [openFaq, setOpenFaq] = useState(null);
   const router = useRouter();
   const [activeTab, setActiveTab] = useState('all');
   const [visibleCount, setVisibleCount] = useState(6);
@@ -542,7 +571,7 @@ const ProductConfiguratorsPage = () => {
           setDbProjects(data);
         }
       })
-      .catch(() => {});
+      .catch(() => { });
     return () => { cancelled = true; };
   }, []);
 
@@ -606,12 +635,14 @@ const ProductConfiguratorsPage = () => {
             </svg>
             <span>Uncompromising Interactive Performance</span>
           </div>
-          <h2 className="text-2xl sm:text-3xl md:text-4xl lg:text-[44px] font-bold tracking-tight leading-[1.2] text-white">
-            From CAD Engineering Asset to<br />
-            <span className="bg-gradient-to-r from-white via-[#8ca8ff] to-[#4169E1] bg-clip-text text-transparent whitespace-nowrap inline-block">
-              Real-Time Web Configurator
+          <h1 className="text-[clamp(1.5rem,4.2vw,3.25rem)] font-bold tracking-tight leading-[1.18] text-white max-w-5xl mx-auto">
+            <span className="block">Custom 3D Product Configurators</span>
+            <span className="block bg-gradient-to-r from-white via-[#8ca8ff] to-[#4169E1] bg-clip-text text-transparent">
+              for ECommerce &amp; Web
             </span>
-          </h2>
+          </h1>
+
+
           <p className="text-sm sm:text-base md:text-lg mt-3 leading-relaxed font-light text-zinc-300 max-w-2xl mx-auto">
             Interact with our live WebGL automotive configurator below. Experience instant color switching, smooth orbit controls, and physically accurate PBR lighting calibrated for global brands.
           </p>
@@ -619,6 +650,19 @@ const ProductConfiguratorsPage = () => {
 
         {/* Live Interactive Configurator Embed (Where video was on ArchViz) */}
         <CarConfiguratorViewer />
+
+        {/* AEO Definition Box (Positioned below main container) */}
+        <div className="max-w-4xl mx-auto mt-8 sm:mt-12 p-5 sm:p-6 rounded-2xl bg-[#0E0E10] border border-[#4169E1]/30 text-left shadow-[0_4px_25px_rgba(65,105,225,0.08)]">
+          <div className="flex items-center gap-2 mb-2.5">
+            <span className="w-2 h-2 rounded-full bg-[#4169E1] animate-pulse" />
+            <span className="text-[11px] font-mono uppercase tracking-wider text-[#4169E1] font-semibold">
+              AEO Quick Summary · 3D Configurator Definition
+            </span>
+          </div>
+          <p className="text-sm sm:text-base text-zinc-200 leading-relaxed font-light">
+            A 3D product configurator is an interactive web-based tool that allows customers to customize, rotate, and view products in real-time 360-degrees before purchasing. Built with WebGL, it boosts eCommerce conversion rates and reduces return rates by providing a highly immersive shopping experience.
+          </p>
+        </div>
 
         {/* Comparison Grid: Traditional vs Elipse Studio */}
         <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 mt-12 sm:mt-16">
@@ -726,6 +770,16 @@ const ProductConfiguratorsPage = () => {
               key={idx}
               className="w-full md:w-[calc(50%-1rem)] lg:w-[calc((100%-4rem)/3)] group relative rounded-2xl overflow-hidden border transition-all duration-500 hover:shadow-[0_12px_40px_rgba(65,105,225,0.18)] flex flex-col justify-between bg-[#0E0E10] border-white/10 hover:border-[#4169E1]/60"
             >
+              {/* Whole card opens the project; the action buttons sit above this link. */}
+              {item.projectPath && (
+                <Link
+                  href={item.projectPath}
+                  aria-hidden="true"
+                  tabIndex={-1}
+                  className="absolute inset-0 z-[1]"
+                />
+              )}
+
               {/* Image Preview Container (16:9 HD Size) */}
               <div className="relative aspect-video overflow-hidden bg-black/40">
                 <img
@@ -757,13 +811,13 @@ const ProductConfiguratorsPage = () => {
                     <span className="text-[#4169E1] font-semibold">{item.tech}</span>
                   </div>
 
-                  <div className="flex items-center gap-2.5 flex-wrap">
+                  <div className="relative z-[2] flex items-center gap-2.5 flex-wrap">
                     {item.liveLink && (
                       <a
                         href={item.liveLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-semibold bg-[#4169E1] hover:bg-[#3158D4] text-white shadow-md hover:shadow-lg hover:shadow-[#4169E1]/30 hover:scale-[1.02] transition-all duration-300 cursor-pointer text-center"
+                        className={`${item.youtubeLink ? 'w-full' : 'flex-1 min-w-[120px]'} flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-semibold bg-[#4169E1] hover:bg-[#3158D4] text-white shadow-md hover:shadow-lg hover:shadow-[#4169E1]/30 hover:scale-[1.02] transition-all duration-300 cursor-pointer text-center`}
                       >
                         <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -927,6 +981,52 @@ const ProductConfiguratorsPage = () => {
       {/* ======================================================== */}
       {/* 5. CLIENT REVIEWS & TESTIMONIALS                         */}
       {/* ======================================================== */}
+      {/* ======================================================== */}
+      {/* FAQ ACCORDION SECTION                                    */}
+      {/* ======================================================== */}
+      <section className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-[#070709]" id="faq">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-10 sm:mb-14">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#4169E1]/10 border border-[#4169E1]/25 text-[#4169E1] mb-3">
+              <span>FAQ</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white">
+              Frequently Asked Questions
+            </h2>
+            <p className="text-sm sm:text-base text-zinc-400 mt-2 font-light max-w-xl mx-auto">
+              Everything you need to know about commissioning and deploying a web-based 3D product configurator.
+            </p>
+          </div>
+          <div className="max-w-3xl mx-auto divide-y divide-white/10 border-y border-white/10">
+            {CONFIGURATOR_FAQS.map((f, i) => {
+              const isOpen = openFaq === i;
+              return (
+                <div key={i} className="py-4 sm:py-5 transition-colors">
+                  <button
+                    type="button"
+                    onClick={() => setOpenFaq(isOpen ? null : i)}
+                    aria-expanded={isOpen}
+                    className="w-full flex items-center justify-between gap-4 text-left group cursor-pointer"
+                  >
+                    <span className={`text-base sm:text-lg font-medium transition-colors ${isOpen ? 'text-[#4169E1]' : 'text-zinc-200 group-hover:text-white'}`}>
+                      {f.q}
+                    </span>
+                    <span className={`text-xl font-mono text-[#4169E1] transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-45' : ''}`}>
+                      +
+                    </span>
+                  </button>
+                  {isOpen && (
+                    <div className="mt-3 text-sm sm:text-base text-zinc-400 font-light leading-relaxed pr-6">
+                      {f.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
       <div id="testimonials">
         <ClientReviews />
       </div>

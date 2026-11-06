@@ -528,21 +528,26 @@ const IndustrialAnimationArticle = () => {
 
             </div>
 
-            {/* ── Bottom Dark Pill Bar ── */}
-            <div className="mt-10 sm:mt-16 hidden sm:inline-flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 bg-neutral-900 text-white px-5 sm:px-7 py-3.5 sm:py-3 rounded-2xl sm:rounded-full shadow-xl text-xs sm:text-sm font-medium border border-neutral-800">
+            {/* ── CTA Button & Editorial Byline Container ── */}
+            <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full">
+              {/* Standalone CTA Button Block */}
               <a
-                data-track-id="article-calendly-1" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                data-track-id="article-calendly-1"
+                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-semibold text-emerald-400 hover:text-emerald-300 transition-colors text-center"
+                className="inline-flex items-center justify-center gap-2 px-6 py-2.5 sm:py-3 bg-[#2563EB] hover:bg-[#1d4ed8] active:bg-[#1e40af] text-white text-xs sm:text-sm font-semibold rounded-full shadow-lg shadow-blue-500/20 hover:shadow-blue-500/35 hover:scale-105 active:scale-95 transition-all duration-200 cursor-pointer select-none shrink-0"
               >
-                Book a 15-min technical scoping call ↗
+                <span>Book a 15-min technical scoping call</span>
+                <span aria-hidden="true">↗</span>
               </a>
-              <span className="hidden sm:block h-4 w-px bg-neutral-700" />
-              <div className="flex items-center justify-center gap-3 sm:gap-4 flex-wrap text-center">
+
+              {/* Standalone Editorial Byline & Share Bar */}
+              <div className="inline-flex items-center justify-center gap-3 sm:gap-4 bg-neutral-900 text-white px-5 sm:px-6 py-2.5 sm:py-3 rounded-full shadow-xl text-xs sm:text-sm font-medium border border-neutral-800 shrink-0">
                 <span className="text-neutral-300">By Elipse Studio Editorial Team</span>
-                <span className="h-3.5 w-px bg-neutral-700" />
+                <span className="h-3.5 w-px bg-neutral-700" aria-hidden="true" />
                 <button
+                  type="button"
                   onClick={handleCopyLink}
                   className="font-semibold text-blue-400 hover:text-blue-300 transition-colors flex items-center gap-1.5 cursor-pointer"
                 >

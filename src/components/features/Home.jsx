@@ -11,6 +11,7 @@ import BrandsMarquee from './BrandsMarquee';
 import Technology from './Technology';
 import SocialMediaSection from './SocialMediaSection';
 import News from './News';
+import HomeFaq from './HomeFaq';
 import Contact from './Contact';
 import Footer from '../layouts/Footer';
 
@@ -59,6 +60,7 @@ const Home = ({ initialFeatured, initialProjects, initialReviews, initialBlogs, 
         <Technology />
         <SocialMediaSection initialSocialMedia={initialSocialMedia} />
         <News initialBlogs={initialBlogs} />
+        <HomeFaq />
       </div>
 
       <div data-animate="s4" className={animClass('s4')}>

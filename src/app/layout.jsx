@@ -70,7 +70,7 @@ export const metadata = {
   },
 };
 
-const GTM_ID = 'GTM-P38LKZMN';
+const GTM_ID = 'GTM-THD6T883';
 
 export default function RootLayout({ children }) {
   return (

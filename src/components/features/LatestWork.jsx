@@ -289,9 +289,11 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
       </div>
 
       <div className="w-full px-[15px] md:px-[40px]">
-        <div key={activeTab} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[15px]">
+        <div key={activeTab} className="max-w-6xl mx-auto flex flex-wrap justify-center gap-6 md:gap-8">
           {displayedProjects.map((project) => (
-            <VideoHoverCard key={project.id} project={project} isLight={isLightMode} />
+            <div key={project.id} className="w-full md:w-[calc(50%-1rem)]">
+              <VideoHoverCard project={project} isLight={isLightMode} />
+            </div>
           ))}
         </div>
 
@@ -324,8 +326,8 @@ const LatestWorkFallback = ({ isLight = false }) => (
       <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1]">
         Latest Work
       </h2>
-      <div className="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {[0, 1, 2].map((i) => (
+      <div className="mt-8 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        {[0, 1].map((i) => (
           <div
             key={i}
             className={`aspect-[16/9] rounded ${isLight ? 'bg-zinc-100' : 'bg-zinc-900'

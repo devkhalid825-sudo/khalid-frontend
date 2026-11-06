@@ -171,8 +171,8 @@ const CaseStudyDetail = ({ slug, initialData }) => {
         targetKeywords={parsedSections[0]?.targetKeywords !== undefined ? parsedSections[0].targetKeywords : (cs.targetKeywords || cs.metaKeywords)}
         galleryCategories={otherCats.length > 0 ? otherCats : undefined}
         videoTabs={(safeJson(cs.videoTabs, []) || []).filter(t => t && typeof t.url === 'string' && t.url.trim().length > 0)}
-        ctaUrl={cs.ctaUrl || '/contact'}
-        ctaText={cs.ctaText || 'Start a project'}
+        ctaUrl={cs.ctaUrl || undefined}
+        ctaText={cs.ctaText || undefined}
         calloutEyebrow={parsedSections[0]?.calloutEyebrow !== undefined ? parsedSections[0].calloutEyebrow : cs.calloutEyebrow}
         calloutHeadline={parsedSections[0]?.calloutHeadline !== undefined ? parsedSections[0].calloutHeadline : cs.calloutHeadline}
         calloutBody={parsedSections[0]?.calloutBody !== undefined ? parsedSections[0].calloutBody : cs.calloutBody}

@@ -15,7 +15,7 @@ import 'swiper/css/pagination';
 import 'swiper/css/free-mode';
 import { apiCall, getImgSrc, toCdnUrl } from '../utils/api';
 
-// Assets — only import what is actually used
+
 import elephantImgRaw from '../assets/ElipseImages/projects/Animation4.webp';
 import configuratorHeroRaw from '../assets/ElipseImages/blogs/jetour.webp';
 import arThumbnailRaw from '../assets/ElipseImages/projects/AR.webp';
@@ -615,9 +615,7 @@ const BlogsPage = ({ initialBlogs }) => {
 
     return (
         <div data-nav="dark" className="bg-[#0a0a0a] min-h-screen text-white font-sans selection:bg-[#4169E1] selection:text-black overflow-x-hidden">
-            {/* ══════════════════════════════════════════════════════════
-                HERO SECTION WITH FEATURED CARDS ON TOP OF BG
-            ══════════════════════════════════════════════════════════ */}
+
             <section data-nav="dark" className="blogs-hero-section keep-dark-hero relative w-full bg-black !bg-black text-white !text-white">
                 <div className="relative mx-auto min-h-screen w-full overflow-hidden bg-black !bg-black shadow-2xl flex flex-col">
                     <Header darkHero={true} />
@@ -697,9 +695,7 @@ const BlogsPage = ({ initialBlogs }) => {
                 </div>
             </section>
 
-            {/* ══════════════════════════════════════════════════════════
-                LATEST ARTICLES GRID & SEARCH
-            ══════════════════════════════════════════════════════════ */}
+
             <section id="latest-articles-section" className="py-12 md:py-24 bg-black">
                 <div className="w-full px-6 sm:px-12 md:px-20">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-16">
@@ -812,7 +808,7 @@ const BlogsPage = ({ initialBlogs }) => {
                 </div>
             </section>
 
-            {/* CONTACT SECTION */}
+
             <Contact />
             <Footer />
         </div>

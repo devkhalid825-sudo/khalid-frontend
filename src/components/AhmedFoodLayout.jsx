@@ -1036,6 +1036,38 @@ const AhmedFoodLayout = ({
             </p>
           )}
 
+          {/* ── Featured CTA Button: Centered directly below the hero body text ── */}
+          {(ctaUrl || (ctaText && ctaText.trim().length > 0)) && (
+            <div className={`w-full flex items-center justify-center z-20 ${hasVideoTabs && effectiveVideoTabs.length > 1 ? 'mb-3 sm:mb-5' : 'mb-1'}`}>
+              {ctaUrl ? (
+                <a
+                  href={ctaUrl}
+                  target={ctaUrl.startsWith('http') ? '_blank' : undefined}
+                  rel={ctaUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
+                  className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm !text-white transition-all duration-300 no-underline shadow-lg active:scale-95 ${isLight
+                    ? 'bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_16px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.5)] border border-blue-600/20'
+                    : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#3158D4] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
+                    }`}
+                >
+                  <FaPaperPlane className="text-[11px] sm:text-xs !text-white fill-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" aria-hidden="true" />
+                  <span className="!text-white font-bold tracking-wider leading-none">{ctaText || 'View Project'}</span>
+                </a>
+              ) : (
+                <button
+                  type="button"
+                  data-track-destination="#contact" onClick={handleStartProject}
+                  className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm !text-white transition-all duration-300 border-none cursor-pointer shadow-lg active:scale-95 ${isLight
+                    ? 'bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_16px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.5)] border border-blue-600/20'
+                    : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#3158D4] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
+                    }`}
+                >
+                  <FaPaperPlane className="text-[11px] sm:text-xs !text-white fill-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" aria-hidden="true" />
+                  <span className="!text-white font-bold tracking-wider leading-none">{ctaText || 'View Project'}</span>
+                </button>
+              )}
+            </div>
+          )}
+
           {/* Video Tabs Switcher Buttons: Split into 2 rows only if 3+ main tabs with breakdowns; otherwise single row (e.g. 2 tabs like Malka Foods) */}
           {hasVideoTabs && effectiveVideoTabs.length > 1 && (
             <div className="w-full max-w-4xl mx-auto px-1 sm:px-4 mb-4 sm:mb-6 z-20 flex flex-col items-center justify-center gap-2 sm:gap-2.5">
@@ -1113,22 +1145,6 @@ const AhmedFoodLayout = ({
                 <p className={`text-xs sm:text-[13px] xl:text-sm leading-relaxed ${isLight ? 'text-neutral-600' : 'text-zinc-400'}`}>
                   {leftColumnText}
                 </p>
-                {ctaUrl ? (
-                  <a
-                    href={ctaUrl}
-                    className={`w-full sm:w-auto px-5 py-2 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center inline-block ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
-                  >
-                    {ctaText || 'Explore Insights'}
-                  </a>
-                ) : (
-                  <button
-                    type="button"
-                    data-track-destination="#contact" onClick={handleStartProject}
-                    className={`w-full sm:w-auto px-5 py-2 rounded-full border text-xs font-semibold transition-all shadow-sm cursor-pointer text-center ${isLight ? 'border-neutral-300 text-neutral-800 hover:bg-neutral-100 hover:border-neutral-900' : 'border-zinc-800 text-zinc-300 hover:bg-white/10 hover:border-white'}`}
-                  >
-                    {ctaText || 'Explore Insights'}
-                  </button>
-                )}
               </div>
             )}
 
@@ -1185,58 +1201,30 @@ const AhmedFoodLayout = ({
                 ) : null}
               </div>
 
-              {/* ── Featured CTA Button: Centered directly below the Hero Media ── */}
-              {(ctaUrl || (ctaText && ctaText.trim().length > 0)) && (
-                <div className="w-full flex items-center justify-center mt-4 sm:mt-5 z-20">
-                  {ctaUrl ? (
-                    <a
-                      href={ctaUrl}
-                      target={ctaUrl.startsWith('http') ? '_blank' : undefined}
-                      rel={ctaUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
-                      className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm !text-white transition-all duration-300 no-underline shadow-lg active:scale-95 ${isLight
-                        ? 'bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_16px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.5)] border border-blue-600/20'
-                        : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#3158D4] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
-                        }`}
-                    >
-                      <FaPaperPlane className="text-[11px] sm:text-xs !text-white fill-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" aria-hidden="true" />
-                      <span className="!text-white font-bold tracking-wider leading-none">{ctaText || 'View Project'}</span>
-                    </a>
-                  ) : (
-                    <button
-                      type="button"
-                      data-track-destination="#contact" onClick={handleStartProject}
-                      className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm !text-white transition-all duration-300 border-none cursor-pointer shadow-lg active:scale-95 ${isLight
-                        ? 'bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_16px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.5)] border border-blue-600/20'
-                        : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#3158D4] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
-                        }`}
-                    >
-                      <FaPaperPlane className="text-[11px] sm:text-xs !text-white fill-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" aria-hidden="true" />
-                      <span className="!text-white font-bold tracking-wider leading-none">{ctaText || 'View Project'}</span>
-                    </button>
-                  )}
-                </div>
-              )}
-
               {/* ── Fixed Editorial Pill Bar ── */}
-              <div className="w-full mt-4 sm:mt-5 flex flex-col items-center justify-center px-2">
-                <div className={`w-auto flex flex-wrap items-center justify-center gap-x-3 gap-y-1.5 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-medium z-20 transition-all duration-300 shadow-md ${isLight
+              <div className="w-full mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-2">
+                <a
+                  data-track-id="project-hero-calendly"
+                  href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`inline-flex items-center justify-center gap-1.5 px-5 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-semibold transition-all duration-300 shadow-md hover:scale-105 active:scale-95 whitespace-nowrap shrink-0 ${isLight
+                    ? 'bg-[#2563EB] hover:bg-[#1d4ed8] text-white shadow-blue-500/20'
+                    : 'bg-[#4169E1] hover:bg-[#3558c8] text-white shadow-[#4169E1]/25'
+                    }`}
+                >
+                  <span>Book a scoping call</span>
+                  <span aria-hidden="true">↗</span>
+                </a>
+
+                <div className={`w-auto flex items-center justify-center gap-3 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-medium z-20 transition-all duration-300 shadow-md shrink-0 ${isLight
                   ? 'bg-white text-neutral-800 border border-neutral-300'
                   : 'bg-neutral-900 text-white border border-neutral-800 shadow-xl'
                   }`}>
-                  <a
-                    data-track-id="project-hero-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className={`font-semibold transition-colors whitespace-nowrap shrink-0 ${isLight ? 'text-[#00a86b] hover:text-[#008f5a]' : 'text-emerald-400 hover:text-emerald-300'
-                      }`}
-                  >
-                    Book a scoping call ↗
-                  </a>
-                  <span className={`h-3.5 w-px shrink-0 hidden sm:block ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
                   <span className={`whitespace-nowrap shrink-0 ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
                     By Elipse Studio
                   </span>
-                  <span className={`h-3.5 w-px shrink-0 hidden sm:block ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
+                  <span className={`h-3.5 w-px shrink-0 ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
                   <button
                     type="button"
                     onClick={handleCopyLink}
