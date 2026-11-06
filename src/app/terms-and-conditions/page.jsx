@@ -56,7 +56,7 @@ const sections = [
     id: 'governing-law',
     title: 'Governing Law',
     body: (
-      <p>These Terms shall be governed by and construed in accordance with the laws of the State of Illinois, United States, without regard to conflict of law principles.</p>
+      <p>These Terms shall be governed by and construed in accordance with the laws of Pakistan, without regard to conflict of law principles.</p>
     ),
   },
 ];
@@ -70,7 +70,7 @@ export default function Page() {
       highlights={[
         { title: 'Our work is protected', text: 'Renders, WebGL demos, 3D models and code on this site belong to Elipse Studio.' },
         { title: 'Contracts rule projects', text: 'Deliverables, payments and licensing are set only by signed MSAs and SOWs.' },
-        { title: 'Illinois law', text: 'These terms are governed by the laws of the State of Illinois, United States.' },
+        { title: 'Pakistan law', text: 'These terms are governed by the laws of Pakistan.' },
       ]}
       lastUpdated="November 2, 2026"
       sections={sections}

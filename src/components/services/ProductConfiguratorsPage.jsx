@@ -35,6 +35,16 @@ const clothImg = getImgSrc(clothImgRaw);
 // Selected 3D Product Configurator Portfolio Builds
 const CONFIGURATOR_BUILDS = [
   {
+    title: 'Bean Trailer: 3D Builder',
+    category: 'Overland Trailer 3D',
+    desc: 'Interactive 3D overland trailer builder with modular galley kitchens, solar setups, exterior finishes, and real-time CRM synchronization.',
+    image: 'https://api.elipsestudio.com/media/539',
+    tech: 'Unreal Engine 5 · Pixel Streaming',
+    liveLink: 'https://legacy.elipsestudio.com/3D-Builder/builder',
+    projectPath: '/project/bean-trailer-3d-builder',
+    tags: ['Car', 'Automotive'],
+  },
+  {
     title: 'Kia Sportage 3D Configurator',
     category: 'Automotive WebGL',
     desc: 'Interactive 3D crossover configurator featuring day/night environment toggles, custom rims, metallic paints, and cockpit inspection.',
@@ -51,7 +61,6 @@ const CONFIGURATOR_BUILDS = [
     image: volvoImg,
     tech: 'Unreal Engine · WebGL',
     liveLink: 'https://legacy.elipsestudio.com/Volvo-Configurator/',
-    youtubeLink: 'https://youtu.be/rO1sg3y3TF0?si=9yv7WSm0m5AwqG0p',
     projectPath: '/project/volvo-configurator',
     tags: ['Car', 'Automotive'],
   },
@@ -811,13 +820,13 @@ const ProductConfiguratorsPage = () => {
                     <span className="text-[#4169E1] font-semibold">{item.tech}</span>
                   </div>
 
-                  <div className="relative z-[2] flex items-center gap-2.5 flex-wrap">
+                  <div className="relative z-[2] flex items-center gap-2.5">
                     {item.liveLink && (
                       <a
                         href={item.liveLink}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className={`${item.youtubeLink ? 'w-full' : 'flex-1 min-w-[120px]'} flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-semibold bg-[#4169E1] hover:bg-[#3158D4] text-white shadow-md hover:shadow-lg hover:shadow-[#4169E1]/30 hover:scale-[1.02] transition-all duration-300 cursor-pointer text-center`}
+                        className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-semibold bg-[#4169E1] hover:bg-[#3158D4] text-white shadow-md hover:shadow-lg hover:shadow-[#4169E1]/30 hover:scale-[1.02] transition-all duration-300 cursor-pointer text-center"
                       >
                         <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -838,20 +847,6 @@ const ProductConfiguratorsPage = () => {
                         </svg>
                         <span>View Project</span>
                       </Link>
-                    )}
-
-                    {item.youtubeLink && (
-                      <a
-                        href={item.youtubeLink}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-semibold border transition-all duration-300 hover:scale-[1.02] cursor-pointer text-center bg-white/5 hover:bg-white/10 border-white/15 hover:border-white/30 text-white"
-                      >
-                        <svg className="w-3.5 h-3.5 fill-current text-[#4169E1] shrink-0" viewBox="0 0 24 24">
-                          <path d="M8 5v14l11-7z" />
-                        </svg>
-                        <span>Video</span>
-                      </a>
                     )}
                   </div>
                 </div>

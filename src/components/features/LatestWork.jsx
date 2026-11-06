@@ -70,20 +70,10 @@ const VideoHoverCard = ({ project, isLight }) => {
             alt={isVolvo ? 'Volvo S90 Interactive Configurator (Concept Demo)' : stripHtml(project.title)}
             loading="lazy"
             decoding="async"
-            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105"
+            className="object-cover w-full h-full"
           />
         ) : (
           <div className="absolute inset-0 bg-zinc-900" />
-        )}
-        {isVolvo && (
-          <div className="absolute top-3 left-3 flex flex-wrap items-center gap-2 z-10">
-            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.08em] bg-black/80 text-white backdrop-blur-md border border-zinc-700/80 shadow-md">
-              UNREAL ENGINE 5 · PIXEL STREAMING
-            </span>
-            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.08em] bg-black/80 text-[#3B82F6] backdrop-blur-md border border-[#3B82F6] shadow-md">
-              CONCEPT DEMO
-            </span>
-          </div>
         )}
       </div>
 

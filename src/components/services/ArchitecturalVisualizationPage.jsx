@@ -353,7 +353,7 @@ const ArchvizVideoPlayer = () => {
           className="relative w-full h-full cursor-pointer group flex items-center justify-center bg-zinc-950"
         >
           <img
-            src="https://img.youtube.com/vi/YzLNRBsug_Q/maxresdefault.jpg"
+            src="https://api.elipsestudio.com/media/309"
             alt="Elipse Studio Architectural Visualization Reel"
             loading="lazy"
             decoding="async"
@@ -479,9 +479,9 @@ const ArchitecturalVisualizationPage = () => {
             <span>Uncompromising Visual Precision</span>
           </div>
           <h1 className="text-[clamp(1.5rem,4.2vw,3.25rem)] font-bold tracking-tight leading-[1.18] text-white max-w-5xl mx-auto">
-            <span className="block">High-End 3D Architectural Visualization</span>
+            <span className="block">High-End 3D Architectural</span>
             <span className="block bg-gradient-to-r from-white via-[#8ca8ff] to-[#4169E1] bg-clip-text text-transparent">
-              &amp; Real-Time VR
+              Visualization &amp; Real-Time VR
             </span>
           </h1>
 
