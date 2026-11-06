@@ -57,12 +57,13 @@ const VideoHoverCard = ({ project, isLight }) => {
           : ''
       }
       aria-label={`View project: ${isVolvo ? 'Volvo S90 Interactive Configurator (Concept Demo)' : stripHtml(project.title)}`}
-      className={`group block relative overflow-hidden border transition-all duration-300 cursor-pointer shadow-md hover:shadow-xl aspect-[16/9] w-full ${isLightMode
-        ? 'border-zinc-200 hover:border-zinc-300'
-        : 'border-zinc-800 hover:border-zinc-700'
+      className={`group flex flex-col w-full h-full border rounded-xl md:rounded-2xl overflow-hidden transition-all duration-300 cursor-pointer shadow-md hover:shadow-2xl ${isLightMode
+        ? 'bg-zinc-50/80 border-zinc-200 hover:border-zinc-300 hover:shadow-zinc-200/50'
+        : 'bg-[#0E0E10] border-zinc-800/90 hover:border-zinc-700 hover:shadow-black/60'
         }`}
     >
-      <div className="relative h-full w-full overflow-hidden">
+      {/* 1. 16:9 HD Media Container */}
+      <div className="relative w-full aspect-[16/9] overflow-hidden bg-zinc-900 shrink-0">
         {imageSrc ? (
           <img
             src={imageSrc}
@@ -74,44 +75,70 @@ const VideoHoverCard = ({ project, isLight }) => {
         ) : (
           <div className="absolute inset-0 bg-zinc-900" />
         )}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-5">
-          {isVolvo && (
-            <div className="flex flex-wrap items-center gap-2 mb-2.5">
-              <span className="inline-flex items-center px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.08em] bg-[#141416] text-white border border-zinc-700/80 shadow-md">
-                UNREAL ENGINE 5 · PIXEL STREAMING
-              </span>
-              <span className="inline-flex items-center px-3 py-1 rounded-lg text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.08em] bg-[#141416] text-[#3B82F6] border border-[#3B82F6] shadow-md">
-                CONCEPT DEMO
-              </span>
-            </div>
-          )}
-          <h3 className="text-lg md:text-xl font-bold text-white mb-2">
+        {isVolvo && (
+          <div className="absolute top-3 left-3 flex flex-wrap items-center gap-2 z-10">
+            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.08em] bg-black/80 text-white backdrop-blur-md border border-zinc-700/80 shadow-md">
+              UNREAL ENGINE 5 · PIXEL STREAMING
+            </span>
+            <span className="inline-flex items-center px-2.5 py-1 rounded-md text-[10px] sm:text-[11px] font-semibold uppercase tracking-[0.08em] bg-black/80 text-[#3B82F6] backdrop-blur-md border border-[#3B82F6] shadow-md">
+              CONCEPT DEMO
+            </span>
+          </div>
+        )}
+      </div>
+
+      {/* 2. Content Details Below Image with Proper Alignment */}
+      <div className="flex flex-col flex-1 p-5 md:p-6 justify-between gap-4">
+        <div className="space-y-2">
+          <h3
+            className={`text-lg md:text-xl font-bold leading-snug transition-colors duration-200 ${isLightMode ? 'text-zinc-900 group-hover:text-[#2563EB]' : 'text-white group-hover:text-[#4169E1]'
+              }`}
+          >
             {isVolvo ? 'Volvo S90 Interactive Configurator' : renderCardTitle(project.title)}
           </h3>
-          <p className="text-zinc-300 text-xs md:text-sm mb-2 line-clamp-2">
+          <p
+            className={`text-xs md:text-sm line-clamp-2 leading-relaxed ${isLightMode ? 'text-zinc-600' : 'text-zinc-400'
+              }`}
+          >
             {isVolvo
               ? 'Internal studio capability benchmark testing Unreal Engine 5 cloud pixel streaming for luxury automotive customization, achieving sub-50ms WebRTC latency and photorealistic real-time ray-traced lighting.'
               : getProjectValueProposition(project)}
           </p>
-          <div className="pt-3 border-t border-zinc-700/50">
-            <span className="inline-flex items-center text-xs font-semibold text-white group-hover:text-[#4169E1] transition-colors uppercase tracking-widest">
-              {is360Tour ? 'View 360 Tour' : 'View Case Study'}
-              <svg
-                className="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform duration-300"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M14 5l7 7m0 0l-7 7m7-7H3"
-                />
-              </svg>
+        </div>
+
+        {/* 3. Bottom Row: Category on Left, Case Study Button on the RIGHT */}
+        <div className={`flex items-center justify-between gap-3 pt-3 mt-auto border-t ${isLightMode ? 'border-zinc-200' : 'border-zinc-800/80'
+          }`}>
+          {project.category ? (
+            <span className="text-[11px] md:text-xs font-semibold uppercase tracking-wider text-zinc-500 truncate max-w-[50%]">
+              {project.category}
             </span>
-          </div>
+          ) : (
+            <span />
+          )}
+
+          <span
+            className={`latest-work-cta group-hover/btn inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 ml-auto shrink-0 ${isLightMode
+              ? 'bg-zinc-100 text-zinc-900 border border-zinc-300 group-hover:bg-[#2563EB] group-hover:!text-white group-hover:border-[#2563EB]'
+              : 'bg-zinc-900 text-zinc-200 border border-zinc-700/80 group-hover:bg-[#2563EB] group-hover:!text-white group-hover:border-[#2563EB]'
+              }`}
+          >
+            {is360Tour ? 'View 360 Tour' : 'View Case Study'}
+            <svg
+              className="w-3.5 h-3.5 transform group-hover:translate-x-1 transition-transform duration-300"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M14 5l7 7m0 0l-7 7m7-7H3"
+              />
+            </svg>
+          </span>
         </div>
       </div>
     </Link>
@@ -143,7 +170,7 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
   const [apiProjects, setApiProjects] = useState(initialProjects ? mapProjects(initialProjects) : []);
   const [activeTab, setActiveTab] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [visibleCount, setVisibleCount] = useState(6);
+  const [visibleCount, setVisibleCount] = useState(12);
 
   useEffect(() => {
     // Skip fetch if server already provided data (avoid redundant request).
@@ -184,16 +211,16 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
   const handleTabChange = (key) => {
     setActiveTab(key);
     setSearchTerm('');
-    setVisibleCount(6);
+    setVisibleCount(12);
   };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setVisibleCount(6);
+    setVisibleCount(12);
   };
 
   const loadMore = () => {
-    setVisibleCount((prev) => prev + 6);
+    setVisibleCount((prev) => prev + 12);
   };
 
   const filteredProjects = projects.filter((project) => {
@@ -251,10 +278,10 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
           </div>
         </div>
 
-        {/* ── 4 Pillar Tabs (Responsive pill-button style) ── */}
-        <div className="relative mb-5 md:mb-8 w-full -mx-[15px] px-[15px] md:mx-0 md:px-0">
-          <div className="overflow-x-auto no-scrollbar">
-            <div className="flex items-center gap-2 sm:gap-2.5 md:gap-3 pb-2 pt-1 min-w-max md:min-w-0 md:flex-wrap pr-8 md:pr-0">
+        {/* ── 4 Pillar Tabs (Centered) ── */}
+        <div className="relative mb-6 md:mb-10 w-full">
+          <div className="overflow-x-auto no-scrollbar flex justify-start sm:justify-center">
+            <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-2.5 md:gap-3 pb-2 pt-1 min-w-max sm:min-w-0 flex-nowrap sm:flex-wrap">
               {PILLAR_TABS.map((tab) => {
                 const isActive = activeTab === tab.key && !searchTerm;
                 return (
@@ -279,7 +306,7 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
           </div>
           {/* Subtle Right Edge Fade Indicator on Mobile (ultra-slim feather) */}
           <div
-            className={`absolute right-0 top-0 bottom-2 w-3.5 md:hidden pointer-events-none z-10 ${isLightMode
+            className={`absolute right-0 top-0 bottom-2 w-3.5 sm:hidden pointer-events-none z-10 ${isLightMode
               ? 'bg-gradient-to-l from-white/80 to-transparent'
               : 'bg-gradient-to-l from-black/80 to-transparent'
               }`}
@@ -289,18 +316,16 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
       </div>
 
       <div className="w-full px-[15px] md:px-[40px]">
-        <div key={activeTab} className="max-w-6xl mx-auto flex flex-wrap justify-center gap-6 md:gap-8">
+        <div key={activeTab} className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
           {displayedProjects.map((project) => (
-            <div key={project.id} className="w-full md:w-[calc(50%-1rem)]">
-              <VideoHoverCard project={project} isLight={isLightMode} />
-            </div>
+            <VideoHoverCard key={project.id} project={project} isLight={isLightMode} />
           ))}
         </div>
 
-        {filteredProjects.length > 6 && (
+        {filteredProjects.length > 12 && (
           <div className="flex justify-center mt-6 md:mt-8 pb-0 md:pb-2">
             <button
-              onClick={filteredProjects.length > visibleCount ? loadMore : () => setVisibleCount(6)}
+              onClick={filteredProjects.length > visibleCount ? loadMore : () => setVisibleCount(12)}
               suppressHydrationWarning
               className={`group relative flex items-center gap-3 border rounded-full px-8 sm:px-10 py-3 sm:py-4 text-xs sm:text-sm font-medium tracking-widest uppercase hover:scale-105 transition-all duration-300 ${isLightMode
                 ? 'bg-black/5 border-black/20 hover:bg-black hover:text-white'
@@ -326,13 +351,23 @@ const LatestWorkFallback = ({ isLight = false }) => (
       <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1]">
         Latest Work
       </h2>
-      <div className="mt-8 max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+      <div className="mt-8 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         {[0, 1].map((i) => (
           <div
             key={i}
-            className={`aspect-[16/9] rounded ${isLight ? 'bg-zinc-100' : 'bg-zinc-900'
-              } animate-pulse`}
-          />
+            className={`flex flex-col border rounded-xl overflow-hidden ${isLight ? 'bg-white border-zinc-200' : 'bg-[#0E0E10] border-zinc-800'
+              }`}
+          >
+            <div className={`aspect-[16/9] w-full ${isLight ? 'bg-zinc-100' : 'bg-zinc-900'} animate-pulse`} />
+            <div className="p-5 md:p-6 space-y-3">
+              <div className="h-5 w-2/3 bg-zinc-800/80 rounded animate-pulse" />
+              <div className="h-4 w-full bg-zinc-800/50 rounded animate-pulse" />
+              <div className="flex justify-between items-center pt-3 border-t border-zinc-800/60 mt-3">
+                <div className="h-3 w-16 bg-zinc-800/60 rounded animate-pulse" />
+                <div className="h-7 w-28 bg-zinc-800/80 rounded-full animate-pulse" />
+              </div>
+            </div>
+          </div>
         ))}
       </div>
     </div>

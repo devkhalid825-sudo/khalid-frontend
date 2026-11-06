@@ -817,8 +817,18 @@ html.light .text-white\/10 {
 
 /* 7. Hover States: NEVER turn text white on white background on hover */
 html.light .hover\:text-white:hover:not(.capabilities-explore-btn):not([class*="hover:bg-[#4169E1]"]):not([class*="hover:bg-blue"]),
-html.light .group:hover .group-hover\:text-white:not(.capabilities-explore-btn *):not([class*="group-hover/btn"]) {
+html.light .group:hover .group-hover\:text-white:not(.capabilities-explore-btn *):not([class*="group-hover/btn"]):not(.latest-work-cta):not([class*="group-hover:bg"]) {
   color: #4169e1 !important;
+}
+
+/* Ensure button with dark/blue background on hover always maintains crisp white text in day mode */
+html.light .group:hover .latest-work-cta,
+html.light .latest-work-cta:hover {
+  color: #ffffff !important;
+}
+html.light .group:hover .latest-work-cta svg,
+html.light .latest-work-cta:hover svg {
+  stroke: #ffffff !important;
 }
 
 /* 8. Background Overrides for Day Mode */
