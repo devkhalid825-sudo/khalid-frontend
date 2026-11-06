@@ -31,6 +31,15 @@ const classicVillaImg = getImgSrc(villasImgRaw);
 // Selected Real Estate & Archviz Portfolio Builds
 const ARCHVIZ_BUILDS = [
   {
+    title: 'Adnan Qaiser Residence | 360° Tour',
+    category: 'Residential 360°',
+    tags: ['360', 'Interactive Virtual Tour'],
+    desc: 'Full web-based panoramic 360° tour of a private luxury residence. Enables instant interactive walkthroughs on any device without software installation.',
+    image: 'https://api.elipsestudio.com/media/247',
+    tech: 'Web 360° · Luxury Residence',
+    liveLink: 'https://elipsestudioadnanresidence.netlify.app/',
+  },
+  {
     title: 'Modern Villa | VR & 3D Visualization',
     category: 'Modern Villa',
     tags: ['VR', '3D Visualization'],
@@ -184,15 +193,6 @@ const ARCHVIZ_BUILDS = [
     tech: 'Web VR · Real Estate',
     projectPath: '/project/roamstead-web-vr',
     youtubeLink: 'https://youtu.be/I5T6C2RheG0?si=LM_dG0r5XPE3ecQR',
-  },
-  {
-    title: 'Adnan Qaiser Residence | 360° Tour',
-    category: 'Residential 360°',
-    tags: ['360'],
-    desc: 'Full web-based panoramic 360° tour of a private luxury residence. Enables instant interactive walkthroughs on any device without software installation.',
-    image: 'https://api.elipsestudio.com/media/247',
-    tech: 'Web 360° · Luxury Residence',
-    liveLink: 'https://elipsestudioadnanresidence.netlify.app/',
   },
   {
     title: 'Christmas Market | 360° Virtual Tour',
