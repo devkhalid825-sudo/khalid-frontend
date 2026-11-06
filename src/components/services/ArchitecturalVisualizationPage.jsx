@@ -192,7 +192,7 @@ const ARCHVIZ_BUILDS = [
     desc: 'Full web-based panoramic 360° tour of a private luxury residence. Enables instant interactive walkthroughs on any device without software installation.',
     image: 'https://api.elipsestudio.com/media/247',
     tech: 'Web 360° · Luxury Residence',
-    liveLink: 'https://elipsestudio-adnanresidence.netlify.app/',
+    liveLink: 'https://elipsestudioadnanresidence.netlify.app/',
   },
   {
     title: 'Christmas Market | 360° Virtual Tour',
