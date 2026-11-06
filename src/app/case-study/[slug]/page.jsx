@@ -35,12 +35,22 @@ function caseStudySchemas(slug, data) {
     } catch {}
   }
 
+  let caseStudyImg = data.ogImage || data.heroImage || data.largeBanner || data.image;
+  if (!caseStudyImg && data.sections) {
+    try {
+      const parsed = typeof data.sections === 'string' ? JSON.parse(data.sections) : data.sections;
+      if (Array.isArray(parsed) && parsed[0]?.image) {
+        caseStudyImg = parsed[0].image;
+      }
+    } catch {}
+  }
+
   const defaultSchema = {
     '@context': 'https://schema.org',
     '@type': 'Article',
     headline: cleanTitle,
     description,
-    image: data.heroImage || data.largeBanner,
+    ...(caseStudyImg ? { image: caseStudyImg } : {}),
     ...(targetKeywords ? { keywords: targetKeywords } : {}),
     publisher: {
       '@type': 'Organization',
@@ -85,7 +95,7 @@ function caseStudySchemas(slug, data) {
     if (faqSchema) schemas.push(faqSchema);
   }
 
-  return { description, targetKeywords, schemas };
+  return { description, targetKeywords, image: caseStudyImg, schemas };
 }
 
 import { projectList, caseStudyEntries } from '@/components/projects/projectData';
@@ -106,12 +116,15 @@ export async function generateMetadata({ params }) {
       noIndex: true,
     });
   }
-  const { description, targetKeywords } = caseStudySchemas(safeSlug, data);
+  const { description, targetKeywords, image } = caseStudySchemas(safeSlug, data);
+  const cleanTitle = stripHtml(data.metaTitle || data.title);
   return buildMetadata({
     title: data.metaTitle || data.title,
     description,
     keywords: targetKeywords || undefined,
     canonical: `${SITE_URL}/case-study/${safeSlug}`,
+    ogImage: image || undefined,
+    ogImageAlt: `${cleanTitle} | Elipse Studio`,
   });
 }
 

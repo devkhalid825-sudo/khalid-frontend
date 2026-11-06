@@ -25,12 +25,14 @@ function staticProjectSchemas(slug, staticProject) {
   const uniqueValueProp = getProjectValueProposition({ ...staticProject, slug });
   const description = staticProject.meta?.find((m) => m.label === 'Description')?.value || uniqueValueProp || staticProject.title;
   const category = staticProject.meta?.find((m) => m.label === 'Service')?.value || 'Projects';
+  const staticImg = staticProject.ogImage || staticProject.heroImage || staticProject.image;
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'CreativeWork',
     name: staticProject.title,
     description,
     url: `${SITE_URL}/project/${slug}`,
+    ...(staticImg ? { image: staticImg } : {}),
     creator: {
       '@type': 'Organization',
       name: 'Elipse Studio',
@@ -45,7 +47,7 @@ function staticProjectSchemas(slug, staticProject) {
       { '@type': 'ListItem', position: 3, name: staticProject.title, item: `${SITE_URL}/project/${slug}` },
     ],
   };
-  return { description, schemas: [schema, breadcrumb] };
+  return { description, image: staticImg, schemas: [schema, breadcrumb] };
 }
 
 import { buildFaqSchema } from '@/seo/schemas';
@@ -74,12 +76,23 @@ function apiProjectSchemas(slug, data) {
     } catch {}
   }
 
+  let projectImage = data.ogImage || data.heroImage || data.image;
+  if (!projectImage && data.sections) {
+    try {
+      const parsed = typeof data.sections === 'string' ? JSON.parse(data.sections) : data.sections;
+      if (Array.isArray(parsed) && parsed[0]?.image) {
+        projectImage = parsed[0].image;
+      }
+    } catch {}
+  }
+
   const defaultSchema = {
     '@context': 'https://schema.org',
     '@type': 'CreativeWork',
     name: title,
     description,
     url,
+    ...(projectImage ? { image: projectImage } : {}),
     ...(targetKeywords ? { keywords: targetKeywords } : {}),
     creator: {
       '@type': 'Organization',
@@ -124,7 +137,7 @@ function apiProjectSchemas(slug, data) {
     if (faqSchema) schemas.push(faqSchema);
   }
 
-  return { title, description, targetKeywords, schemas };
+  return { title, description, targetKeywords, image: projectImage, schemas };
 }
 
 export async function generateMetadata({ params }) {
@@ -134,22 +147,26 @@ export async function generateMetadata({ params }) {
   const { data } = await getProject(safeSlug);
   if (data && data.title) {
     const isHidden = isProjectHidden(data);
-    const { title, description, targetKeywords } = apiProjectSchemas(safeSlug, data);
+    const { title, description, targetKeywords, image } = apiProjectSchemas(safeSlug, data);
     return buildMetadata({
       title,
       description,
       keywords: targetKeywords || undefined,
       canonical: data.path ? (data.path.startsWith('http') ? data.path : `${SITE_URL}${data.path.startsWith('/') ? data.path : '/' + data.path}`) : `${SITE_URL}/project/${slug}`,
+      ogImage: image || undefined,
+      ogImageAlt: `${title} | Elipse Studio`,
       noIndex: isHidden ? true : undefined,
     });
   }
   const staticProject = projectMap[slug];
   if (staticProject) {
-    const { description } = staticProjectSchemas(slug, staticProject);
+    const { description, image } = staticProjectSchemas(slug, staticProject);
     return buildMetadata({
       title: staticProject.title,
       description,
       canonical: `${SITE_URL}/project/${slug}`,
+      ogImage: image || undefined,
+      ogImageAlt: `${staticProject.title} | Elipse Studio`,
     });
   }
   return buildMetadata({

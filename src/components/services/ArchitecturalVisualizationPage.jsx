@@ -31,6 +31,15 @@ const classicVillaImg = getImgSrc(villasImgRaw);
 // Selected Real Estate & Archviz Portfolio Builds
 const ARCHVIZ_BUILDS = [
   {
+    title: 'Adnan Qaiser Residence | 360° Tour',
+    category: 'Residential 360°',
+    tags: ['360', 'Interactive Virtual Tour'],
+    desc: 'Full web-based panoramic 360° tour of a private luxury residence. Enables instant interactive walkthroughs on any device without software installation.',
+    image: 'https://api.elipsestudio.com/media/247',
+    tech: 'Web 360° · Luxury Residence',
+    liveLink: 'https://elipsestudio-adnanresidence.netlify.app/',
+  },
+  {
     title: 'Modern Villa | VR & 3D Visualization',
     category: 'Modern Villa',
     tags: ['VR', '3D Visualization'],
@@ -186,15 +195,6 @@ const ARCHVIZ_BUILDS = [
     youtubeLink: 'https://youtu.be/I5T6C2RheG0?si=LM_dG0r5XPE3ecQR',
   },
   {
-    title: 'Adnan Qaiser Residence | 360° Tour',
-    category: 'Residential 360°',
-    tags: ['360'],
-    desc: 'Full web-based panoramic 360° tour of a private luxury residence. Enables instant interactive walkthroughs on any device without software installation.',
-    image: 'https://api.elipsestudio.com/media/247',
-    tech: 'Web 360° · Luxury Residence',
-    liveLink: 'https://elipsestudio-adnanresidence.netlify.app/',
-  },
-  {
     title: 'Christmas Market | 360° Virtual Tour',
     category: 'Event 360°',
     tags: ['360'],
@@ -332,7 +332,7 @@ const CAPABILITIES = [
 ];
 
 /**
- * Cinematic Architectural Reel Video Player (Performance Optimized Facade)
+ * Cinematic Architectural Reel / Interactive 360 Showcase
  */
 const ArchvizVideoPlayer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -342,9 +342,9 @@ const ArchvizVideoPlayer = () => {
       {isPlaying ? (
         <iframe
           className="w-full h-full border-0"
-          src="https://www.youtube.com/embed/YzLNRBsug_Q?autoplay=1&rel=0&modestbranding=1"
-          title="Elipse Studio Architectural Visualization Reel"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          src="https://elipsestudio-adnanresidence.netlify.app/"
+          title="Adnan Qaiser Residence | 360° Tour"
+          allow="accelerometer; autoplay; fullscreen; vr; gyroscope; picture-in-picture"
           allowFullScreen
         />
       ) : (
@@ -353,16 +353,22 @@ const ArchvizVideoPlayer = () => {
           className="relative w-full h-full cursor-pointer group flex items-center justify-center bg-zinc-950"
         >
           <img
-            src="https://api.elipsestudio.com/media/309"
-            alt="Elipse Studio Architectural Visualization Reel"
+            src="https://api.elipsestudio.com/media/247"
+            alt="Adnan Qaiser Residence 360 Tour"
             loading="lazy"
             decoding="async"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
-          <div className="absolute w-16 sm:w-20 h-16 sm:h-20 rounded-full bg-[#4169E1] text-white flex items-center justify-center shadow-[0_0_30px_rgba(65,105,225,0.6)] group-hover:scale-110 group-hover:bg-[#3158D4] transition-all duration-300 z-10">
-            <svg className="w-7 sm:w-8 h-7 sm:h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M8 5v14l11-7z" />
-            </svg>
+          <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none" />
+          <div className="absolute flex flex-col items-center gap-3 z-10">
+            <div className="w-16 sm:w-20 h-16 sm:h-20 rounded-full bg-[#4169E1] text-white flex items-center justify-center shadow-[0_0_30px_rgba(65,105,225,0.6)] group-hover:scale-110 group-hover:bg-[#3158D4] transition-all duration-300">
+              <svg className="w-7 sm:w-8 h-7 sm:h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z" />
+              </svg>
+            </div>
+            <span className="px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide uppercase bg-black/70 backdrop-blur-md border border-white/20 text-white shadow-lg">
+              Adnan Qaiser Residence · Launch 360° Tour
+            </span>
           </div>
         </div>
       )}

@@ -160,7 +160,7 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
   const [apiProjects, setApiProjects] = useState(initialProjects ? mapProjects(initialProjects) : []);
   const [activeTab, setActiveTab] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
-  const [visibleCount, setVisibleCount] = useState(12);
+  const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
     // Skip fetch if server already provided data (avoid redundant request).
@@ -201,16 +201,16 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
   const handleTabChange = (key) => {
     setActiveTab(key);
     setSearchTerm('');
-    setVisibleCount(12);
+    setVisibleCount(6);
   };
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);
-    setVisibleCount(12);
+    setVisibleCount(6);
   };
 
   const loadMore = () => {
-    setVisibleCount((prev) => prev + 12);
+    setVisibleCount((prev) => prev + 6);
   };
 
   const filteredProjects = projects.filter((project) => {
@@ -312,17 +312,17 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
           ))}
         </div>
 
-        {filteredProjects.length > 12 && (
+        {filteredProjects.length > 6 && (
           <div className="flex justify-center mt-6 md:mt-8 pb-0 md:pb-2">
             <button
-              onClick={filteredProjects.length > visibleCount ? loadMore : () => setVisibleCount(12)}
+              onClick={filteredProjects.length > visibleCount ? loadMore : () => setVisibleCount(6)}
               suppressHydrationWarning
               className={`group relative flex items-center gap-3 border rounded-full px-8 sm:px-10 py-3 sm:py-4 text-xs sm:text-sm font-medium tracking-widest uppercase hover:scale-105 transition-all duration-300 ${isLightMode
                 ? 'bg-black/5 border-black/20 hover:bg-black hover:text-white'
                 : 'bg-white/5 border-white/20 hover:bg-white hover:text-black'
                 }`}
             >
-              {filteredProjects.length > visibleCount ? 'Load More' : 'Show Less'}
+              {filteredProjects.length > visibleCount ? 'View More' : 'Show Less'}
             </button>
           </div>
         )}
