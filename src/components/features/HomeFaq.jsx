@@ -18,6 +18,7 @@ const HomeFaq = () => {
     <section
       id="faq"
       aria-labelledby="home-faq-heading"
+      style={{ fontFamily: 'var(--font-syne), system-ui, sans-serif' }}
       className={`w-full px-[15px] md:px-[40px] py-14 md:py-20 border-t transition-colors duration-300 ${isLight ? 'bg-white border-zinc-200' : 'bg-black border-zinc-800'}`}
     >
       <div className="max-w-4xl mx-auto">
@@ -28,7 +29,7 @@ const HomeFaq = () => {
           Frequently Asked Questions
         </h2>
 
-        <div role="tablist" aria-label="FAQ topics" className="flex flex-col md:flex-row md:justify-center gap-2 mb-6 md:mb-8">
+        <div role="tablist" aria-label="FAQ topics" className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-2 mb-6 md:mb-8">
           {HOMEPAGE_FAQ_TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -40,7 +41,7 @@ const HomeFaq = () => {
                 aria-selected={isActive}
                 aria-controls={`home-faq-panel-${tab.id}`}
                 onClick={() => selectTab(tab.id)}
-                className={`px-4 py-2.5 rounded-full border text-xs sm:text-sm font-semibold leading-snug transition-colors cursor-pointer ${isActive
+                className={`px-4 md:px-5 py-2.5 rounded-full border text-xs sm:text-[13px] font-semibold leading-snug md:whitespace-nowrap transition-colors cursor-pointer ${isActive
                   ? 'bg-[#4169E1] border-[#4169E1] text-white'
                   : isLight
                     ? 'bg-white border-zinc-300 text-zinc-700 hover:border-zinc-500 hover:text-black'

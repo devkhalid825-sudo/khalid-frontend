@@ -23,6 +23,23 @@ h1, h2, h3,
   letter-spacing: -0.025em;
 }
 
+/* ── Latest Work ultra-wide responsive grid container ── */
+@media (min-width: 1536px) {
+  .latest-work-grid {
+    max-width: 1400px !important;
+  }
+}
+@media (min-width: 1920px) {
+  .latest-work-grid {
+    max-width: 1560px !important;
+  }
+}
+@media (min-width: 2200px) {
+  .latest-work-grid {
+    max-width: 1720px !important;
+  }
+}
+
 html {
   overflow-x: clip;
 }

@@ -78,16 +78,16 @@ const VideoHoverCard = ({ project, isLight }) => {
       </div>
 
       {/* 2. Content Details Below Image with Proper Alignment */}
-      <div className="flex flex-col flex-1 p-5 md:p-6 justify-between gap-4">
+      <div className="flex flex-col flex-1 p-5 md:p-6 2xl:p-8 justify-between gap-4">
         <div className="space-y-2">
           <h3
-            className={`text-lg md:text-xl font-bold leading-snug transition-colors duration-200 ${isLightMode ? 'text-zinc-900 group-hover:text-[#2563EB]' : 'text-white group-hover:text-[#4169E1]'
+            className={`text-lg md:text-xl 2xl:text-2xl font-bold leading-snug transition-colors duration-200 ${isLightMode ? 'text-zinc-900 group-hover:text-[#2563EB]' : 'text-white group-hover:text-[#4169E1]'
               }`}
           >
             {isVolvo ? 'Volvo S90 Interactive Configurator' : renderCardTitle(project.title)}
           </h3>
           <p
-            className={`text-xs md:text-sm line-clamp-2 leading-relaxed ${isLightMode ? 'text-zinc-600' : 'text-zinc-400'
+            className={`text-xs md:text-sm 2xl:text-base line-clamp-2 leading-relaxed ${isLightMode ? 'text-zinc-600' : 'text-zinc-400'
               }`}
           >
             {isVolvo
@@ -100,7 +100,7 @@ const VideoHoverCard = ({ project, isLight }) => {
         <div className={`flex items-center justify-between gap-3 pt-3 mt-auto border-t ${isLightMode ? 'border-zinc-200' : 'border-zinc-800/80'
           }`}>
           {project.category ? (
-            <span className="text-[11px] md:text-xs font-semibold uppercase tracking-wider text-zinc-500 truncate max-w-[50%]">
+            <span className="text-[11px] md:text-xs 2xl:text-sm font-semibold uppercase tracking-wider text-zinc-500 truncate max-w-[50%]">
               {project.category}
             </span>
           ) : (
@@ -108,7 +108,7 @@ const VideoHoverCard = ({ project, isLight }) => {
           )}
 
           <span
-            className={`latest-work-cta group-hover/btn inline-flex items-center gap-2 px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full text-xs font-semibold uppercase tracking-wider transition-all duration-300 ml-auto shrink-0 ${isLightMode
+            className={`latest-work-cta group-hover/btn inline-flex items-center gap-2 px-3.5 sm:px-4 2xl:px-5 py-1.5 sm:py-2 2xl:py-2.5 rounded-full text-xs 2xl:text-sm font-semibold uppercase tracking-wider transition-all duration-300 ml-auto shrink-0 ${isLightMode
               ? 'bg-zinc-100 text-zinc-900 border border-zinc-300 group-hover:bg-[#2563EB] group-hover:!text-white group-hover:border-[#2563EB]'
               : 'bg-zinc-900 text-zinc-200 border border-zinc-700/80 group-hover:bg-[#2563EB] group-hover:!text-white group-hover:border-[#2563EB]'
               }`}
@@ -253,7 +253,7 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
         <div className="absolute bottom-0 left-0 w-full h-24 md:h-32 bg-gradient-to-b from-transparent to-black pointer-events-none"></div>
       )}
 
-      <div className="w-full mx-auto px-[15px] md:px-[40px] pt-1 md:pt-4">
+      <div className="latest-work-grid w-full mx-auto px-[15px] md:px-[40px] pt-1 md:pt-4">
         <div className="flex items-center justify-between gap-4 mb-6 md:mb-6">
           <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1]">
             Latest Work
@@ -324,7 +324,7 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
       </div>
 
       <div className="w-full px-[15px] md:px-[40px]">
-        <div key={activeTab} className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+        <div key={activeTab} className="latest-work-grid w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 2xl:gap-10">
           {displayedProjects.map((project) => (
             <VideoHoverCard key={project.id} project={project} isLight={isLightMode} />
           ))}
@@ -364,7 +364,7 @@ const LatestWorkFallback = ({ isLight = false }) => (
       <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1]">
         Latest Work
       </h2>
-      <div className="mt-8 max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+      <div className="mt-8 latest-work-grid w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 2xl:gap-10">
         {[0, 1].map((i) => (
           <div
             key={i}
