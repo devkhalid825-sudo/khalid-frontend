@@ -1,4 +1,4 @@
-import { Inter } from 'next/font/google';
+import { Inter, Syne } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { SITE_URL } from '@/utils/api';
@@ -9,6 +9,14 @@ const inter = Inter({
   variable: '--font-inter',
   subsets: ['latin'],
   display: 'swap',
+  weight: ['400', '500', '600'],
+});
+
+const syne = Syne({
+  variable: '--font-syne',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['700', '800'],
 });
 
 export const viewport = {
@@ -74,7 +82,7 @@ const GTM_ID = 'GTM-THD6T883';
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={inter.variable} suppressHydrationWarning>
+    <html lang="en" className={`${inter.variable} ${syne.variable}`} suppressHydrationWarning>
       <head>
         {/* Google Consent Mode v2 defaults — must run before gtag.js and GTM.
             Denied by default in EEA/UK/CH, granted elsewhere; a saved banner choice overrides both. */}
