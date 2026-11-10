@@ -8,7 +8,6 @@ import LatestWork from './LatestWork';
 import ClientReviews from './ClientReviews';
 import Solutions from './Solutions';
 import BrandsMarquee from './BrandsMarquee';
-import Technology from './Technology';
 import SocialMediaSection from './SocialMediaSection';
 import News from './News';
 import HomeFaq from './HomeFaq';
@@ -47,7 +46,7 @@ const Home = ({ initialFeatured, initialProjects, initialReviews, initialBlogs, 
       <HeroCTA />
 
       <div data-animate="s1" className={animClass('s1')}>
-        <LatestWork initialProjects={initialProjects} />
+        <LatestWork initialProjects={initialProjects} portfolioPreview />
       </div>
 
       <div data-animate="s2" className={animClass('s2')}>
@@ -57,10 +56,9 @@ const Home = ({ initialFeatured, initialProjects, initialReviews, initialBlogs, 
       </div>
 
       <div data-animate="s3" className={animClass('s3')}>
-        <Technology />
         <SocialMediaSection initialSocialMedia={initialSocialMedia} />
-        <News initialBlogs={initialBlogs} />
         <HomeFaq />
+        <News initialBlogs={initialBlogs} />
       </div>
 
       <div data-animate="s4" className={animClass('s4')}>
@@ -80,7 +78,11 @@ const Home = ({ initialFeatured, initialProjects, initialReviews, initialBlogs, 
                 Book Project Consultation
               </Link>
               <a
-                data-track-id="home-hero-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                data-track-id="home-hero-calendly"
+                data-track-cta="home-hero-calendly"
+                data-track-name="Schedule a Quick Call"
+                data-track-location="home_hero"
+                href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto inline-flex items-center justify-center text-center whitespace-nowrap px-6 py-3.5 sm:px-8 sm:py-3.5 md:px-10 md:py-4 border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white rounded-full text-xs sm:text-sm md:text-base font-semibold transition-all backdrop-blur-sm"

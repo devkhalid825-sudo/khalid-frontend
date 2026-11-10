@@ -55,6 +55,9 @@ const redirects = [
   // the-academy in the database, so old links/crawled URLs must redirect forward.
   ["/project/ahmed-food", "/project/ahmed-foods"],
   ["/project/ahmed-food/", "/project/ahmed-foods"],
+  // Project 97 was renamed in the CMS; keep the old shared links working.
+  ["/project/contact-vr-training-simulation", "/project/french-bee-vr-training"],
+  ["/project/contact-vr-training-simulation/", "/project/french-bee-vr-training"],
   ["/case-study/ahmed-food", "/project/ahmed-foods"],
   ["/case-study/ahmed-food/", "/project/ahmed-foods"],
   ["/case-study/ahmed-foods", "/project/ahmed-foods"],

@@ -27,9 +27,11 @@ import marineRaw from '../../assets/About-page/marine.webp';
 import timBarthRaw from '../../assets/About-page/tim-barth.webp';
 import modernVillaRaw from '../../assets/About-page/Nevegan.jpg';
 import furnitureRaw from '../../assets/ElipseImages/blogs/alnoor.webp';
-import jetourRaw from '../../assets/About-page/Jetour.webp';
+import volvoPaintRaw from '../../assets/About-page/volvo-s90-ue5-paint.webp';
+import golfCartRaw from '../../assets/About-page/golf-cart.webp';
 
-const jetourImg = getImgSrc(jetourRaw);
+const golfCartImg = getImgSrc(golfCartRaw);
+const volvoPaintImg = getImgSrc(volvoPaintRaw);
 const modernVilla = getImgSrc(modernVillaRaw);
 const furnitureImg = getImgSrc(furnitureRaw);
 const articleImg1 = getImgSrc(articleImg1Raw);
@@ -108,6 +110,15 @@ const News = ({ initialBlogs = null }) => {
 
   const staticPosts = [
     {
+      id: 'custom-configurator-vs-saas-2026',
+      title: 'Custom 3D Configurator vs SaaS Platform: Why Enterprise Brands Outgrow Turnkey SaaS',
+      image: golfCartImg,
+      date: 'NOVEMBER 10, 2026',
+      category: 'Enterprise 3D Commerce',
+      readTime: '14 min read',
+      url: '/blog/custom-3d-configurator-vs-saas-platform-enterprise-2026',
+    },
+    {
       id: 36,
       title: 'Commercial CGI vs Traditional Product Photography: Why High-Growth CPG Brands Cut Production Timelines by 70% with 3D Pipelines',
       image: renderingImg,
@@ -119,7 +130,7 @@ const News = ({ initialBlogs = null }) => {
     {
       id: 35,
       title: 'Unreal Engine 5 Pixel Streaming vs WebGL: The Enterprise Decision Framework for Interactive 3D (2026)',
-      image: jetourImg,
+      image: volvoPaintImg,
       date: 'OCTOBER 27, 2026',
       category: '3D Engine Architecture',
       readTime: '12 min read',

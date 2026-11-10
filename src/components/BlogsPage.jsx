@@ -44,11 +44,14 @@ import sharkRaw from '../assets/About-page/shark.webp';
 import marineRaw from '../assets/About-page/marine.webp';
 import timBarthRaw from '../assets/About-page/tim-barth.webp';
 import modernVillaRaw from '../assets/About-page/Nevegan.jpg';
-import jetourRaw from '../assets/About-page/Jetour.webp';
+import volvoPaintRaw from '../assets/About-page/volvo-s90-ue5-paint.webp';
 import roohafzaRaw from '../assets/About-page/roohafza.webp';
 import volvoRaw from '../assets/About-page/volvo-thumbnail.webp';
+import volvoUe5Raw from '../assets/About-page/volvo-s90-ue5-hero.webp';
+import golfCartRaw from '../assets/About-page/golf-cart.webp';
 
-const jetour = getImgSrc(jetourRaw);
+const golfCart = getImgSrc(golfCartRaw);
+const volvoPaint = getImgSrc(volvoPaintRaw);
 const roohafza = getImgSrc(roohafzaRaw);
 const modernVilla = getImgSrc(modernVillaRaw);
 const kia = getImgSrc(kiaRaw);
@@ -78,6 +81,7 @@ const vrHero = getImgSrc(vrHeroRaw);
 const articleImg1 = getImgSrc(articleImg1Raw);
 const articleImg2 = getImgSrc(articleImg2Raw);
 const volvo = getImgSrc(volvoRaw);
+const volvoUe5 = getImgSrc(volvoUe5Raw);
 
 const staticImages = {
     elephantImg, configuratorHero, arThumbnail, hero, hero4, techBg, volveImg,
@@ -86,6 +90,15 @@ const staticImages = {
 };
 
 const staticPosts = [
+    {
+        id: 'static-custom-configurator-vs-saas-2026',
+        title: 'Custom 3D Configurator vs SaaS Platform: Why Enterprise Brands Outgrow Turnkey SaaS',
+        excerpt: 'Render fidelity, parametric geometry, CPQ integration, mobile performance, asset ownership and per-session pricing — the six architectural ceilings that push enterprise brands from turnkey SaaS to custom configurators, plus migration signals, cost and ROI.',
+        image: golfCart,
+        date: 'NOVEMBER 10, 2026',
+        category: 'Enterprise 3D Commerce',
+        url: '/blog/custom-3d-configurator-vs-saas-platform-enterprise-2026',
+    },
     {
         id: 'static-ue5-cloud-pixel-streaming-automotive-2026',
         title: 'What Is Unreal Engine 5 Cloud Pixel Streaming for Automotive Configurators?',
@@ -126,7 +139,7 @@ const staticPosts = [
         id: 'static-ue5-pixel-streaming-vs-webgl-2026',
         title: 'Unreal Engine 5 Pixel Streaming vs WebGL: The Enterprise Decision Framework for Interactive 3D (2026)',
         excerpt: 'Client-side WebGL or cloud GPU pixel streaming? Complete breakdown using real benchmarks: BMW M-Performance (sub-2MB, 60 FPS mobile) vs Volvo S90 (AWS G5 Lumen ray tracing). Costs, latency, and conversion math.',
-        image: jetour,
+        image: volvoPaint,
         date: 'OCTOBER 27, 2026',
         category: '3D Engine Architecture',
         url: '/blog/unreal-engine-5-pixel-streaming-vs-webgl-2026',

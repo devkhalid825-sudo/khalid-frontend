@@ -5,6 +5,7 @@ import { buildMetadata } from '@/lib/seo';
 import ProjectPage from '@/components/ProjectPage';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
 import { getProjectValueProposition } from '@/constants/projectValueProps';
+import { projectMetaTitle, projectMetaDescription } from '@/seo/projectMeta';
 
 export const revalidate = 10; // 10s fast cache for fresh updates
 
@@ -116,11 +117,11 @@ export async function generateMetadata({ params }) {
       noIndex: true,
     });
   }
-  const { description, targetKeywords, image } = caseStudySchemas(safeSlug, data);
-  const cleanTitle = stripHtml(data.metaTitle || data.title);
+  const { targetKeywords, image } = caseStudySchemas(safeSlug, data);
+  const cleanTitle = projectMetaTitle(data, safeSlug);
   return buildMetadata({
-    title: data.metaTitle || data.title,
-    description,
+    title: cleanTitle,
+    description: projectMetaDescription(data, safeSlug, cleanTitle),
     keywords: targetKeywords || undefined,
     canonical: `${SITE_URL}/case-study/${safeSlug}`,
     ogImage: image || undefined,

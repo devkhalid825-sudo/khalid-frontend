@@ -151,14 +151,32 @@ const mapProjects = (data) =>
       previewVideo: p.previewVideo || p.video || p.heroVideo || '',
     }));
 
-const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
+// Portfolio-page `?category=` value that opens the same tab there (see categoryParam below).
+const PORTFOLIO_CATEGORY = { configurator: 'configurator', archviz: 'architecture', cgi: 'animation' };
+const PREVIEW_COUNT = 6;
+
+/** Maps a `?category=` value to a pillar tab key. */
+function tabFromCategory(category) {
+  const lower = String(category || '').toLowerCase();
+  if (lower === 'configurator') return 'configurator';
+  if (['vr', 'architecture', 'tour 360'].includes(lower)) return 'archviz';
+  if (lower === 'animation') return 'cgi';
+  return 'all';
+}
+
+/**
+ * portfolioPreview: show at most 6 cards per tab and a "View Portfolio" link instead of
+ * View More / Show Less. Used on the homepage; pages without it keep the full list.
+ */
+const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfolioPreview = false }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const themeContext = useTheme();
   const isLightMode = isLight !== undefined ? isLight : Boolean(themeContext?.isLight);
 
   const [apiProjects, setApiProjects] = useState(initialProjects ? mapProjects(initialProjects) : []);
-  const [activeTab, setActiveTab] = useState('all');
+  // Open on the tab named in ?category= (e.g. from the homepage "View Portfolio" link).
+  const [activeTab, setActiveTab] = useState(() => tabFromCategory(searchParams ? searchParams.get('category') : null));
   const [searchTerm, setSearchTerm] = useState('');
   const [visibleCount, setVisibleCount] = useState(6);
 
@@ -189,13 +207,7 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
   const [prevCategoryParam, setPrevCategoryParam] = useState(categoryParam);
   if (categoryParam !== prevCategoryParam) {
     setPrevCategoryParam(categoryParam);
-    if (categoryParam) {
-      const lower = categoryParam.toLowerCase();
-      if (lower === 'configurator') setActiveTab('configurator');
-      else if (['vr', 'architecture', 'tour 360'].includes(lower)) setActiveTab('archviz');
-      else if (lower === 'animation') setActiveTab('cgi');
-      else setActiveTab('all');
-    }
+    if (categoryParam) setActiveTab(tabFromCategory(categoryParam));
   }
 
   const handleTabChange = (key) => {
@@ -223,7 +235,13 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
     return categoryToPillars(project.category).has(activeTab);
   });
 
-  const displayedProjects = filteredProjects.slice(0, visibleCount);
+  const displayedProjects = filteredProjects.slice(0, portfolioPreview ? PREVIEW_COUNT : visibleCount);
+  const portfolioHref =
+    !searchTerm && PORTFOLIO_CATEGORY[activeTab] ? `/portfolio?category=${PORTFOLIO_CATEGORY[activeTab]}` : '/portfolio';
+  const buttonClass = `group relative flex items-center gap-3 border rounded-full px-8 sm:px-10 py-3 sm:py-4 text-xs sm:text-sm font-medium tracking-widest uppercase hover:scale-105 transition-all duration-300 ${isLightMode
+    ? 'bg-black/5 border-black/20 hover:bg-black hover:text-white'
+    : 'bg-white/5 border-white/20 hover:bg-white hover:text-black'
+    }`;
 
   return (
     <section
@@ -312,19 +330,24 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null }) => {
           ))}
         </div>
 
-        {filteredProjects.length > 6 && (
+        {portfolioPreview ? (
           <div className="flex justify-center mt-6 md:mt-8 pb-0 md:pb-2">
-            <button
-              onClick={filteredProjects.length > visibleCount ? loadMore : () => setVisibleCount(6)}
-              suppressHydrationWarning
-              className={`group relative flex items-center gap-3 border rounded-full px-8 sm:px-10 py-3 sm:py-4 text-xs sm:text-sm font-medium tracking-widest uppercase hover:scale-105 transition-all duration-300 ${isLightMode
-                ? 'bg-black/5 border-black/20 hover:bg-black hover:text-white'
-                : 'bg-white/5 border-white/20 hover:bg-white hover:text-black'
-                }`}
-            >
-              {filteredProjects.length > visibleCount ? 'View More' : 'Show Less'}
-            </button>
+            <Link href={portfolioHref} data-track-cta="latest-work-view-portfolio" className={buttonClass}>
+              View Portfolio
+            </Link>
           </div>
+        ) : (
+          filteredProjects.length > 6 && (
+            <div className="flex justify-center mt-6 md:mt-8 pb-0 md:pb-2">
+              <button
+                onClick={filteredProjects.length > visibleCount ? loadMore : () => setVisibleCount(6)}
+                suppressHydrationWarning
+                className={buttonClass}
+              >
+                {filteredProjects.length > visibleCount ? 'View More' : 'Show Less'}
+              </button>
+            </div>
+          )
         )}
       </div>
     </section>

@@ -825,6 +825,10 @@ html.light .group:hover .group-hover\:text-white:not(.capabilities-explore-btn *
 html.light .group:hover .latest-work-cta,
 html.light .latest-work-cta:hover {
   color: #ffffff !important;
+  /* Pages that render cards with dark classes (isLight={false}) get a forced white
+     background in day mode; keep the blue hover fill so the white text stays visible. */
+  background-color: #2563eb !important;
+  border-color: #2563eb !important;
 }
 html.light .group:hover .latest-work-cta svg,
 html.light .latest-work-cta:hover svg {
@@ -1056,6 +1060,36 @@ html.light .site-header-drawer button:hover,
 html.light .fixed.inset-0.bg-black a:hover,
 html.light .fixed.inset-0.bg-black button:hover {
   color: #4169e1 !important;
+}
+
+/* Theme toggle inside the white drawer: light circle with a black sun icon
+   (overrides the always-dark .site-theme-toggle rules further down). */
+html.light .site-header-drawer .site-theme-toggle {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.2) !important;
+  color: #000000 !important;
+}
+
+html.light .site-header-drawer .site-theme-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(0, 0, 0, 0.45) !important;
+}
+
+html.light .site-header-drawer .site-theme-toggle svg,
+html.light .site-header-drawer .site-theme-toggle svg circle,
+html.light .site-header-drawer .site-theme-toggle svg path {
+  color: #000000 !important;
+  fill: #000000 !important;
+}
+
+/* Sun rays are stroked <line>s and the icon carries an inline white stroke. */
+html.light .site-header-drawer .site-theme-toggle svg,
+html.light .site-header-drawer .site-theme-toggle svg line {
+  stroke: #000000 !important;
+}
+
+html.light .site-header-drawer .site-theme-toggle svg circle {
+  stroke: none !important;
 }
 
 /* 16. Forms & Inputs in Day Mode */

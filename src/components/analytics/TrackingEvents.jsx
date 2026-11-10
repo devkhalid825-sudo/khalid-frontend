@@ -72,7 +72,7 @@ export default function TrackingEvents() {
         if (cal) {
           const raw = cal.tagName === 'A' ? cal.getAttribute('href') : cal.getAttribute('data-track-destination');
           const payload = buildCalendlyClickPayload(cal, new URL(raw, window.location.href).href);
-          push({ event: 'calendly_click', ...payload, link_url: payload.destination_url, page_path });
+          push({ event: 'calendly_click', ...payload, link_type: 'calendly', link_url: payload.destination_url, page_path });
           rememberCalendlyClick(payload);
           // Runs before the browser follows the link, so the visitor lands on the decorated URL.
           if (cal.tagName === 'A') cal.setAttribute('href', decorateCalendlyUrl(payload.destination_url, payload));

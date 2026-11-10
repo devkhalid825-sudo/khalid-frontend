@@ -395,7 +395,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
                   alt="Elipse Studio"
                   width="230"
                   height="105"
-                  className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105`}
+                  className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 ${isLight ? 'invert' : ''}`}
                 />
               </Link>
 
@@ -409,7 +409,10 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
                 >
                   Contact Us
                 </button>
-                {!shouldHideThemeToggle && <ThemeToggle className="!text-white !border-white/20 !bg-white/5" />}
+                {/* The drawer turns white in light mode; globals.css ("Mobile Drawer in Day Mode") then styles this toggle dark-on-light. */}
+                {!shouldHideThemeToggle && (
+                  <ThemeToggle className={isLight ? '' : '!text-white !border-white/20 !bg-white/5'} />
+                )}
                 <button
                   onClick={() => setIsMenuOpen(false)}
                   className="focus:outline-none hover:scale-110 active:scale-95 p-1 flex items-center justify-center rounded-full transition-transform text-white cursor-pointer"

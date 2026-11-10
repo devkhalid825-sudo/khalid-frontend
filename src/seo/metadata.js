@@ -6,6 +6,25 @@ export const TWITTER_SITE = '@ElipseStudio';
 export const TWITTER_CREATOR = '@ElipseStudio';
 
 /**
+ * Points an og:image at the /og-image route (src/app/og-image/[...path]/route.js), which
+ * serves a 1200x630 JPEG under 300 KB. Only our own backend media and public /assets
+ * images are converted; any other URL is returned unchanged.
+ */
+export function toSocialPreview(imageUrl) {
+  const site = SITE_URL.replace(/\/+$/, '');
+  if (typeof imageUrl !== 'string' || !imageUrl.startsWith(`${site}/`)) {
+    return { url: imageUrl, converted: false };
+  }
+  const pathOnly = imageUrl.slice(site.length).split(/[?#]/)[0];
+  const media = pathOnly.match(/^\/media\/(\d{1,9})$/);
+  if (media) return { url: `${site}/og-image/media/${media[1]}.jpg`, converted: true };
+  if (/^\/assets\/[^?#]+\.(webp|png|jpe?g|avif|gif)$/i.test(pathOnly)) {
+    return { url: `${site}/og-image${pathOnly}.jpg`, converted: true };
+  }
+  return { url: imageUrl, converted: false };
+}
+
+/**
  * Builds standard metadata object compliant with Next.js 15 Metadata API:
  * canonical URLs, Open Graph, and Twitter cards. Schema.org JSON-LD is NOT
  * handled here — generateMetadata() can't render JSX, so render
@@ -48,6 +67,7 @@ export function buildMetadata({
   } else {
     sanitizedOgImage = DEFAULT_OG_IMAGE;
   }
+  const previewImage = toSocialPreview(sanitizedOgImage);
 
   const metadata = {
     title: { absolute: fullTitle },
@@ -88,11 +108,10 @@ export function buildMetadata({
       type,
       images: [
         {
-          url: sanitizedOgImage,
-          secureUrl: sanitizedOgImage,
-          type: 'image/webp',
-          width: 1200,
-          height: 630,
+          url: previewImage.url,
+          secureUrl: previewImage.url,
+          // Only claim type and size when the /og-image route guarantees them.
+          ...(previewImage.converted ? { type: 'image/jpeg', width: 1200, height: 630 } : {}),
           ...(ogImageAlt ? { alt: ogImageAlt } : {}),
         },
       ],
@@ -104,7 +123,7 @@ export function buildMetadata({
       creator: TWITTER_CREATOR,
       title: fullTitle,
       description: fullDescription,
-      images: [sanitizedOgImage],
+      images: [previewImage.url],
     },
     publisher: SITE_NAME,
     authors: [{ name: SITE_NAME }],

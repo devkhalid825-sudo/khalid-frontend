@@ -377,7 +377,11 @@ const Contact = () => {
 
               <div className="grid grid-cols-1 gap-4">
                 <a
-                  data-track-id="contact-section-calendly" href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                  data-track-id="contact-section-calendly"
+                  data-track-cta="contact-section-calendly"
+                  data-track-name="Schedule an Intro Call"
+                  data-track-location="contact_section"
+                  href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="flex items-center justify-center gap-4 bg-[#4169E1]/5 hover:bg-[#4169E1]/15 text-[#4169E1] border border-[#4169E1]/20 py-4 md:py-5 px-5 md:px-8 rounded-2xl transition-all duration-300 group"

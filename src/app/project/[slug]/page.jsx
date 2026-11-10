@@ -6,6 +6,7 @@ import ProjectPage from '@/components/ProjectPage';
 import { projectList, caseStudyEntries } from '@/components/projects/projectData';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
 import { getProjectValueProposition } from '@/constants/projectValueProps';
+import { cleanProjectTitle, projectMetaTitle, projectMetaDescription } from '@/seo/projectMeta';
 
 export const revalidate = 10; // 10s fast cache for fresh updates
 
@@ -147,10 +148,11 @@ export async function generateMetadata({ params }) {
   const { data } = await getProject(safeSlug);
   if (data && data.title) {
     const isHidden = isProjectHidden(data);
-    const { title, description, targetKeywords, image } = apiProjectSchemas(safeSlug, data);
+    const { targetKeywords, image } = apiProjectSchemas(safeSlug, data);
+    const title = projectMetaTitle(data, safeSlug);
     return buildMetadata({
       title,
-      description,
+      description: projectMetaDescription(data, safeSlug, title),
       keywords: targetKeywords || undefined,
       canonical: data.path ? (data.path.startsWith('http') ? data.path : `${SITE_URL}${data.path.startsWith('/') ? data.path : '/' + data.path}`) : `${SITE_URL}/project/${slug}`,
       ogImage: image || undefined,
@@ -161,12 +163,13 @@ export async function generateMetadata({ params }) {
   const staticProject = projectMap[slug];
   if (staticProject) {
     const { description, image } = staticProjectSchemas(slug, staticProject);
+    const staticTitle = cleanProjectTitle(staticProject.title);
     return buildMetadata({
-      title: staticProject.title,
+      title: staticTitle,
       description,
       canonical: `${SITE_URL}/project/${slug}`,
       ogImage: image || undefined,
-      ogImageAlt: `${staticProject.title} | Elipse Studio`,
+      ogImageAlt: `${staticTitle} | Elipse Studio`,
     });
   }
   return buildMetadata({
