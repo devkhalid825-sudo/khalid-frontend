@@ -1,22 +1,23 @@
-import { Inter, Syne } from 'next/font/google';
+import { Poppins, Lora } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { SITE_URL } from '@/utils/api';
 import { SITE_SCHEMA } from '@/seo/schemas';
 import SiteShell from '@/components/SiteShell';
 
-const inter = Inter({
-  variable: '--font-inter',
+const poppins = Poppins({
+  variable: '--font-poppins',
   subsets: ['latin'],
   display: 'swap',
-  weight: ['400', '500', '600'],
+  weight: ['400', '500', '600', '700', '800'],
 });
 
-const syne = Syne({
-  variable: '--font-syne',
+const lora = Lora({
+  variable: '--font-lora',
   subsets: ['latin'],
   display: 'swap',
-  weight: ['700', '800'],
+  weight: ['400', '500', '600', '700'],
+  style: ['normal', 'italic'],
 });
 
 export const viewport = {
@@ -82,7 +83,7 @@ const GTM_ID = 'GTM-THD6T883';
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${inter.variable} ${syne.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${poppins.variable} ${lora.variable}`} suppressHydrationWarning>
       <head>
         {/* Google Consent Mode v2 defaults — must run before gtag.js and GTM.
             Denied by default in EEA/UK/CH, granted elsewhere; a saved banner choice overrides both. */}
@@ -188,7 +189,7 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{ __html: JSON.stringify(SITE_SCHEMA) }}
         />
       </head>
-      <body className="font-sans antialiased bg-black text-white transition-colors duration-300" suppressHydrationWarning>
+      <body className="antialiased bg-black text-white transition-colors duration-300" suppressHydrationWarning>
         <noscript>
           <iframe
             src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}

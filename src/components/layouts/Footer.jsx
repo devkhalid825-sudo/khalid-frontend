@@ -129,7 +129,7 @@ const Footer = () => {
           color: rgba(255, 255, 255, 0.8) !important;
         }
       `}} />
-      <div className="w-full px-6 md:px-12">
+      <div className="home-container">
         <div className="flex flex-col md:flex-row justify-between w-full lg:w-auto gap-4 items-center py-8 md:py-12">
           <span className="text-lg font-light tracking-wide text-white/90 footer-heading">Join our mailing list:</span>
           <input

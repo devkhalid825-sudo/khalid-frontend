@@ -94,7 +94,7 @@ const SolutionsSection = () => {
 
       <div className="relative z-10">
         {/* Section Header - Full Width, No Left/Right Gap */}
-        <div className="flex items-center justify-between gap-3 sm:gap-6 mb-8 md:mb-12 px-[15px] md:px-[40px]">
+        <div className="home-container flex items-center justify-between gap-3 sm:gap-6 mb-8 md:mb-12">
           <div className="min-w-0">
             <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-white whitespace-nowrap">
               What We Do
@@ -132,7 +132,7 @@ const SolutionsSection = () => {
         </div>
 
         {/* Carousel / 3 Centered Cards */}
-        <div className="relative max-w-[1680px] mx-auto w-full px-4 sm:px-6 md:px-10 lg:px-12">
+        <div className="relative home-container">
           <Swiper
             onSwiper={(swiper) => {
               swiperRef.current = swiper;

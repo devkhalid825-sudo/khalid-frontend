@@ -329,7 +329,7 @@ const News = ({ initialBlogs = null }) => {
       className="w-full bg-[#1e2d6e] py-8 md:py-14 overflow-hidden font-sans flex flex-col justify-center relative"
     >
       <div className="w-full relative">
-        <div className="flex justify-between items-center px-[15px] md:px-[40px] gap-2 mb-6 md:mb-10">
+        <div className="home-container flex justify-between items-center gap-2 mb-6 md:mb-10">
           <h2
             className="news-heading text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] !text-white"
             style={{ color: '#ffffff' }}
@@ -344,6 +344,7 @@ const News = ({ initialBlogs = null }) => {
           </Link>
         </div>
 
+        <div className="home-container">
         <Swiper
           modules={[Autoplay, FreeMode]}
           loop={true}
@@ -357,7 +358,7 @@ const News = ({ initialBlogs = null }) => {
           }}
           freeMode={false}
           grabCursor={true}
-          className="!overflow-visible !px-[15px] md:!px-0"
+          className="!-mx-3 !px-3"
         >
           {featuredLoopPosts.map((post) => (
             <SwiperSlide key={post._key} className="!w-[230px] sm:!w-[340px] md:!w-[540px] lg:!w-[577px] py-2 md:py-4">
@@ -439,6 +440,7 @@ const News = ({ initialBlogs = null }) => {
             </SwiperSlide>
           ))}
         </Swiper>
+        </div>
       </div>
     </section>
   );

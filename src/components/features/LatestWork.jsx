@@ -1,12 +1,13 @@
 'use client';
 
-import React, { useState, useEffect, Suspense } from 'react';
+import React, { useState, useEffect, useRef, Suspense, useSyncExternalStore } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { FiSearch } from '@/components/ui/Icons';
 import { apiCall, BACKEND_ORIGIN } from '@/utils/api';
 import { getProjectValueProposition } from '@/constants/projectValueProps';
 import { useTheme } from '@/components/providers/ThemeProvider';
+import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion';
 
 
 import { isProjectHidden } from '@/utils/projectVisibility';
@@ -32,8 +33,178 @@ const categoryToPillars = (category = '') => {
   return pillars;
 };
 
-const VideoHoverCard = ({ project, isLight }) => {
+// ── Category filter dropdown (replaces the search box + 4 pill tabs) ──
+const FilterDropdown = ({ value, onChange, counts, isLightMode }) => {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef(null);
+  const current = PILLAR_TABS.find((t) => t.key === value) || PILLAR_TABS[0];
+
+  useEffect(() => {
+    if (!open) return undefined;
+    const onDown = (e) => { if (rootRef.current && !rootRef.current.contains(e.target)) setOpen(false); };
+    const onKey = (e) => { if (e.key === 'Escape') setOpen(false); };
+    document.addEventListener('pointerdown', onDown);
+    document.addEventListener('keydown', onKey);
+    return () => {
+      document.removeEventListener('pointerdown', onDown);
+      document.removeEventListener('keydown', onKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={rootRef} className="relative shrink-0">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-label={`Filter projects: ${current.label}`}
+        suppressHydrationWarning
+        className={`group inline-flex items-center gap-2.5 h-10 md:h-11 pl-3.5 pr-3 md:pl-4 md:pr-3.5 rounded-full border text-xs md:text-sm font-medium transition-all duration-300 ${open
+          ? 'border-[#4169E1] shadow-[0_0_0_4px_rgba(65,105,225,0.15)]'
+          : isLightMode ? 'border-zinc-200 hover:border-zinc-300' : 'border-white/10 hover:border-white/25'
+          } ${isLightMode ? 'bg-white text-zinc-900' : 'bg-[#0E0E10] text-white'}`}
+      >
+        <svg viewBox="0 0 16 16" width="15" height="15" fill="none" aria-hidden="true" className="text-[#4169E1]">
+          <path d="M2 4h12M4.5 8h7M7 12h2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" />
+        </svg>
+        <span className="max-w-[120px] sm:max-w-none truncate">{current.label}</span>
+        <svg
+          viewBox="0 0 16 16" width="14" height="14" fill="none" aria-hidden="true"
+          className={`opacity-60 transition-transform duration-300 ${open ? 'rotate-180' : ''}`}
+        >
+          <path d="M4 6l4 4 4-4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      </button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            role="listbox"
+            aria-label="Project categories"
+            initial={{ opacity: 0, y: -6, scale: 0.97 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -6, scale: 0.97 }}
+            transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+            className={`absolute right-0 top-full mt-2 z-30 w-[260px] p-1.5 rounded-2xl border origin-top-right ${isLightMode
+              ? 'bg-white border-zinc-200 shadow-[0_20px_50px_-15px_rgba(15,23,42,0.25)]'
+              : 'bg-[#111113] border-white/10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)]'
+              }`}
+          >
+            {PILLAR_TABS.map((t) => {
+              const active = t.key === value;
+              return (
+                <li key={t.key} role="option" aria-selected={active}>
+                  <button
+                    type="button"
+                    onClick={() => { onChange(t.key); setOpen(false); }}
+                    className={`w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl text-left text-sm transition-colors ${active
+                      ? 'bg-[#4169E1] text-white'
+                      : isLightMode ? 'text-zinc-700 hover:bg-zinc-100' : 'text-zinc-300 hover:bg-white/5 hover:text-white'
+                      }`}
+                  >
+                    <span className="font-medium">{t.label}</span>
+                    <span className={`text-[11px] tabular-nums px-2 py-0.5 rounded-full ${active
+                      ? 'bg-white/20 text-white'
+                      : isLightMode ? 'bg-zinc-100 text-zinc-500' : 'bg-white/5 text-zinc-500'
+                      }`}>
+                      {counts?.[t.key] ?? 0}
+                    </span>
+                  </button>
+                </li>
+              );
+            })}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+};
+
+const CARD_EASE = [0.22, 1, 0.36, 1];
+
+// Card rises in; its image starts blurred & zoomed and settles sharp.
+// Desktop: strong blur, replays on re-entry. Mobile: lighter blur, plays once
+// (large animated blur filters are expensive on phones and cause scroll jank).
+const cardVariants = {
+  hidden: ({ m }) => ({ opacity: 0, y: m ? 36 : 70, scale: m ? 0.98 : 0.96 }),
+  visible: ({ i, m }) => ({
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    transition: { duration: m ? 0.8 : 1, ease: CARD_EASE, delay: m ? 0 : (i % 2) * 0.12 },
+  }),
+};
+const mediaVariants = {
+  hidden: ({ m }) => ({ filter: m ? 'blur(10px)' : 'blur(28px)', scale: m ? 1.08 : 1.22 }),
+  visible: ({ i, m }) => ({
+    filter: 'blur(0px)',
+    scale: 1,
+    transition: {
+      filter: { duration: m ? 1.2 : 2.2, ease: [0.33, 1, 0.68, 1], delay: (m ? 0 : (i % 2) * 0.12) + 0.2 },
+      scale: { duration: m ? 1.2 : 2, ease: CARD_EASE, delay: (m ? 0 : (i % 2) * 0.12) + 0.1 },
+    },
+  }),
+};
+
+const MOBILE_QUERY = '(max-width: 767px)';
+const subscribeMobile = (cb) => {
+  const mq = window.matchMedia(MOBILE_QUERY);
+  mq.addEventListener('change', cb);
+  return () => mq.removeEventListener('change', cb);
+};
+const useIsMobile = () =>
+  useSyncExternalStore(
+    subscribeMobile,
+    () => window.matchMedia(MOBILE_QUERY).matches,
+    () => false
+  );
+
+// Heavy animated GIF thumbnails converted to lightweight looping MP4s.
+// Key = the backend media path of the original image. Files live in /public/card-media.
+// (Ahmed Foods: 49.6MB GIF → 2.4MB MP4 + 22KB poster.)
+const CARD_VIDEO_OVERRIDES = {
+  '/media/553': { video: '/card-media/ahmed-foods.mp4', poster: '/card-media/ahmed-foods-poster.webp' },
+};
+const getCardVideo = (src = '') => {
+  const m = src.match(/\/media\/[^?#]+/);
+  return m ? CARD_VIDEO_OVERRIDES[m[0]] : undefined;
+};
+
+// Poster shows instantly; the muted looping video mounts shortly before the
+// card scrolls into view and fades in once it is actually playing.
+const CardVideo = ({ video, poster, alt }) => {
+  const ref = useRef(null);
+  const near = useInView(ref, { margin: '400px 0px', once: true });
+  const [playing, setPlaying] = useState(false);
+  return (
+    <div ref={ref} className="absolute inset-0">
+      <Image src={poster} alt={alt} fill sizes="(max-width: 767px) 100vw, 700px" className="object-cover" />
+      {near && (
+        <video
+          src={video}
+          poster={poster}
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          onPlaying={() => setPlaying(true)}
+          aria-hidden="true"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${playing ? 'opacity-100' : 'opacity-0'}`}
+        />
+      )}
+    </div>
+  );
+};
+
+const VideoHoverCard = ({ project, isLight, index = 0 }) => {
   const themeContext = useTheme();
+  const reduced = useReducedMotion();
+  const isMobile = useIsMobile();
+  const anim = { i: index, m: isMobile };
+  // If the optimizer can't process a file (e.g. huge animated GIF), fall back to the original.
+  const [imgFailed, setImgFailed] = useState(false);
   const isLightMode = isLight !== undefined ? isLight : Boolean(themeContext?.isLight);
 
   const imageSrc = project.image
@@ -41,6 +212,7 @@ const VideoHoverCard = ({ project, isLight }) => {
       ? project.image
       : `${BACKEND_ORIGIN}${project.image}`
     : '';
+  const cardVideo = getCardVideo(imageSrc);
 
   const is360Tour = (project.category || '').toLowerCase().includes('360');
   const isVolvo = (project.title || '').toLowerCase().includes('volvo') ||
@@ -48,6 +220,14 @@ const VideoHoverCard = ({ project, isLight }) => {
     (project.path || '').toLowerCase().includes('volvo');
 
   return (
+    <motion.div
+      className="h-full"
+      custom={anim}
+      variants={cardVariants}
+      initial={reduced ? 'visible' : 'hidden'}
+      whileInView="visible"
+      viewport={{ once: isMobile, amount: 0.2 }}
+    >
     <Link
       href={project.path || `/case-study/${project.id}`}
       target={project.path?.startsWith('http') ? '_blank' : '_self'}
@@ -65,13 +245,26 @@ const VideoHoverCard = ({ project, isLight }) => {
       {/* 1. 16:9 HD Media Container */}
       <div className="relative w-full aspect-[16/9] overflow-hidden bg-zinc-900 shrink-0">
         {imageSrc ? (
-          <img
-            src={imageSrc}
-            alt={isVolvo ? 'Volvo S90 Interactive Configurator (Concept Demo)' : stripHtml(project.title)}
-            loading="lazy"
-            decoding="async"
-            className="object-cover w-full h-full"
-          />
+          <motion.div className="relative w-full h-full" custom={anim} variants={mediaVariants}>
+            {/* next/image serves a ~640–830px resized file instead of the 1920px
+                original — far cheaper to decode and to animate the blur over. */}
+            {cardVideo ? (
+              <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.04]">
+                <CardVideo video={cardVideo.video} poster={cardVideo.poster} alt={stripHtml(project.title)} />
+              </div>
+            ) : (
+            <Image
+              src={imageSrc}
+              alt={isVolvo ? 'Volvo S90 Interactive Configurator (Concept Demo)' : stripHtml(project.title)}
+              fill
+              sizes="(max-width: 767px) 100vw, (max-width: 1535px) 50vw, 700px"
+              loading="lazy"
+              unoptimized={imgFailed}
+              onError={() => setImgFailed(true)}
+              className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.04]"
+            />
+            )}
+          </motion.div>
         ) : (
           <div className="absolute inset-0 bg-zinc-900" />
         )}
@@ -132,6 +325,7 @@ const VideoHoverCard = ({ project, isLight }) => {
         </div>
       </div>
     </Link>
+    </motion.div>
   );
 };
 
@@ -177,7 +371,6 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
   const [apiProjects, setApiProjects] = useState(initialProjects ? mapProjects(initialProjects) : []);
   // Open on the tab named in ?category= (e.g. from the homepage "View Portfolio" link).
   const [activeTab, setActiveTab] = useState(() => tabFromCategory(searchParams ? searchParams.get('category') : null));
-  const [searchTerm, setSearchTerm] = useState('');
   const [visibleCount, setVisibleCount] = useState(6);
 
   useEffect(() => {
@@ -212,12 +405,6 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
 
   const handleTabChange = (key) => {
     setActiveTab(key);
-    setSearchTerm('');
-    setVisibleCount(6);
-  };
-
-  const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
     setVisibleCount(6);
   };
 
@@ -225,19 +412,20 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
     setVisibleCount((prev) => prev + 6);
   };
 
-  const filteredProjects = projects.filter((project) => {
-    if (pathname === project.path) return false;
-    const matchesSearch =
-      stripHtml(project.title).toLowerCase().includes(searchTerm.toLowerCase()) ||
-      project.category.toLowerCase().includes(searchTerm.toLowerCase());
-    if (searchTerm) return matchesSearch;
-    if (activeTab === 'all') return true;
-    return categoryToPillars(project.category).has(activeTab);
-  });
+  const visibleProjects = projects.filter((project) => pathname !== project.path);
+  const filteredProjects = visibleProjects.filter(
+    (project) => activeTab === 'all' || categoryToPillars(project.category).has(activeTab)
+  );
+  const tabCounts = PILLAR_TABS.reduce((acc, t) => {
+    acc[t.key] = t.key === 'all'
+      ? visibleProjects.length
+      : visibleProjects.filter((p) => categoryToPillars(p.category).has(t.key)).length;
+    return acc;
+  }, {});
 
   const displayedProjects = filteredProjects.slice(0, portfolioPreview ? PREVIEW_COUNT : visibleCount);
   const portfolioHref =
-    !searchTerm && PORTFOLIO_CATEGORY[activeTab] ? `/portfolio?category=${PORTFOLIO_CATEGORY[activeTab]}` : '/portfolio';
+    PORTFOLIO_CATEGORY[activeTab] ? `/portfolio?category=${PORTFOLIO_CATEGORY[activeTab]}` : '/portfolio';
   const buttonClass = `group relative flex items-center gap-3 border rounded-full px-8 sm:px-10 py-3 sm:py-4 text-xs sm:text-sm font-medium tracking-widest uppercase hover:scale-105 transition-all duration-300 ${isLightMode
     ? 'bg-black/5 border-black/20 hover:bg-black hover:text-white'
     : 'bg-white/5 border-white/20 hover:bg-white hover:text-black'
@@ -253,80 +441,24 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
         <div className="absolute bottom-0 left-0 w-full h-24 md:h-32 bg-gradient-to-b from-transparent to-black pointer-events-none"></div>
       )}
 
-      <div className="latest-work-grid w-full mx-auto px-[15px] md:px-[40px] pt-1 md:pt-4">
-        <div className="flex items-center justify-between gap-4 mb-6 md:mb-6">
+      <div className="home-container pt-1 md:pt-4">
+        <div className="flex items-center justify-between gap-4 mb-6 md:mb-10">
           <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1]">
             Latest Work
           </h2>
-          <div className="relative flex items-center w-full max-w-[180px] md:max-w-xs">
-            <div
-              className={`flex items-center border rounded-full pl-4 pr-1.5 py-1.5 w-full hover:border-[#4169E1]/50 transition-all duration-300 focus-within:border-[#4169E1] ${isLightMode
-                ? 'bg-zinc-100/50 border-zinc-200 focus-within:shadow-[0_0_15px_rgba(65,105,225,0.06)]'
-                : 'bg-zinc-900/50 border-zinc-800 focus-within:shadow-[0_0_15px_rgba(65,105,225,0.1)]'
-                }`}
-            >
-              <input
-                type="text"
-                placeholder="Search..."
-                className={`bg-transparent border-none outline-none text-[10px] md:text-sm w-full placeholder:text-zinc-500 min-h-[32px] ${isLightMode ? 'text-black' : 'text-white'
-                  }`}
-                value={searchTerm}
-                onChange={handleSearchChange}
-                aria-label="Search projects"
-                suppressHydrationWarning
-              />
-              <button
-                className="bg-[#4169E1] text-black p-2 md:p-2.5 rounded-full hover:bg-[#4169E1] transition-colors shrink-0 flex items-center justify-center min-w-[32px] min-h-[32px]"
-                aria-label="Submit Search"
-                suppressHydrationWarning
-              >
-                <FiSearch className="w-3.5 h-3.5 md:w-4 h-4" />
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* ── 4 Pillar Tabs (Centered) ── */}
-        <div className="relative mb-6 md:mb-10 w-full">
-          <div className="overflow-x-auto no-scrollbar flex justify-start sm:justify-center">
-            <div className="flex items-center justify-start sm:justify-center gap-2 sm:gap-2.5 md:gap-3 pb-2 pt-1 min-w-max sm:min-w-0 flex-nowrap sm:flex-wrap">
-              {PILLAR_TABS.map((tab) => {
-                const isActive = activeTab === tab.key && !searchTerm;
-                return (
-                  <button
-                    key={tab.key}
-                    onClick={() => handleTabChange(tab.key)}
-                    suppressHydrationWarning
-                    className={`h-9 md:h-10 px-4 md:px-5.5 rounded-full text-xs md:text-sm font-semibold transition-all duration-200 whitespace-nowrap cursor-pointer shrink-0 inline-flex items-center justify-center active:scale-95 ${isActive
-                      ? isLightMode
-                        ? 'bg-[#2563EB] text-white shadow-[0_2px_10px_rgba(37,99,235,0.35)] border border-blue-600/30 font-bold'
-                        : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] text-white shadow-[0_0_15px_rgba(65,105,225,0.45)] border border-blue-400/30 font-bold'
-                      : isLightMode
-                        ? 'bg-zinc-100 text-zinc-600 hover:bg-zinc-200 hover:text-zinc-900 border border-zinc-200/80'
-                        : 'bg-[#121212] text-zinc-400 hover:bg-[#1C1C1C] hover:text-white border border-white/10'
-                      }`}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-          {/* Subtle Right Edge Fade Indicator on Mobile (ultra-slim feather) */}
-          <div
-            className={`absolute right-0 top-0 bottom-2 w-3.5 sm:hidden pointer-events-none z-10 ${isLightMode
-              ? 'bg-gradient-to-l from-white/80 to-transparent'
-              : 'bg-gradient-to-l from-black/80 to-transparent'
-              }`}
-            aria-hidden="true"
+          <FilterDropdown
+            value={activeTab}
+            onChange={handleTabChange}
+            counts={tabCounts}
+            isLightMode={isLightMode}
           />
         </div>
       </div>
 
-      <div className="w-full px-[15px] md:px-[40px]">
-        <div key={activeTab} className="latest-work-grid w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 2xl:gap-10">
-          {displayedProjects.map((project) => (
-            <VideoHoverCard key={project.id} project={project} isLight={isLightMode} />
+      <div className="home-container">
+        <div key={activeTab} className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 2xl:gap-10">
+          {displayedProjects.map((project, i) => (
+            <VideoHoverCard key={project.id} project={project} isLight={isLightMode} index={i} />
           ))}
         </div>
 
@@ -360,11 +492,11 @@ const LatestWorkFallback = ({ isLight = false }) => (
     className={`relative transition-colors duration-300 ${isLight ? 'bg-white pt-8 md:pt-16 pb-10 md:pb-16' : 'bg-black pt-8 md:pt-12 pb-10'
       }`}
   >
-    <div className="w-full mx-auto px-[15px] md:px-[40px]">
+    <div className="home-container">
       <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1]">
         Latest Work
       </h2>
-      <div className="mt-8 latest-work-grid w-full max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 2xl:gap-10">
+      <div className="mt-8 w-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 2xl:gap-10">
         {[0, 1].map((i) => (
           <div
             key={i}

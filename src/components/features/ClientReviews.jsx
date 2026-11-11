@@ -33,7 +33,7 @@ const getYouTubeEmbedUrl = (url, muted = true) => {
  * pre-load margin). This prevents 24 simultaneous decoder allocations.
  */
 const LazyReviewSlide = ({ review, isMuted, onToggleMute }) => {
-  const [ref, inView] = useInView({ rootMargin: '0px 300px 0px 300px' });
+  const [ref, inView] = useInView({ rootMargin: '200px 300px 200px 300px' });
   const videoRef = useRef(null);
 
   return (
@@ -267,7 +267,7 @@ const ClientReviews = ({ initialReviews = null }) => {
       className="w-full bg-black pt-3 sm:pt-6 md:pt-14 pb-8 md:pb-14 overflow-hidden font-sans flex flex-col justify-center relative"
     >
       <div className="w-full relative">
-        <div className="flex justify-between items-center px-[15px] md:px-[40px] mb-6 md:mb-10">
+        <div className="home-container flex justify-between items-center mb-6 md:mb-10">
           <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-white">
             Client Reviews
           </h2>
@@ -420,7 +420,7 @@ const ClientReviews = ({ initialReviews = null }) => {
 
         {/* Desktop Swiper: Button-controlled slider (drag disabled) */}
         {isMobile !== true && (
-          <div className="max-md:!hidden px-[15px] md:px-[40px]">
+          <div className="max-md:!hidden home-container">
             <Swiper
               onSwiper={(swiper) => {
                 marqueeSwiperRef.current = swiper;
@@ -436,7 +436,7 @@ const ClientReviews = ({ initialReviews = null }) => {
               }}
               grabCursor={false}
               allowTouchMove={false}
-              className="!overflow-visible"
+              className="!-mx-2 !px-2 !py-2"
             >
               {displayReviews.map((review) => {
                 const isDtMuted = getIsMuted(`dt-${review.id}`);

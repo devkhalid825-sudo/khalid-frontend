@@ -374,11 +374,7 @@ const ContactForm = () => {
                         <button
                             type="submit"
                             disabled={isSubmitting || isLocked}
-                            className={`w-full contact-submit-btn flex items-center justify-center gap-2 text-center font-bold py-3.5 sm:py-4 px-4 sm:px-6 rounded-full text-xs sm:text-sm md:text-base transition-all cursor-pointer transform active:scale-[0.98] ${
-                                isLight
-                                    ? 'bg-black hover:bg-neutral-800 text-white shadow-lg shadow-black/20'
-                                    : 'bg-white hover:bg-neutral-200 text-black shadow-lg shadow-white/10 hover:shadow-white/20'
-                            } ${
+                            className={`w-full contact-submit-btn flex items-center justify-center gap-2 text-center font-bold py-3.5 sm:py-4 px-4 sm:px-6 rounded-full text-xs sm:text-sm md:text-base transition-all cursor-pointer transform active:scale-[0.98] bg-[#4169E1] hover:bg-[#3458c8] text-white shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 ${
                                 isSubmitting || isLocked
                                     ? 'opacity-50 cursor-not-allowed pointer-events-none'
                                     : ''

@@ -9,6 +9,50 @@ const getYouTubeId = (url) => {
   return match ? match[1] : null;
 };
 
+// ── Scroll-idle mount queue ──
+// Booting a YouTube embed costs ~100–150ms of main-thread JS. Mounting several
+// mid-scroll caused visible scroll jank, so players are mounted one at a time,
+// only after scrolling has been idle for a moment.
+const IDLE_MS = 350;
+const GAP_MS = 250;
+let lastScrollAt = 0;
+let listening = false;
+const queue = [];
+let draining = false;
+
+const ensureScrollListener = () => {
+  if (listening || typeof window === 'undefined') return;
+  listening = true;
+  window.addEventListener('scroll', () => { lastScrollAt = performance.now(); }, { passive: true });
+  window.addEventListener('wheel', () => { lastScrollAt = performance.now(); }, { passive: true });
+};
+
+const drain = () => {
+  if (draining) return;
+  draining = true;
+  const step = () => {
+    if (!queue.length) { draining = false; return; }
+    const since = performance.now() - lastScrollAt;
+    if (since < IDLE_MS) { setTimeout(step, IDLE_MS - since + 20); return; }
+    const job = queue.shift();
+    const run = () => { job.fn(); setTimeout(step, GAP_MS); };
+    if ('requestIdleCallback' in window) window.requestIdleCallback(run, { timeout: 800 });
+    else setTimeout(run, 0);
+  };
+  step();
+};
+
+const scheduleMount = (fn) => {
+  ensureScrollListener();
+  const job = { fn };
+  queue.push(job);
+  drain();
+  return () => {
+    const i = queue.indexOf(job);
+    if (i !== -1) queue.splice(i, 1);
+  };
+};
+
 /**
  * MediaFacade
  * 
@@ -41,7 +85,16 @@ export default function MediaFacade({
     setMounted(true);
   }, []);
 
-  const shouldRenderPlayer = mounted && (isActive || userActivated);
+  // `isActive` players wait for the scroll-idle queue; a click mounts instantly.
+  const [idleReady, setIdleReady] = useState(false);
+  useEffect(() => {
+    if (!isActive) return undefined;
+    let alive = true;
+    const cancel = scheduleMount(() => { if (alive) setIdleReady(true); });
+    return () => { alive = false; cancel(); setIdleReady(false); };
+  }, [isActive]);
+
+  const shouldRenderPlayer = mounted && ((isActive && idleReady) || userActivated);
 
   const resolvedPoster = useMemo(() => {
     if (posterUrl) return posterUrl;

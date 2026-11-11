@@ -97,6 +97,12 @@ const redirects = [
   ["/architectural-visualization/", "/services/architectural-visualization"],
   ["/contacts", "/contact"],
   ["/contacts/", "/contact"],
+  // /vr-training/french-bee — URL never existed as a Next.js route; redirect to the actual project page
+  ["/vr-training/french-bee", "/project/french-bee-vr-training"],
+  ["/vr-training/french-bee/", "/project/french-bee-vr-training"],
+  // /project/bean-trailer — slug missing from CMS & static data; redirect to correct slug
+  ["/project/bean-trailer", "/project/bean-trailer-3d-builder"],
+  ["/project/bean-trailer/", "/project/bean-trailer-3d-builder"],
 ];
 
 const wildcardRedirects = [

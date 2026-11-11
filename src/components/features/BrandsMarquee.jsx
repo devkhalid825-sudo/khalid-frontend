@@ -40,7 +40,7 @@ const BrandsMarquee = () => {
           backface-visibility: hidden;
         }
       `}} />
-      <div className="w-full overflow-hidden">
+      <div className="home-container"><div className="brands-marquee-mask w-full overflow-hidden">
         <div className="animate-marquee-custom flex items-center" style={{ animationDuration: '65s' }}>
           {[...brandsImages, ...brandsImages, ...brandsImages, ...brandsImages].map((brand, index) => (
             <div
@@ -56,7 +56,7 @@ const BrandsMarquee = () => {
             </div>
           ))}
         </div>
-      </div>
+      </div></div>
     </section>
   );
 };

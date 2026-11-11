@@ -40,7 +40,7 @@ const isDirectVideo = (url) => {
  * 12-24 simultaneous decoder allocations that previously caused 7,700ms TBT.
  */
 const LazyDesktopVideoSlide = ({ item }) => {
-  const [ref, inView] = useInView({ rootMargin: '0px 200px 0px 200px' });
+  const [ref, inView] = useInView({ rootMargin: '200px 200px 200px 200px' });
   return (
     <div ref={ref} className="absolute inset-0 overflow-hidden">
       {inView && item.videoUrl ? (
@@ -187,7 +187,7 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
           observer.disconnect();
         }
       },
-      { rootMargin: '200px' }
+      { rootMargin: '600px' }
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -198,7 +198,7 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
   return (
     <section ref={sectionRef} className="w-full bg-black py-6 md:py-10 overflow-hidden font-sans flex flex-col justify-center relative">
       <div className="w-full relative">
-        <div className="flex justify-between items-center px-[15px] md:px-[40px] gap-2 mb-4 md:mb-6">
+        <div className="home-container flex justify-between items-center gap-2 mb-4 md:mb-6">
           <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight leading-tight text-white">
             Social Media
           </h2>
@@ -302,7 +302,7 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
 
         {/* Desktop Swiper: Button-controlled (supports looping and fluid clicks) */}
         {isMobile !== true && (
-          <div className="max-md:!hidden px-[15px] md:px-[40px]">
+          <div className="max-md:!hidden home-container">
             <Swiper
               onSwiper={(swiper) => {
                 marqueeSwiperRef.current = swiper;
@@ -316,7 +316,7 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
               allowTouchMove={true}
               observer={true}
               observeParents={true}
-              className="!overflow-visible"
+              className="!-mx-3 !px-3"
             >
             {items.map((item) => (
               <SwiperSlide key={item.id} className="!w-[240px] sm:!w-[270px] md:!w-[290px] lg:!w-[305px] py-2 md:py-3">

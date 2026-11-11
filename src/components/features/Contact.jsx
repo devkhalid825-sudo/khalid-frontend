@@ -167,7 +167,7 @@ const Contact = () => {
 
   return (
     <section id="contact" className="py-10 md:py-16 bg-black text-white overflow-hidden">
-      <div className="mx-auto px-4 sm:px-6 md:px-16 max-w-8xl">
+      <div className="home-container">
         <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium mb-6 md:mb-10 tracking-tight leading-[1.1] text-center sm:text-left">
           Contact Us
         </h2>
@@ -318,7 +318,7 @@ const Contact = () => {
               <div className="pt-2">
                 <ReCaptcha
                   ref={recaptchaRef}
-                  theme="dark"
+                  theme={isLight ? 'light' : 'dark'}
                   onVerify={(token) => {
                     setRecaptchaToken(token);
                     setErrors((prev) => ({ ...prev, recaptcha: '' }));
@@ -353,11 +353,7 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting || isLocked}
-                  className={`w-full contact-submit-btn font-bold py-3.5 md:py-4 rounded-full text-sm md:text-base transition-all transform active:scale-[0.98] ${
-                    isLight
-                      ? 'bg-black hover:bg-neutral-800 text-white shadow-lg shadow-black/20'
-                      : 'bg-white hover:bg-neutral-200 text-black shadow-lg shadow-white/10 hover:shadow-white/20'
-                  } ${
+                  className={`w-full contact-submit-btn font-bold py-3.5 md:py-4 rounded-full text-sm md:text-base transition-all transform active:scale-[0.98] bg-[#4169E1] hover:bg-[#3458c8] text-white shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 ${
                     isSubmitting || isLocked
                       ? 'opacity-50 cursor-not-allowed pointer-events-none'
                       : ''

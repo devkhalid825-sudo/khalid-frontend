@@ -19,9 +19,9 @@ const HomeFaq = () => {
       id="faq"
       aria-labelledby="home-faq-heading"
       style={{ fontFamily: 'var(--font-syne), system-ui, sans-serif' }}
-      className={`w-full px-[15px] md:px-[40px] py-14 md:py-20 border-t transition-colors duration-300 ${isLight ? 'bg-white border-zinc-200' : 'bg-black border-zinc-800'}`}
+      className={`w-full py-14 md:py-20 border-t transition-colors duration-300 ${isLight ? 'bg-white border-zinc-200' : 'bg-black border-zinc-800'}`}
     >
-      <div className="max-w-4xl mx-auto">
+      <div className="home-container"><div className="max-w-4xl mx-auto">
         <h2
           id="home-faq-heading"
           className={`text-center text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] mb-6 md:mb-10 ${isLight ? 'text-zinc-900' : 'text-white'}`}
@@ -100,7 +100,7 @@ const HomeFaq = () => {
             })}
           </div>
         ))}
-      </div>
+      </div></div>
     </section>
   );
 };
