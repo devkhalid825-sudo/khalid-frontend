@@ -18,13 +18,12 @@ const HomeFaq = () => {
     <section
       id="faq"
       aria-labelledby="home-faq-heading"
-      style={{ fontFamily: 'var(--font-syne), system-ui, sans-serif' }}
       className={`w-full py-14 md:py-20 border-t transition-colors duration-300 ${isLight ? 'bg-white border-zinc-200' : 'bg-black border-zinc-800'}`}
     >
       <div className="home-container"><div className="max-w-4xl mx-auto">
         <h2
           id="home-faq-heading"
-          className={`text-center text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] mb-6 md:mb-10 ${isLight ? 'text-zinc-900' : 'text-white'}`}
+          className={`text-center text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1] mb-6 md:mb-10 ${isLight ? 'text-zinc-900' : 'text-white'}`}
         >
           Frequently Asked Questions
         </h2>
@@ -78,7 +77,7 @@ const HomeFaq = () => {
                       onClick={() => setOpenQuestion(isOpen ? null : questionId)}
                       className="w-full flex items-center justify-between gap-4 text-left cursor-pointer"
                     >
-                      <span className={`text-sm sm:text-lg font-medium ${isOpen ? 'text-[#4169E1]' : isLight ? 'text-zinc-900' : 'text-zinc-200'}`}>
+                      <span className={`text-sm sm:text-lg font-semibold tracking-[-0.02em] ${isOpen ? 'text-[#4169E1]' : isLight ? 'text-zinc-900' : 'text-zinc-200'}`}>
                         {faq.q}
                       </span>
                       <span aria-hidden="true" className={`text-xl text-[#4169E1] transition-transform duration-200 shrink-0 ${isOpen ? 'rotate-45' : ''}`}>
@@ -91,7 +90,7 @@ const HomeFaq = () => {
                     role="region"
                     aria-labelledby={`home-faq-question-${questionId}`}
                     hidden={!isOpen}
-                    className={`mt-3 pr-6 text-sm sm:text-base leading-relaxed ${isLight ? 'text-zinc-600' : 'text-zinc-400'}`}
+                    className={`home-faq-answer mt-3 pr-6 text-sm sm:text-base font-serif leading-[1.75] ${isLight ? 'text-zinc-600' : 'text-zinc-400'}`}
                   >
                     {faq.a}
                   </div>

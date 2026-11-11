@@ -86,9 +86,9 @@ const FilterDropdown = ({ value, onChange, counts, isLightMode }) => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -6, scale: 0.97 }}
             transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
-            className={`absolute right-0 top-full mt-2 z-30 w-[260px] p-1.5 rounded-2xl border origin-top-right ${isLightMode
-              ? 'bg-white border-zinc-200 shadow-[0_20px_50px_-15px_rgba(15,23,42,0.25)]'
-              : 'bg-[#111113] border-white/10 shadow-[0_20px_50px_-15px_rgba(0,0,0,0.8)]'
+            className={`absolute right-0 top-full mt-2 z-30 w-[240px] p-2 rounded-2xl border origin-top-right shadow-2xl backdrop-blur-md ${isLightMode
+              ? 'bg-white/95 border-zinc-200/80 shadow-[0_20px_40px_-15px_rgba(15,23,42,0.18)]'
+              : 'bg-[#121214]/95 border-white/10 shadow-[0_20px_40px_-15px_rgba(0,0,0,0.9)]'
               }`}
           >
             {PILLAR_TABS.map((t) => {
@@ -98,18 +98,17 @@ const FilterDropdown = ({ value, onChange, counts, isLightMode }) => {
                   <button
                     type="button"
                     onClick={() => { onChange(t.key); setOpen(false); }}
-                    className={`w-full flex items-center justify-between gap-3 px-3.5 py-2.5 rounded-xl text-left text-sm transition-colors ${active
-                      ? 'bg-[#4169E1] text-white'
-                      : isLightMode ? 'text-zinc-700 hover:bg-zinc-100' : 'text-zinc-300 hover:bg-white/5 hover:text-white'
+                    className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left text-sm font-medium transition-all duration-200 ${active
+                      ? 'bg-[#4169E1] text-white shadow-md shadow-[#4169E1]/30 font-semibold'
+                      : isLightMode ? 'text-zinc-700 hover:bg-zinc-100/80 hover:text-zinc-950' : 'text-zinc-300 hover:bg-white/5 hover:text-white'
                       }`}
                   >
-                    <span className="font-medium">{t.label}</span>
-                    <span className={`text-[11px] tabular-nums px-2 py-0.5 rounded-full ${active
-                      ? 'bg-white/20 text-white'
-                      : isLightMode ? 'bg-zinc-100 text-zinc-500' : 'bg-white/5 text-zinc-500'
-                      }`}>
-                      {counts?.[t.key] ?? 0}
-                    </span>
+                    <span>{t.label}</span>
+                    {active && (
+                      <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="text-white shrink-0">
+                        <polyline points="3.5 8.5 6.5 11.5 12.5 5" />
+                      </svg>
+                    )}
                   </button>
                 </li>
               );
@@ -274,13 +273,13 @@ const VideoHoverCard = ({ project, isLight, index = 0 }) => {
       <div className="flex flex-col flex-1 p-5 md:p-6 2xl:p-8 justify-between gap-4">
         <div className="space-y-2">
           <h3
-            className={`text-lg md:text-xl 2xl:text-2xl font-bold leading-snug transition-colors duration-200 ${isLightMode ? 'text-zinc-900 group-hover:text-[#2563EB]' : 'text-white group-hover:text-[#4169E1]'
+            className={`text-lg md:text-xl 2xl:text-2xl font-bold tracking-[-0.02em] leading-snug transition-colors duration-200 ${isLightMode ? 'text-zinc-900 group-hover:text-[#2563EB]' : 'text-white group-hover:text-[#4169E1]'
               }`}
           >
             {isVolvo ? 'Volvo S90 Interactive Configurator' : renderCardTitle(project.title)}
           </h3>
           <p
-            className={`text-xs md:text-sm 2xl:text-base line-clamp-2 leading-relaxed ${isLightMode ? 'text-zinc-600' : 'text-zinc-400'
+            className={`text-xs md:text-sm 2xl:text-base line-clamp-2 font-serif leading-[1.75] ${isLightMode ? 'text-zinc-600' : 'text-zinc-400'
               }`}
           >
             {isVolvo
@@ -443,7 +442,7 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
 
       <div className="home-container pt-1 md:pt-4">
         <div className="flex items-center justify-between gap-4 mb-6 md:mb-10">
-          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1]">
+          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1]">
             Latest Work
           </h2>
           <FilterDropdown
@@ -493,7 +492,7 @@ const LatestWorkFallback = ({ isLight = false }) => (
       }`}
   >
     <div className="home-container">
-      <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1]">
+      <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1]">
         Latest Work
       </h2>
       <div className="mt-8 w-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 2xl:gap-10">

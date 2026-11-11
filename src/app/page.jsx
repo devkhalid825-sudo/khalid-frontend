@@ -60,6 +60,9 @@ export function generateMetadata() {
       ...base.twitter,
       title: 'Elipse Studio - Interactive Digital Experiences',
     },
+    verification: {
+      google: 'bst4UQzqUCEMHZxGlv85mbsWv9EfHKGFPdhJpmZiXCU',
+    },
   };
 }
 

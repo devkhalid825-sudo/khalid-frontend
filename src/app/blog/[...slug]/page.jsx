@@ -7,6 +7,7 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  '3d-anamorphic-billboard-production': dynamic(() => import('@/components/articles/AnamorphicBillboardProductionArticle')),
   'custom-3d-configurator-vs-saas-platform-enterprise-2026': dynamic(() => import('@/components/articles/CustomConfiguratorVsSaasArticle')),
   'custom-configurator-vs-saas': dynamic(() => import('@/components/articles/CustomConfiguratorVsSaasArticle')),
   'unreal-engine-5-cloud-pixel-streaming-automotive-configurators-2026': dynamic(() => import('@/components/articles/UE5CloudPixelStreamingAutomotiveArticle')),
@@ -59,6 +60,21 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  '3d-anamorphic-billboard-production': {
+    title: 'Commercial 3D Anamorphic Billboard Production: Naked-Eye 3D LED Campaigns for Times Square, Piccadilly & Dubai | Elipse Studio',
+    description: '2026 technical production guide to 3D anamorphic billboards: sweet-spot optics, curved LED architecture, 8K–16K render pipeline, genlock playback, media vs production costs, and viral earned-media benchmarks.',
+    keywords: [
+      '3d anamorphic billboard production',
+      'naked eye 3d led screen cost',
+      'anamorphic advertising visual effects',
+      'curved led 3d commercial production',
+      '3d billboard agency cost',
+      'anamorphic billboard times square',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/3d-anamorphic-billboard-production`,
+    ogImage: `${SITE_URL}/assets/ElipseImages/projects/0.webp`,
+  },
   'custom-3d-configurator-vs-saas-platform-enterprise-2026': {
     title: 'Custom 3D Configurator vs SaaS Platform: Why Enterprise Brands Outgrow Turnkey SaaS | Elipse Studio',
     description: 'Why enterprise brands outgrow SaaS configurators like Cylindo, Threekit and Zakeke: render fidelity, parametric geometry, CPQ integration, mobile performance, asset ownership and per-session pricing — plus migration signals, cost, timelines and ROI.',
@@ -572,7 +588,8 @@ export async function generateStaticParams() {
 const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 
 function staticArticleSchemas(slugStr, meta) {
-  const isAnamorphicBillboard = slugStr.includes('3d-anamorphic-billboard') || slugStr.includes('anamorphic-billboard');
+  const isAnamorphicProduction = slugStr === '3d-anamorphic-billboard-production';
+  const isAnamorphicBillboard = !isAnamorphicProduction && (slugStr.includes('3d-anamorphic-billboard') || slugStr.includes('anamorphic-billboard'));
   const isCommercialCgi = slugStr.startsWith('commercial-cgi-vs');
   const isSpatialCommerce = slugStr.startsWith('spatial-commerce');
   const isArchvizPresales = slugStr === 'real-time-archviz-vr-luxury-real-estate-presales-2026';
@@ -589,6 +606,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isAnamorphicProduction) return '2026-11-11';
     if (isCustomVsSaas) return '2026-11-10';
     if (isUe5CloudAutomotive) return '2026-11-03';
     if (isAnamorphicBillboard) return '2026-10-30';
@@ -836,6 +854,29 @@ function staticArticleSchemas(slugStr, meta) {
     },
   ]);
 
+  const anamorphicProductionFaq = buildFaqSchema([
+    {
+      q: 'How long does 3D anamorphic billboard production take?',
+      a: 'A standard 30–45 second anamorphic content piece from brief to final deliverable takes 8–12 weeks, covering screen architecture survey, 3D modelling, rigging, simulation, rendering, compositing, and technical mastering. Rush timelines of 4–6 weeks are possible with premium render farm prioritisation but add 20–30% to production cost.',
+    },
+    {
+      q: 'Do we need to own the LED screen to produce anamorphic content?',
+      a: 'No. Elipse Studio works with existing LED installations owned by JCDecaux, Clear Channel, and independent operators. We need the technical specifications sheet of the booked screen before production begins, and can advise on locations with the corner architecture a high-quality anamorphic effect requires.',
+    },
+    {
+      q: 'Can anamorphic content be re-used across multiple screens?',
+      a: 'Only partially. The camera frustum is calibrated to one specific corner geometry, so content cannot be used unchanged on a screen with different dimensions. The core 3D assets, simulations, and rigs can be re-rendered for a new frustum at approximately 30–40% of the original production cost.',
+    },
+    {
+      q: 'What is the minimum billboard size for a convincing 3D effect?',
+      a: 'A 4m × 4m corner wrap with P5 or better pixel pitch at a sweet-spot distance of at least 15m. For campaigns where social virality is the primary goal, a minimum 6m × 8m configuration with P4 pitch is recommended.',
+    },
+    {
+      q: 'Does Elipse Studio manage media buying in addition to production?',
+      a: 'Elipse Studio is a production and creative technology studio, not a media buying agency. We produce and technically master the content for the specific screen, and can facilitate introductions to OOH media owners in Pakistan, UAE, Saudi Arabia, UK, and the US.',
+    },
+  ]);
+
   const commercialCgiFaq = buildFaqSchema([
     {
       q: 'Why are CPG and food brands replacing traditional product photography with commercial 3D CGI?',
@@ -884,6 +925,7 @@ function staticArticleSchemas(slugStr, meta) {
   if (isAuProductConfigurator) extraSchemas = [auProductConfiguratorFaq, authorSchema];
   if (isUe5CloudAutomotive) extraSchemas = [ue5CloudAutomotiveFaq, authorSchema];
   if (isCustomVsSaas) extraSchemas = [authorSchema];
+  if (isAnamorphicProduction) extraSchemas = [anamorphicProductionFaq, authorSchema];
 
   return [schema, breadcrumb, ...extraSchemas].filter(Boolean);
 }

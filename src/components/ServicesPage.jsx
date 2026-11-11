@@ -48,7 +48,7 @@ const ServicesPage = () => {
                 transition={{ duration: 0.8, ease: "easeOut" }}
                 className="bg-black text-white min-h-screen font-sans"
             >
-                <section className="relative min-h-screen px-6 md:px-16 pt-[140px] pb-[3rem] flex flex-col justify-between overflow-hidden">
+                <section className="services-hero-section keep-dark-hero relative min-h-screen px-6 md:px-16 pt-[140px] pb-[3rem] flex flex-col justify-between overflow-hidden">
                     <div className="absolute inset-0"
                         style={{
                             backgroundImage: `url(${backgroundImage})`,

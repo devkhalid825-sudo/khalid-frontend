@@ -196,10 +196,10 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
   if (items.length === 0) return null;
 
   return (
-    <section ref={sectionRef} className="w-full bg-black py-6 md:py-10 overflow-hidden font-sans flex flex-col justify-center relative">
+    <section ref={sectionRef} className="w-full bg-black py-6 md:py-10 overflow-hidden flex flex-col justify-center relative">
       <div className="w-full relative">
         <div className="home-container flex justify-between items-center gap-2 mb-4 md:mb-6">
-          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-tight leading-tight text-white">
+          <h2 className="text-2xl sm:text-3xl md:text-4xl font-semibold tracking-[-0.02em] leading-tight text-white">
             Social Media
           </h2>
 
@@ -252,8 +252,7 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
                 <SwiperSlide key={item.id} className="!w-full py-4">
                   <div
                     data-slide-id={idx}
-                    className="relative w-full h-[420px] bg-[#1a1a1c] overflow-hidden rounded-[24px]"
-                    style={{ boxShadow: '0 20px 60px rgba(0,0,0,0.7)' }}
+                    className="social-media-card relative w-full h-[420px] bg-[#1a1a1c] overflow-hidden rounded-[24px] border border-white/10"
                   >
                     <div className="block w-full h-full">
                       <div className="absolute inset-0 overflow-hidden">
@@ -322,8 +321,7 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
               <SwiperSlide key={item.id} className="!w-[240px] sm:!w-[270px] md:!w-[290px] lg:!w-[305px] py-2 md:py-3">
                 <div className="block w-full h-full">
                   <div
-                    className="relative w-full h-[420px] sm:h-[480px] md:h-[515px] lg:h-[540px] bg-[#1a1a1c] overflow-hidden group cursor-pointer rounded-[22px] border border-zinc-800/60 transition-all duration-300 hover:border-zinc-700"
-                    style={{ boxShadow: '0 16px 40px rgba(0,0,0,0.6)' }}
+                    className="social-media-card relative w-full h-[420px] sm:h-[480px] md:h-[515px] lg:h-[540px] bg-[#1a1a1c] overflow-hidden group cursor-pointer rounded-[22px] border border-white/10 transition-all duration-300 hover:border-[#4169E1]/50 shadow-md"
                     onClick={() => item.videoUrl && window.open(item.videoUrl, '_blank', 'noopener,noreferrer')}
                   >
                     {sectionVisible ? (

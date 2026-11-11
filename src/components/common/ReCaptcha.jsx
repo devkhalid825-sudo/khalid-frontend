@@ -38,6 +38,12 @@ const ReCaptcha = forwardRef(function ReCaptcha(
   useEffect(() => {
     let intervalId = null;
 
+    // Reset container if theme changes so grecaptcha re-renders with the updated theme
+    if (containerRef.current) {
+      containerRef.current.innerHTML = '';
+      widgetIdRef.current = null;
+    }
+
     const renderWidget = () => {
       if (!containerRef.current) return false;
       // If already rendered inside this container

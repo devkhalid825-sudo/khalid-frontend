@@ -13,6 +13,10 @@ import HomeFaq from './HomeFaq';
 import Contact from './Contact';
 import Footer from '../layouts/Footer';
 import StudioIntro from './StudioIntro';
+
+// Temporarily hidden on the home page — flip to true to bring them back
+const SHOW_STUDIO_INTRO = false;
+const SHOW_CORE_CAPABILITIES = false;
 import SmoothScroll from './SmoothScroll';
 import Reveal, { RevealGroup, RevealItem } from './Reveal';
 
@@ -49,7 +53,7 @@ const METHOD = [
 // Shared layout for "Core Capabilities" and "How We Work" so both match:
 // same container, header, card style, spacing and reveal animation.
 const CardSection = ({ eyebrow, title, intro, items, cols }) => (
-  <section className="home-cards-section bg-black border-t border-zinc-900 py-14 md:py-20">
+  <section className="home-cards-section bg-black py-14 md:py-20">
     <div className="home-container">
       <Reveal className="home-cards-head">
         <div>
@@ -57,11 +61,11 @@ const CardSection = ({ eyebrow, title, intro, items, cols }) => (
             <span className="home-eyebrow-dot" aria-hidden="true" />
             {eyebrow}
           </p>
-          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-white max-w-2xl">
+          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1] text-white max-w-2xl">
             {title}
           </h2>
         </div>
-        {intro && <p className="home-cards-intro text-gray-400">{intro}</p>}
+        {intro && <p className="home-cards-intro text-gray-400 font-serif leading-[1.75]">{intro}</p>}
       </Reveal>
 
       <RevealGroup className={`grid grid-cols-1 ${cols} gap-5 md:gap-6`}>
@@ -73,7 +77,7 @@ const CardSection = ({ eyebrow, title, intro, items, cols }) => (
                 {it.tag && <span className="home-card-tag">{it.tag}</span>}
               </div>
               <h3 className="home-card-title text-white">{it.title}</h3>
-              <p className="home-card-desc text-gray-400">{it.desc}</p>
+              <p className="home-card-desc text-gray-400 font-serif leading-[1.75]">{it.desc}</p>
               {it.href && (
                 <span className="home-card-more">
                   Explore
@@ -107,19 +111,19 @@ const Home = ({ initialProjects, initialReviews, initialBlogs, initialSocialMedi
       <HeroCTA />
 
       {/* ── Bilal Directive: Hero Tagline + AEO Block + Metric Ticker ── */}
-      <StudioIntro />
+      {SHOW_STUDIO_INTRO && <StudioIntro />}
 
       {/* ── Latest Work (cards animate individually) ── */}
       <LatestWork initialProjects={initialProjects} portfolioPreview />
 
       {/* ── Bilal Directive: 3 Core Editorial Service Pillars ── */}
-      <CardSection
+      {SHOW_CORE_CAPABILITIES && <CardSection
         eyebrow="Core Capabilities"
         title="Three disciplines. One integrated studio."
         intro="Every engagement draws on configurator engineering, spatial visualisation, and cinematic CGI — under one roof."
         cols="md:grid-cols-3"
         items={PILLARS.map((p) => ({ key: p.num, num: p.num, title: p.title, desc: p.desc, href: p.href }))}
-      />
+      />}
 
       {/* Slider + video sections stay unwrapped: animating their transforms
           while videos/iframes mount caused visible scroll jank. */}
@@ -143,10 +147,10 @@ const Home = ({ initialProjects, initialReviews, initialBlogs, initialSocialMedi
       {/* Original CTA section */}
       <section className="bg-black py-14 md:py-20 border-t border-zinc-800">
         <Reveal className="home-container text-center">
-          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium text-white mb-3 md:mb-4 tracking-tight leading-[1.1]">
+          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold text-white mb-3 md:mb-4 tracking-[-0.02em] leading-[1.1]">
             Not Ready for a Full Proposal?
           </h2>
-          <p className="text-gray-400 text-xs md:text-base max-w-xl mx-auto mb-5 md:mb-8">
+          <p className="text-gray-400 text-xs md:text-base max-w-xl mx-auto mb-5 md:mb-8 font-serif leading-[1.75]">
             Get a free sample render or ballpark estimate &mdash; no commitment required
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none mx-auto">

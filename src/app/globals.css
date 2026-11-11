@@ -18,17 +18,29 @@
 }
 
 /* ── Poppins heading font applied globally to h1-h3 ── */
-h1, h2, h3,
+h1, h2, h3, h4, h5, h6,
+.metric-value,
+.si-metric-value,
 .font-heading {
+  font-weight: 600;
   font-family: var(--font-poppins), system-ui, -apple-system, sans-serif;
   letter-spacing: -0.02em;
 }
 
 /* ── Lora serif for editorial body / paragraphs ── */
-p.editorial, .font-editorial, blockquote {
+p, .body-text, p.editorial, .font-editorial, blockquote,
+.solution-card-desc, .home-card-desc, .home-cards-intro, .home-faq-answer {
   font-family: var(--font-lora), Georgia, serif;
   line-height: 1.75;
   font-weight: 400;
+}
+
+p strong, p b, .body-medium {
+  font-weight: 500;
+}
+
+p em, p i, .italic-accent {
+  font-style: italic;
 }
 
 /* ── Latest Work ultra-wide responsive grid container ── */
@@ -1302,6 +1314,13 @@ html.light .social-icon-btn:hover .social-icon-inner {
   color: #4169e1 !important;
 }
 
+/* Social Media Cards in Day Mode */
+html.light .social-media-card,
+html[data-theme="light"] .social-media-card {
+  box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08) !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+
 /* 19. Blog and Articles in Day Mode */
 html.light .blog-content h2,
 html.light .blog-content h3,
@@ -1343,6 +1362,7 @@ html.light [class*="via-[#8ca8ff]"].bg-clip-text {
 
 /* 21. News & Blogs Section Heading (Signature Deep Blue Banner Preserved) */
 html.light #news h2,
+html.light #news h3,
 html.light #news .news-heading {
   color: #ffffff !important;
 }
@@ -1606,6 +1626,38 @@ html.light .keep-dark-hero .featured-swiper .bg-white p {
   color: #1a1a1a !important;
 }
 
+/* Services hero: identical to dark theme in light mode */
+html.light .services-hero-section h1.text-\[\#F2F0EB\] {
+  color: #F2F0EB !important;
+}
+html.light .services-hero-section h1 .text-\[\#4169E1\] {
+  color: #4169E1 !important;
+}
+html.light .services-hero-section p.text-gray-400 {
+  color: #9ca3af !important;
+}
+html.light .services-hero-section button.text-white\/70 {
+  color: rgba(255, 255, 255, 0.7) !important;
+  border-color: rgba(255, 255, 255, 0.2) !important;
+  background-color: transparent !important;
+}
+html.light .services-hero-section button.text-white\/70:hover {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.5) !important;
+}
+html.light .services-hero-section .bg-\[\#111\] {
+  background-color: #111111 !important;
+}
+html.light .services-hero-section .bg-\[\#4169E1\]\/20 {
+  background-color: rgba(65, 105, 225, 0.2) !important;
+}
+html.light .services-hero-section .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+html.light .services-hero-section .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
 /* While inside Hero (not scrolled past), header background is completely transparent */
 html.light header:not(.header-scrolled):not(.header-menu-open) {
   background-color: transparent !important;
@@ -1629,19 +1681,34 @@ html.light header.header-scrolled {
 @media (max-width: 767px) {
 
   /* On mobile hero, ONLY keep logo and icons white if header is truly over a dark video with text-white */
-  html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) .site-logo {
+  html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) .site-logo:not(.header-main-logo) {
     filter: none !important;
   }
 
-  html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) button:not(.site-theme-toggle),
-  html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) .site-header-contact-btn {
+  /* Header main logo: always solid black on mobile in light mode */
+  html.light .header-main-logo {
+    filter: brightness(0) !important;
+  }
+
+  html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) button:not(.site-theme-toggle):not(.site-header-contact-btn) {
     background-color: transparent !important;
     border-color: rgba(255, 255, 255, 0.3) !important;
     color: #ffffff !important;
   }
 
+  /* Portfolio page mobile: dark buttons & icons */
+  html.light .portfolio-page header.text-white:not(.header-menu-open) button:not(.site-theme-toggle):not(.site-header-contact-btn) {
+    border-color: rgba(0, 0, 0, 0.25) !important;
+    color: #0c101c !important;
+  }
+
   html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) svg {
     color: #ffffff !important;
+  }
+
+  /* Portfolio page mobile: dark SVG icons */
+  html.light .portfolio-page header.text-white:not(.header-menu-open) svg {
+    color: #0c101c !important;
   }
 
   /* When on white/light background in day mode: ensure logo, toggle and menu are crisp black */
@@ -1706,12 +1773,52 @@ html.light .desktop-hero-arrow {
 }
 
 /* When unscrolled over a dark hero (header.text-white), keep logo, buttons, and icons crisp white on all screen sizes */
-html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) .site-logo {
+html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) .site-logo:not(.header-main-logo) {
   filter: none !important;
 }
 
-html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) button:not(.site-theme-toggle),
-html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) .site-header-contact-btn {
+/* Header Main Logo (ELIPSE): Pure solid black in Light Mode, crisp white in Dark Mode */
+html.light .header-main-logo {
+  filter: brightness(0) !important;
+}
+html.dark .header-main-logo,
+html:not(.light) .header-main-logo,
+header.header-menu-open .header-main-logo,
+.site-header-drawer .header-main-logo {
+  filter: none !important;
+}
+
+/* Header Compact Brand Icons: already have proper colors (iconBlack/iconWhite), never invert them */
+.header-brand-icon {
+  filter: none !important;
+}
+
+/* Header Contact Us button: Always solid Royal Blue with crisp white text */
+.site-header-contact-btn,
+html.light .site-header-contact-btn,
+header .site-header-contact-btn {
+  background-color: #4169E1 !important;
+  color: #ffffff !important;
+  border: none !important;
+}
+.site-header-contact-btn:hover,
+html.light .site-header-contact-btn:hover {
+  background-color: #3158D4 !important;
+  color: #ffffff !important;
+}
+
+/* Portfolio page & light headers: icons should be crisp dark in light mode */
+html.light .portfolio-page header:not(.header-menu-open) button:not(.site-theme-toggle):not(.site-header-contact-btn),
+html.light .portfolio-page header.text-white:not(.header-menu-open) button:not(.site-theme-toggle):not(.site-header-contact-btn) {
+  border-color: rgba(0, 0, 0, 0.25) !important;
+  color: #0c101c !important;
+}
+html.light .portfolio-page header:not(.header-menu-open) svg:not(.ignore-invert),
+html.light .portfolio-page header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) svg:not(.ignore-invert) {
+  color: #0c101c !important;
+}
+
+html.light header.text-white:not(.bg-white):not(.header-scrolled):not(.header-menu-open) button:not(.site-theme-toggle):not(.site-header-contact-btn) {
   background-color: transparent !important;
   border-color: rgba(255, 255, 255, 0.3) !important;
   color: #ffffff !important;
@@ -1727,16 +1834,14 @@ html.light header.header-scrolled .site-logo {
   filter: invert(1) brightness(0.15) !important;
 }
 
-html.light header:not(.text-white) button:not(.site-theme-toggle),
-html.light header:not(.text-white) .site-header-contact-btn,
-html.light header.header-scrolled button:not(.site-theme-toggle),
-html.light header.header-scrolled .site-header-contact-btn {
+html.light header:not(.text-white) button:not(.site-theme-toggle):not(.site-header-contact-btn),
+html.light header.header-scrolled button:not(.site-theme-toggle):not(.site-header-contact-btn) {
   border-color: rgba(0, 0, 0, 0.25) !important;
   color: #000000 !important;
 }
 
-html.light header:not(.text-white) button:not(.site-theme-toggle):hover,
-html.light header.header-scrolled button:not(.site-theme-toggle):hover {
+html.light header:not(.text-white) button:not(.site-theme-toggle):not(.site-header-contact-btn):hover,
+html.light header.header-scrolled button:not(.site-theme-toggle):not(.site-header-contact-btn):hover {
   border-color: rgba(0, 0, 0, 0.6) !important;
 }
 
@@ -1747,61 +1852,73 @@ html.light header.header-scrolled svg {
 
 /* ─────────────────────────────────────────────────────────────────────────────
    THEME TOGGLE BUTTON FIX
-   Prevents theme toggle from turning into a solid opaque white circle in Day Mode
+   Properly styles ThemeToggle in both Light Mode (clean translucent pill with dark sun)
+   and Dark Mode (subtle frosted pill with white moon)
    ───────────────────────────────────────────────────────────────────────────── */
 .site-theme-toggle {
   backdrop-filter: blur(8px) !important;
   -webkit-backdrop-filter: blur(8px) !important;
   transition: all 0.3s ease !important;
-}
-
-/* Always maintain solid dark background, crisp white border, and pure white icon */
-.site-theme-toggle,
-html.light .site-theme-toggle,
-html.dark .site-theme-toggle,
-.site-theme-toggle.theme-toggle-dark,
-.site-theme-toggle.theme-toggle-light {
-  background-color: #121212 !important;
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  color: #ffffff !important;
   display: flex !important;
   align-items: center !important;
   justify-content: center !important;
 }
 
-.site-theme-toggle:hover,
-html.light .site-theme-toggle:hover,
-html.dark .site-theme-toggle:hover {
-  background-color: #1e1e1e !important;
-  border-color: rgba(255, 255, 255, 0.6) !important;
+/* Light / Day Mode */
+html.light .site-theme-toggle {
+  background-color: rgba(0, 0, 0, 0.05) !important;
+  border-color: rgba(0, 0, 0, 0.15) !important;
+  color: #0c101c !important;
+}
+html.light .site-theme-toggle:hover {
+  background-color: rgba(0, 0, 0, 0.1) !important;
+  border-color: rgba(0, 0, 0, 0.3) !important;
+}
+html.light .site-theme-toggle svg {
+  color: #0c101c !important;
+  stroke: #0c101c !important;
+}
+html.light .site-theme-toggle svg circle {
+  fill: #0c101c !important;
+  stroke: none !important;
+}
+html.light .site-theme-toggle svg line {
+  stroke: #0c101c !important;
+  stroke-width: 2 !important;
+}
+html.light .site-theme-toggle svg path {
+  fill: #0c101c !important;
 }
 
-.site-theme-toggle svg,
-html.light .site-theme-toggle svg,
-html.dark .site-theme-toggle svg,
-html.light header .site-theme-toggle svg,
-html.dark header .site-theme-toggle svg,
-html.light header.header-scrolled .site-theme-toggle svg,
-html.dark header.header-scrolled .site-theme-toggle svg {
+/* Dark / Night Mode */
+html.dark .site-theme-toggle,
+html:not(.light) .site-theme-toggle {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
   color: #ffffff !important;
-  fill: #ffffff !important;
 }
-
-.site-theme-toggle svg circle,
-html.light .site-theme-toggle svg circle,
-html.dark .site-theme-toggle svg circle {
+html.dark .site-theme-toggle:hover,
+html:not(.light) .site-theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+}
+html.dark .site-theme-toggle svg,
+html:not(.light) .site-theme-toggle svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+html.dark .site-theme-toggle svg circle,
+html:not(.light) .site-theme-toggle svg circle {
   fill: #ffffff !important;
   stroke: none !important;
 }
-
-.site-theme-toggle svg line,
-html.light .site-theme-toggle svg line,
-html.dark .site-theme-toggle svg line {
+html.dark .site-theme-toggle svg line,
+html:not(.light) .site-theme-toggle svg line {
+  stroke: #ffffff !important;
+  stroke-width: 2 !important;
 }
-
-.site-theme-toggle svg path,
-html.light .site-theme-toggle svg path,
-html.dark .site-theme-toggle svg path {
+html.dark .site-theme-toggle svg path,
+html:not(.light) .site-theme-toggle svg path {
   fill: #ffffff !important;
 }
 
@@ -2006,7 +2123,7 @@ html.dark .tool-badge:hover {
   padding-bottom: 1.5rem;
   font-size: 1rem;
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.75;
   color: rgba(255, 255, 255, 0.7);
 }
 .light .faq-accordion-body,
@@ -2103,7 +2220,7 @@ html.dark .faq-q-badge {
   padding-left: 2.25rem;
   font-size: 0.95rem;
   font-weight: 300;
-  line-height: 1.7;
+  line-height: 1.75;
   color: #4b5563;
   border-left: 2px solid rgba(37, 99, 235, 0.25);
 }
@@ -2350,7 +2467,7 @@ html.light .si-section .si-heading {
   font-weight: 500;
   font-size: clamp(1.75rem, 3.6vw, 3.4rem);
   line-height: 1.12;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   color: var(--si-ink) !important;
 }
 .si-line-row { display: block; }
@@ -2372,8 +2489,9 @@ html.light .si-section .si-heading {
 .si-section .si-copy,
 html.light .si-section .si-copy {
   margin: 0 0 1.75rem;
+  font-family: var(--font-lora), Georgia, serif;
   font-size: clamp(1rem, 1.15vw, 1.125rem);
-  line-height: 1.7;
+  line-height: 1.75;
   color: var(--si-ink) !important;
 }
 .si-fill-word { display: inline; }
@@ -2473,10 +2591,12 @@ html.light .si-section .si-copy {
 @media (min-width: 1024px) { .si-metric-bar { left: 1.75rem; } }
 .si-metric-value {
   margin: 0;
+  font-family: var(--font-poppins), system-ui, sans-serif;
   font-size: clamp(1.75rem, 2.6vw, 2.4rem);
   font-weight: 500;
   line-height: 1;
-  letter-spacing: -0.03em;
+  font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--si-ink);
   font-variant-numeric: tabular-nums;
 }
@@ -2520,7 +2640,7 @@ html.lenis, html.lenis body { height: auto; }
 
 /* ── Home card sections (Core Capabilities + How We Work) ── */
 .home-cards-section { --hc-line: rgba(255,255,255,0.08); --hc-card: #0b0b0d; --hc-accent: #4169E1; }
-html.light .home-cards-section { --hc-line: rgba(15,23,42,0.09); --hc-card: #ffffff; }
+html.light .home-cards-section { --hc-line: transparent; --hc-card: #ffffff; border-top: none !important; }
 
 .home-cards-head {
   display: flex;
@@ -2535,7 +2655,7 @@ html.light .home-cards-section { --hc-line: rgba(15,23,42,0.09); --hc-card: #fff
   margin: 0;
   max-width: 26rem;
   font-size: 0.98rem;
-  line-height: 1.7;
+  line-height: 1.75;
 }
 
 .home-eyebrow {
@@ -2664,4 +2784,36 @@ html.light .si-section .si-copy.si-copy--static { color: var(--si-muted) !import
   .si-link { font-size: 0.85rem; }
   .si-link-icon { width: 30px; height: 30px; }
   .si-metrics { margin-top: 1.75rem; }
+}
+
+/* Services hero: header over the dark hero stays like dark mode in light mode */
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .header-main-logo {
+  filter: none !important;
+}
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  border-color: rgba(255, 255, 255, 0.22) !important;
+  color: #ffffff !important;
+}
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.16) !important;
+  border-color: rgba(255, 255, 255, 0.45) !important;
+}
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg circle,
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg path {
+  fill: #ffffff !important;
+}
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg line {
+  stroke: #ffffff !important;
+}
+
+/* Blog articles & light sections: Header logo must be solid black over white backgrounds */
+.hardcoded-article header:not(.header-menu-open) .header-main-logo,
+[data-nav="light"] header:not(.header-menu-open) .header-main-logo,
+header.header-scrolled.bg-white\/95:not(.header-menu-open) .header-main-logo {
+  filter: brightness(0) !important;
 }

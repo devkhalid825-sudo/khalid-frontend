@@ -7,58 +7,51 @@ import Footer from './layouts/Footer';
 import LatestWork from './features/LatestWork';
 import Contact from './features/Contact';
 import ScopingBanner from './features/ScopingBanner';
-import { getImgSrc } from '../utils/api';
-
-import portfolioImgRaw from '../assets/About-page/porfolio.webp';
-
-const portfolioImg = getImgSrc(portfolioImgRaw);
+import { useTheme } from './providers/ThemeProvider';
 
 const PortfolioPage = () => {
+  const { isLight } = useTheme();
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans selection:bg-[#4169E1]/30 selection:text-white overflow-x-hidden">
-      <Header darkHero={true} />
+    <div className={`portfolio-page min-h-screen transition-colors duration-300 font-sans selection:bg-[#4169E1]/30 selection:text-white overflow-x-hidden ${isLight ? 'bg-white text-zinc-900' : 'bg-black text-white'}`}>
+      <Header darkHero={false} lightHero={true} />
 
-
-      <section className="portfolio-hero-section keep-dark-hero relative w-full min-h-[55vh] sm:min-h-[65vh] md:min-h-[75vh] flex items-center justify-center overflow-hidden bg-black !bg-black text-white !text-white">
-        {/* Full-width background image */}
-        <div className="absolute inset-0 w-full h-full">
-          <img
-            src={portfolioImg}
-            alt="Portfolio Background"
-            className="w-full h-full object-cover object-center"
-          />
-          {/* Dark Gradient Overlays for Readability */}
-          <div className="absolute inset-0 bg-black/45 backdrop-brightness-90" />
-          <div className="absolute inset-0 bg-gradient-to-t from-black via-black/20 to-black/50" />
-        </div>
-
-        {/* Ambient blue glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#4169E1]/15 rounded-full blur-[140px] pointer-events-none" />
-
-        {/* Hero Content */}
-        <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 md:px-12 py-32 sm:py-40 md:py-48 flex flex-col justify-center items-center text-center">
+      {/* Minimal Clean Portfolio Hero (Exact match with uploaded screenshot) */}
+      <section id="hero" data-nav={isLight ? 'light' : 'dark'} className={`relative w-full pt-32 sm:pt-40 md:pt-44 pb-10 sm:pb-14 md:pb-16 px-5 sm:px-8 md:px-12 transition-colors duration-300 ${isLight ? 'bg-white' : 'bg-black'}`}>
+        <div className="home-container max-w-5xl mx-auto text-center flex flex-col items-center">
           <motion.div
-            initial={{ opacity: 0, y: 25 }}
+            initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="max-w-4xl"
+            transition={{ duration: 0.65, ease: [0.16, 1, 0.3, 1] }}
+            className="flex flex-col items-center w-full"
           >
-            <h1 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-medium tracking-tight text-white !text-white leading-[1.12] uppercase">
-              Transforming Ideas<br />
-              Into Immersive<br />
-              3D Realities.
+            {/* Clean 2-Line Headline (Solid White in dark mode, Solid Dark in light mode) */}
+            <h1 className={`text-center select-none tracking-[-0.035em] leading-[1.08] mb-6 sm:mb-8 text-3xl sm:text-5xl md:text-6xl lg:text-[76px] font-medium ${isLight ? 'text-[#0c101c]' : 'text-white'}`}>
+              {/* Line 1: Work. Ideas turned */}
+              <span className="block mb-1 sm:mb-2">
+                Work<span className="text-[#4169E1]">.</span> Ideas turned
+              </span>
+
+              {/* Line 2: into impact. */}
+              <span className="block">
+                into impact<span className="text-[#4169E1]">.</span>
+              </span>
             </h1>
+
+            {/* Subtitle */}
+            <p className={`text-sm sm:text-base md:text-lg max-w-2xl mx-auto leading-[1.7] font-normal ${isLight ? 'text-zinc-600' : 'text-zinc-400'}`}>
+              Different businesses. Different challenges. Different measures of success. Explore the work we&apos;ve created to move each one forward.
+            </p>
           </motion.div>
         </div>
       </section>
 
-     
-      <LatestWork isLight={false} />
-
+      {/* Projects Grid with dynamic theme awareness */}
+      <LatestWork isLight={isLight} />
 
       <Contact />
       <ScopingBanner />

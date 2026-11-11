@@ -29,8 +29,10 @@ import modernVillaRaw from '../../assets/About-page/Nevegan.jpg';
 import furnitureRaw from '../../assets/ElipseImages/blogs/alnoor.webp';
 import volvoPaintRaw from '../../assets/About-page/volvo-s90-ue5-paint.webp';
 import golfCartRaw from '../../assets/About-page/golf-cart.webp';
+import roohafzaRaw from '../../assets/About-page/roohafza.webp';
 
 const golfCartImg = getImgSrc(golfCartRaw);
+const roohafzaImg = getImgSrc(roohafzaRaw);
 const volvoPaintImg = getImgSrc(volvoPaintRaw);
 const modernVilla = getImgSrc(modernVillaRaw);
 const furnitureImg = getImgSrc(furnitureRaw);
@@ -109,6 +111,15 @@ const News = ({ initialBlogs = null }) => {
   }, []);
 
   const staticPosts = [
+    {
+      id: 'anamorphic-billboard-production-2026',
+      title: 'Commercial 3D Anamorphic Billboard Production: Engineering Naked-Eye 3D LED Campaigns for Times Square, London Piccadilly & Dubai',
+      image: roohafzaImg,
+      date: 'NOVEMBER 11, 2026',
+      category: '3D Anamorphic & OOH',
+      readTime: '15 min read',
+      url: '/blog/3d-anamorphic-billboard-production',
+    },
     {
       id: 'custom-configurator-vs-saas-2026',
       title: 'Custom 3D Configurator vs SaaS Platform: Why Enterprise Brands Outgrow Turnkey SaaS',
@@ -326,12 +337,12 @@ const News = ({ initialBlogs = null }) => {
   return (
     <section
       id="news"
-      className="w-full bg-[#1e2d6e] py-8 md:py-14 overflow-hidden font-sans flex flex-col justify-center relative"
+      className="w-full bg-[#1e2d6e] py-8 md:py-14 overflow-hidden flex flex-col justify-center relative"
     >
       <div className="w-full relative">
         <div className="home-container flex justify-between items-center gap-2 mb-6 md:mb-10">
           <h2
-            className="news-heading text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] !text-white"
+            className="news-heading text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1] !text-white"
             style={{ color: '#ffffff' }}
           >
             Latest News & Blogs
@@ -358,87 +369,68 @@ const News = ({ initialBlogs = null }) => {
           }}
           freeMode={false}
           grabCursor={true}
-          className="!-mx-3 !px-3"
         >
-          {featuredLoopPosts.map((post) => (
-            <SwiperSlide key={post._key} className="!w-[230px] sm:!w-[340px] md:!w-[540px] lg:!w-[577px] py-2 md:py-4">
-              <div className="w-full h-full">
-                <div
-                  className="relative w-full h-[290px] sm:h-[380px] md:h-[637px] bg-[#323235] rounded-[24px] md:rounded-[48px] flex flex-col p-3.5 md:p-6 transition-all duration-300 hover:-translate-y-2 ring-[4px] md:ring-[8px] ring-[#2b2b2d]"
-                  style={{ boxShadow: 'rgba(0,0,0,0.3) 0px 10px 30px -5px' }}
+          {featuredLoopPosts.map((post) => {
+            const isExternal = post.url.startsWith('http');
+            const CardLink = isExternal ? 'a' : Link;
+            const linkProps = isExternal
+              ? { href: post.url, target: '_blank', rel: 'noopener noreferrer' }
+              : { href: post.url };
+            return (
+              <SwiperSlide key={post._key} className="py-2 !w-[calc((100%-16px)/2)] sm:!w-[calc((100%-32px)/3)] lg:!w-[calc((100%-48px)/4)]">
+                <CardLink
+                  {...linkProps}
+                  className="group/card flex flex-col h-full rounded-[14px] p-2 md:p-2.5 transition-all duration-300 hover:-translate-y-1"
+                  style={{
+                    background: 'rgba(255,255,255,0.07)',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    boxShadow: '0 12px 32px rgba(0,0,0,0.25)',
+                  }}
                 >
-                  <div className="w-full h-[150px] sm:h-[200px] md:h-[380px] rounded-[16px] md:rounded-[36px] overflow-hidden border border-white/5 group">
+                  {/* Full image, never cropped: contained on top of a blurred copy that fills the frame */}
+                  <div className="relative w-full aspect-[16/10] rounded-[10px] overflow-hidden bg-[#141416]">
+                    <img
+                      src={getImageSrc(post.image)}
+                      alt=""
+                      aria-hidden="true"
+                      loading="lazy"
+                      className="absolute inset-0 w-full h-full object-cover scale-110 blur-xl opacity-70"
+                    />
                     <img
                       src={getImageSrc(post.image)}
                       alt={post.title}
-                      width="577"
-                      height="380"
+                      width="480"
+                      height="300"
                       loading="lazy"
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                      style={{ objectPosition: '50% 30%' }}
+                      className="relative w-full h-full object-contain transition-transform duration-700 group-hover/card:scale-[1.03]"
                     />
                   </div>
-                  <div className="flex-1 flex flex-col md:px-6 px-2.5 md:py-8 py-3">
+                  <div className="flex flex-col flex-1 px-1 md:px-1.5 pt-3 pb-1">
                     {post.date && (
-                      <div className="flex items-center text-white/70 text-xs md:text-sm mb-3 md:mb-6">
-                        <span>{post.date}</span>
-                      </div>
+                      <p className="text-[10px] md:text-[11px] font-semibold uppercase tracking-[0.1em] mb-1.5" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                        {post.date}
+                      </p>
                     )}
-                    <h3 className="text-white md:text-[22px] text-[13px] font-medium leading-tight line-clamp-3">
+                    <h3 className="text-[13px] md:text-[15px] font-semibold tracking-[-0.02em] leading-snug line-clamp-2 min-h-[2.75em]" style={{ color: '#ffffff' }}>
                       {post.title}
                     </h3>
-                    <div className="mt-auto">
-                      {post.url.startsWith('http') ? (
-                        <a
-                          href={post.url}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="group flex items-center justify-between w-full text-white text-[13px] md:text-base mt-4"
-                        >
-                          <span>Learn More</span>
-                          <div className="bg-white/10 p-1.5 md:p-3 rounded-full border border-white/10 group-hover:translate-x-1 transition">
-                            <svg
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="w-4 h-4 md:w-6 md:h-6"
-                            >
-                              <line x1="7" y1="17" x2="17" y2="7"></line>
-                              <polyline points="7 7 17 7 17 17"></polyline>
-                            </svg>
-                          </div>
-                        </a>
-                      ) : (
-                        <Link
-                          href={post.url}
-                          className="group flex items-center justify-between w-full text-white text-[13px] md:text-base mt-4"
-                        >
-                          <span>Learn More</span>
-                          <div className="bg-white/10 p-1.5 md:p-3 rounded-full border border-white/10 group-hover:translate-x-1 transition">
-                            <svg
-                              viewBox="0 0 24 24"
-                              fill="none"
-                              stroke="currentColor"
-                              strokeWidth="2.5"
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              className="w-4 h-4 md:w-6 md:h-6"
-                            >
-                              <line x1="7" y1="17" x2="17" y2="7"></line>
-                              <polyline points="7 7 17 7 17 17"></polyline>
-                            </svg>
-                          </div>
-                        </Link>
-                      )}
+                    <div className="mt-3 flex items-center justify-between text-[12px] md:text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.85)' }}>
+                      <span>Read Article</span>
+                      <span
+                        className="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-300 group-hover/card:bg-white group-hover/card:text-[#1e2d6e]"
+                        style={{ border: '1px solid rgba(255,255,255,0.3)' }}
+                      >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
+                          <line x1="7" y1="17" x2="17" y2="7"></line>
+                          <polyline points="7 7 17 7 17 17"></polyline>
+                        </svg>
+                      </span>
                     </div>
                   </div>
-                </div>
-              </div>
-            </SwiperSlide>
-          ))}
+                </CardLink>
+              </SwiperSlide>
+            );
+          })}
         </Swiper>
         </div>
       </div>

@@ -339,7 +339,7 @@ const ContactForm = () => {
                     <div className="pt-2">
                         <ReCaptcha
                             ref={recaptchaRef}
-                            theme="dark"
+                            theme={isLight ? 'light' : 'dark'}
                             onVerify={(token) => {
                                 setRecaptchaToken(token);
                                 setErrors(prev => ({ ...prev, recaptcha: '' }));

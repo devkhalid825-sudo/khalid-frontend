@@ -76,6 +76,7 @@ export default function MediaFacade({
   aspectRatio = 'aspect-video',
   onEnded,
   setRef,
+  chromeless = false,
 }) {
   const [userActivated, setUserActivated] = useState(false);
   const [mounted, setMounted] = useState(false);
@@ -106,7 +107,11 @@ export default function MediaFacade({
     if (ytId) {
       const muteParam = muted ? '1' : '0';
       const autoPlayParam = (autoPlay || userActivated) ? '1' : '0';
-      const embedSrc = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=${autoPlayParam}&mute=${muteParam}&enablejsapi=1&playsinline=1&rel=0&modestbranding=1`;
+      // chromeless: hide YouTube's own controls/overlays; the parent drives play/mute via the JS API
+      const chromeParams = chromeless
+        ? `&controls=0&disablekb=1&fs=0&iv_load_policy=3&cc_load_policy=0${loop ? `&loop=1&playlist=${ytId}` : ''}`
+        : '';
+      const embedSrc = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=${autoPlayParam}&mute=${muteParam}&enablejsapi=1&playsinline=1&rel=0&modestbranding=1${chromeParams}`;
 
       return (
         <div className={`relative w-full h-full overflow-hidden ${className}`}>
@@ -114,7 +119,7 @@ export default function MediaFacade({
             ref={setRef}
             src={embedSrc}
             title={title}
-            className="w-full h-full border-0"
+            className={`w-full h-full border-0 ${chromeless ? 'pointer-events-none' : ''}`}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             loading="lazy"
@@ -135,7 +140,7 @@ export default function MediaFacade({
           loop={loop}
           playsInline
           onEnded={onEnded}
-          className="w-full h-full object-cover bg-black"
+          className={`w-full h-full ${chromeless ? "object-contain" : "object-cover"} bg-black`}
         />
       </div>
     );

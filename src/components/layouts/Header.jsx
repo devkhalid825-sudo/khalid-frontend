@@ -53,23 +53,33 @@ const HARDCODED_BLOG_SLUGS = new Set([
   'real-cost-bad-vr-training-simulations-2026',
 ]);
 
-const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle = false }) => {
+const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = false, hideThemeToggle = false }) => {
   const router = useRouter();
   const pathname = usePathname();
-  const isHardcodedArticleRoute = React.useMemo(() => {
+  const isBlogArticle = Boolean(pathname && pathname.startsWith('/blog/') && pathname !== '/blog');
+  const isHardcodedArticleRoute = isBlogArticle || React.useMemo(() => {
     if (!pathname || !pathname.startsWith('/blog/')) return false;
     const slug = pathname.replace('/blog/', '').replace(/\/$/, '');
     return HARDCODED_BLOG_SLUGS.has(slug);
   }, [pathname]);
 
   const shouldHideThemeToggle = hideThemeToggle || isHardcodedArticleRoute;
+  const { isLight } = useTheme();
+  const isPageLightHero = (pathname === '/portfolio' && !isLight) ? false : (lightHero || isBlogArticle);
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const [isLightSection, setIsLightSection] = useState(false);
-  const [hasDarkHero, setHasDarkHero] = useState(darkHero);
-  const { isLight } = useTheme();
-  const isLightMode = isLight || isLightSection;
+  // lightHero=true means this page has a light background hero — treat it as light from the start
+  const [isLightSection, setIsLightSection] = useState(isPageLightHero);
+  const [hasDarkHero, setHasDarkHero] = useState(isBlogArticle ? false : (pathname === '/portfolio' ? !isLight : darkHero));
+  // isLightMode: true if global theme is light, OR if page is a light blog article / light hero, OR over a light section on pages without a permanent dark hero
+  const isLightMode = isBlogArticle
+    ? true
+    : isLight
+      ? true
+      : isPageLightHero
+        ? true
+        : (!hasDarkHero && isLightSection);
   const [locationOpen, setLocationOpen] = useState(false);
   const [mobileLocationOpen, setMobileLocationOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -83,10 +93,14 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
 
   useEffect(() => {
     setMounted(true);
-    if (darkHero || document.querySelector('.keep-dark-hero, .portfolio-hero-section, .case-studies-hero-section, .blogs-hero-section')) {
+    if (pathname === '/portfolio') {
+      setHasDarkHero(!isLight);
+    } else if (!isBlogArticle && (darkHero || document.querySelector('.keep-dark-hero, .portfolio-hero-section, .case-studies-hero-section, .blogs-hero-section'))) {
       setHasDarkHero(true);
+    } else if (isBlogArticle || isPageLightHero) {
+      setHasDarkHero(false);
     }
-  }, []);
+  }, [pathname, darkHero, isBlogArticle, isPageLightHero, isLight]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
@@ -121,7 +135,18 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
 
   useEffect(() => {
     const handleScroll = () => {
-      // Attach/detach with hysteresis so tiny scroll jitter around the
+      const isHomePage = pathname === '/';
+      setIsScrolled(window.scrollY > 20);
+
+      // On interior pages like /portfolio, keep full "ELIPSE" logo always visible; do not swap to compact icon
+      if (!isHomePage) {
+        if (showBrandIconRef.current) {
+          setShowBrandIcon(false);
+        }
+        return;
+      }
+
+      // Home page: Attach/detach with hysteresis so tiny scroll jitter around the
       // boundary cannot re-trigger the enter/exit animations repeatedly.
       const latestWorkEl = document.getElementById('latest-work');
       let shouldAttach = false;
@@ -161,8 +186,6 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
       } else if (shouldDetach && currentlyAttached) {
         setShowBrandIcon(false);
       }
-
-      setIsScrolled(window.scrollY > 20);
     };
 
     handleScroll();
@@ -186,8 +209,24 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
   }, [locationOpen]);
 
   useEffect(() => {
+    if (!isPageLightHero && !isLight) {
+      setIsLightSection(false);
+    }
+
     const sections = document.querySelectorAll('[data-nav]');
-    if (!sections.length) return;
+    if (!sections.length) {
+      if (isPageLightHero) setIsLightSection(true);
+      return;
+    }
+
+    // Set initial state from the first visible section (covers pages that start light)
+    const firstSection = sections[0];
+    if (firstSection) {
+      const rect = firstSection.getBoundingClientRect();
+      if (rect.top < window.innerHeight && rect.bottom > 0) {
+        setIsLightSection(firstSection.getAttribute('data-nav') === 'light');
+      }
+    }
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -198,12 +237,12 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
           }
         });
       },
-      { rootMargin: '-80px 0px 0px 0px' }
+      { rootMargin: '-80px 0px 0px 0px', threshold: 0 }
     );
 
     sections.forEach((s) => observer.observe(s));
     return () => observer.disconnect();
-  }, []);
+  }, [pathname, isPageLightHero, isLight]);
 
   useEffect(() => {
     document.body.style.overflow = isMenuOpen ? 'hidden' : '';
@@ -237,16 +276,16 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
     { name: 'Cinematic 3D Product & Commercial Visuals', href: '/services/3d-product-visualization' },
   ];
 
-  // Keep the fixed/scrolled look alive during exit so the fade-out is visible
-  const isAttached = showBrandIcon || exitAnim;
+  // On interior pages, attach when scrolled; on homepage, attach when showBrandIcon is active
+  const isAttached = pathname === '/' ? (showBrandIcon || exitAnim) : isScrolled;
   const isEffectiveLight = isMenuOpen ? false : ((hasDarkHero && !isAttached) ? false : isLightMode);
 
   const headerBgClass = isMenuOpen
     ? 'bg-black text-white header-menu-open'
     : isAttached
       ? isLightMode
-        ? 'header-scrolled bg-white/95 backdrop-blur-xl text-black shadow-sm'
-        : 'header-scrolled bg-black/90 backdrop-blur-xl text-white shadow-xl shadow-black/40'
+        ? 'header-scrolled bg-white/95 backdrop-blur-xl text-black shadow-sm border-b border-black/5'
+        : 'header-scrolled bg-black/90 backdrop-blur-xl text-white shadow-xl shadow-black/40 border-b border-white/10'
       : isEffectiveLight
         ? 'bg-transparent text-black'
         : 'bg-transparent text-white';
@@ -279,24 +318,27 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
           >
             {/* Stacked logo slot: full logo and compact icon crossfade in place */}
             <div className={`grid ${showBrandIcon && !isMenuOpen ? 'place-items-start' : 'place-items-center'}`}>
-              {/* Full Logo (Visible before reaching Latest Work / when menu open; swaps instantly) */}
+              {/* Full Logo: Pure solid black in light mode, pure solid white in dark mode */}
               <img
                 src={logo}
                 alt="Elipse Studio"
                 width="230"
                 height="105"
-                className={`${logoSizeClass} w-auto object-contain col-start-1 row-start-1 site-logo transition-transform duration-300 hover:scale-105 ${
+                style={{
+                  filter: isEffectiveLight && !isMenuOpen ? 'brightness(0)' : 'none',
+                }}
+                className={`${logoSizeClass} w-auto object-contain col-start-1 row-start-1 header-main-logo site-logo transition-transform duration-300 hover:scale-105 ${
                   showBrandIcon && !isMenuOpen ? 'opacity-0 pointer-events-none' : 'opacity-100'
-                } ${isEffectiveLight && !isMenuOpen ? 'invert' : ''}`}
+                }`}
               />
 
-              {/* Compact Brand Icon (already shown while the attach animation plays) */}
+              {/* Compact Brand Icon: Already has correct color (iconBlack or iconWhite); NEVER invert */}
               <img
                 src={isEffectiveLight && !isMenuOpen ? iconBlack : iconWhite}
                 alt="Elipse Studio Icon"
                 width="48"
                 height="48"
-                className={`h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain col-start-1 row-start-1 site-logo transition-transform duration-300 hover:scale-110 ${
+                className={`h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain col-start-1 row-start-1 header-brand-icon transition-transform duration-300 hover:scale-110 ${
                   showBrandIcon && !isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
                 }`}
               />
@@ -334,15 +376,13 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
                 )}
               </div>
               <button
-                data-track-id="header-contact-us" data-track-destination="/contact" onClick={() => {
+                data-track-id="header-contact-us"
+                data-track-destination="/contact"
+                onClick={() => {
                   setIsMenuOpen(false);
                   router.push('/contact');
                 }}
-                className={`hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center border ${
-                  isEffectiveLight
-                    ? 'border-black/30 hover:border-black text-black hover:bg-black/5'
-                    : 'border-white/30 hover:border-white text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)]'
-                } bg-transparent rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 backdrop-blur-md cursor-pointer`}
+                className="site-header-contact-btn hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center bg-[#4169E1] hover:bg-[#3158D4] text-white rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 shadow-[0_2px_15px_rgba(65,105,225,0.35)] hover:shadow-[0_4px_22px_rgba(65,105,225,0.55)] hover:scale-105 cursor-pointer border-none"
               >
                 Contact Us
               </button>
@@ -395,7 +435,8 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, hideThemeToggle 
                   alt="Elipse Studio"
                   width="230"
                   height="105"
-                  className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105 ${isLight ? 'invert' : ''}`}
+                  className={`${logoSizeClass} w-auto object-contain transition-transform duration-300 hover:scale-105`}
+                  style={{ filter: 'none' }}
                 />
               </Link>
 

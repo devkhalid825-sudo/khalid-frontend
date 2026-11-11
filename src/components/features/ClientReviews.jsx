@@ -35,11 +35,43 @@ const getYouTubeEmbedUrl = (url, muted = true) => {
 const LazyReviewSlide = ({ review, isMuted, onToggleMute }) => {
   const [ref, inView] = useInView({ rootMargin: '200px 300px 200px 300px' });
   const videoRef = useRef(null);
+  const [paused, setPaused] = useState(false);
+
+  // Drive the player ourselves (YouTube JS API for iframes, native API for <video>)
+  const command = useCallback((func) => {
+    const el = videoRef.current;
+    if (!el) return;
+    if (el.tagName === 'IFRAME') {
+      el.contentWindow?.postMessage(JSON.stringify({ event: 'command', func, args: [] }), '*');
+    } else if (func === 'mute' || func === 'unMute') {
+      el.muted = func === 'mute';
+    } else if (func === 'pauseVideo') {
+      el.pause();
+    } else if (func === 'playVideo') {
+      el.play()?.catch?.(() => {});
+    }
+  }, []);
+
+  useEffect(() => {
+    command(isMuted ? 'mute' : 'unMute');
+  }, [isMuted, command]);
+
+  // Player remounts (and autoplays) when the tile re-enters view — reset paused state
+  const [prevInView, setPrevInView] = useState(inView);
+  if (prevInView !== inView) {
+    setPrevInView(inView);
+    if (!inView) setPaused(false);
+  }
+
+  const togglePlay = () => {
+    command(paused ? 'playVideo' : 'pauseVideo');
+    setPaused((p) => !p);
+  };
 
   return (
     <div
       ref={ref}
-      className="w-full h-[140px] md:h-[380px] rounded-[12px] md:rounded-[36px] overflow-hidden border border-white/5 group relative"
+      className="w-full aspect-[3/4] rounded-[10px] overflow-hidden bg-[#141416] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)] relative transition-colors hover:border-white/25"
     >
       {inView && review.video ? (
         <MediaFacade
@@ -47,37 +79,52 @@ const LazyReviewSlide = ({ review, isMuted, onToggleMute }) => {
           title={`${review.clientName} review`}
           isActive={true}
           autoPlay={true}
-          muted={isMuted}
+          muted={true}
           loop={true}
           controls={false}
+          chromeless={true}
           setRef={(el) => { videoRef.current = el; }}
           className="w-full h-full"
         />
-      ) : (
-        <div className="w-full h-full bg-[#323235]" />
-      )}
+      ) : null}
+
       {review.video && (
-        <button
-          onClick={(e) => {
-            e.stopPropagation();
-            onToggleMute(`dt-${review.id}`);
-          }}
-          className="absolute bottom-3 right-3 z-20 w-9 h-9 rounded-full bg-black/60 backdrop-blur flex items-center justify-center hover:bg-black/80 transition-colors"
-          aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-        >
-          {isMuted ? (
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <line x1="23" y1="9" x2="17" y2="15"></line>
-              <line x1="17" y1="9" x2="23" y2="15"></line>
-            </svg>
-          ) : (
-            <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-              <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-            </svg>
-          )}
-        </button>
+        <>
+          {/* Click anywhere on the tile to play / pause */}
+          <button
+            type="button"
+            onClick={togglePlay}
+            className="absolute inset-0 z-10 cursor-pointer flex items-center justify-center"
+            aria-label={paused ? 'Play video' : 'Pause video'}
+          >
+            {paused && (
+              <span className="w-12 h-12 rounded-full bg-black/60 backdrop-blur flex items-center justify-center">
+                <svg className="w-5 h-5 fill-white ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+              </span>
+            )}
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              onToggleMute(`dt-${review.id}`);
+            }}
+            className="absolute bottom-2.5 right-2.5 z-20 w-8 h-8 rounded-full bg-black/60 backdrop-blur flex items-center justify-center hover:bg-black/80 transition-colors"
+            aria-label={isMuted ? 'Unmute video' : 'Mute video'}
+          >
+            {isMuted ? (
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <line x1="23" y1="9" x2="17" y2="15"></line>
+                <line x1="17" y1="9" x2="23" y2="15"></line>
+              </svg>
+            ) : (
+              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+              </svg>
+            )}
+          </button>
+        </>
       )}
     </div>
   );
@@ -264,11 +311,11 @@ const ClientReviews = ({ initialReviews = null }) => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-black pt-3 sm:pt-6 md:pt-14 pb-8 md:pb-14 overflow-hidden font-sans flex flex-col justify-center relative"
+      className="w-full bg-black pt-3 sm:pt-6 md:pt-14 pb-8 md:pb-14 overflow-hidden flex flex-col justify-center relative"
     >
       <div className="w-full relative">
         <div className="home-container flex justify-between items-center mb-6 md:mb-10">
-          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-white">
+          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1] text-white">
             Client Reviews
           </h2>
           <div className="hidden md:flex items-center gap-3">
@@ -376,11 +423,11 @@ const ClientReviews = ({ initialReviews = null }) => {
                             </>
                           )}
                         </div>
-                        <h3 className="text-white text-sm sm:text-base font-medium leading-tight">
+                        <h3 className="text-white text-sm sm:text-base font-semibold tracking-[-0.02em] leading-tight font-heading">
                           {review.projectName || review.clientName}
                         </h3>
                         {review.quote && (
-                          <p className="text-zinc-300 text-xs sm:text-sm mt-1.5 leading-relaxed line-clamp-2 italic">
+                          <p className="text-zinc-300 text-xs sm:text-sm mt-1.5 leading-[1.75] line-clamp-2 italic font-serif">
                             &ldquo;{review.quote}&rdquo;
                           </p>
                         )}
@@ -428,49 +475,35 @@ const ClientReviews = ({ initialReviews = null }) => {
               modules={[FreeMode]}
               loop={false}
               speed={600}
-              slidesPerView="auto"
+              slidesPerView={3}
               spaceBetween={20}
+              breakpoints={{ 1024: { slidesPerView: 4, spaceBetween: 20 } }}
               freeMode={{
                 enabled: false,
                 momentum: false,
               }}
               grabCursor={false}
               allowTouchMove={false}
-              className="!-mx-2 !px-2 !py-2"
+              className=""
             >
               {displayReviews.map((review) => {
                 const isDtMuted = getIsMuted(`dt-${review.id}`);
                 return (
-                  <SwiperSlide key={review.id} className="!w-[420px] lg:!w-[520px] py-2 md:py-4">
-                    <div className="w-full h-full">
-                      <div
-                        className="relative w-full min-h-[540px] lg:min-h-[590px] h-auto bg-[#323235] rounded-[24px] md:rounded-[36px] flex flex-col p-4 md:p-6 transition-all duration-300 hover:-translate-y-1 ring-[4px] ring-[#2b2b2d]"
-                        style={{ boxShadow: 'rgba(0,0,0,0.3) 0px 10px 30px -5px' }}
-                      >
-                        <LazyReviewSlide
-                          review={review}
-                          isMuted={isDtMuted}
-                          onToggleMute={(key) => toggleMute(key, true)}
-                        />
-                        <div className="flex-1 flex flex-col px-2 md:px-4 py-4">
-                          <div className="flex items-center gap-3 text-white/70 text-sm mb-2.5">
-                            <span className="font-medium text-white">{review.clientName}</span>
-                            {review.company && (
-                              <>
-                                <span className="w-1.5 h-1.5 bg-[#4169E1] rounded-full"></span>
-                                <span>{review.company}</span>
-                              </>
-                            )}
-                          </div>
-                          <h3 className="text-white text-lg md:text-xl font-medium leading-snug">
-                            {review.projectName || review.clientName}
-                          </h3>
-                          {review.quote && (
-                            <p className="text-zinc-300 text-sm mt-2.5 leading-relaxed line-clamp-3 italic">
-                              &ldquo;{review.quote}&rdquo;
-                            </p>
-                          )}
-                        </div>
+                  <SwiperSlide key={review.id}>
+                    <div className="group/card flex flex-col">
+                      <LazyReviewSlide
+                        review={review}
+                        isMuted={isDtMuted}
+                        onToggleMute={(key) => toggleMute(key, false)}
+                      />
+                      <div className="pt-4">
+                        <h3 className="text-white text-[15px] font-semibold tracking-[-0.02em] leading-snug font-heading">
+                          <span className="text-[#4169E1] mr-1 hidden group-hover/card:inline">/</span>
+                          {review.projectName || review.clientName}
+                        </h3>
+                        <p className="text-zinc-400 text-[13px] mt-1 font-serif leading-[1.75]">
+                          {review.clientName}{review.company ? ` · ${review.company}` : ''}
+                        </p>
                       </div>
                     </div>
                   </SwiperSlide>

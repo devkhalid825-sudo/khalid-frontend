@@ -91,6 +91,15 @@ const staticImages = {
 
 const staticPosts = [
     {
+        id: 'static-3d-anamorphic-billboard-production-2026',
+        title: 'Commercial 3D Anamorphic Billboard Production: Engineering Naked-Eye 3D LED Campaigns for Times Square, London Piccadilly & Dubai',
+        excerpt: 'Sweet-spot optics, curved LED architecture, the 8K–16K render pipeline, genlock playback, media vs production budgets, and the earned-media math behind naked-eye 3D billboards — with Lahore Zoo and Rooh Afza case studies.',
+        image: roohafza,
+        date: 'NOVEMBER 11, 2026',
+        category: '3D Anamorphic & OOH',
+        url: '/blog/3d-anamorphic-billboard-production',
+    },
+    {
         id: 'static-custom-configurator-vs-saas-2026',
         title: 'Custom 3D Configurator vs SaaS Platform: Why Enterprise Brands Outgrow Turnkey SaaS',
         excerpt: 'Render fidelity, parametric geometry, CPQ integration, mobile performance, asset ownership and per-session pricing — the six architectural ceilings that push enterprise brands from turnkey SaaS to custom configurators, plus migration signals, cost and ROI.',

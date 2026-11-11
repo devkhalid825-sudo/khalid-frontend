@@ -58,20 +58,30 @@ export default function ThemeToggle({ className = '', variant = 'header', isLigh
     <button
       type="button"
       onClick={toggleTheme}
-      className={`site-theme-toggle group relative p-2 sm:p-2.5 rounded-full border transition-all duration-300 flex items-center justify-center cursor-pointer backdrop-blur-md active:scale-90 text-white ${className}`}
+      className={`site-theme-toggle group relative p-2 sm:p-2.5 rounded-full border transition-all duration-300 flex items-center justify-center cursor-pointer backdrop-blur-md active:scale-90 ${
+        effectiveIsLight
+          ? 'bg-black/5 hover:bg-black/10 border-black/15 text-zinc-900'
+          : 'bg-white/10 hover:bg-white/15 border-white/20 text-white'
+      } ${className}`}
       style={{
-        backgroundColor: '#121212',
-        borderColor: 'rgba(255, 255, 255, 0.25)',
-        color: '#ffffff',
+        backgroundColor: effectiveIsLight ? 'rgba(0, 0, 0, 0.05)' : 'rgba(255, 255, 255, 0.08)',
+        borderColor: effectiveIsLight ? 'rgba(0, 0, 0, 0.15)' : 'rgba(255, 255, 255, 0.25)',
+        color: effectiveIsLight ? '#0c101c' : '#ffffff',
       }}
       aria-label={isLight ? 'Day mode active - Switch to Night mode' : 'Night mode active - Switch to Day mode'}
       title={isLight ? 'Switch to Night mode' : 'Switch to Day mode'}
     >
       <div className="relative w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center transition-transform duration-500 group-hover:scale-110">
         {isLight ? (
-          <FaSun className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-white" style={{ color: '#ffffff', stroke: '#ffffff' }} />
+          <FaSun
+            className={`w-4 h-4 sm:w-4.5 sm:h-4.5 ${effectiveIsLight ? 'text-zinc-900' : 'text-white'}`}
+            style={{ color: effectiveIsLight ? '#0c101c' : '#ffffff' }}
+          />
         ) : (
-          <FaMoon className="w-4 h-4 sm:w-4.5 sm:h-4.5 text-white" style={{ color: '#ffffff', fill: '#ffffff' }} />
+          <FaMoon
+            className={`w-4 h-4 sm:w-4.5 sm:h-4.5 ${effectiveIsLight ? 'text-zinc-900' : 'text-white'}`}
+            style={{ color: effectiveIsLight ? '#0c101c' : '#ffffff' }}
+          />
         )}
       </div>
     </button>

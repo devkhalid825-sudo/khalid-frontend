@@ -70,7 +70,7 @@ const SolutionsSection = () => {
   return (
     <section
       id="solutions"
-      className="solutions-section w-full bg-black text-white overflow-hidden font-sans border-t border-zinc-800/80 py-14 md:py-24 relative"
+      className="solutions-section w-full bg-black text-white overflow-hidden border-t border-zinc-800/80 py-14 md:py-24 relative"
     >
       {/* Top corner soft blur gradients — dark mode only, desktop+. Cards keep their own clean bg */}
       <div
@@ -96,7 +96,7 @@ const SolutionsSection = () => {
         {/* Section Header - Full Width, No Left/Right Gap */}
         <div className="home-container flex items-center justify-between gap-3 sm:gap-6 mb-8 md:mb-12">
           <div className="min-w-0">
-            <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-white whitespace-nowrap">
+            <h2 className="text-lg sm:text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1] text-white whitespace-nowrap">
               What We Do
             </h2>
           </div>
@@ -186,14 +186,14 @@ const SolutionsSection = () => {
                         {card.category}
                       </div>
                       <h3
-                        className={`solution-card-title font-semibold tracking-tight text-white leading-tight mb-2 sm:mb-2.5 ${card.titleSmall
+                        className={`solution-card-title font-semibold tracking-[-0.02em] text-white leading-tight mb-2 sm:mb-2.5 ${card.titleSmall
                           ? 'text-[15px] sm:text-[18px] md:text-[19px] lg:text-[20px]'
                           : 'text-[18px] sm:text-[23px] md:text-[26px]'
                           }`}
                       >
                         {card.title}
                       </h3>
-                      <p className="solution-card-desc text-xs sm:text-[13.5px] text-zinc-400 leading-relaxed font-sans line-clamp-3">
+                      <p className="solution-card-desc text-xs sm:text-[13.5px] text-zinc-400 font-serif leading-[1.75] line-clamp-3">
                         {card.description}
                       </p>
                     </div>

@@ -77,6 +77,9 @@ export const metadata = {
     shortcut: '/favicon.ico',
     apple: '/Web_White_Icon.ico',
   },
+  verification: {
+    google: 'bst4UQzqUCEMHZxGlv85mbsWv9EfHKGFPdhJpmZiXCU',
+  },
 };
 
 const GTM_ID = 'GTM-THD6T883';
@@ -85,6 +88,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${poppins.variable} ${lora.variable}`} suppressHydrationWarning>
       <head>
+        <meta name="google-site-verification" content="bst4UQzqUCEMHZxGlv85mbsWv9EfHKGFPdhJpmZiXCU" />
+        {/* Theme init — runs synchronously before first paint to prevent flash */}
+        <script dangerouslySetInnerHTML={{
+          __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='light'){document.documentElement.classList.add('light');document.documentElement.classList.remove('dark');document.documentElement.setAttribute('data-theme','light');}else{document.documentElement.classList.add('dark');document.documentElement.setAttribute('data-theme','dark');}}catch(e){document.documentElement.classList.add('dark');}})();`
+        }} />
         {/* Google Consent Mode v2 defaults — must run before gtag.js and GTM.
             Denied by default in EEA/UK/CH, granted elsewhere; a saved banner choice overrides both. */}
         <script
