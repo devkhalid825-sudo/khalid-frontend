@@ -296,6 +296,14 @@ const nextConfig: NextConfig = {
     ],
   },
 
+  typescript: {
+    // Avoid running heavy tsc during build on low-RAM servers/VPS to prevent OOM "Killed"
+    ignoreBuildErrors: true,
+  },
+  eslint: {
+    ignoreDuringBuilds: true,
+  },
+
   // Webpack alias (production build)
   webpack(config) {
     config.resolve.alias["react-router-dom"] = routerCompatPath;

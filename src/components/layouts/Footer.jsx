@@ -11,11 +11,13 @@ import { trackEmailSignup } from '@/components/analytics/tracking';
 const FooterColumn = ({ title, sectionKey, as: Tag = 'div', ariaLabel, isOpen, onToggle, alwaysOpen = false, children }) => {
   if (alwaysOpen) {
     return (
-      <Tag aria-label={ariaLabel} className="flex flex-col space-y-3 sm:space-y-4">
-        <h2 className="text-white text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold footer-col-title inline-block w-fit">
+      <Tag aria-label={ariaLabel} className="flex flex-col">
+        <h2 className="text-white text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold footer-col-title inline-block w-fit font-heading">
           {title}
         </h2>
-        {children}
+        <div className="mt-3 sm:mt-4">
+          {children}
+        </div>
       </Tag>
     );
   }
@@ -31,7 +33,7 @@ const FooterColumn = ({ title, sectionKey, as: Tag = 'div', ariaLabel, isOpen, o
         aria-expanded={isOpen}
         className="flex items-center justify-between w-full text-left md:pointer-events-none"
       >
-        <h2 className="text-white text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold footer-col-title inline-block w-fit">
+        <h2 className="text-white text-xs sm:text-sm tracking-[0.2em] uppercase font-semibold footer-col-title inline-block w-fit font-heading">
           {title}
         </h2>
         <span
@@ -43,7 +45,7 @@ const FooterColumn = ({ title, sectionKey, as: Tag = 'div', ariaLabel, isOpen, o
         </span>
       </button>
       <div
-        className={`grid transition-all duration-300 ease-in-out md:!grid-rows-[1fr] md:!opacity-100 ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-3 sm:mt-4' : 'grid-rows-[0fr] opacity-0'
+        className={`grid transition-all duration-300 ease-in-out md:!grid-rows-[1fr] md:!opacity-100 md:mt-3 md:sm:mt-4 ${isOpen ? 'grid-rows-[1fr] opacity-100 mt-3 sm:mt-4' : 'grid-rows-[0fr] opacity-0'
           }`}
       >
         <div className="overflow-hidden">{children}</div>
@@ -99,6 +101,37 @@ const Footer = () => {
   return (
     <footer className="relative site-main-footer bg-gradient-to-b from-[#0a1628] to-[#1a2a6e] border-t border-white/10 text-white pt-4 md:pt-6 pb-12 md:pb-16 font-sans overflow-hidden transition-colors duration-300">
       <style dangerouslySetInnerHTML={{ __html: `
+        /* Enforce identical clean sans-serif typography across ALL footer text (no serif bleed) */
+        .site-main-footer,
+        .site-main-footer p,
+        .site-main-footer span,
+        .site-main-footer a,
+        .site-main-footer li,
+        .site-main-footer div,
+        .site-main-footer button,
+        .site-main-footer input {
+          font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+          font-style: normal !important;
+        }
+
+        /* Consistent link colors (prevents visited links turning purple/dark-blue on blue background) */
+        .site-main-footer a,
+        .site-main-footer a:visited,
+        .site-main-footer .footer-office-link,
+        .site-main-footer .footer-office-link:visited {
+          color: rgba(255, 255, 255, 0.8) !important;
+          text-decoration: none !important;
+        }
+        .site-main-footer a:hover,
+        .site-main-footer a:focus,
+        .site-main-footer .footer-office-link:hover {
+          color: #ffffff !important;
+        }
+
+        .site-main-footer .footer-office-text {
+          color: rgba(255, 255, 255, 0.8) !important;
+        }
+
         html.light .site-main-footer span,
         html.light .site-main-footer .text-white,
         html.light .site-main-footer span.text-white,
@@ -112,6 +145,7 @@ const Footer = () => {
           color: rgba(255, 255, 255, 0.85) !important;
         }
         html.light .site-main-footer a,
+        html.light .site-main-footer a:visited,
         html.light .site-main-footer p a,
         html.light .site-main-footer div a,
         html.light .site-main-footer li a,
@@ -180,7 +214,7 @@ const Footer = () => {
                 isOpen={!!openSections.company}
                 onToggle={toggleSection}
               >
-                <ul className="space-y-2 text-[13px] sm:text-[14px] font-light text-white/80">
+                <ul className="flex flex-col space-y-2.5 sm:space-y-3 text-[13px] sm:text-[14px] font-normal text-white/80">
                   <li className="hover:text-white cursor-pointer transition-colors w-fit">
                     <Link href="/about">About Us</Link>
                   </li>
@@ -213,7 +247,7 @@ const Footer = () => {
                 isOpen={!!openSections.services}
                 onToggle={toggleSection}
               >
-                <ul className="space-y-2 text-[13px] sm:text-[14px] font-light text-white/80">
+                <ul className="flex flex-col space-y-2.5 sm:space-y-3 text-[13px] sm:text-[14px] font-normal text-white/80">
                   <li className="hover:text-white cursor-pointer transition-colors w-fit">
                     <Link href="/services">All Services</Link>
                   </li>
@@ -236,15 +270,18 @@ const Footer = () => {
                 isOpen={!!openSections.contactUs}
                 onToggle={toggleSection}
               >
-                <div className="text-[13px] sm:text-[14px] font-light leading-relaxed text-white/70 space-y-3.5">
+                <div className="text-[13px] sm:text-[14px] font-normal leading-relaxed text-white/80 flex flex-col space-y-4 sm:space-y-5">
                   {/* USA Office */}
-                  <div>
-                    <span className="text-white text-xs font-semibold tracking-wider uppercase block mb-1 footer-office-title">USA Office</span>
-                    <p className="footer-office-text">1812 McCormick Ln</p>
-                    <p className="footer-office-text">Hanover Park, IL 60133</p>
-                    <p className="pt-0.5 text-white/90 font-medium">
+                  <div className="space-y-1">
+                    <span className="text-white text-xs font-semibold tracking-wider uppercase block footer-office-title mb-1.5 font-heading">
+                      USA Office
+                    </span>
+                    <p className="footer-office-text leading-relaxed">1812 McCormick Ln</p>
+                    <p className="footer-office-text leading-relaxed">Hanover Park, IL 60133</p>
+                    <p className="pt-0.5 leading-relaxed">
                       <a
-                        data-track-id="footer-phone-us" href="tel:+16302970428"
+                        data-track-id="footer-phone-us"
+                        href="tel:+16302970428"
                         className="hover:text-white transition-colors footer-office-link"
                       >
                         +1 630-297-0428
@@ -253,19 +290,23 @@ const Footer = () => {
                   </div>
 
                   {/* Pakistan Office */}
-                  <div className="pt-2 border-t border-white/10">
-                    <span className="text-white text-xs font-semibold tracking-wider uppercase block mb-1 footer-office-title">Pakistan Office</span>
-                    <p className="footer-office-text">House no A-08, near Wasim Bagh,</p>
-                    <p className="footer-office-text">Block 13D-3, Gulshan-e-Iqbal, 75300</p>
-                    <div className="pt-1 text-white/90 font-medium flex flex-col gap-0.5">
+                  <div className="space-y-1">
+                    <span className="text-white text-xs font-semibold tracking-wider uppercase block footer-office-title mb-1.5 font-heading">
+                      Pakistan Office
+                    </span>
+                    <p className="footer-office-text leading-relaxed">House no A-08, near Wasim Bagh,</p>
+                    <p className="footer-office-text leading-relaxed">Block 13D-3, Gulshan-e-Iqbal, 75300</p>
+                    <div className="pt-0.5 flex flex-col space-y-1">
                       <a
-                        data-track-id="footer-phone-pk-1" href="tel:+923471245257"
+                        data-track-id="footer-phone-pk-1"
+                        href="tel:+923471245257"
                         className="hover:text-white transition-colors footer-office-link"
                       >
                         +92 347 1245257
                       </a>
                       <a
-                        data-track-id="footer-phone-pk-2" href="tel:+923323141556"
+                        data-track-id="footer-phone-pk-2"
+                        href="tel:+923323141556"
                         className="hover:text-white transition-colors footer-office-link"
                       >
                         +92 332 3141556
@@ -274,11 +315,12 @@ const Footer = () => {
                   </div>
 
                   {/* Email */}
-                  <div className="pt-2 border-t border-white/10">
-                    <p className="text-white font-medium">
+                  <div>
+                    <p className="leading-relaxed">
                       <a
-                        data-track-id="footer-email" href="mailto:info@elipsestudio.com"
-                        className="hover:text-[#4169E1] transition-colors"
+                        data-track-id="footer-email"
+                        href="mailto:info@elipsestudio.com"
+                        className="hover:text-white transition-colors"
                       >
                         info@elipsestudio.com
                       </a>
