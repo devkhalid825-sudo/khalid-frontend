@@ -29,15 +29,24 @@ const statsData = [
   { label: '3D & Engineering Specialists', value: '30+' },
 ];
 
+// The server HTML carries the real number (crawlers and no-JS visitors used to
+// see "0+"). In the browser, a counter that is still below the fold is reset
+// to 0 and counts up when scrolled into view; one already on screen stays put.
 const AnimatedCounter = ({ value, suffix }) => {
-  const [count, setCount] = useState(0);
+  const num = parseInt(value);
+  const [count, setCount] = useState(num);
   const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef(null);
-  const num = parseInt(value);
 
   useEffect(() => {
     const el = ref.current;
     if (!el || hasAnimated) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setHasAnimated(true);
+      return;
+    }
+    setCount(0);
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setHasAnimated(true);
@@ -61,7 +70,7 @@ const AnimatedCounter = ({ value, suffix }) => {
     return () => observer.disconnect();
   }, [num, hasAnimated]);
 
-  return <span ref={ref}>{hasAnimated ? count : 0}{suffix || (value.includes('+') ? '+' : '')}</span>;
+  return <span ref={ref}>{count}{suffix || (value.includes('+') ? '+' : '')}</span>;
 };
 
 const footprintData = [

@@ -16,9 +16,9 @@ const homepageFaqSchema = buildFaqSchema(HOMEPAGE_FAQS);
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
-  name: 'Elipse Studio — 3D Visualization, AR/VR & Web Configurator Agency',
+  name: '3D Configurators & AR/VR Studio | Elipse Studio',
   description:
-    'Elipse Studio delivers premium 3D rendering, walkthrough animation, interactive configurators, and AR/VR experiences for global developers and brands.',
+    'Elipse Studio builds custom WebGL 3D product configurators, Unreal Engine AR/VR experiences, and cinematic CGI for global brands. Book a free consultation.',
   url: SITE_URL,
   publisher: {
     '@type': 'Organization',
@@ -38,27 +38,27 @@ const breadcrumb = {
   itemListElement: [{ '@type': 'ListItem', position: 1, name: 'Home', item: `${SITE_URL}/` }],
 };
 
+const HOME_TITLE = '3D Configurators & AR/VR Studio | Elipse Studio';
+
 export function generateMetadata() {
   const base = buildMetadata({
-    title: '3D Visualization & VR Studio',
+    title: '3D Configurators & AR/VR Studio',
     description:
-      'Elipse Studio delivers premium 3D rendering, walkthrough animation, interactive configurators, and AR/VR experiences for global developers and brands.',
+      'Elipse Studio builds custom WebGL 3D product configurators, Unreal Engine AR/VR experiences, and cinematic CGI for global brands. Book a free consultation.',
     canonical: `${SITE_URL}/`,
     ogImage: `${SITE_URL}/assets/actuallogo.webp`,
-    ogImageAlt: 'Elipse Studio — 3D Visualization & AR/VR Studio',
+    ogImageAlt: 'Elipse Studio — 3D Configurators & AR/VR Studio',
   });
-  // Override the browser-tab title to the exact required string
-  // while keeping all other metadata (OG, Twitter, canonical, etc.) intact.
   return {
     ...base,
-    title: { absolute: 'Elipse Studio - Interactive Digital Experiences' },
+    title: { absolute: HOME_TITLE },
     openGraph: {
       ...base.openGraph,
-      title: 'Elipse Studio - Interactive Digital Experiences',
+      title: HOME_TITLE,
     },
     twitter: {
       ...base.twitter,
-      title: 'Elipse Studio - Interactive Digital Experiences',
+      title: HOME_TITLE,
     },
     verification: {
       google: 'bst4UQzqUCEMHZxGlv85mbsWv9EfHKGFPdhJpmZiXCU',

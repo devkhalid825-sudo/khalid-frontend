@@ -34,9 +34,9 @@ const breadcrumb = {
 
 export function generateMetadata() {
   return buildMetadata({
-    title: 'Contact Us',
+    title: 'Contact Us | Book a Free 3D Consultation',
     description:
-      'Get in touch with Elipse Studio for 3D visualization, VR, AR, and interactive web experiences. We respond to inquiries within 24 hours.',
+      'Book a free 15-min technical consultation with Elipse Studio. Custom 3D configurators, AR/VR, and CGI for global brands. Response within 24 hours.',
     canonical: `${SITE_URL}/contact`,
   });
 }

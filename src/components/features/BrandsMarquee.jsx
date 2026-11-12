@@ -10,6 +10,7 @@ import brandsImg7 from '@/assets/ElipseImages/logos/logo7.webp';
 import brandsImg8 from '@/assets/ElipseImages/logos/logo8.webp';
 import brandsImg9 from '@/assets/ElipseImages/logos/logo9.webp';
 import brandsImgStudentLife from '@/assets/ElipseImages/logos/SL.webp';
+import brandsImgBeanTrailer from '@/assets/About-page/bean-logo.png';
 
 
 const brandsImages = [
@@ -17,6 +18,7 @@ const brandsImages = [
   { img: brandsImg2, name: 'Rooh Afza', className: 'h-8 xs:h-9 sm:h-13 md:h-16 max-w-[130px] sm:max-w-[240px]' },
   { img: brandsImg3, name: 'Searle Pharmaceuticals', className: 'h-7 xs:h-8 sm:h-12 md:h-15 max-w-[140px] sm:max-w-[240px]' },
   { img: brandsImg4, name: 'Khoj Resorts', className: 'h-9 xs:h-10 sm:h-14 md:h-18 max-w-[130px] sm:max-w-[220px] brand-logo-white' },
+  { img: brandsImgBeanTrailer, name: 'Bean Trailer', className: 'h-9 xs:h-10 sm:h-14 md:h-18 max-w-[140px] sm:max-w-[230px] brand-logo-white' },
   { img: brandsImg9, name: 'Amber Developments', className: 'h-9 xs:h-10 sm:h-14 md:h-18 brightness-0 invert max-w-[140px] sm:max-w-[260px] brand-logo-white' },
   { img: brandsImg6, name: 'Omoré', className: 'h-9 xs:h-10 sm:h-13 md:h-16 max-w-[130px] sm:max-w-[220px]' },
   { img: brandsImg7, name: 'ARY Laguna', className: 'h-9 xs:h-10 sm:h-13 md:h-16 max-w-[140px] sm:max-w-[240px]' },

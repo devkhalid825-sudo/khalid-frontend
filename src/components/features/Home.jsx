@@ -169,7 +169,7 @@ const Home = ({ initialProjects, initialReviews, initialBlogs, initialSocialMedi
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none mx-auto">
             <Link
               href="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center text-center whitespace-nowrap bg-[#3558D4] hover:bg-[#2A48B8] text-white px-6 py-3.5 sm:px-8 sm:py-3.5 md:px-10 md:py-4 rounded-full text-xs sm:text-sm md:text-base font-semibold transition-all shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 transform hover:-translate-y-0.5"
+              className="w-auto inline-flex items-center justify-center text-center whitespace-nowrap bg-[#3558D4] hover:bg-[#2A48B8] text-white h-10 sm:h-auto px-6 sm:px-8 sm:py-3.5 md:px-10 md:py-4 rounded-full text-[13px] sm:text-sm md:text-base font-semibold transition-all shadow-md sm:shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 transform hover:-translate-y-0.5"
             >
               Book Project Consultation
             </Link>
@@ -181,7 +181,7 @@ const Home = ({ initialProjects, initialReviews, initialBlogs, initialSocialMedi
               href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center text-center whitespace-nowrap px-6 py-3.5 sm:px-8 sm:py-3.5 md:px-10 md:py-4 border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white rounded-full text-xs sm:text-sm md:text-base font-semibold transition-all backdrop-blur-sm"
+              className="w-auto inline-flex items-center justify-center text-center whitespace-nowrap h-10 sm:h-auto px-6 sm:px-8 sm:py-3.5 md:px-10 md:py-4 border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white rounded-full text-[13px] sm:text-sm md:text-base font-semibold transition-all backdrop-blur-sm"
             >
               Schedule a Quick Call
             </a>

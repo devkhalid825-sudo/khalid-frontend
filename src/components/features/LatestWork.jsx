@@ -14,7 +14,7 @@ import { isProjectHidden } from '@/utils/projectVisibility';
 import { renderCardTitle, stripHtml } from '@/utils/formatTitle';
 
 const PILLAR_TABS = [
-  { key: 'all', label: 'All Projects' },
+  { key: 'all', label: 'View All Projects' },
   { key: 'configurator', label: '3D Configurators' },
   { key: 'archviz', label: 'Real-Time ArchViz & VR' },
   { key: 'cgi', label: 'Commercial CGI & Animation' },
@@ -123,7 +123,8 @@ const FilterDropdown = ({ value, onChange, counts, isLightMode }) => {
 const CARD_EASE = [0.22, 1, 0.36, 1];
 
 // Card rises in; its image starts blurred & zoomed and settles sharp.
-// Desktop: strong blur, replays on re-entry. Mobile: lighter blur, plays once
+// Plays once on every device: replaying on re-entry made cards flicker/fade
+// whenever they crossed the viewport edge. Mobile uses a lighter blur
 // (large animated blur filters are expensive on phones and cause scroll jank).
 const cardVariants = {
   hidden: ({ m }) => ({ opacity: 0, y: m ? 36 : 70, scale: m ? 0.98 : 0.96 }),
@@ -227,7 +228,7 @@ const VideoHoverCard = ({ project, isLight, index = 0 }) => {
       variants={cardVariants}
       initial={reduced ? 'visible' : 'hidden'}
       whileInView="visible"
-      viewport={{ once: isMobile, amount: 0.2 }}
+      viewport={{ once: true, amount: 0.2 }}
     >
     <Link
       href={project.path || `/case-study/${project.id}`}
@@ -360,11 +361,79 @@ function tabFromCategory(category) {
   return 'all';
 }
 
+// ── "Browse. By category." header for the Work page: big headline + pillar tabs ──
+const BROWSE_EASE = [0.16, 1, 0.3, 1];
+
+const BrowseHeader = ({ value, onChange, isLightMode }) => (
+  <div className="mb-8 md:mb-14">
+    <motion.h2
+      initial={{ opacity: 0, y: 28 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.6 }}
+      transition={{ duration: 0.8, ease: BROWSE_EASE }}
+      style={{ fontFamily: "var(--font-inter), 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif" }}
+      className="text-[40px] sm:text-6xl md:text-7xl lg:text-[88px] font-semibold tracking-[-0.045em] leading-[1] mb-7 md:mb-10"
+    >
+      <span className={isLightMode ? 'text-zinc-900' : 'text-white'}>
+        Browse<span className="text-[#4169E1]">.</span> By category.
+      </span>
+    </motion.h2>
+
+    <div
+      role="tablist"
+      aria-label="Filter projects by category"
+      className="flex gap-2 sm:gap-3 overflow-x-auto md:flex-wrap pb-1 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+    >
+      {PILLAR_TABS.map((t, i) => {
+        const active = t.key === value;
+        return (
+          <motion.button
+            key={t.key}
+            type="button"
+            role="tab"
+            aria-selected={active}
+            onClick={() => onChange(t.key)}
+            initial={{ opacity: 0, y: 14 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: BROWSE_EASE, delay: 0.15 + i * 0.07 }}
+            style={{ color: active ? '#ffffff' : undefined }}
+            className={`relative shrink-0 inline-flex items-center justify-center h-10 sm:h-11 md:h-12 px-5 sm:px-6 md:px-7 rounded-full text-xs sm:text-sm md:text-[15px] font-medium whitespace-nowrap cursor-pointer transition-all duration-300 ${active
+              ? '!text-white text-white font-semibold'
+              : isLightMode
+                ? 'bg-zinc-100 border border-zinc-200 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-200/80'
+                : 'bg-[#121214] border border-white/10 text-zinc-300 hover:text-white hover:bg-white/10 hover:border-white/20'
+              }`}
+          >
+            {active && (
+              <motion.span
+                layoutId="browse-active-pill"
+                transition={{ type: 'spring', stiffness: 420, damping: 34 }}
+                className="absolute inset-0 rounded-full bg-[#3558D4] shadow-none"
+              />
+            )}
+            <span
+              style={{ color: active ? '#ffffff' : undefined }}
+              className={`relative z-10 transition-colors duration-200 ${active ? '!text-white text-white font-semibold' : ''}`}
+            >
+              {t.label}
+            </span>
+          </motion.button>
+        );
+      })}
+    </div>
+  </div>
+);
+
 /**
  * portfolioPreview: show at most 6 cards per tab and a "View Portfolio" link instead of
  * View More / Show Less. Used on the homepage; pages without it keep the full list.
+ * browseLayout: Work page variant — "Browse. By category." headline with pillar tabs,
+ * 6 cards first and a button that reveals the whole category.
+ * showcase: Work page opener — "Latest Work" heading and the first 6 projects only
+ * (no filter, no button); the browse section follows it.
  */
-const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfolioPreview = false }) => {
+const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfolioPreview = false, browseLayout = false, showcase = false }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const themeContext = useTheme();
@@ -425,7 +494,9 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
     return acc;
   }, {});
 
-  const displayedProjects = filteredProjects.slice(0, portfolioPreview ? PREVIEW_COUNT : visibleCount);
+  const displayedProjects = showcase
+    ? visibleProjects.slice(0, PREVIEW_COUNT)
+    : filteredProjects.slice(0, portfolioPreview ? PREVIEW_COUNT : visibleCount);
   const portfolioHref =
     PORTFOLIO_CATEGORY[activeTab] ? `/portfolio?category=${PORTFOLIO_CATEGORY[activeTab]}` : '/portfolio';
   const buttonClass = `group relative flex items-center gap-3 border rounded-full px-8 sm:px-10 py-3 sm:py-4 text-xs sm:text-sm font-medium tracking-widest uppercase hover:scale-105 transition-all duration-300 ${isLightMode
@@ -435,41 +506,75 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
 
   return (
     <section
-      id="latest-work"
+      id={showcase ? 'work-showcase' : 'latest-work'}
       className={`relative transition-colors duration-300 ${isLightMode ? 'bg-white text-zinc-900' : 'bg-black text-white'
         } pt-6 sm:pt-8 md:pt-10 lg:pt-12 pb-3 sm:pb-6 md:pb-16`}
     >
-      {isLightMode && (
+      {/* Light mode: fade into the black section that follows (not under the showcase,
+          which is followed by the white browse section). */}
+      {isLightMode && !showcase && (
         <div className="absolute bottom-0 left-0 w-full h-24 md:h-32 bg-gradient-to-b from-transparent to-black pointer-events-none"></div>
       )}
 
       <div className="home-container pt-1 md:pt-4">
-        <div className="flex items-center justify-between gap-4 mb-6 md:mb-10">
-          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1]">
+        {showcase ? (
+          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1] mb-6 md:mb-10">
             Latest Work
           </h2>
-          <FilterDropdown
-            value={activeTab}
-            onChange={handleTabChange}
-            counts={tabCounts}
-            isLightMode={isLightMode}
-          />
-        </div>
+        ) : browseLayout ? (
+          <BrowseHeader value={activeTab} onChange={handleTabChange} isLightMode={isLightMode} />
+        ) : (
+          <div className="flex items-center justify-between gap-4 mb-6 md:mb-10">
+            <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1]">
+              Latest Work
+            </h2>
+            <FilterDropdown
+              value={activeTab}
+              onChange={handleTabChange}
+              counts={tabCounts}
+              isLightMode={isLightMode}
+            />
+          </div>
+        )}
       </div>
 
       <div className="home-container">
-        <div key={activeTab} className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 2xl:gap-10">
+        <div key={showcase ? 'showcase' : activeTab} className="w-full grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 2xl:gap-10">
           {displayedProjects.map((project, i) => (
             <VideoHoverCard key={project.id} project={project} isLight={isLightMode} index={i} />
           ))}
         </div>
 
-        {portfolioPreview ? (
+        {showcase ? null : portfolioPreview ? (
           <div className="flex justify-center mt-6 md:mt-8 pb-0 md:pb-2">
             <Link href={portfolioHref} data-track-cta="latest-work-view-portfolio" className="latest-work-portfolio-btn flex px-8 sm:px-10 h-11 sm:h-12 items-center justify-center bg-[#3558D4] hover:bg-[#2A48B8] text-white rounded-full text-[13px] sm:text-sm font-semibold tracking-wider transition-all duration-300 shadow-[0_2px_15px_rgba(65,105,225,0.35)] hover:shadow-[0_4px_22px_rgba(65,105,225,0.55)] hover:scale-105">
               View Work
             </Link>
           </div>
+        ) : browseLayout ? (
+          filteredProjects.length > 6 && (
+            <div className="flex justify-center mt-8 md:mt-12 pb-0 md:pb-2">
+              <button
+                type="button"
+                onClick={() => setVisibleCount(filteredProjects.length > visibleCount ? filteredProjects.length : 6)}
+                suppressHydrationWarning
+                // Same look as the header "Let's Talk" button.
+                className="group inline-flex items-center justify-center gap-2 h-11 sm:h-12 px-6 sm:px-8 rounded-full bg-[#3558D4] hover:bg-[#2A48B8] text-white text-sm sm:text-[15px] font-semibold shadow-[0_4px_18px_rgba(53,88,212,0.35)] hover:shadow-[0_6px_24px_rgba(53,88,212,0.5)] active:scale-95 transition-all duration-300 cursor-pointer"
+              >
+                <span>
+                  {filteredProjects.length > visibleCount
+                    ? 'View All Projects'
+                    : 'Show Less'}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className={`transition-transform duration-300 ${filteredProjects.length > visibleCount ? 'group-hover:translate-x-1' : '-rotate-90 group-hover:-translate-y-0.5'}`}
+                >
+                  →
+                </span>
+              </button>
+            </div>
+          )
         ) : (
           filteredProjects.length > 6 && (
             <div className="flex justify-center mt-6 md:mt-8 pb-0 md:pb-2">

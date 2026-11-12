@@ -4,9 +4,9 @@ import { buildMetadata, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { ABOUT_FAQS } from '@/seo/pageFaqs';
 
-const PAGE_TITLE = 'About Elipse Studio | Creative Tech, Real-Time 3D & Spatial Studio';
+const PAGE_TITLE = 'About Elipse Studio | 3D, AR/VR & WebGL Agency Since 2021';
 const PAGE_DESCRIPTION =
-  'Meet Elipse Studio, a 30+ specialist creative technology studio headquartered in Karachi with US sales presence, engineering 3D product configurators, Unreal Engine 5 virtual tours, and commercial CGI.';
+  'Elipse Studio is a 3D, AR/VR and WebGL configurator studio founded in 2021: 30+ specialists in Karachi with US sales presence, trusted by global brands.';
 
 const schema = {
   '@context': 'https://schema.org',

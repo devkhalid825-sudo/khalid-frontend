@@ -49,8 +49,10 @@ import roohafzaRaw from '../assets/About-page/roohafza.webp';
 import volvoRaw from '../assets/About-page/volvo-thumbnail.webp';
 import volvoUe5Raw from '../assets/About-page/volvo-s90-ue5-hero.webp';
 import golfCartRaw from '../assets/About-page/golf-cart.webp';
+import kumarRaw from '../assets/About-page/kumar-hd.webp';
 
 const golfCart = getImgSrc(golfCartRaw);
+const kumar = getImgSrc(kumarRaw);
 const volvoPaint = getImgSrc(volvoPaintRaw);
 const roohafza = getImgSrc(roohafzaRaw);
 const modernVilla = getImgSrc(modernVillaRaw);
@@ -90,6 +92,15 @@ const staticImages = {
 };
 
 const staticPosts = [
+    {
+        id: 'static-virtual-tours-360-vs-ue5-2026',
+        title: 'Interactive 3D Virtual Tours vs 360 Video for Luxury Real Estate: Closing High-Net-Worth Off-Plan Buyers',
+        excerpt: 'Why Unreal Engine 5 walkthroughs close international off-plan buyers better than 360 video — live finish swaps, time-of-day lighting, VR, kiosk and Pixel Streaming, and $131K–$379K saved against a physical sales suite.',
+        image: kumar,
+        date: 'NOVEMBER 12, 2026',
+        category: 'Real Estate Virtual Tours',
+        url: '/blog/interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026',
+    },
     {
         id: 'static-3d-anamorphic-billboard-production-2026',
         title: 'Commercial 3D Anamorphic Billboard Production: Engineering Naked-Eye 3D LED Campaigns for Times Square, London Piccadilly & Dubai',

@@ -1,9 +1,16 @@
-import { Poppins, Lora } from 'next/font/google';
+import { Poppins, Lora, Inter } from 'next/font/google';
 import Script from 'next/script';
 import './globals.css';
 import { SITE_URL } from '@/utils/api';
 import { SITE_SCHEMA } from '@/seo/schemas';
 import SiteShell from '@/components/SiteShell';
+
+const inter = Inter({
+  variable: '--font-inter',
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800'],
+});
 
 const poppins = Poppins({
   variable: '--font-poppins',
@@ -86,7 +93,7 @@ const GTM_ID = 'GTM-THD6T883';
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${poppins.variable} ${lora.variable}`} suppressHydrationWarning>
+    <html lang="en" className={`${poppins.variable} ${lora.variable} ${inter.variable}`} suppressHydrationWarning>
       <head>
         <meta name="google-site-verification" content="bst4UQzqUCEMHZxGlv85mbsWv9EfHKGFPdhJpmZiXCU" />
         {/* Theme init — runs synchronously before first paint to prevent flash */}

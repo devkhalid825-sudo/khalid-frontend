@@ -1,12 +1,13 @@
 import { notFound } from 'next/navigation';
 import { apiCall, SITE_URL } from '@/utils/api';
-import { buildMetadata, buildArticleSchema, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
+import { buildMetadata, buildArticleSchema, buildBreadcrumbSchema, buildFaqSchema, buildVideoObjectSchema } from '@/lib/seo';
 import BlogArticle from '@/components/BlogArticle';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
 
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  'interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026': dynamic(() => import('@/components/articles/VirtualTours360VsUe5Article')),
   '3d-anamorphic-billboard-production': dynamic(() => import('@/components/articles/AnamorphicBillboardProductionArticle')),
   'custom-3d-configurator-vs-saas-platform-enterprise-2026': dynamic(() => import('@/components/articles/CustomConfiguratorVsSaasArticle')),
   'custom-configurator-vs-saas': dynamic(() => import('@/components/articles/CustomConfiguratorVsSaasArticle')),
@@ -60,6 +61,22 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  'interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026': {
+    title: 'Interactive 3D Virtual Tours vs 360 Video for Luxury Real Estate (2026 Guide)',
+    description: 'Why UE5 real-time walkthroughs close international off-plan buyers better than 360 video: live finish swaps, time-of-day lighting, VR, kiosk and Pixel Streaming, plus ROI vs a physical sales suite.',
+    keywords: [
+      'interactive 3d virtual tour real estate',
+      '360 virtual tour vs 3d walkthrough',
+      'unreal engine 5 real estate walkthrough',
+      'off-plan property virtual tour',
+      'luxury real estate vr sales gallery',
+      'pixel streaming real estate',
+      'virtual sales suite cost',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026`,
+    ogImage: `${SITE_URL}/assets/About-page/kumar-hd.webp`,
+  },
   '3d-anamorphic-billboard-production': {
     title: 'Commercial 3D Anamorphic Billboard Production: Naked-Eye 3D LED Campaigns for Times Square, Piccadilly & Dubai | Elipse Studio',
     description: '2026 technical production guide to 3D anamorphic billboards: sweet-spot optics, curved LED architecture, 8K–16K render pipeline, genlock playback, media vs production costs, and viral earned-media benchmarks.',
@@ -588,6 +605,7 @@ export async function generateStaticParams() {
 const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 
 function staticArticleSchemas(slugStr, meta) {
+  const isVirtualTours360 = slugStr === 'interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026';
   const isAnamorphicProduction = slugStr === '3d-anamorphic-billboard-production';
   const isAnamorphicBillboard = !isAnamorphicProduction && (slugStr.includes('3d-anamorphic-billboard') || slugStr.includes('anamorphic-billboard'));
   const isCommercialCgi = slugStr.startsWith('commercial-cgi-vs');
@@ -606,6 +624,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isVirtualTours360) return '2026-11-12';
     if (isAnamorphicProduction) return '2026-11-11';
     if (isCustomVsSaas) return '2026-11-10';
     if (isUe5CloudAutomotive) return '2026-11-03';
@@ -926,6 +945,37 @@ function staticArticleSchemas(slugStr, meta) {
   if (isUe5CloudAutomotive) extraSchemas = [ue5CloudAutomotiveFaq, authorSchema];
   if (isCustomVsSaas) extraSchemas = [authorSchema];
   if (isAnamorphicProduction) extraSchemas = [anamorphicProductionFaq, authorSchema];
+  // Must match the FAQ text rendered in VirtualTours360VsUe5Article.jsx.
+  if (isVirtualTours360) {
+    extraSchemas = [
+      buildFaqSchema([
+        {
+          q: 'What is the difference between a 360 virtual tour and an interactive 3D walkthrough?',
+          a: 'A 360 tour is a set of fixed panoramic viewpoints that buyers jump between by clicking hotspots, shot with one finish specification and one lighting condition. An Unreal Engine 5 walkthrough is a real-time 3D environment: buyers move freely and continuously, change the time of day, and swap finishes such as marble, timber and kitchen stone instantly.',
+        },
+        {
+          q: 'How much does an interactive 3D sales environment cost compared to a physical sales suite?',
+          a: 'A full UE5 sales environment typically costs $35,000–$120,000 to produce and $2,000–$4,000 per month to run. Over a 24-month campaign that is $83,000–$216,000, compared with $214,000–$595,000 for a physical sales suite in a tier-1 market.',
+        },
+        {
+          q: 'Can international buyers view the walkthrough without a VR headset?',
+          a: 'Yes. With WebRTC Pixel Streaming, buyers open a link in any browser on a laptop, iPad or TV. The full-quality environment renders on a cloud GPU and streams to their device, so their own hardware does not limit the visual quality.',
+        },
+        {
+          q: 'How long does it take to build a UE5 walkthrough from BIM files?',
+          a: 'About 14 weeks: BIM and CAD ingestion (weeks 1–3), the UE5 environment build (weeks 4–9), multi-device deployment for VR, kiosk and streaming (weeks 10–12), and sales team training and launch (weeks 13–14).',
+        },
+      ]),
+      buildVideoObjectSchema({
+        name: 'Interactive 3D Virtual Tour for Luxury Real Estate — Elipse Studio',
+        description: 'Real-time interactive 3D virtual tour for luxury off-plan property sales by Elipse Studio.',
+        thumbnailUrl: 'https://img.youtube.com/vi/rn0Lf782Cug/hqdefault.jpg',
+        uploadDate: '2026-11-12',
+        embedUrl: 'https://www.youtube.com/embed/rn0Lf782Cug',
+      }),
+      authorSchema,
+    ];
+  }
 
   return [schema, breadcrumb, ...extraSchemas].filter(Boolean);
 }
@@ -972,6 +1022,29 @@ function apiArticleSchemas(slugStr, data) {
   return { blogTitle, description, image, schemas: [schema, breadcrumb] };
 }
 
+// Shorter, keyword-led <title>s (Nov 2026 SEO audit). Keyed by the canonical
+// slug so every alias URL gets the same title. Only the <title>/og:title
+// change: slugs, H1s and the Article schema headline stay as they are.
+const SEO_TITLE_OVERRIDES = {
+  'custom-3d-configurator-vs-saas-platform-enterprise-2026': 'Custom 3D Configurator vs SaaS: Why Enterprise Brands Switch (2026)',
+  'unreal-engine-5-cloud-pixel-streaming-automotive-configurators-2026': 'Unreal Engine 5 Pixel Streaming for Automotive Configurators: 2026 Guide',
+  'enterprise-3d-configurator-development-webgl-threejs-playcanvas-vs-pixel-streaming-2026': 'WebGL vs Unreal Pixel Streaming: Enterprise 3D Decision Guide 2026',
+  // Not "3D Anamorphic Billboard Production": /blog/3d-anamorphic-billboard-production
+  // already targets that phrase, and two posts on one keyword compete.
+  '3d-anamorphic-billboards-forced-perspective-production-pipeline-2026': '3D Anamorphic Billboards: Storyboarding & Forced-Perspective Guide 2026',
+  'commercial-cgi-vs-traditional-product-photography': 'CGI vs Product Photography: Why CPG Brands Switch to 3D (2026 Data)',
+  'cad-to-webgl-enterprise-3d-optimization-pipeline-2026': 'CAD to WebGL Conversion: Sub-2MB Interactive 3D for Enterprise Brands (2026)',
+  'virtual-showrooms-vs-physical-retail-2026-roi-guide': 'Virtual Showrooms vs Physical Retail: 2026 ROI & Strategy Guide',
+  'ai-powered-3d-product-visualization-workflow-ecommerce-2026': 'AI 3D Product Visualization Workflow for E-Commerce Brands 2026',
+  'real-time-archviz-vr-luxury-real-estate-presales-2026': 'Real-Time ArchViz & Spatial VR: How Developers Presell Off-Plan Properties (2026)',
+  'spatial-commerce-b2b-luxury-retail-2026-benchmark': 'Spatial Commerce for B2B & Luxury Retail: 2026 Conversion Benchmark Report',
+};
+
+function seoTitleFor(canonicalUrl, fallback) {
+  const key = String(canonicalUrl || '').split('/blog/')[1]?.replace(/\/+$/, '');
+  return (key && SEO_TITLE_OVERRIDES[key]) || fallback;
+}
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const slugStr = slugFromParams(slug);
@@ -979,10 +1052,11 @@ export async function generateMetadata({ params }) {
 
   if (staticArticleMetadata[slugStr] || staticArticleMetadata[apiSlug]) {
     const meta = staticArticleMetadata[slugStr] || staticArticleMetadata[apiSlug];
+    const canonical = meta.canonical || `${SITE_URL}/blog/${slugStr}`;
     return buildMetadata({
-      title: meta.title,
+      title: seoTitleFor(canonical, meta.title),
       description: meta.description,
-      canonical: meta.canonical || `${SITE_URL}/blog/${slugStr}`,
+      canonical,
       ogImage: meta.ogImage,
       keywords: meta.keywords,
       type: 'article',
@@ -1001,7 +1075,7 @@ export async function generateMetadata({ params }) {
   const { blogTitle, description, image } = apiArticleSchemas(slugStr, data);
 
   return buildMetadata({
-    title: blogTitle,
+    title: seoTitleFor(`${SITE_URL}/blog/${slugStr}`, blogTitle),
     description,
     canonical: `${SITE_URL}/blog/${slugStr}`,
     ogImage: image,

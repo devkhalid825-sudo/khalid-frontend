@@ -246,7 +246,7 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
               grabCursor={true}
               allowTouchMove={true}
               pagination={{ clickable: true, el: '.mobile-social-pagination' }}
-              className="md:!hidden !px-[15px]"
+              className="md:!hidden !px-[15px] slider-edge-fade"
             >
               {items.map((item, idx) => (
                 <SwiperSlide key={item.id} className="!w-full py-4">
@@ -301,13 +301,14 @@ const SocialMediaSection = ({ initialSocialMedia = [] }) => {
 
         {/* Desktop Swiper: Button-controlled (supports looping and fluid clicks) */}
         {isMobile !== true && (
-          <div className="max-md:!hidden home-container">
+          <div className="max-md:!hidden home-container slider-edge-fade slider-focus">
             <Swiper
               onSwiper={(swiper) => {
                 marqueeSwiperRef.current = swiper;
               }}
               modules={[]}
               loop={items.length > 2}
+              centeredSlides={true}
               speed={600}
               slidesPerView="auto"
               spaceBetween={16}

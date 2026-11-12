@@ -5,6 +5,19 @@
 
 Elipse Studio builds real-time 3D product configurators, AR/VR experiences, custom software, and cinematic visualizations that help clients across real estate, automotive, manufacturing, ecommerce, healthcare, and other industries sell more and engage customers more deeply.
 
+Last updated: 2026-11-12
+
+
+## Key facts
+
+- Founded: 2021
+- Team: 30+ 3D and engineering specialists, headquartered in Karachi, Pakistan, with US sales presence in Hanover Park, Illinois
+- Clients: brands and developers in the US, UK, UAE, Saudi Arabia, Canada and Australia
+- Core technology: WebGL, Three.js, PlayCanvas, Unreal Engine 5 (including Pixel Streaming), WebXR / AR
+- E-commerce: custom Shopify 3D configurators with cart integration and AR output
+- Typical timeline: a standard 3D product configurator takes 6–12 weeks from brief to launch; product animation 2–10 weeks depending on scope
+- Contact: info@elipsestudio.com · https://elipsestudio.com/contact
+
 
 ## Company
 
@@ -119,6 +132,7 @@ Hub pages: [Portfolio](https://elipsestudio.com/portfolio) · [Case Studies](htt
 Hub: [Blog](https://elipsestudio.com/blog)
 
 
+- [Interactive 3D Virtual Tours vs 360 Video for Luxury Real Estate (2026)](https://elipsestudio.com/blog/interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026)
 - [Web-Based Configurator](https://elipsestudio.com/blog/web-based-configurator)
 - [Immersive AR Marketing](https://elipsestudio.com/blog/immersive-ar-marketing)
 - [Industrial Animation](https://elipsestudio.com/blog/industrial-animation)

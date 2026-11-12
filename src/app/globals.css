@@ -8,6 +8,11 @@
   --font-serif: var(--font-lora), Georgia, "Times New Roman", serif;
   --font-heading: var(--font-poppins), system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace, "Courier New", monospace;
+  --font-inter: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.font-inter {
+  font-family: var(--font-inter), "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
 }
 
 :root {
@@ -2977,3 +2982,93 @@ html.light .sf-input {
 }
 html.light .sf-input::placeholder { color: #a1a1aa !important; }
 html.light .sf-input:focus { border-color: #3558D4 !important; }
+
+/* Soft fade on both edges of horizontal sliders. A mask (not a coloured
+   overlay) fades the slides into whatever background is behind them, so it
+   works on the white, black and blue sections in both themes.
+   The mask sits on the .swiper itself: that is where slides get clipped. On
+   the outer container the fade landed in empty padding and the slides still
+   ended in a hard vertical cut. */
+.slider-edge-fade.swiper,
+.slider-edge-fade > .swiper {
+  -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.6) 3%, #000 8%, #000 92%, rgba(0,0,0,0.6) 97%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.6) 3%, #000 8%, #000 92%, rgba(0,0,0,0.6) 97%, transparent 100%);
+}
+@media (max-width: 767px) {
+  .slider-edge-fade.swiper,
+  .slider-edge-fade > .swiper {
+    -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.6) 2%, #000 6%, #000 94%, rgba(0,0,0,0.6) 98%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.6) 2%, #000 6%, #000 94%, rgba(0,0,0,0.6) 98%, transparent 100%);
+  }
+}
+
+/* ==========================================================================
+   Blue bands (homepage News + site footer): depth instead of a flat fill,
+   and edges that fade into the page — white in light mode, black in dark.
+   ========================================================================== */
+:root { --band-edge: #000000; --band-edge-0: rgba(0, 0, 0, 0); --band-fade: 72px; }
+html.light { --band-edge: #ffffff; --band-edge-0: rgba(255, 255, 255, 0); }
+@media (max-width: 767px) { :root { --band-fade: 44px; } }
+
+/* News: depth only. A white/black fade on the top and bottom edges turned
+   into a milky band over the blue, so the edges stay crisp. */
+html #news,
+html.light #news {
+  background:
+    radial-gradient(120% 80% at 12% 0%, rgba(255, 255, 255, 0.16), transparent 55%),
+    radial-gradient(90% 70% at 100% 100%, rgba(12, 22, 90, 0.35), transparent 60%),
+    linear-gradient(160deg, #3f65e8 0%, #3558D4 45%, #2a46b8 100%) !important;
+}
+
+html .site-main-footer,
+html footer.site-main-footer,
+html.light .site-main-footer,
+html.light footer.site-main-footer {
+  background:
+    linear-gradient(to bottom, var(--band-edge) 0, var(--band-edge-0) var(--band-fade)),
+    radial-gradient(110% 70% at 8% 10%, rgba(255, 255, 255, 0.14), transparent 55%),
+    radial-gradient(80% 60% at 100% 100%, rgba(12, 22, 90, 0.4), transparent 65%),
+    linear-gradient(165deg, #3f65e8 0%, #3558D4 40%, #2a46b8 100%) !important;
+  border-top: none !important;
+}
+
+/* Spotlight sliders (Social Media, News): the centred slide is in full focus,
+   its immediate neighbours step back a little, the rest fade further.
+   Tablet/desktop only — phones show one slide at a time. */
+@media (min-width: 768px) {
+  .slider-focus .swiper-slide {
+    opacity: 0.4;
+    transform: scale(0.92);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+  }
+  .slider-focus .swiper-slide-prev,
+  .slider-focus .swiper-slide-next {
+    opacity: 0.75;
+    transform: scale(0.96);
+  }
+  .slider-focus .swiper-slide-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+  .slider-focus .swiper-slide:hover {
+    opacity: 1;
+  }
+}
+
+/* Softer spotlight for sliders on the blue News band: fading a translucent
+   card into blue reads as "washed out", so neighbours only step back gently. */
+@media (min-width: 768px) {
+  .slider-focus--soft .swiper-slide {
+    opacity: 0.6;
+    transform: scale(0.93);
+  }
+  .slider-focus--soft .swiper-slide-prev,
+  .slider-focus--soft .swiper-slide-next {
+    opacity: 0.88;
+    transform: scale(0.97);
+  }
+  .slider-focus--soft .swiper-slide-active {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

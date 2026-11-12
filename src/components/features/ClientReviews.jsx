@@ -302,8 +302,16 @@ const ClientReviews = ({ initialReviews = null }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const displayReviews = useMemo(() => {
-    return reviews;
+  const loopedReviews = useMemo(() => {
+    if (!reviews || reviews.length === 0) return [];
+    let list = [...reviews];
+    while (list.length < 12) {
+      list = [...list, ...reviews];
+    }
+    return list.map((r, i) => ({
+      ...r,
+      _uniqueKey: `${r.id}-${i}`,
+    }));
   }, [reviews]);
 
   if (reviews.length === 0) return null;
@@ -465,31 +473,33 @@ const ClientReviews = ({ initialReviews = null }) => {
           </div>
         )}
 
-        {/* Desktop Swiper: Button-controlled slider (drag disabled) */}
+        {/* Desktop Swiper: Seamless infinite loop, no edge fade, no dimmed cards */}
         {isMobile !== true && (
           <div className="max-md:!hidden home-container">
             <Swiper
               onSwiper={(swiper) => {
                 marqueeSwiperRef.current = swiper;
               }}
-              modules={[FreeMode]}
-              loop={false}
+              modules={[]}
+              loop={true}
+              loopAdditionalSlides={4}
+              centeredSlides={false}
               speed={600}
-              slidesPerView={3}
+              slidesPerView={2}
               spaceBetween={20}
-              breakpoints={{ 1024: { slidesPerView: 4, spaceBetween: 20 } }}
-              freeMode={{
-                enabled: false,
-                momentum: false,
+              breakpoints={{
+                640: { slidesPerView: 2, spaceBetween: 20 },
+                1024: { slidesPerView: 3, spaceBetween: 20 },
+                1280: { slidesPerView: 4, spaceBetween: 20 },
               }}
-              grabCursor={false}
-              allowTouchMove={false}
+              grabCursor={true}
+              allowTouchMove={true}
               className=""
             >
-              {displayReviews.map((review) => {
-                const isDtMuted = getIsMuted(`dt-${review.id}`);
+              {loopedReviews.map((review) => {
+                const isDtMuted = getIsMuted(`dt-${review._uniqueKey}`);
                 return (
-                  <SwiperSlide key={review.id}>
+                  <SwiperSlide key={review._uniqueKey}>
                     <div className="group/card flex flex-col">
                       <LazyReviewSlide
                         review={review}

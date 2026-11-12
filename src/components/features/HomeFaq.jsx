@@ -28,7 +28,7 @@ const HomeFaq = () => {
           Frequently Asked Questions
         </h2>
 
-        <div role="tablist" aria-label="FAQ topics" className="flex flex-col md:flex-row md:flex-wrap md:justify-center gap-2 mb-6 md:mb-8">
+        <div role="tablist" aria-label="FAQ topics" className="flex flex-row flex-wrap justify-center gap-2 mb-6 md:mb-8">
           {HOMEPAGE_FAQ_TABS.map((tab) => {
             const isActive = activeTab === tab.id;
             return (
@@ -40,7 +40,7 @@ const HomeFaq = () => {
                 aria-selected={isActive}
                 aria-controls={`home-faq-panel-${tab.id}`}
                 onClick={() => selectTab(tab.id)}
-                className={`px-4 md:px-5 py-2.5 rounded-full border text-xs sm:text-[13px] font-semibold leading-snug md:whitespace-nowrap transition-colors cursor-pointer ${isActive
+                className={`px-3.5 md:px-5 py-2 md:py-2.5 rounded-full border text-[11px] sm:text-[13px] font-semibold leading-snug text-center md:whitespace-nowrap transition-colors cursor-pointer ${isActive
                   ? 'bg-[#3558D4] border-[#4169E1] text-white'
                   : isLight
                     ? 'bg-white border-zinc-300 text-zinc-700 hover:border-zinc-500 hover:text-black'

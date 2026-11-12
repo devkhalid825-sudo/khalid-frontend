@@ -31,7 +31,9 @@ const servicePages = {
 const serviceMeta = {
   'architectural-visualization': {
     title: 'Architectural Visualization',
-    description: 'Photorealistic 3D architectural rendering, exterior visualization, and walkthrough animation for developers and architects worldwide.',
+    seoTitle: 'Architectural Visualization & VR Walkthroughs',
+    serviceType: 'Architectural Visualization',
+    description: 'Unreal Engine 5 architectural visualization, real-time VR walkthroughs, and spatial AR for property developers. Presell off-plan projects 6–12 months early.',
     keywords: 'architectural visualization services, 3d architectural rendering, photoreal visualization, arch viz, architectural rendering company, 3d rendering services',
     ogImage: `${SITE_URL}/assets/services/og-architectural-visualization.jpg`,
     schemaType: 'Service',
@@ -45,7 +47,11 @@ const serviceMeta = {
   },
   '3d-product-visualization': {
     title: '3D Product Visualization',
-    description: 'Photorealistic 3D product rendering, CGI visuals, and 360-degree views for e-commerce brands and manufacturers worldwide.',
+    // Keeps "3D Product Visualization" in the title: /services/3d-animation and
+    // /services/product-animation already target "3D product animation".
+    seoTitle: '3D Product Visualization & Commercial CGI Studio',
+    serviceType: 'CGI & 3D Product Visualization',
+    description: 'High-end 3D product rendering, commercial CGI, and anamorphic billboard content for CPG and FMCG brands. Cut production turnaround by 70%. Get a quote.',
     keywords: '3d product visualization, 3d product rendering, product visualization services, e-commerce 3d rendering, photorealistic product rendering',
     ogImage: `${SITE_URL}/assets/services/og-3d-product-visualization.jpg`,
     schemaType: 'Service',
@@ -73,17 +79,21 @@ const serviceMeta = {
   },
   '3d-product-configurators': {
     title: '3D Product Configurators',
-    description: 'Custom interactive 3D product configurators for Shopify and enterprise platforms. Real-time customization for global brands.',
-    keywords: '3d product configurator, web configurator, interactive 3d configurator, custom product configurator, e-commerce configurator',
+    seoTitle: 'Custom 3D Product Configurator Development',
+    serviceType: '3D Product Configurator Development',
+    description: 'Real-time WebGL 3D configurators for Shopify, enterprise CPQ, and e-commerce. PBR rendering, AR output, cart integration. Get a free technical scoping call.',
+    keywords: 'custom 3d product configurator development, webgl 3d product configurator, shopify 3d configurator development, 3d configurator shopify plus, interactive product configurator, real-time product customizer',
     ogImage: `${SITE_URL}/assets/services/og-3d-product-configurators.jpg`,
-    schemaType: 'Product',
+    // A service page, not a product for sale: Product without offers/reviews
+    // is flagged as invalid in Search Console.
+    schemaType: 'Service',
   },
   'interactive-3d-web-product-configurators': {
     title: 'Interactive 3D Web & Product Configurators',
     description: 'Real-time WebGL, PlayCanvas, Three.js, and Unreal Engine interactive tools for automotive, luxury goods, and high-ticket eCommerce brands.',
     keywords: 'interactive 3d configurator, 3d product configurator, webgl configurator, playcanvas 3d',
     ogImage: `${SITE_URL}/assets/services/og-3d-product-configurators.jpg`,
-    schemaType: 'Product',
+    schemaType: 'Service',
   },
   'interactive-web-experiences': {
     title: 'Interactive Web Experiences',
@@ -200,14 +210,18 @@ function buildServiceSchemas(slug, meta) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': meta.schemaType,
-    name: meta.title,
+    name: meta.seoTitle || meta.title,
     description: meta.description,
     url: `${SITE_URL}/services/${slug}`,
     provider: {
       '@type': 'Organization',
+      '@id': `${SITE_URL}/#organization`,
       name: 'Elipse Studio',
       url: SITE_URL,
     },
+    ...(meta.schemaType === 'Service'
+      ? { areaServed: 'Global', serviceType: meta.serviceType || meta.title }
+      : {}),
   };
   const breadcrumb = buildBreadcrumbSchema([
     { name: 'Home', url: '/' },
@@ -228,7 +242,7 @@ export async function generateMetadata({ params }) {
   }
 
   return buildMetadata({
-    title: meta.title,
+    title: meta.seoTitle || meta.title,
     description: meta.description,
     canonical: `${SITE_URL}/services/${slug}`,
     keywords: meta.keywords,

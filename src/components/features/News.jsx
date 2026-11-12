@@ -30,7 +30,9 @@ import furnitureRaw from '../../assets/ElipseImages/blogs/alnoor.webp';
 import volvoPaintRaw from '../../assets/About-page/volvo-s90-ue5-paint.webp';
 import golfCartRaw from '../../assets/About-page/golf-cart.webp';
 import roohafzaRaw from '../../assets/About-page/roohafza.webp';
+import kumarRaw from '../../assets/About-page/kumar-hd.webp';
 
+const kumarImg = getImgSrc(kumarRaw);
 const golfCartImg = getImgSrc(golfCartRaw);
 const roohafzaImg = getImgSrc(roohafzaRaw);
 const volvoPaintImg = getImgSrc(volvoPaintRaw);
@@ -111,6 +113,15 @@ const News = ({ initialBlogs = null }) => {
   }, []);
 
   const staticPosts = [
+    {
+      id: 'virtual-tours-360-vs-ue5-2026',
+      title: 'Interactive 3D Virtual Tours vs 360 Video for Luxury Real Estate: Closing High-Net-Worth Off-Plan Buyers',
+      image: kumarImg,
+      date: 'NOVEMBER 12, 2026',
+      category: 'Real Estate Virtual Tours',
+      readTime: '6 min read',
+      url: '/blog/interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026',
+    },
     {
       id: 'anamorphic-billboard-production-2026',
       title: 'Commercial 3D Anamorphic Billboard Production: Engineering Naked-Eye 3D LED Campaigns for Times Square, London Piccadilly & Dubai',
@@ -337,7 +348,7 @@ const News = ({ initialBlogs = null }) => {
   return (
     <section
       id="news"
-      className="w-full bg-[#3558D4] py-8 md:py-14 overflow-hidden flex flex-col justify-center relative"
+      className="w-full bg-[#3558D4] py-12 md:py-20 overflow-hidden flex flex-col justify-center relative"
     >
       <div className="w-full relative">
         <div className="home-container flex justify-between items-center gap-2 mb-6 md:mb-10">
@@ -355,10 +366,16 @@ const News = ({ initialBlogs = null }) => {
           </Link>
         </div>
 
-        <div className="home-container">
+        {/* Bottom padding gives the card shadow room so the slider's
+            overflow clip doesn't cut it into a hard line; -mb cancels it. */}
+        <div className="home-container slider-edge-fade slider-focus slider-focus--soft -mb-10">
+
         <Swiper
           modules={[Autoplay, FreeMode]}
           loop={true}
+          // One card sits in the centre and gets the focus (see .slider-focus).
+          // Set directly: switching it on through `breakpoints` does not apply in loop mode.
+          centeredSlides={true}
           slidesPerView="auto"
           spaceBetween={16}
           speed={900}
@@ -377,7 +394,7 @@ const News = ({ initialBlogs = null }) => {
               ? { href: post.url, target: '_blank', rel: 'noopener noreferrer' }
               : { href: post.url };
             return (
-              <SwiperSlide key={post._key} className="py-2 !w-[calc((100%-16px)/2)] sm:!w-[calc((100%-32px)/3)] lg:!w-[calc((100%-48px)/4)]">
+              <SwiperSlide key={post._key} className="pt-3 pb-12 !w-[calc((100%-16px)/2)] sm:!w-[calc((100%-32px)/3)] lg:!w-[calc((100%-48px)/4)]">
                 <CardLink
                   {...linkProps}
                   className="group/card flex flex-col h-full rounded-[14px] p-2 md:p-2.5 transition-all duration-300 hover:-translate-y-1"

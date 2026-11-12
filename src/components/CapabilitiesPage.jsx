@@ -22,15 +22,23 @@ const statsData = [
   { label: 'Industries Served', value: '12+' },
 ];
 
+// Real number in the server HTML (crawlers used to see "0+"); below-the-fold
+// counters reset to 0 in the browser and count up when scrolled into view.
 const AnimatedCounter = ({ value, suffix }) => {
-  const [count, setCount] = useState(0);
+  const num = parseInt(value);
+  const [count, setCount] = useState(num);
   const [hasAnimated, setHasAnimated] = useState(false);
   const ref = useRef(null);
-  const num = parseInt(value);
 
   useEffect(() => {
     const el = ref.current;
     if (!el || hasAnimated) return;
+    const rect = el.getBoundingClientRect();
+    if (rect.top < window.innerHeight && rect.bottom > 0) {
+      setHasAnimated(true);
+      return;
+    }
+    setCount(0);
     const observer = new IntersectionObserver(([entry]) => {
       if (entry.isIntersecting) {
         setHasAnimated(true);
@@ -54,7 +62,7 @@ const AnimatedCounter = ({ value, suffix }) => {
     return () => observer.disconnect();
   }, [num, hasAnimated]);
 
-  return <span ref={ref}>{hasAnimated ? count : 0}{suffix || (value.includes('+') ? '+' : '')}</span>;
+  return <span ref={ref}>{count}{suffix || (value.includes('+') ? '+' : '')}</span>;
 };
 
 // Three enterprise pillars

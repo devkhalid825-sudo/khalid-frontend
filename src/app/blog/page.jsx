@@ -32,9 +32,9 @@ const breadcrumb = {
 
 export function generateMetadata() {
   return buildMetadata({
-    title: 'Blog & Insights',
+    title: '3D, AR/VR & WebGL Insights',
     description:
-      'Explore expert insights, guides, and trends on 3D visualization, VR/AR development, and interactive configurators from Elipse Studio.',
+      'Expert guides on 3D product configurators, Unreal Engine pixel streaming, WebGL, ArchViz, and immersive commerce from the Elipse Studio team.',
     keywords:
       '3D visualization blog, VR insights, AR technology, configurator trends, immersive tech Dubai, 3D web, WebGL, Unreal Engine, real-time rendering',
     canonical: `${SITE_URL}/blog`,

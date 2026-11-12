@@ -99,7 +99,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative site-main-footer bg-[#3558D4] border-t border-white/10 text-white pt-4 md:pt-6 pb-12 md:pb-16 font-sans overflow-hidden transition-colors duration-300">
+    <footer className="relative site-main-footer bg-[#3558D4] border-t border-white/10 text-white pt-12 md:pt-20 pb-12 md:pb-16 font-sans overflow-hidden transition-colors duration-300">
       <style dangerouslySetInnerHTML={{ __html: `
         /* Enforce identical clean sans-serif typography across ALL footer text (no serif bleed) */
         .site-main-footer,
@@ -188,14 +188,14 @@ const Footer = () => {
             value={footerEmail}
             onChange={(e) => setFooterEmail(e.target.value)}
             suppressHydrationWarning
-            className={`bg-white/5 backdrop-blur-md border border-white/20 rounded-full px-8 py-3 w-full sm:w-[500px] md:w-[850px] lg:w-[1000px] focus:outline-none focus:border-white transition-all placeholder:text-white/40 text-sm shadow-inner footer-email-input ${status === 'success' ? 'border-green-400 text-green-400' : ''
+            className={`bg-white/5 backdrop-blur-md border border-white/20 rounded-full h-11 md:h-auto px-5 md:px-8 md:py-3 w-full max-w-sm sm:max-w-none sm:w-[500px] md:w-[850px] lg:w-[1000px] focus:outline-none focus:border-white transition-all placeholder:text-white/40 text-sm shadow-inner footer-email-input ${status === 'success' ? 'border-green-400 text-green-400' : ''
               }`}
           />
           <button
             onClick={handleFooterSubmit}
             disabled={status === 'loading'}
             suppressHydrationWarning
-            className="w-full sm:w-auto footer-submit-btn bg-white text-[#4169E1] font-bold px-12 py-3 rounded-full hover:bg-white/90 shadow-[0_4px_18px_rgba(0,0,0,0.15)] hover:scale-105 transition-all duration-300 text-sm md:text-base whitespace-nowrap disabled:opacity-50 cursor-pointer"
+            className="w-auto footer-submit-btn bg-white text-[#4169E1] font-bold h-10 md:h-auto px-10 md:px-12 md:py-3 rounded-full hover:bg-white/90 shadow-[0_4px_18px_rgba(0,0,0,0.15)] hover:scale-105 transition-all duration-300 text-sm md:text-base whitespace-nowrap disabled:opacity-50 cursor-pointer"
           >
             {status === 'loading' ? 'Sending...' : 'Submit'}
           </button>

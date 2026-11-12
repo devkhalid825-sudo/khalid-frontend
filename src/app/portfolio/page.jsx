@@ -2,6 +2,7 @@ import PortfolioPage from '@/components/PortfolioPage';
 import { buildMetadata } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getProjects } from '@/services/projectService';
 
 const schema = {
   '@context': 'https://schema.org',
@@ -36,11 +37,14 @@ export function generateMetadata() {
   });
 }
 
-export default function Page() {
+export default async function Page() {
+  // Server-rendered projects: tab counts and cards are in the HTML (no "(0)" flash,
+  // crawlers see the work). An empty result falls back to the client-side fetch.
+  const projects = await getProjects();
   return (
     <>
       <MultiJsonLd schemas={[schema, breadcrumb]} />
-      <PortfolioPage />
+      <PortfolioPage initialProjects={projects.length ? projects : null} />
     </>
   );
 }

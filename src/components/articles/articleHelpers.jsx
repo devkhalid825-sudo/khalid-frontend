@@ -79,10 +79,12 @@ export const ImagePlaceholder = ({ height = "h-[400px]", text = "Asset", classNa
 };
 
 export const StatCard = ({ number, label, suffix = "", delay = 0 }) => {
-  const [count, setCount] = useState(0);
   const target = parseInt(number);
+  // Real number in the server HTML (crawlers saw "0"); the count-up runs client-side.
+  const [count, setCount] = useState(target);
 
   useEffect(() => {
+    // The first tick (16ms) drops the count back near 0 and it counts up from there.
     let start = 0;
     const duration = 2000;
     const increment = target / (duration / 16);
