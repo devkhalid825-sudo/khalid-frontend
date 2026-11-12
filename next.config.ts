@@ -276,6 +276,8 @@ const nextConfig: NextConfig = {
 
   // Optimize package imports for large libraries: tree-shake icons and motion libraries
   experimental: {
+    cpus: 1,
+    memoryBasedWorkersCount: true,
     optimizePackageImports: [
       "react-icons",
       "react-icons/fa",
