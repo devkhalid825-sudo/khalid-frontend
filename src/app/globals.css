@@ -1382,8 +1382,22 @@ html.light #news .group\/card:hover .news-card-arrow {
   border-color: #ffffff !important;
   color: #3558D4 !important;
 }
-#news .news-card-arrow svg {
-  stroke: currentColor !important;
+/* Set the stroke explicitly: in light mode `.bg-[#3558D4] *` forces
+   color:#fff on the svg and its lines, so currentColor would stay white
+   and the arrow would vanish inside the white hover circle. */
+#news .news-card-arrow svg,
+#news .news-card-arrow svg *,
+html.light #news .news-card-arrow svg,
+html.light #news .news-card-arrow svg * {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+}
+#news .group\/card:hover .news-card-arrow svg,
+#news .group\/card:hover .news-card-arrow svg *,
+html.light #news .group\/card:hover .news-card-arrow svg,
+html.light #news .group\/card:hover .news-card-arrow svg * {
+  color: #3558D4 !important;
+  stroke: #3558D4 !important;
 }
 
 /* "View All" on the blue News banner: white pill, blue text in both modes */
