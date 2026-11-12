@@ -348,7 +348,7 @@ const News = ({ initialBlogs = null }) => {
   return (
     <section
       id="news"
-      className="w-full bg-[#3558D4] py-12 md:py-20 overflow-hidden flex flex-col justify-center relative"
+      className="w-full bg-[#223A9F] py-12 md:py-20 overflow-hidden flex flex-col justify-center relative"
     >
       <div className="w-full relative">
         <div className="home-container flex justify-between items-center gap-2 mb-6 md:mb-10">
@@ -360,7 +360,7 @@ const News = ({ initialBlogs = null }) => {
           </h2>
           <Link
             href="/blog"
-            className="news-view-all-btn rounded-full text-[11px] md:text-base bg-white text-[#3558D4] font-bold py-1.5 px-4 md:py-2 md:px-8 shadow-sm hover:scale-105 transition flex items-center justify-center whitespace-nowrap flex-shrink-0"
+            className="news-view-all-btn rounded-full text-[11px] md:text-base bg-white text-[#223A9F] font-bold py-1.5 px-4 md:py-2 md:px-8 shadow-sm hover:scale-105 transition flex items-center justify-center whitespace-nowrap flex-shrink-0"
           >
             View All
           </Link>
@@ -368,7 +368,7 @@ const News = ({ initialBlogs = null }) => {
 
         {/* Bottom padding gives the card shadow room so the slider's
             overflow clip doesn't cut it into a hard line; -mb cancels it. */}
-        <div className="home-container slider-edge-fade slider-focus slider-focus--soft -mb-10">
+        <div className="home-container slider-focus slider-focus--soft -mb-10">
 
         <Swiper
           modules={[Autoplay, FreeMode]}

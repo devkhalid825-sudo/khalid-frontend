@@ -4,6 +4,8 @@ import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
 import { getProjects } from '@/services/projectService';
 
+export const dynamic = 'force-dynamic';
+
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'CollectionPage',

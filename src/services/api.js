@@ -37,6 +37,9 @@ export const cachedFetch = cache(async (endpoint, options = {}) => {
     const json = await res.json();
     return fixUrls(json);
   } catch (error) {
+    if (error?.digest === 'DYNAMIC_SERVER_USAGE' || error?.digest?.startsWith('NEXT_')) {
+      throw error;
+    }
     console.error(`Fetch error for endpoint "${endpoint}":`, error);
     return null;
   }

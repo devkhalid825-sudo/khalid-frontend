@@ -1172,7 +1172,7 @@ html.light textarea:focus {
 /* Footer must always stay in signature dark blue (night effect), even in day mode */
 html.light .site-main-footer,
 html.light footer.site-main-footer {
-  background: #3558D4 !important;
+  background: #223A9F !important;
   color: #ffffff !important;
   border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
@@ -1385,9 +1385,9 @@ html.light #news .news-card-arrow {
 html.light #news .group\/card:hover .news-card-arrow {
   background-color: #ffffff !important;
   border-color: #ffffff !important;
-  color: #3558D4 !important;
+  color: #223A9F !important;
 }
-/* Set the stroke explicitly: in light mode `.bg-[#3558D4] *` forces
+/* Set the stroke explicitly: in light mode `.bg-[#223A9F] *` forces
    color:#fff on the svg and its lines, so currentColor would stay white
    and the arrow would vanish inside the white hover circle. */
 #news .news-card-arrow svg,
@@ -1401,24 +1401,24 @@ html.light #news .news-card-arrow svg * {
 #news .group\/card:hover .news-card-arrow svg *,
 html.light #news .group\/card:hover .news-card-arrow svg,
 html.light #news .group\/card:hover .news-card-arrow svg * {
-  color: #3558D4 !important;
-  stroke: #3558D4 !important;
+  color: #223A9F !important;
+  stroke: #223A9F !important;
 }
 
 /* "View All" on the blue News banner: white pill, blue text in both modes */
 #news .news-view-all-btn,
 html.light #news .news-view-all-btn {
   background-color: #ffffff !important;
-  color: #3558D4 !important;
+  color: #223A9F !important;
 }
 
 /* ==========================================================================
-   FOOTER STYLING (SIGNATURE DEEP BLUE GRADIENT PRESERVED)
+   FOOTER STYLING (SIGNATURE DARK BLUE PRESERVED)
    ========================================================================== */
 
 .site-main-footer,
 footer.site-main-footer {
-  background: #3558D4 !important;
+  background: #223A9F !important;
   color: #ffffff !important;
   border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
@@ -3003,32 +3003,22 @@ html.light .sf-input:focus { border-color: #3558D4 !important; }
 }
 
 /* ==========================================================================
-   Blue bands (homepage News + site footer): depth instead of a flat fill,
-   and edges that fade into the page — white in light mode, black in dark.
+   News & Footer: Solid clean dark blue (#223A9F) matching design swatch
+   without top/bottom gradients or milky edge fades.
    ========================================================================== */
-:root { --band-edge: #000000; --band-edge-0: rgba(0, 0, 0, 0); --band-fade: 72px; }
-html.light { --band-edge: #ffffff; --band-edge-0: rgba(255, 255, 255, 0); }
-@media (max-width: 767px) { :root { --band-fade: 44px; } }
-
-/* News: depth only. A white/black fade on the top and bottom edges turned
-   into a milky band over the blue, so the edges stay crisp. */
 html #news,
-html.light #news {
-  background:
-    radial-gradient(120% 80% at 12% 0%, rgba(255, 255, 255, 0.16), transparent 55%),
-    radial-gradient(90% 70% at 100% 100%, rgba(12, 22, 90, 0.35), transparent 60%),
-    linear-gradient(160deg, #3f65e8 0%, #3558D4 45%, #2a46b8 100%) !important;
+html.light #news,
+html.dark #news {
+  background: #223A9F !important;
 }
 
 html .site-main-footer,
 html footer.site-main-footer,
 html.light .site-main-footer,
-html.light footer.site-main-footer {
-  background:
-    linear-gradient(to bottom, var(--band-edge) 0, var(--band-edge-0) var(--band-fade)),
-    radial-gradient(110% 70% at 8% 10%, rgba(255, 255, 255, 0.14), transparent 55%),
-    radial-gradient(80% 60% at 100% 100%, rgba(12, 22, 90, 0.4), transparent 65%),
-    linear-gradient(165deg, #3f65e8 0%, #3558D4 40%, #2a46b8 100%) !important;
+html.light footer.site-main-footer,
+html.dark .site-main-footer,
+html.dark footer.site-main-footer {
+  background: #223A9F !important;
   border-top: none !important;
 }
 

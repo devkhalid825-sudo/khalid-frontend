@@ -99,7 +99,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative site-main-footer bg-[#3558D4] border-t border-white/10 text-white pt-12 md:pt-20 pb-12 md:pb-16 font-sans overflow-hidden transition-colors duration-300">
+    <footer className="relative site-main-footer bg-[#223A9F] border-t border-white/10 text-white pt-12 md:pt-20 pb-12 md:pb-16 font-sans overflow-hidden transition-colors duration-300">
       <style dangerouslySetInnerHTML={{ __html: `
         /* Enforce identical clean sans-serif typography across ALL footer text (no serif bleed) */
         .site-main-footer,
@@ -119,14 +119,14 @@ const Footer = () => {
         html.light .site-main-footer .footer-submit-btn,
         html.dark .site-main-footer .footer-submit-btn {
           background-color: #ffffff !important;
-          color: #3558D4 !important;
+          color: #223A9F !important;
           font-weight: 700 !important;
           letter-spacing: 0.02em;
           min-width: 160px;
         }
         .site-main-footer .footer-submit-btn:hover {
           background-color: rgba(255, 255, 255, 0.92) !important;
-          color: #2a46b0 !important;
+          color: #172770 !important;
         }
 
         /* Consistent link colors (prevents visited links turning purple/dark-blue on blue background) */
@@ -195,7 +195,7 @@ const Footer = () => {
             onClick={handleFooterSubmit}
             disabled={status === 'loading'}
             suppressHydrationWarning
-            className="w-auto footer-submit-btn bg-white text-[#4169E1] font-bold h-10 md:h-auto px-10 md:px-12 md:py-3 rounded-full hover:bg-white/90 shadow-[0_4px_18px_rgba(0,0,0,0.15)] hover:scale-105 transition-all duration-300 text-sm md:text-base whitespace-nowrap disabled:opacity-50 cursor-pointer"
+            className="w-auto footer-submit-btn bg-white text-[#223A9F] font-bold h-10 md:h-auto px-10 md:px-12 md:py-3 rounded-full hover:bg-white/90 shadow-[0_4px_18px_rgba(0,0,0,0.15)] hover:scale-105 transition-all duration-300 text-sm md:text-base whitespace-nowrap disabled:opacity-50 cursor-pointer"
           >
             {status === 'loading' ? 'Sending...' : 'Submit'}
           </button>
