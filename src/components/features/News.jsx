@@ -417,8 +417,7 @@ const News = ({ initialBlogs = null }) => {
                     <div className="mt-3 flex items-center justify-between text-[12px] md:text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.85)' }}>
                       <span>Read Article</span>
                       <span
-                        className="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-300 group-hover/card:bg-white group-hover/card:text-[#4169E1]"
-                        style={{ border: '1px solid rgba(255,255,255,0.3)' }}
+                        className="news-card-arrow w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-300"
                       >
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
                           <line x1="7" y1="17" x2="17" y2="7"></line>

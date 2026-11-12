@@ -64,7 +64,7 @@ export const resolvePreviewUrl = (src) => {
 
 const emptyForm = {
   title: '', subtitle: '', metaTitle: '', metaDescription: '', category: '',
-  image: '', heroImage: '', heroVideo: '', heroType: 'image',
+  image: '', video: '', heroImage: '', heroVideo: '', heroType: 'image',
   heroAspectRatio: 'video', tickerWords: '',
   path: '', description: '',
   client: '', service: '', duration: '', deliverables: '',
@@ -275,6 +275,7 @@ const ProjectDashboard = () => {
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedVideoFile, setSelectedVideoFile] = useState(null);
   const [selectedHeroFile, setSelectedHeroFile] = useState(null);
   const [storyBlockFiles, setStoryBlockFiles] = useState({});
   const [thumbnailFiles, setThumbnailFiles] = useState([]);
@@ -349,6 +350,7 @@ const ProjectDashboard = () => {
       sectionOrder: [...defaultSectionOrder],
     });
     setStoryBlockFiles({});
+    setSelectedVideoFile(null);
     setThumbnailFiles([]);
     setStillFiles([]);
     setShowForm(true);
@@ -435,6 +437,7 @@ const ProjectDashboard = () => {
       metaDescription: project.metaDescription || '',
       category: project.category || 'Configurator',
       image: project.image || '',
+      video: project.video || '',
       heroImage: project.heroImage || '',
       heroVideo: project.heroVideo || '',
       heroType: (project.heroVideo && !project.heroImage) ? 'video' : 'image',
@@ -498,6 +501,7 @@ const ProjectDashboard = () => {
       hidden: isProjectHidden(project),
     });
     setStoryBlockFiles({});
+    setSelectedVideoFile(null);
     setThumbnailFiles([]);
     setStillFiles([]);
     setShowForm(true);
@@ -616,6 +620,21 @@ const ProjectDashboard = () => {
         if (url) imageUrl = url;
       } catch (err) {
         setMsg(`Image upload failed: ${err.message}`);
+        setUploading(false);
+        setSaving(false);
+        return;
+      }
+      setUploading(false);
+    }
+
+    let videoUrl = form.video;
+    if (selectedVideoFile) {
+      setUploading(true);
+      try {
+        const url = await uploadImage(selectedVideoFile, 'projects');
+        if (url) videoUrl = url;
+      } catch (err) {
+        setMsg(`Card video upload failed: ${err.message}`);
         setUploading(false);
         setSaving(false);
         return;
@@ -775,6 +794,7 @@ const ProjectDashboard = () => {
     const payload = {
       ...formWithoutToggle,
       image: imageUrl,
+      video: videoUrl || '',
       heroImage: heroType === 'image' ? heroImageUrl : '',
       heroVideo: heroType === 'video' ? form.heroVideo : '',
       metaDescription: form.subtitle || form.metaDescription || '',
@@ -805,6 +825,7 @@ const ProjectDashboard = () => {
       setShowForm(false);
       setEditing(null);
       setSelectedFile(null);
+      setSelectedVideoFile(null);
       setSelectedHeroFile(null);
       setStoryBlockFiles({});
       setThumbnailFiles([]);
@@ -1010,6 +1031,49 @@ const ProjectDashboard = () => {
                       <FiUpload className={`${uploading ? 'animate-bounce text-[#4169E1]' : 'text-[#555]'}`} />
                       <span className="text-[#555] text-[9px] font-bold uppercase tracking-widest">{uploading ? 'Uploading...' : 'Choose File'}</span>
                       <input type="file" accept="image/*" onChange={(e) => { const file = e.target.files[0]; if (!file) return; setForm(f => ({ ...f, image: URL.createObjectURL(file) })); setSelectedFile(file); }} className="hidden" disabled={uploading} />
+                    </label>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Card Video <span className="text-[#555]">(optional MP4/WebM, max 50MB — plays in the latest work grid, card image is used as its poster)</span></label>
+                  <div className="flex items-center gap-3">
+                    {form.video && (
+                      <div className="relative w-14 h-14 rounded-xl overflow-hidden border border-[#333] shrink-0 group">
+                        <video src={resolvePreviewUrl(form.video)} muted loop autoPlay playsInline className="w-full h-full object-cover" />
+                        <button type="button" onClick={() => { setForm(f => ({ ...f, video: '' })); setSelectedVideoFile(null); }} className="absolute inset-0 bg-[#0D0D0D]/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"><FiX className="text-white text-xs" /></button>
+                      </div>
+                    )}
+                    <input
+                      type="text"
+                      value={form.video || ''}
+                      onChange={(e) => {
+                        setForm(f => ({ ...f, video: e.target.value }));
+                        setSelectedVideoFile(null);
+                      }}
+                      placeholder="Paste https://api.elipsestudio.com/media/... or choose MP4"
+                      className="flex-1 bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs placeholder:text-[#444]"
+                    />
+                    <label className={`flex items-center justify-center gap-2 border border-dashed border-[#333] rounded-xl px-4 py-3 cursor-pointer hover:border-[#4169E1]/50 transition-all shrink-0 ${uploading ? 'opacity-50 pointer-events-none' : ''}`}>
+                      <FiUpload className={`${uploading ? 'animate-bounce text-[#4169E1]' : 'text-[#555]'}`} />
+                      <span className="text-[#555] text-[9px] font-bold uppercase tracking-widest">{uploading ? 'Uploading...' : 'Choose Video'}</span>
+                      <input
+                        type="file"
+                        accept="video/mp4,video/webm"
+                        onChange={(e) => {
+                          const file = e.target.files[0];
+                          e.target.value = '';
+                          if (!file) return;
+                          if (file.size > 50 * 1024 * 1024) {
+                            setMsg(`Card video is ${(file.size / 1024 / 1024).toFixed(1)}MB — max 50MB. Please compress it first.`);
+                            return;
+                          }
+                          setForm(f => ({ ...f, video: URL.createObjectURL(file) }));
+                          setSelectedVideoFile(file);
+                        }}
+                        className="hidden"
+                        disabled={uploading}
+                      />
                     </label>
                   </div>
                 </div>

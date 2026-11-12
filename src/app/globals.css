@@ -1367,6 +1367,25 @@ html.light #news .news-heading {
   color: #ffffff !important;
 }
 
+/* Card arrow on the blue News banner: white outline arrow; on hover a white
+   circle with a blue arrow. Same in both modes (light mode used to leave a
+   blank white circle). */
+#news .news-card-arrow,
+html.light #news .news-card-arrow {
+  background-color: transparent !important;
+  border: 1px solid rgba(255, 255, 255, 0.3) !important;
+  color: #ffffff !important;
+}
+#news .group\/card:hover .news-card-arrow,
+html.light #news .group\/card:hover .news-card-arrow {
+  background-color: #ffffff !important;
+  border-color: #ffffff !important;
+  color: #3558D4 !important;
+}
+#news .news-card-arrow svg {
+  stroke: currentColor !important;
+}
+
 /* "View All" on the blue News banner: white pill, blue text in both modes */
 #news .news-view-all-btn,
 html.light #news .news-view-all-btn {

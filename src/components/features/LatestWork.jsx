@@ -159,40 +159,42 @@ const useIsMobile = () =>
     () => false
   );
 
-// Heavy animated GIF thumbnails converted to lightweight looping MP4s.
-// Key = the backend media path of the original image. Files live in /public/card-media.
-// (Ahmed Foods: 49.6MB GIF → 2.4MB MP4 + 22KB poster.)
-const CARD_VIDEO_OVERRIDES = {
-  '/media/553': { video: '/card-media/ahmed-foods.mp4', poster: '/card-media/ahmed-foods-poster.webp' },
-};
-const getCardVideo = (src = '') => {
-  const m = src.match(/\/media\/[^?#]+/);
-  return m ? CARD_VIDEO_OVERRIDES[m[0]] : undefined;
+// "Card Video" uploaded in the admin dashboard; the card image is its poster.
+// Use a static image (not a GIF) as the card image — next/image can't resize GIFs.
+const getCardVideo = (project, imageSrc) => {
+  const v = project.video;
+  if (!v) return undefined;
+  return { video: v.startsWith('http') ? v : `${BACKEND_ORIGIN}${v}`, poster: imageSrc };
 };
 
-// Poster shows instantly; the muted looping video mounts shortly before the
-// card scrolls into view and fades in once it is actually playing.
-const CardVideo = ({ video, poster, alt }) => {
-  const ref = useRef(null);
-  const near = useInView(ref, { margin: '400px 0px', once: true });
+// Fades in once it is actually playing. Its state resets on every remount.
+const LoopingVideo = ({ src }) => {
   const [playing, setPlaying] = useState(false);
   return (
+    <video
+      src={src}
+      autoPlay
+      muted
+      loop
+      playsInline
+      preload="metadata"
+      onPlaying={() => setPlaying(true)}
+      aria-hidden="true"
+      className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${playing ? 'opacity-100' : 'opacity-0'}`}
+    />
+  );
+};
+
+// The lightweight poster always shows. The video mounts only when the card is
+// near the viewport and unmounts again once it scrolls away, so off-screen
+// cards don't keep downloading, decoding or holding memory.
+const CardVideo = ({ video, poster, alt }) => {
+  const ref = useRef(null);
+  const near = useInView(ref, { margin: '300px 0px' });
+  return (
     <div ref={ref} className="absolute inset-0">
-      <Image src={poster} alt={alt} fill sizes="(max-width: 767px) 100vw, 700px" className="object-cover" />
-      {near && (
-        <video
-          src={video}
-          poster={poster}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          onPlaying={() => setPlaying(true)}
-          aria-hidden="true"
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-500 ${playing ? 'opacity-100' : 'opacity-0'}`}
-        />
-      )}
+      {poster && <Image src={poster} alt={alt} fill sizes="(max-width: 767px) 100vw, 700px" className="object-cover" />}
+      {near && <LoopingVideo src={video} />}
     </div>
   );
 };
@@ -211,7 +213,7 @@ const VideoHoverCard = ({ project, isLight, index = 0 }) => {
       ? project.image
       : `${BACKEND_ORIGIN}${project.image}`
     : '';
-  const cardVideo = getCardVideo(imageSrc);
+  const cardVideo = getCardVideo(project, imageSrc);
 
   const is360Tour = (project.category || '').toLowerCase().includes('360');
   const isVolvo = (project.title || '').toLowerCase().includes('volvo') ||
