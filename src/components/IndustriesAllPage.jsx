@@ -8,8 +8,7 @@ import { getImgSrc } from '../utils/api';
 import Header from './layouts/Header';
 import Footer from './layouts/Footer';
 import Contact from './features/Contact';
-import blogImgRaw from '../assets/ElipseImages/blogs/blogs-Ar.webp';
-const blogImg = getImgSrc(blogImgRaw);
+import { HERO_ASSETS } from '@/constants/assets';
 import {
     HiOutlineBuildingOffice2,
     HiOutlineShoppingCart,
@@ -75,58 +74,28 @@ return (
             className="bg-black text-white min-h-screen font-sans"
         >
             {/* ===== HERO SECTION ===== */}
-            <section className="relative min-h-screen px-6 md:px-16 pt-[140px] pb-[3rem] flex flex-col justify-between overflow-hidden">
+            <section className="industries-hero-section keep-dark-hero relative min-h-screen px-6 md:px-16 pt-[140px] pb-[3rem] flex flex-col justify-between overflow-hidden">
                 <div className="absolute inset-0 bg-black" />
+                <video
+                    src={HERO_ASSETS.videos.vr}
+                    poster="/assets/ElipseImages/projects/VR1.webp"
+                    autoPlay
+                    loop
+                    muted
+                    playsInline
+                    preload="auto"
+                    aria-hidden="true"
+                    className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* Top fade so the header stays readable over the video */}
+                <div className="absolute inset-x-0 top-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%)' }} />
                 <Header />
-                <div className="relative z-10 flex-1 flex flex-col justify-center">
-                    <div className="max-w-[1600px] mx-auto w-full">
-                        <div className="flex flex-col-reverse lg:flex-row gap-12 lg:gap-24 items-center">
-                            <div className="flex-1">
-
-                                <h1 className="text-[clamp(2.5rem,7vw,5rem)] font-bold text-[#F2F0EB] leading-[1.0] tracking-tight mb-6">
-                                    Tailored solutions for every industry<span className="text-[#4169E1]">.</span>
-                                </h1>
-                                <p className="text-base md:text-lg text-gray-400 max-w-2xl leading-relaxed mb-8">
-                                    Photoreal visualization, immersive experiences, and interactive platforms — purpose-built for each industry we work with. From architectural renders that sell unbuilt properties to VR training systems that reduce operational risk, we craft digital experiences tailored to your sector&apos;s unique challenges and audience expectations.
-                                </p>
-                                <div className="flex flex-wrap gap-4">
-                                    <button
-                                        data-track-destination="/contact" onClick={() => navigate('/contact')}
-                                        className="px-6 py-3 bg-[#3558D4] text-white rounded-full text-sm font-medium hover:bg-[#2A48B8] transition-all shadow-lg shadow-[#4169E1]/20"
-                                    >
-                                        Discuss Your Project
-                                    </button>
-                                    <button
-                                        onClick={() => {
-                                            const el = document.getElementById('industries-grid');
-                                            if (el) el.scrollIntoView({ behavior: 'smooth' });
-                                        }}
-                                        className="px-6 py-3 border border-white/20 text-white/80 rounded-full text-sm font-medium hover:border-white/40 hover:text-white transition-all"
-                                    >
-                                        Browse All
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="flex-1 relative w-full flex justify-center lg:justify-end">
-                                <div className="relative w-full max-w-[500px] aspect-[4/3]">
-                                    <div className="relative bg-[#3558D4]/20 p-3 md:p-4 rounded-[20px] sm:rounded-[32px] shadow-2xl h-full border border-white/10"
-                                        style={{ clipPath: "polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%)" }}
-                                    >
-                                        <div className="relative w-full h-full bg-[#111] p-[2px] rounded-[18px] sm:rounded-[28px] overflow-hidden"
-                                            style={{ clipPath: "polygon(0 0, calc(100% - 36px) 0, 100% 36px, 100% 100%, 0 100%)" }}
-                                        >
-                                            <img src={blogImg} alt="Industries" width="600" height="400" className="w-full h-full object-cover" />
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {/* Visually hidden H1 keeps the page heading for SEO/screen readers */}
+                <h1 className="sr-only">Tailored solutions for every industry</h1>
             </section>
 
             {/* ===== SEARCH + CTA ROW ===== */}
-            <section className="bg-black px-6 md:px-16">
+            <section className="bg-black px-6 md:px-16 pt-16 md:pt-24">
                 <div className="max-w-[1750px] mx-auto">
                     <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
                         {/* LEFT: Search + Category Filters */}
@@ -162,7 +131,7 @@ return (
 
                         {/* RIGHT: CTA Panel */}
                         <div className="lg:col-span-5">
-                            <div className="h-full bg-gradient-to-br from-[#0e0e0e] via-[#0e0e0e] to-[#0e0e0e] rounded-2xl border border-white/[0.04] p-6 md:p-8 flex flex-col justify-center relative overflow-hidden group">
+                            <div className="industries-cta-card h-full bg-gradient-to-br from-[#0e0e0e] via-[#0e0e0e] to-[#0e0e0e] rounded-2xl border border-white/[0.04] p-6 md:p-8 flex flex-col justify-center relative overflow-hidden group">
                                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#3558D4]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#3558D4]/10 transition-all duration-700"></div>
                                 <div className="relative z-10">
                                     <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#4169E1] mb-2 block">Let&apos;s Collaborate</span>

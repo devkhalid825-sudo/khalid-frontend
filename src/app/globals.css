@@ -1675,6 +1675,49 @@ html.light .keep-dark-hero .featured-swiper .bg-white p {
   color: #1a1a1a !important;
 }
 
+/* Industries hero (bg video): identical to dark theme in light mode */
+html.light .industries-hero-section h1 .text-\[\#4169E1\] {
+  color: #4169E1 !important;
+}
+html.light .industries-hero-section p.text-gray-400 {
+  color: #d1d5db !important;
+}
+html.light .industries-hero-section button.text-white\/80 {
+  color: rgba(255, 255, 255, 0.85) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  background-color: transparent !important;
+}
+html.light .industries-hero-section button.text-white\/80:hover {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+}
+
+/* Industries CTA card ("Need a Custom Solution?"): white card in light mode, matching the search card */
+html.light div.industries-cta-card.industries-cta-card {
+  background: #ffffff !important;
+  background-image: none !important;
+  border-color: #e5e7eb !important;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+html.light div.industries-cta-card.industries-cta-card span.text-\[\#4169E1\] {
+  color: #4169E1 !important;
+}
+html.light div.industries-cta-card.industries-cta-card h3 {
+  color: #0a0f1d !important;
+}
+html.light div.industries-cta-card.industries-cta-card p {
+  color: #4b5563 !important;
+}
+html.light div.industries-cta-card.industries-cta-card button.border {
+  color: #374151 !important;
+  border-color: #d1d5db !important;
+  background-color: transparent !important;
+}
+html.light div.industries-cta-card.industries-cta-card button.border:hover {
+  color: #4169E1 !important;
+  border-color: #4169E1 !important;
+}
+
 /* Services hero: identical to dark theme in light mode */
 html.light .services-hero-section h1.text-\[\#F2F0EB\] {
   color: #F2F0EB !important;
@@ -2862,27 +2905,34 @@ html.light .si-section .si-copy.si-copy--static { color: var(--si-muted) !import
 }
 
 /* Services hero: header over the dark hero stays like dark mode in light mode */
-html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .header-main-logo {
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .header-main-logo,
+html.light .industries-hero-section header:not(.header-scrolled):not(.header-menu-open) .header-main-logo {
   filter: none !important;
 }
-html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle {
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle,
+html.light .industries-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle {
   background-color: rgba(255, 255, 255, 0.08) !important;
   border-color: rgba(255, 255, 255, 0.22) !important;
   color: #ffffff !important;
 }
-html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle:hover {
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle:hover,
+html.light .industries-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle:hover {
   background-color: rgba(255, 255, 255, 0.16) !important;
   border-color: rgba(255, 255, 255, 0.45) !important;
 }
-html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg {
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg,
+html.light .industries-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg {
   color: #ffffff !important;
   stroke: #ffffff !important;
 }
 html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg circle,
-html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg path {
+html.light .industries-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg circle,
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg path,
+html.light .industries-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg path {
   fill: #ffffff !important;
 }
-html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg line {
+html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg line,
+html.light .industries-hero-section header:not(.header-scrolled):not(.header-menu-open) .site-theme-toggle svg line {
   stroke: #ffffff !important;
 }
 

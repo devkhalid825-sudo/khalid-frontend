@@ -65,13 +65,13 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
 
   const shouldHideThemeToggle = hideThemeToggle || isHardcodedArticleRoute;
   const { isLight } = useTheme();
-  const isPageLightHero = (pathname === '/portfolio' && !isLight) ? false : (lightHero || isBlogArticle);
+  const isPageLightHero = (pathname === '/portfolio' || pathname === '/blog') ? isLight : (lightHero || isBlogArticle);
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   // lightHero=true means this page has a light background hero — treat it as light from the start
   const [isLightSection, setIsLightSection] = useState(isPageLightHero);
-  const [hasDarkHero, setHasDarkHero] = useState(isBlogArticle ? false : (pathname === '/portfolio' ? !isLight : darkHero));
+  const [hasDarkHero, setHasDarkHero] = useState(isBlogArticle ? false : ((pathname === '/portfolio' || pathname === '/blog') ? !isLight : darkHero));
   // isLightMode: true if global theme is light, OR if page is a light blog article / light hero, OR over a light section on pages without a permanent dark hero
   const isLightMode = isBlogArticle
     ? true
@@ -93,7 +93,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
 
   useEffect(() => {
     setMounted(true);
-    if (pathname === '/portfolio') {
+    if (pathname === '/portfolio' || pathname === '/blog') {
       setHasDarkHero(!isLight);
     } else if (!isBlogArticle && (darkHero || document.querySelector('.keep-dark-hero, .portfolio-hero-section, .case-studies-hero-section, .blogs-hero-section'))) {
       setHasDarkHero(true);

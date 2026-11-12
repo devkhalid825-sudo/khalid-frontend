@@ -7,13 +7,9 @@ import Header from './layouts/Header';
 import Footer from './layouts/Footer';
 import Contact from './features/Contact';
 import { m as motion } from 'framer-motion';
-import { FiEye, FiSearch } from '@/components/ui/Icons';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, FreeMode } from 'swiper/modules';
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/free-mode';
+import { FiSearch } from '@/components/ui/Icons';
 import { apiCall, getImgSrc, toCdnUrl } from '../utils/api';
+import { useTheme } from '@/components/providers/ThemeProvider';
 
 
 import elephantImgRaw from '../assets/ElipseImages/projects/Animation4.webp';
@@ -447,17 +443,21 @@ const getImageSrc = (image) => {
     return '';
 };
 
-const BlogCard = ({ post, eager = false }) => (
+const BlogCard = ({ post, eager = false, isLight = false }) => (
     <motion.div
         layout
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        className="group relative flex flex-col rounded-[32px] md:rounded-[48px] overflow-hidden bg-[#161617] min-h-[400px] md:h-[540px] transition-all duration-300 hover:-translate-y-2 shadow-2xl"
+        className={`group relative flex flex-col rounded-[32px] md:rounded-[48px] overflow-hidden min-h-[400px] md:h-[540px] transition-all duration-300 hover:-translate-y-2 shadow-md hover:shadow-2xl border ${
+            isLight
+                ? 'bg-[#f4f4f6] border-zinc-200/80'
+                : 'bg-[#141416] border-white/10'
+        }`}
     >
         {/* IMAGE CONTAINER */}
         <div className="w-full h-[180px] md:h-[280px] p-3 md:p-5 pb-0">
-            <div className="w-full h-full rounded-t-[20px] md:rounded-t-[32px] overflow-hidden relative">
+            <div className={`w-full h-full rounded-t-[20px] md:rounded-t-[32px] overflow-hidden relative ${isLight ? 'bg-zinc-200' : 'bg-zinc-900'}`}>
                 <img
                     src={getImageSrc(post.image)}
                     alt={post.title}
@@ -468,28 +468,45 @@ const BlogCard = ({ post, eager = false }) => (
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     style={{ objectPosition: '50% 30%' }}
                 />
-                <div className="bg-black/40 backdrop-blur-md text-white p-2 md:p-3 rounded-full absolute top-4 left-4 shadow-xl z-20">
-                    <FiEye className="w-4 h-4 md:w-5 md:h-5" />
-                </div>
             </div>
         </div>
 
         {/* CONTENT AREA */}
-        <div className="flex-1 flex flex-col items-start justify-between p-5 md:p-8 bg-white text-[#1a1a1a] transition-colors group-hover:bg-zinc-50 relative z-10">
+        <div className={`flex-1 flex flex-col items-start justify-between p-5 md:p-8 transition-colors relative z-10 border-t ${
+            isLight
+                ? 'bg-white text-zinc-900 group-hover:bg-zinc-50 border-zinc-100'
+                : 'bg-[#141416] text-white group-hover:bg-[#1a1a1d] border-white/10'
+        }`}>
             <div className="w-full">
-                <div className="flex items-center gap-2 text-[9px] md:text-[11px] font-bold opacity-40 mb-2 uppercase tracking-wide">
+                <div className={`flex items-center gap-2 text-[9px] md:text-[11px] font-bold mb-2 uppercase tracking-wide ${
+                    isLight ? 'text-zinc-500' : 'text-zinc-400'
+                }`}>
                     <span>{post.date}</span>
                     <span className="w-1 h-1 rounded-full bg-blue-500"></span>
                     <span>{post.category}</span>
                 </div>
-                <h3 className="text-[14px] md:text-[22px] font-black uppercase leading-[1.2] line-clamp-2 md:line-clamp-3 tracking-tight">
+                <h3 className={`text-[14px] md:text-[22px] font-black uppercase leading-[1.2] line-clamp-2 md:line-clamp-3 tracking-tight ${
+                    isLight ? 'text-zinc-900' : 'text-white'
+                }`}>
                     {post.title}
                 </h3>
             </div>
 
-            <div className="w-full pt-4 md:pt-6 border-t border-gray-100 flex items-center justify-between mt-auto">
-                <span className="text-[9px] md:text-[11px] font-bold uppercase tracking-widest opacity-80">Learn More</span>
-                <div className="bg-gray-50 p-2 md:p-3 rounded-full transition-transform group-hover:rotate-45">
+            <div className={`w-full pt-4 md:pt-6 border-t flex items-center justify-between mt-auto ${
+                isLight ? 'border-zinc-100' : 'border-white/10'
+            }`}>
+                <span className={`text-[9px] md:text-[11px] font-bold uppercase tracking-widest transition-colors ${
+                    isLight
+                        ? 'text-zinc-600 group-hover:text-zinc-900'
+                        : 'text-zinc-400 group-hover:text-white'
+                }`}>
+                    Learn More
+                </span>
+                <div className={`p-2 md:p-3 rounded-full transition-all duration-300 group-hover:rotate-45 ${
+                    isLight
+                        ? 'bg-zinc-100 text-zinc-900 group-hover:bg-[#3558D4] group-hover:text-white'
+                        : 'bg-white/10 text-white group-hover:bg-[#3558D4]'
+                }`}>
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="w-4 h-4 md:w-5 md:h-5">
                         <line x1="7" y1="17" x2="17" y2="7"></line>
                         <polyline points="7 7 17 7 17 17"></polyline>
@@ -514,26 +531,32 @@ const BlogCard = ({ post, eager = false }) => (
     </motion.div>
 );
 
-const BlogCardSkeleton = () => (
-    <div className="group relative flex flex-col rounded-[32px] md:rounded-[48px] overflow-hidden bg-[#161617] min-h-[400px] md:h-[540px]">
+const BlogCardSkeleton = ({ isLight = false }) => (
+    <div className={`group relative flex flex-col rounded-[32px] md:rounded-[48px] overflow-hidden min-h-[400px] md:h-[540px] border ${
+        isLight
+            ? 'bg-[#f4f4f6] border-zinc-200/80'
+            : 'bg-[#141416] border-white/10'
+    }`}>
         <div className="w-full h-[180px] md:h-[280px] p-3 md:p-5 pb-0">
-            <div className="w-full h-full rounded-t-[20px] md:rounded-t-[32px] overflow-hidden relative bg-[#1f1f21] animate-pulse" />
+            <div className={`w-full h-full rounded-t-[20px] md:rounded-t-[32px] overflow-hidden relative animate-pulse ${
+                isLight ? 'bg-zinc-200' : 'bg-zinc-800'
+            }`} />
         </div>
-        <div className="flex-1 flex flex-col items-start justify-between p-5 md:p-8 bg-white">
+        <div className={`flex-1 flex flex-col items-start justify-between p-5 md:p-8 ${isLight ? 'bg-white' : 'bg-[#141416]'}`}>
             <div className="w-full">
                 <div className="flex items-center gap-2 mb-3">
-                    <div className="h-2.5 w-16 rounded-full bg-gray-200 animate-pulse" />
+                    <div className={`h-2.5 w-16 rounded-full animate-pulse ${isLight ? 'bg-zinc-200' : 'bg-zinc-800'}`} />
                     <span className="w-1 h-1 rounded-full bg-blue-500"></span>
-                    <div className="h-2.5 w-20 rounded-full bg-gray-200 animate-pulse" />
+                    <div className={`h-2.5 w-20 rounded-full animate-pulse ${isLight ? 'bg-zinc-200' : 'bg-zinc-800'}`} />
                 </div>
-                <div className="h-4 w-full rounded bg-gray-200 animate-pulse mb-2" />
-                <div className="h-4 w-4/5 rounded bg-gray-200 animate-pulse mb-2" />
-                <div className="h-4 w-2/3 rounded bg-gray-200 animate-pulse" />
+                <div className={`h-4 w-full rounded animate-pulse mb-2 ${isLight ? 'bg-zinc-200' : 'bg-zinc-800'}`} />
+                <div className={`h-4 w-4/5 rounded animate-pulse mb-2 ${isLight ? 'bg-zinc-200' : 'bg-zinc-800'}`} />
+                <div className={`h-4 w-2/3 rounded animate-pulse ${isLight ? 'bg-zinc-200' : 'bg-zinc-800'}`} />
             </div>
-            <div className="w-full pt-4 md:pt-6 border-t border-gray-100 flex items-center justify-between mt-auto">
-                <div className="h-2.5 w-20 rounded-full bg-gray-200 animate-pulse" />
-                <div className="bg-gray-100 p-2 md:p-3 rounded-full">
-                    <div className="w-4 h-4 md:w-5 md:h-5 rounded-full bg-gray-200 animate-pulse" />
+            <div className={`w-full pt-4 md:pt-6 border-t flex items-center justify-between mt-auto ${isLight ? 'border-zinc-100' : 'border-white/10'}`}>
+                <div className={`h-2.5 w-20 rounded-full animate-pulse ${isLight ? 'bg-zinc-200' : 'bg-zinc-800'}`} />
+                <div className={`p-2 md:p-3 rounded-full ${isLight ? 'bg-zinc-100' : 'bg-white/10'}`}>
+                    <div className={`w-4 h-4 md:w-5 md:h-5 rounded-full animate-pulse ${isLight ? 'bg-zinc-200' : 'bg-zinc-800'}`} />
                 </div>
             </div>
         </div>
@@ -541,6 +564,7 @@ const BlogCardSkeleton = () => (
 );
 
 const BlogsPage = ({ initialBlogs }) => {
+    const { isLight } = useTheme();
     const isExcluded = (post) => {
         const t = (post.title || '').toLowerCase();
         const u = (post.url || '').toLowerCase();
@@ -647,97 +671,35 @@ const BlogsPage = ({ initialBlogs }) => {
     };
 
     return (
-        <div data-nav="dark" className="bg-[#0a0a0a] min-h-screen text-white font-sans selection:bg-[#3558D4] selection:text-black overflow-x-hidden">
+        <div
+            data-nav={isLight ? 'light' : 'dark'}
+            className={`min-h-screen font-sans transition-colors duration-300 overflow-x-hidden ${
+                isLight
+                    ? 'bg-[#fbfbfd] text-zinc-900 selection:bg-[#3558D4]/20 selection:text-[#3558D4]'
+                    : 'bg-[#0a0a0a] text-white selection:bg-[#3558D4] selection:text-white'
+            }`}
+        >
+            <Header lightHero={isLight} darkHero={!isLight} />
 
-            <section data-nav="dark" className="blogs-hero-section keep-dark-hero relative w-full bg-black !bg-black text-white !text-white">
-                <div className="relative mx-auto min-h-screen w-full overflow-hidden bg-black !bg-black shadow-2xl flex flex-col">
-                    <Header darkHero={true} />
-                    <div className="absolute inset-0 z-0">
-                        <img
-                            src={techBg}
-                            alt="Hero Background"
-                            fetchPriority="high"
-                            loading="eager"
-                            decoding="async"
-                            className="w-full h-full object-cover object-center opacity-100"
-                        />
-                        <div className="absolute inset-0 bg-black/40" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/30" />
-                    </div>
-
-                    <div className="relative z-10 px-6 sm:px-12 md:px-20 w-full flex-1 flex flex-col justify-center md:justify-start pt-28 md:pt-40 pb-20">
-                        <motion.div
-                            initial={{ opacity: 0, x: -30 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ duration: 0.8 }}
-                            className="mb-8 md:mb-12"
-                        >
-                            <h1 className="text-5xl md:text-[84px] tracking-tighter mb-2 leading-[0.9] font-extralight">
-                                <span className="text-white opacity-100 block">Blogs</span>
-                                <span className="text-[#4169E1] opacity-90 block">tech &amp; trends</span>
-                            </h1>
-                        </motion.div>
-
-                        {/* FEATURED CARDS - SWIPER SCROLL DIRECTLY ON TOP OF BG */}
-                        <div className="w-full mt-4 md:mt-6 featured-swiper-container">
-                            <style>{`
-                                .featured-swiper .swiper-pagination-bullet {
-                                    background: rgba(65, 105, 225, 0.4);
-                                    width: 12px;
-                                    height: 4px;
-                                    border-radius: 2px;
-                                    transition: all 0.3s ease;
-                                }
-                                .featured-swiper .swiper-pagination-bullet-active {
-                                    background: #3558D4;
-                                    width: 24px;
-                                }
-                                .featured-swiper {
-                                    padding-bottom: 50px !important;
-                                }
-                            `}</style>
-                            <Swiper
-                                modules={[Autoplay, Pagination, FreeMode]}
-                                spaceBetween={20}
-                                slidesPerView={'auto'}
-                                freeMode={true}
-                                pagination={{ clickable: true }}
-                                loop={true}
-                                autoplay={{
-                                    delay: 4000,
-                                    disableOnInteraction: true,
-                                }}
-                                className="featured-swiper !overflow-visible"
-                            >
-                                {loading ? (
-                                    [0, 1, 2, 3, 4].map((i) => (
-                                        <SwiperSlide key={`skeleton-featured-${i}`} className="!w-[300px] md:!w-[450px] lg:!w-[480px]">
-                                            <BlogCardSkeleton />
-                                        </SwiperSlide>
-                                    ))
-                                ) : (
-                                    allPosts.slice(0, 5).map((post, index) => (
-                                        <SwiperSlide key={`${post.id}-${index}`} className="!w-[300px] md:!w-[450px] lg:!w-[480px]">
-                                            <BlogCard post={post} eager={true} />
-                                        </SwiperSlide>
-                                    ))
-                                )}
-                            </Swiper>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-
-            <section id="latest-articles-section" className="py-12 md:py-24 bg-black">
+            <section
+                id="latest-articles-section"
+                data-nav={isLight ? 'light' : 'dark'}
+                className={`scroll-mt-24 pt-28 md:pt-36 pb-12 md:pb-24 transition-colors duration-300 ${
+                    isLight ? 'bg-[#fbfbfd]' : 'bg-[#0a0a0a]'
+                }`}
+            >
                 <div className="w-full px-6 sm:px-12 md:px-20">
                     <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 mb-16">
                         <div>
-                            <h2 className="text-3xl md:text-5xl font-bold tracking-tighter uppercase text-white">
+                            <h1 className={`text-3xl md:text-5xl font-bold tracking-tighter uppercase transition-colors duration-300 ${
+                                isLight ? 'text-zinc-900' : 'text-white'
+                            }`}>
                                 Latest Articles
-                            </h2>
+                            </h1>
                             {!loading && filteredPosts.length > 0 && (
-                                <p className="text-xs md:text-sm text-zinc-400 mt-2">
+                                <p className={`text-xs md:text-sm mt-2 font-medium transition-colors duration-300 ${
+                                    isLight ? 'text-zinc-500' : 'text-zinc-400'
+                                }`}>
                                     Showing {(currentPage - 1) * POSTS_PER_PAGE + 1}–{Math.min(currentPage * POSTS_PER_PAGE, filteredPosts.length)} of {filteredPosts.length} articles
                                 </p>
                             )}
@@ -750,7 +712,11 @@ const BlogsPage = ({ initialBlogs }) => {
                                 placeholder="Search articles..."
                                 value={searchTerm}
                                 onChange={handleSearchChange}
-                                className="w-full bg-white/5 border border-white/10 rounded-full py-4 md:py-5 px-14 focus:outline-none focus:border-[#4169E1] focus:bg-white/10 transition-all text-white placeholder-zinc-500 backdrop-blur-xl"
+                                className={`w-full rounded-full py-4 md:py-5 px-14 focus:outline-none transition-all shadow-sm ${
+                                    isLight
+                                        ? 'bg-white border border-zinc-200/90 text-zinc-900 placeholder-zinc-400 focus:border-[#4169E1] focus:ring-2 focus:ring-[#4169E1]/20'
+                                        : 'bg-white/5 border border-white/10 text-white placeholder-zinc-500 focus:border-[#4169E1] focus:bg-white/10'
+                                }`}
                             />
                             <FiSearch className="absolute left-6 top-1/2 -translate-y-1/2 text-[#4169E1] w-5 h-5 md:w-6 md:h-6" />
                         </div>
@@ -760,13 +726,13 @@ const BlogsPage = ({ initialBlogs }) => {
                         {loading ? (
                             [0, 1, 2, 3, 4, 5].map((i) => (
                                 <div key={`skeleton-grid-${i}`} className="w-full">
-                                    <BlogCardSkeleton />
+                                    <BlogCardSkeleton isLight={isLight} />
                                 </div>
                             ))
                         ) : (
                             paginatedPosts.map((post) => (
                                 <div key={post.id} className="w-full">
-                                    <BlogCard post={post} />
+                                    <BlogCard post={post} isLight={isLight} />
                                 </div>
                             ))
                         )}
@@ -778,17 +744,21 @@ const BlogsPage = ({ initialBlogs }) => {
                             <button
                                 onClick={() => handlePageChange(currentPage - 1)}
                                 disabled={currentPage === 1}
-                                className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold border transition-all ${currentPage === 1
-                                    ? 'border-white/10 text-zinc-600 cursor-not-allowed'
-                                    : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#3558D4]/10'
-                                    }`}
+                                className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold border transition-all ${
+                                    currentPage === 1
+                                        ? isLight
+                                            ? 'border-zinc-200 text-zinc-300 cursor-not-allowed bg-zinc-50'
+                                            : 'border-white/10 text-zinc-600 cursor-not-allowed bg-transparent'
+                                        : isLight
+                                            ? 'border-zinc-300 text-zinc-700 hover:border-[#4169E1] hover:text-[#4169E1] hover:bg-[#3558D4]/5 bg-white shadow-sm'
+                                            : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#3558D4]/10 bg-transparent'
+                                }`}
                             >
                                 ← Previous
                             </button>
 
                             <div className="flex items-center gap-1.5 md:gap-2">
                                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => {
-                                    // Show first, last, current, and surrounding pages
                                     if (
                                         pageNum === 1 ||
                                         pageNum === totalPages ||
@@ -798,10 +768,13 @@ const BlogsPage = ({ initialBlogs }) => {
                                             <button
                                                 key={pageNum}
                                                 onClick={() => handlePageChange(pageNum)}
-                                                className={`w-9 h-9 md:w-11 md:h-11 rounded-full text-xs md:text-sm font-semibold transition-all ${currentPage === pageNum
-                                                    ? 'bg-[#3558D4] text-white shadow-lg shadow-[#4169E1]/30'
-                                                    : 'bg-white/5 border border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
-                                                    }`}
+                                                className={`w-9 h-9 md:w-11 md:h-11 rounded-full text-xs md:text-sm font-semibold transition-all ${
+                                                    currentPage === pageNum
+                                                        ? 'bg-[#3558D4] text-white shadow-lg shadow-[#4169E1]/30'
+                                                        : isLight
+                                                            ? 'bg-white border border-zinc-200 text-zinc-700 hover:text-black hover:border-zinc-400 shadow-sm'
+                                                            : 'bg-white/5 border border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
+                                                }`}
                                             >
                                                 {pageNum}
                                             </button>
@@ -811,7 +784,9 @@ const BlogsPage = ({ initialBlogs }) => {
                                         pageNum === currentPage + 2
                                     ) {
                                         return (
-                                            <span key={pageNum} className="text-zinc-600 px-1 text-xs md:text-sm">
+                                            <span key={pageNum} className={`px-1 text-xs md:text-sm font-bold ${
+                                                isLight ? 'text-zinc-400' : 'text-zinc-600'
+                                            }`}>
                                                 ...
                                             </span>
                                         );
@@ -823,10 +798,15 @@ const BlogsPage = ({ initialBlogs }) => {
                             <button
                                 onClick={() => handlePageChange(currentPage + 1)}
                                 disabled={currentPage === totalPages}
-                                className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold border transition-all ${currentPage === totalPages
-                                    ? 'border-white/10 text-zinc-600 cursor-not-allowed'
-                                    : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#3558D4]/10'
-                                    }`}
+                                className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold border transition-all ${
+                                    currentPage === totalPages
+                                        ? isLight
+                                            ? 'border-zinc-200 text-zinc-300 cursor-not-allowed bg-zinc-50'
+                                            : 'border-white/10 text-zinc-600 cursor-not-allowed bg-transparent'
+                                        : isLight
+                                            ? 'border-zinc-300 text-zinc-700 hover:border-[#4169E1] hover:text-[#4169E1] hover:bg-[#3558D4]/5 bg-white shadow-sm'
+                                            : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#3558D4]/10 bg-transparent'
+                                }`}
                             >
                                 Next →
                             </button>
@@ -834,7 +814,7 @@ const BlogsPage = ({ initialBlogs }) => {
                     )}
 
                     {!loading && filteredPosts.length === 0 && (
-                        <div className="text-center py-20 text-zinc-500 text-xl font-light">
+                        <div className={`text-center py-20 text-xl font-light ${isLight ? 'text-zinc-500' : 'text-zinc-500'}`}>
                             {error ? error : (searchTerm ? `No articles found matching "${searchTerm}"` : 'No articles yet. Check back soon for new content.')}
                         </div>
                     )}
