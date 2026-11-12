@@ -359,7 +359,7 @@ const ArchvizVideoPlayer = () => {
             decoding="async"
             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
           />
-          <div className="absolute w-16 sm:w-20 h-16 sm:h-20 rounded-full bg-[#4169E1] text-white flex items-center justify-center shadow-[0_0_30px_rgba(65,105,225,0.6)] group-hover:scale-110 group-hover:bg-[#3158D4] transition-all duration-300 z-10">
+          <div className="absolute w-16 sm:w-20 h-16 sm:h-20 rounded-full bg-[#3558D4] text-white flex items-center justify-center shadow-[0_0_30px_rgba(65,105,225,0.6)] group-hover:scale-110 group-hover:bg-[#2A48B8] transition-all duration-300 z-10">
             <svg className="w-7 sm:w-8 h-7 sm:h-8 ml-1" fill="currentColor" viewBox="0 0 24 24">
               <path d="M8 5v14l11-7z" />
             </svg>
@@ -383,7 +383,7 @@ const CapabilitiesGrid = () => {
             className="p-7 sm:p-8 rounded-2xl bg-[#0D0F14] border border-white/10 hover:border-[#4169E1]/60 transition-all duration-300 flex flex-col justify-between shadow-[0_10px_30px_rgba(0,0,0,0.6)] min-h-[420px] group"
           >
             <div>
-              <div className="w-12 h-12 rounded-xl bg-[#4169E1]/15 text-[#4169E1] border border-[#4169E1]/25 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(65,105,225,0.2)] group-hover:scale-105 group-hover:border-[#4169E1]/50 transition-all duration-300">
+              <div className="w-12 h-12 rounded-xl bg-[#3558D4]/15 text-[#4169E1] border border-[#4169E1]/25 flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(65,105,225,0.2)] group-hover:scale-105 group-hover:border-[#4169E1]/50 transition-all duration-300">
                 {cap.icon}
               </div>
               <h3 className="text-xl sm:text-2xl font-bold text-white mb-3 tracking-tight leading-snug">
@@ -463,7 +463,7 @@ const ArchitecturalVisualizationPage = () => {
   return (
     <div
       data-nav="dark"
-      className="min-h-screen font-sans bg-black text-[#F2F0EB] selection:bg-[#4169E1]/30 selection:text-white"
+      className="min-h-screen font-sans bg-black text-[#F2F0EB] selection:bg-[#3558D4]/30 selection:text-white"
     >
       <ArchVizHeader />
 
@@ -472,7 +472,7 @@ const ArchitecturalVisualizationPage = () => {
       {/* ======================================================== */}
       <section id="comparison" className="w-full px-4 sm:px-6 md:px-8 pt-[110px] sm:pt-[130px] pb-16 sm:pb-24 border-b border-white/10 bg-black">
         <div className="max-w-4xl mx-auto text-center mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#4169E1]/10 border border-[#4169E1]/25 text-[#4169E1] mb-4">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#3558D4]/10 border border-[#4169E1]/25 text-[#4169E1] mb-4">
             <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
             </svg>
@@ -497,7 +497,7 @@ const ArchitecturalVisualizationPage = () => {
         {/* AEO Definition Box (Positioned below main container) */}
         <div className="max-w-4xl mx-auto mt-8 sm:mt-12 p-5 sm:p-6 rounded-2xl bg-[#0E0E10] border border-[#4169E1]/30 text-left shadow-[0_4px_25px_rgba(65,105,225,0.08)]">
           <div className="flex items-center gap-2 mb-2.5">
-            <span className="w-2 h-2 rounded-full bg-[#4169E1] animate-pulse" />
+            <span className="w-2 h-2 rounded-full bg-[#3558D4] animate-pulse" />
             <span className="text-[11px] font-mono uppercase tracking-wider text-[#4169E1] font-semibold">
               AEO Quick Summary · ArchViz Definition
             </span>
@@ -537,7 +537,7 @@ const ArchitecturalVisualizationPage = () => {
 
           {/* Right: Elipse Studio Edge */}
           <div className="p-6 sm:p-8 rounded-2xl bg-[#0E0E10] border border-[#4169E1]/40 shadow-[0_10px_30px_rgba(65,105,225,0.1)]">
-            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase font-mono bg-[#4169E1]/15 text-[#4169E1] mb-3">
+            <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold uppercase font-mono bg-[#3558D4]/15 text-[#4169E1] mb-3">
               <span>⚡ The Elipse Studio Edge</span>
             </div>
             <h3 className="text-lg font-semibold text-white mb-2 flex items-center gap-2">
@@ -568,7 +568,7 @@ const ArchitecturalVisualizationPage = () => {
         id="archviz-gallery"
       >
         <div className="mb-8 sm:mb-10 text-center max-w-3xl mx-auto">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#4169E1]/10 border border-[#4169E1]/25 text-[#4169E1] mb-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#3558D4]/10 border border-[#4169E1]/25 text-[#4169E1] mb-3">
             <span>Proven Track Record</span>
           </div>
           <h2 className="text-2xl md:text-4xl lg:text-[44px] font-medium tracking-tight leading-[1.1] text-white">
@@ -593,7 +593,7 @@ const ArchitecturalVisualizationPage = () => {
                   }}
                   aria-pressed={isActive}
                   className={`shrink-0 inline-flex items-center justify-center whitespace-nowrap rounded-full font-semibold leading-none px-4 sm:px-5 py-2 sm:py-2.5 text-xs sm:text-[13px] transition-all duration-300 cursor-pointer ${isActive
-                    ? 'bg-[#4169E1] text-white shadow-[0_4px_20px_rgba(65,105,225,0.45)] border border-[#4169E1]'
+                    ? 'bg-[#3558D4] text-white shadow-[0_4px_20px_rgba(65,105,225,0.45)] border border-[#4169E1]'
                     : 'bg-transparent text-zinc-400 hover:text-white hover:bg-white/5 border border-transparent'
                     }`}
                 >
@@ -632,7 +632,7 @@ const ArchitecturalVisualizationPage = () => {
                           : tag === '360'
                             ? 'bg-emerald-600 text-white border border-emerald-400/50'
                             : tag === '3D Visualization'
-                              ? 'bg-[#4169E1] text-white border border-blue-300/40'
+                              ? 'bg-[#3558D4] text-white border border-blue-300/40'
                               : 'bg-zinc-900 text-white border border-zinc-700/80'
                           }`}
                       >
@@ -682,7 +682,7 @@ const ArchitecturalVisualizationPage = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-semibold bg-[#4169E1] hover:bg-[#3158D4] text-white shadow-md hover:shadow-lg hover:shadow-[#4169E1]/30 hover:scale-[1.02] transition-all duration-300 cursor-pointer text-center"
+                          className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-semibold bg-[#3558D4] hover:bg-[#2A48B8] text-white shadow-md hover:shadow-lg hover:shadow-[#4169E1]/30 hover:scale-[1.02] transition-all duration-300 cursor-pointer text-center"
                         >
                           <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
@@ -699,7 +699,7 @@ const ArchitecturalVisualizationPage = () => {
                           target="_blank"
                           rel="noopener noreferrer"
                           onClick={(e) => e.stopPropagation()}
-                          className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-semibold bg-[#4169E1] hover:bg-[#3158D4] text-white shadow-md hover:shadow-lg hover:shadow-[#4169E1]/30 hover:scale-[1.02] transition-all duration-300 cursor-pointer text-center"
+                          className="flex-1 min-w-[120px] flex items-center justify-center gap-1.5 py-2.5 px-3.5 rounded-xl text-xs font-semibold bg-[#3558D4] hover:bg-[#2A48B8] text-white shadow-md hover:shadow-lg hover:shadow-[#4169E1]/30 hover:scale-[1.02] transition-all duration-300 cursor-pointer text-center"
                         >
                           <svg className="w-3.5 h-3.5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
@@ -748,7 +748,7 @@ const ArchitecturalVisualizationPage = () => {
           <div className="w-full flex justify-center mt-10 sm:mt-12">
             <button
               onClick={() => setVisibleCount(filteredBuilds.length > visibleCount ? filteredBuilds.length : 6)}
-              className="flex items-center gap-2.5 px-8 sm:px-10 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide bg-[#4169E1] hover:bg-[#3158D4] text-white shadow-lg shadow-[#4169E1]/25 hover:shadow-[#4169E1]/40 hover:scale-[1.03] transition-all duration-300 cursor-pointer"
+              className="flex items-center gap-2.5 px-8 sm:px-10 py-3.5 rounded-full text-xs sm:text-sm font-semibold tracking-wide bg-[#3558D4] hover:bg-[#2A48B8] text-white shadow-lg shadow-[#4169E1]/25 hover:shadow-[#4169E1]/40 hover:scale-[1.03] transition-all duration-300 cursor-pointer"
             >
               <span>{filteredBuilds.length > visibleCount ? 'Load More' : 'Show Less'}</span>
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -762,7 +762,7 @@ const ArchitecturalVisualizationPage = () => {
         <div className="mt-14 sm:mt-16 flex flex-row flex-wrap items-center justify-center gap-3.5 sm:gap-4 w-full">
           <button
             data-track-destination="/contact" onClick={() => router.push('/contact')}
-            className="px-6 sm:px-8 py-3.5 bg-[#4169E1] hover:bg-[#3158D4] text-white font-semibold text-xs sm:text-sm rounded-full transition-all duration-300 shadow-lg shadow-[#4169E1]/25 hover:shadow-[#4169E1]/40 hover:scale-[1.03] cursor-pointer flex items-center gap-2"
+            className="px-6 sm:px-8 py-3.5 bg-[#3558D4] hover:bg-[#2A48B8] text-white font-semibold text-xs sm:text-sm rounded-full transition-all duration-300 shadow-lg shadow-[#4169E1]/25 hover:shadow-[#4169E1]/40 hover:scale-[1.03] cursor-pointer flex items-center gap-2"
           >
             <span>Book a Free Consultation</span>
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -806,7 +806,7 @@ const ArchitecturalVisualizationPage = () => {
 
       <section id="pipeline" className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-black">
         <div className="max-w-4xl mx-auto text-center mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#4169E1]/10 border border-[#4169E1]/25 text-[#4169E1] mb-3">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#3558D4]/10 border border-[#4169E1]/25 text-[#4169E1] mb-3">
             <span>Methodical Execution</span>
           </div>
           <h2 className="text-2xl md:text-4xl lg:text-[44px] font-bold tracking-tight leading-[1.1] text-white">
@@ -869,7 +869,7 @@ const ArchitecturalVisualizationPage = () => {
       <section className="w-full px-4 sm:px-6 md:px-8 py-16 sm:py-24 border-b border-white/10 bg-[#070709]" id="faq">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-10 sm:mb-14">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#4169E1]/10 border border-[#4169E1]/25 text-[#4169E1] mb-3">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono bg-[#3558D4]/10 border border-[#4169E1]/25 text-[#4169E1] mb-3">
               <span>FAQ</span>
             </div>
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white">

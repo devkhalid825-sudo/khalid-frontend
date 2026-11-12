@@ -105,9 +105,8 @@ const ProductVizHeader = () => {
     { name: 'About Us', href: '/about' },
     { name: 'Capabilities', href: '/capabilities' },
     { name: 'Services', href: '/services', hasSubmenu: true },
-    { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Work', href: '/portfolio' },
     { name: 'Industries', href: '/industries' },
-    { name: 'Case Studies', href: '/case-studies' },
     { name: 'Blogs', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -244,7 +243,7 @@ const ProductVizHeader = () => {
                         className={`overflow-hidden transition-all duration-300 ${servicesOpen ? 'max-h-[320px] opacity-100 mt-0.5' : 'max-h-0 opacity-0'
                           }`}
                       >
-                        <div className="pl-3 md:pl-4 border-l-2 border-[#4169E1]/30 space-y-0.5 max-h-[900px]:space-y-0 max-h-[220px] overflow-y-auto pr-2 scrollbar-thin [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#4169E1] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+                        <div className="pl-3 md:pl-4 border-l-2 border-[#4169E1]/30 space-y-0.5 max-h-[900px]:space-y-0 max-h-[220px] overflow-y-auto pr-2 scrollbar-thin [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#3558D4] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
                           {serviceSubItems.map((sub, i) => (
                             <Link
                               key={i}
@@ -265,7 +264,7 @@ const ProductVizHeader = () => {
                     <Link
                       href={item.href}
                       onClick={() => setIsMenuOpen(false)}
-                      className="inline-flex items-center justify-center -ml-5 sm:-ml-6 md:-ml-7 px-5 sm:px-6 md:px-7 py-2 sm:py-2.5 md:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl max-h-[900px]:text-xs max-h-[900px]:sm:text-sm max-h-[900px]:md:text-base font-bold transition-all duration-300 shadow-[0_4px_25px_rgba(65,105,225,0.45)] hover:shadow-[0_4px_30px_rgba(65,105,225,0.7)] hover:scale-105 my-1.5 gap-2"
+                      className="inline-flex items-center justify-center -ml-5 sm:-ml-6 md:-ml-7 px-5 sm:px-6 md:px-7 py-2 sm:py-2.5 md:py-3 rounded-full bg-[#3558D4] hover:bg-[#2A48B8] text-white text-xl sm:text-2xl md:text-3xl lg:text-4xl max-h-[900px]:text-xs max-h-[900px]:sm:text-sm max-h-[900px]:md:text-base font-bold transition-all duration-300 shadow-[0_4px_25px_rgba(65,105,225,0.45)] hover:shadow-[0_4px_30px_rgba(65,105,225,0.7)] hover:scale-105 my-1.5 gap-2"
                     >
                       <span>Contact Us</span>
                       <span className="text-sm md:text-lg">→</span>

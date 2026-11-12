@@ -29,7 +29,7 @@ export default function IndustryHero({
   const ctaLink = hero?.ctaLink || '/contact';
 
   return (
-    <section className="relative min-h-screen flex flex-col justify-between px-3 sm:px-6 md:px-10 lg:px-14 pt-[85px] sm:pt-[105px] md:pt-[115px] pb-8 sm:pb-12 overflow-hidden bg-[#0D0D0D] text-[#F2F0EB] selection:bg-[#4169E1]/30">
+    <section className="relative min-h-screen flex flex-col justify-between px-3 sm:px-6 md:px-10 lg:px-14 pt-[85px] sm:pt-[105px] md:pt-[115px] pb-8 sm:pb-12 overflow-hidden bg-[#0D0D0D] text-[#F2F0EB] selection:bg-[#3558D4]/30">
       <Header />
 
       {/* Decorative ✦ top-left */}
@@ -67,7 +67,7 @@ export default function IndustryHero({
       <div className="max-w-[1500px] mx-auto flex flex-col items-center text-center w-full px-2 sm:px-6 my-auto">
         {/* Leaf / Badge Tag */}
         <div className="mb-4 sm:mb-6">
-          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-[0.14em] uppercase bg-[#4169E1]/10 text-[#4169E1] border border-[#4169E1]/25 shadow-sm">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-[11px] sm:text-xs font-semibold tracking-[0.14em] uppercase bg-[#3558D4]/10 text-[#4169E1] border border-[#4169E1]/25 shadow-sm">
             <span className="text-xs">✦</span>
             <span>{category}</span>
           </span>
@@ -110,7 +110,7 @@ export default function IndustryHero({
         <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
           <Link
             href={ctaLink}
-            className="px-6 sm:px-8 py-3 rounded-full text-xs sm:text-sm font-semibold bg-[#4169E1] text-white hover:bg-[#3158D4] transition-all duration-200 shadow-lg shadow-[#4169E1]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer min-h-[44px] flex items-center justify-center"
+            className="px-6 sm:px-8 py-3 rounded-full text-xs sm:text-sm font-semibold bg-[#3558D4] text-white hover:bg-[#2A48B8] transition-all duration-200 shadow-lg shadow-[#4169E1]/25 hover:scale-[1.02] active:scale-[0.98] cursor-pointer min-h-[44px] flex items-center justify-center"
           >
             {ctaText}
           </Link>

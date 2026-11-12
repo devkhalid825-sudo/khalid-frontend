@@ -262,9 +262,8 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
     { name: 'About Us', href: '/about' },
     { name: 'Capabilities', href: '/capabilities' },
     { name: 'Services', href: '/services', hasSubmenu: true },
-    { name: 'Portfolio', href: '/portfolio' },
+    { name: 'Work', href: '/portfolio' },
     { name: 'Industries', href: '/industries' },
-    { name: 'Case Studies', href: '/case-studies' },
     { name: 'Blogs', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ];
@@ -382,9 +381,9 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
                   setIsMenuOpen(false);
                   router.push('/contact');
                 }}
-                className="site-header-contact-btn hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center bg-[#4169E1] hover:bg-[#3158D4] text-white rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 shadow-[0_2px_15px_rgba(65,105,225,0.35)] hover:shadow-[0_4px_22px_rgba(65,105,225,0.55)] hover:scale-105 cursor-pointer border-none"
+                className="site-header-contact-btn hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center bg-[#3558D4] hover:bg-[#2A48B8] text-white rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 shadow-[0_2px_15px_rgba(65,105,225,0.35)] hover:shadow-[0_4px_22px_rgba(65,105,225,0.55)] hover:scale-105 cursor-pointer border-none"
               >
-                Contact Us
+                <span className="lets-talk-label">Let&apos;s Talk<span className="lets-talk-arrow" aria-hidden="true">→</span></span>
               </button>
               {!shouldHideThemeToggle && <ThemeToggle isLightMode={isEffectiveLight} />}
               <button
@@ -448,7 +447,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
                   }}
                   className="hidden md:flex px-6 sm:px-7 h-10 sm:h-11 items-center justify-center border border-white/30 hover:border-white text-white hover:bg-white/10 hover:shadow-[0_0_20px_rgba(255,255,255,0.15)] bg-transparent rounded-full text-xs sm:text-[13px] font-semibold tracking-wider transition-all duration-300 backdrop-blur-md cursor-pointer"
                 >
-                  Contact Us
+                  Let&apos;s Talk
                 </button>
                 {/* The drawer turns white in light mode; globals.css ("Mobile Drawer in Day Mode") then styles this toggle dark-on-light. */}
                 {!shouldHideThemeToggle && (
@@ -506,7 +505,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
                             servicesOpen ? 'max-h-[320px] opacity-100 mt-2' : 'max-h-0 opacity-0'
                           }`}
                         >
-                          <div className="pl-3 md:pl-4 border-l-2 border-[#4169E1]/30 space-y-1.5 md:space-y-1 max-h-[220px] overflow-y-auto pr-2 scrollbar-thin [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#4169E1] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
+                          <div className="pl-3 md:pl-4 border-l-2 border-[#4169E1]/30 space-y-1.5 md:space-y-1 max-h-[220px] overflow-y-auto pr-2 scrollbar-thin [&::-webkit-scrollbar]:w-1 [&::-webkit-scrollbar-thumb]:bg-[#3558D4] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-track]:bg-transparent">
                             {serviceSubItems.map((sub, i) => (
                               <Link
                                 key={i}
@@ -527,7 +526,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
                       <Link
                         href={item.href}
                         onClick={() => setIsMenuOpen(false)}
-                        className="inline-flex items-center justify-center px-6 md:px-8 py-2.5 sm:py-3 rounded-full bg-[#4169E1] hover:bg-[#3158D4] text-white text-lg sm:text-xl md:text-2xl font-bold transition-all duration-300 shadow-[0_4px_25px_rgba(65,105,225,0.45)] hover:shadow-[0_4px_30px_rgba(65,105,225,0.7)] hover:scale-105 my-2 gap-2"
+                        className="inline-flex items-center justify-center px-6 md:px-8 py-2.5 sm:py-3 rounded-full bg-[#3558D4] hover:bg-[#2A48B8] text-white text-lg sm:text-xl md:text-2xl font-bold transition-all duration-300 shadow-[0_4px_25px_rgba(65,105,225,0.45)] hover:shadow-[0_4px_30px_rgba(65,105,225,0.7)] hover:scale-105 my-2 gap-2"
                       >
                         <span>Contact Us</span>
                         <span className="text-base md:text-lg">→</span>

@@ -99,7 +99,7 @@ const FilterDropdown = ({ value, onChange, counts, isLightMode }) => {
                     type="button"
                     onClick={() => { onChange(t.key); setOpen(false); }}
                     className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-left text-sm font-medium transition-all duration-200 ${active
-                      ? 'bg-[#4169E1] text-white shadow-md shadow-[#4169E1]/30 font-semibold'
+                      ? 'bg-[#3558D4] text-white shadow-md shadow-[#4169E1]/30 font-semibold'
                       : isLightMode ? 'text-zinc-700 hover:bg-zinc-100/80 hover:text-zinc-950' : 'text-zinc-300 hover:bg-white/5 hover:text-white'
                       }`}
                   >
@@ -463,8 +463,8 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
 
         {portfolioPreview ? (
           <div className="flex justify-center mt-6 md:mt-8 pb-0 md:pb-2">
-            <Link href={portfolioHref} data-track-cta="latest-work-view-portfolio" className={buttonClass}>
-              View Portfolio
+            <Link href={portfolioHref} data-track-cta="latest-work-view-portfolio" className="latest-work-portfolio-btn flex px-8 sm:px-10 h-11 sm:h-12 items-center justify-center bg-[#3558D4] hover:bg-[#2A48B8] text-white rounded-full text-[13px] sm:text-sm font-semibold tracking-wider transition-all duration-300 shadow-[0_2px_15px_rgba(65,105,225,0.35)] hover:shadow-[0_4px_22px_rgba(65,105,225,0.55)] hover:scale-105">
+              View Work
             </Link>
           </div>
         ) : (

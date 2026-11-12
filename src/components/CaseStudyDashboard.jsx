@@ -145,7 +145,7 @@ const SortableCaseStudyItem = ({ cs, onEdit, onDelete, onMoveUp, onMoveDown, onT
       <div {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing p-1 md:p-1.5 text-[#555] hover:text-[#4169E1] transition-colors shrink-0"><FiMove className="text-sm md:text-lg" /></div>
       <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg overflow-hidden bg-[#1A1A1A] shrink-0 border border-[#333] relative">
         {thumbSrc ? <img src={thumbSrc} alt="" className="w-full h-full object-cover" /> : <div className="w-full h-full flex items-center justify-center text-[#555]"><FiImage size={18} /></div>}
-        <span className={`absolute top-0 right-0 text-[6px] font-bold px-1 py-0.5 rounded-bl-lg leading-none ${isTop ? 'bg-[#4169E1]/30 text-[#4169E1]' : 'bg-[#555]/30 text-[#aaa]'}`}>{isTop ? 'TB' : 'SB'}</span>
+        <span className={`absolute top-0 right-0 text-[6px] font-bold px-1 py-0.5 rounded-bl-lg leading-none ${isTop ? 'bg-[#3558D4]/30 text-[#4169E1]' : 'bg-[#555]/30 text-[#aaa]'}`}>{isTop ? 'TB' : 'SB'}</span>
       </div>
       <div className="flex-1 min-w-0">
         <h4 className="text-xs md:text-sm font-bold tracking-tight text-[#F2F0EB] truncate flex items-center gap-2">
@@ -155,11 +155,11 @@ const SortableCaseStudyItem = ({ cs, onEdit, onDelete, onMoveUp, onMoveDown, onT
               Hidden
             </span>
           )}
-          {cs.featured && <span className="inline-block px-1.5 py-0.5 bg-[#4169E1]/20 text-[#4169E1] text-[6px] md:text-[7px] font-bold uppercase tracking-[0.15em] rounded-full leading-none">Featured</span>}
+          {cs.featured && <span className="inline-block px-1.5 py-0.5 bg-[#3558D4]/20 text-[#4169E1] text-[6px] md:text-[7px] font-bold uppercase tracking-[0.15em] rounded-full leading-none">Featured</span>}
         </h4>
         <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[6px] md:text-[8px] text-[#888] font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] mt-0.5 md:mt-1">
           {cs.category && <span className="text-[#4169E1]">{cs.category}</span>}
-          {cs.category && cs.slug && <span className="w-1 h-1 rounded-full bg-[#4169E1]/40 shrink-0"></span>}
+          {cs.category && cs.slug && <span className="w-1 h-1 rounded-full bg-[#3558D4]/40 shrink-0"></span>}
           <span className="truncate max-w-[100px] md:max-w-none text-[#555]">/case-study/{cs.slug}</span>
         </div>
       </div>
@@ -756,14 +756,14 @@ const CaseStudyDashboard = () => {
           <button onClick={() => { setShowProjectPicker(true); setLoadingProjects(true); apiCall('/projects', 'GET').then(r => { setProjects(Array.isArray(r.data) ? r.data : []); setLoadingProjects(false); }); }} className="flex items-center gap-2 px-4 md:px-5 py-2.5 md:py-3 bg-[#1A1A1A] text-[#888] text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] rounded-full border border-[#333] hover:border-[#4169E1] hover:text-[#4169E1] transition-all">
             <FiFolder /> From Project
           </button>
-          <button onClick={openNewForm} className="flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-3 bg-[#4169E1] text-white text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] rounded-full hover:bg-[#3158D4] transition-all shadow-lg">
+          <button onClick={openNewForm} className="flex items-center gap-2 px-4 md:px-6 py-2.5 md:py-3 bg-[#3558D4] text-white text-[10px] md:text-xs font-bold uppercase tracking-[0.15em] rounded-full hover:bg-[#2A48B8] transition-all shadow-lg">
             <FiPlus /> New Case Study
           </button>
         </div>
       </div>
 
       {msg && (
-        <div className="fixed top-8 right-8 z-[60] bg-[#4169E1] text-white px-6 py-4 rounded-2xl shadow-lg font-bold text-[10px] uppercase tracking-widest animate-in fade-in slide-in-from-top-5">
+        <div className="fixed top-8 right-8 z-[60] bg-[#3558D4] text-white px-6 py-4 rounded-2xl shadow-lg font-bold text-[10px] uppercase tracking-widest animate-in fade-in slide-in-from-top-5">
           {msg}
         </div>
       )}
@@ -781,7 +781,7 @@ const CaseStudyDashboard = () => {
             </div>
             <div className="p-3 bg-[#111] border-b border-[#222] flex items-center justify-between">
               <span className="text-[9px] text-[#888]">Auto-mark as Featured in top swiper:</span>
-              <button type="button" onClick={() => setAddAsFeatured(!addAsFeatured)} className={`px-3 py-1 rounded-full text-[9px] font-bold ${addAsFeatured ? 'bg-[#4169E1] text-white' : 'bg-[#222] text-[#888]'}`}>
+              <button type="button" onClick={() => setAddAsFeatured(!addAsFeatured)} className={`px-3 py-1 rounded-full text-[9px] font-bold ${addAsFeatured ? 'bg-[#3558D4] text-white' : 'bg-[#222] text-[#888]'}`}>
                 {addAsFeatured ? 'Yes, Featured' : 'No, Regular'}
               </button>
             </div>
@@ -800,7 +800,7 @@ const CaseStudyDashboard = () => {
                         <div className="text-[8px] text-[#888]">{p.category || 'Animation'}</div>
                       </div>
                     </div>
-                    <button disabled={addingFromProject} onClick={() => handleAddProjectAsCaseStudy(p)} className="px-3 py-1.5 bg-[#4169E1] text-white text-[9px] font-bold rounded-lg hover:bg-[#3158D4] transition-all shrink-0 disabled:opacity-50">
+                    <button disabled={addingFromProject} onClick={() => handleAddProjectAsCaseStudy(p)} className="px-3 py-1.5 bg-[#3558D4] text-white text-[9px] font-bold rounded-lg hover:bg-[#2A48B8] transition-all shrink-0 disabled:opacity-50">
                       Import as Case Study
                     </button>
                   </div>
@@ -866,7 +866,7 @@ const CaseStudyDashboard = () => {
                             const next = selected ? current.filter(x => x !== c) : [...current, c];
                             setForm(f => ({ ...f, category: next.join(', ') }));
                           }} className={`text-[10px] font-bold uppercase tracking-[0.12em] px-3.5 py-2 rounded-xl border transition-all ${
-                            selected ? 'bg-[#4169E1] text-white border-[#4169E1]' : 'bg-[#1A1A1A] text-[#555] border-[#333] hover:border-[#4169E1]/50'
+                            selected ? 'bg-[#3558D4] text-white border-[#4169E1]' : 'bg-[#1A1A1A] text-[#555] border-[#333] hover:border-[#4169E1]/50'
                           }`}>{c}</button>
                         );
                       })}
@@ -1232,7 +1232,7 @@ const CaseStudyDashboard = () => {
                               type="button"
                               disabled={idx === 0}
                               onClick={() => moveGalleryImage('galleryThumbnails', idx, -1)}
-                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#4169E1] text-white rounded disabled:opacity-20 transition-colors"
+                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#3558D4] text-white rounded disabled:opacity-20 transition-colors"
                               title="Move left"
                             >
                               <FiChevronLeft size={13} />
@@ -1241,7 +1241,7 @@ const CaseStudyDashboard = () => {
                               type="button"
                               disabled={idx === allUrls.length - 1}
                               onClick={() => moveGalleryImage('galleryThumbnails', idx, 1)}
-                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#4169E1] text-white rounded disabled:opacity-20 transition-colors"
+                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#3558D4] text-white rounded disabled:opacity-20 transition-colors"
                               title="Move right"
                             >
                               <FiChevronRight size={13} />
@@ -1312,7 +1312,7 @@ const CaseStudyDashboard = () => {
                               type="button"
                               disabled={idx === 0}
                               onClick={() => moveGalleryImage('galleryStills', idx, -1)}
-                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#4169E1] text-white rounded disabled:opacity-20 transition-colors"
+                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#3558D4] text-white rounded disabled:opacity-20 transition-colors"
                               title="Move left"
                             >
                               <FiChevronLeft size={13} />
@@ -1321,7 +1321,7 @@ const CaseStudyDashboard = () => {
                               type="button"
                               disabled={idx === allUrls.length - 1}
                               onClick={() => moveGalleryImage('galleryStills', idx, 1)}
-                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#4169E1] text-white rounded disabled:opacity-20 transition-colors"
+                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#3558D4] text-white rounded disabled:opacity-20 transition-colors"
                               title="Move right"
                             >
                               <FiChevronRight size={13} />
@@ -1458,7 +1458,7 @@ const CaseStudyDashboard = () => {
                         const trimmed = t.trim();
                         if (!trimmed) return null;
                         return (
-                          <span key={idx} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#4169E1]/20 text-[#60a5fa] border border-[#4169E1]/30">
+                          <span key={idx} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#3558D4]/20 text-[#60a5fa] border border-[#4169E1]/30">
                             {trimmed}
                           </span>
                         );
@@ -1599,7 +1599,7 @@ const CaseStudyDashboard = () => {
                     <span className="text-xs font-bold text-[#F2F0EB] block">Featured Case Study</span>
                     <span className="text-[8px] text-[#888]">Display this case study in the top interactive swiper on the home and case studies pages</span>
                   </div>
-                  <button type="button" onClick={() => setForm(f => ({ ...f, featured: !f.featured }))} className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${form.featured ? 'bg-[#4169E1] text-white' : 'bg-[#222] text-[#888]'}`}>
+                  <button type="button" onClick={() => setForm(f => ({ ...f, featured: !f.featured }))} className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider transition-all ${form.featured ? 'bg-[#3558D4] text-white' : 'bg-[#222] text-[#888]'}`}>
                     {form.featured ? 'Featured' : 'Not Featured'}
                   </button>
                 </div>
@@ -1633,7 +1633,7 @@ const CaseStudyDashboard = () => {
                         const trimmed = k.trim();
                         if (!trimmed) return null;
                         return (
-                          <span key={idx} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#4169E1]/15 text-[#93c5fd] border border-[#4169E1]/30">
+                          <span key={idx} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#3558D4]/15 text-[#93c5fd] border border-[#4169E1]/30">
                             #{trimmed}
                           </span>
                         );
@@ -1676,7 +1676,7 @@ const CaseStudyDashboard = () => {
               {/* Action Buttons */}
               <div className="flex gap-3 pt-4 sticky bottom-0 bg-[#0D0D0D] pb-2">
                 <button type="button" onClick={() => setShowForm(false)} className="flex-1 border border-[#333] text-[#888] font-bold py-3.5 rounded-xl hover:bg-[#1A1A1A] transition-all text-[8px] uppercase tracking-[0.2em]">Cancel</button>
-                <button type="submit" disabled={saving} className="flex-1 bg-[#4169E1] text-white font-bold py-3.5 rounded-xl hover:bg-[#3158D4] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em]">
+                <button type="submit" disabled={saving} className="flex-1 bg-[#3558D4] text-white font-bold py-3.5 rounded-xl hover:bg-[#2A48B8] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em]">
                   {saving ? 'Saving...' : editing ? 'Update Case Study' : 'Create Case Study'}
                 </button>
               </div>

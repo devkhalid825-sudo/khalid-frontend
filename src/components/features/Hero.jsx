@@ -164,6 +164,9 @@ const Hero = () => {
 
         {/* Main Desktop Carousel Container */}
         <div className="flex-1 w-full max-w-[2560px] mx-auto flex flex-col justify-center items-center px-2 sm:px-4 lg:px-6 relative my-auto">
+          {/* Soft fade on the left/right edges so the side cards don't end in a hard cut on wide screens */}
+          <div aria-hidden="true" className="hero-edge-fade hero-edge-fade-left" />
+          <div aria-hidden="true" className="hero-edge-fade hero-edge-fade-right" />
           {/* Responsive center card width:
               - Below 2xl (choti screen / laptops): 76vw to ensure navigation arrows never overlap video edges
               - 2xl and above (bari screen, 2560x1279): 88vw (up to 2260px) for immersive big-screen presentation */}

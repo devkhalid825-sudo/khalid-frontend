@@ -55,14 +55,14 @@ const AuthorizedPage = () => {
     <>
 
       {successMsg && (
-        <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#4169E1] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center justify-center md:justify-start gap-3 text-[10px] uppercase tracking-widest">
+        <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#3558D4] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center justify-center md:justify-start gap-3 text-[10px] uppercase tracking-widest">
           <FiCheckCircle size={18} /> {successMsg}
         </div>
       )}
 
       <header className="mb-6 md:mb-8">
         <h2 className="text-2xl md:text-4xl font-black tracking-tight uppercase bg-gradient-to-r from-[#4169E1] to-[#8B5CF6] bg-clip-text text-transparent">Authorized</h2>
-        <div className="h-0.5 w-8 bg-[#4169E1] mt-3 rounded-full" />
+        <div className="h-0.5 w-8 bg-[#3558D4] mt-3 rounded-full" />
         <p className="text-[#0D0D0D]/70 text-[11px] md:text-sm mt-3 font-light max-w-md leading-relaxed">
           Archive of all authorized and completed meeting nodes.
         </p>
@@ -81,7 +81,7 @@ const AuthorizedPage = () => {
               className="bg-white border border-[#0D0D0D]/20 p-5 md:p-6 rounded-[1rem] md:rounded-[1.5rem] hover:border-[#0D0D0D]/20 transition-all duration-700 flex flex-col lg:flex-row items-center justify-between gap-4 md:gap-6 group"
             >
               <div className="flex items-center gap-6 flex-1 w-full">
-                <div className="w-10 h-10 md:w-12 md:h-12 bg-[#4169E1]/10 rounded-xl flex items-center justify-center text-lg md:text-xl text-[#4169E1]">
+                <div className="w-10 h-10 md:w-12 md:h-12 bg-[#3558D4]/10 rounded-xl flex items-center justify-center text-lg md:text-xl text-[#4169E1]">
                   <FiCheckCircle />
                 </div>
                 <div className="space-y-1">
@@ -95,7 +95,7 @@ const AuthorizedPage = () => {
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                <div className="bg-[#4169E1]/10 border border-[#4169E1]/20 text-[#4169E1] font-black px-6 py-3 rounded-xl text-[8px] uppercase tracking-[0.4em] flex items-center gap-2">
+                <div className="bg-[#3558D4]/10 border border-[#4169E1]/20 text-[#4169E1] font-black px-6 py-3 rounded-xl text-[8px] uppercase tracking-[0.4em] flex items-center gap-2">
                   <FiCheckCircle className="text-base animate-pulse" /> Authorized
                 </div>
                 <button

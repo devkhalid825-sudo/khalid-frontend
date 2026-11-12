@@ -40,7 +40,7 @@ const Industries = () => {
           </h2>
           <Link
             href="/industries"
-            className="inline-block bg-[#4169E1] hover:bg-[#3558c8] text-white px-5 md:px-8 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40 mt-2 sm:mt-0 self-center sm:self-auto"
+            className="inline-block bg-[#3558D4] hover:bg-[#2A48B8] text-white px-5 md:px-8 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40 mt-2 sm:mt-0 self-center sm:self-auto"
           >
             View All Industries
           </Link>
@@ -73,7 +73,7 @@ const Industries = () => {
               <div className="absolute top-3 right-3 text-[#4169E1]/0 group-hover:text-[#4169E1]/40 transition-all duration-300 text-xs">
                 ✦
               </div>
-              <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/[0.02] border border-white/[0.05] flex items-center justify-center text-white/70 group-hover:text-[#4169E1] group-hover:bg-[#4169E1]/10 group-hover:border-[#4169E1]/20 transition-all duration-300 relative z-10 shrink-0">
+              <div className="w-12 h-12 md:w-16 md:h-16 rounded-full bg-white/[0.02] border border-white/[0.05] flex items-center justify-center text-white/70 group-hover:text-[#4169E1] group-hover:bg-[#3558D4]/10 group-hover:border-[#4169E1]/20 transition-all duration-300 relative z-10 shrink-0">
                 {React.cloneElement(item.icon, { className: 'w-6 h-6 md:w-8 md:h-8' })}
               </div>
               <div className="relative z-10 flex flex-col gap-1.5 flex-1 text-center justify-center">

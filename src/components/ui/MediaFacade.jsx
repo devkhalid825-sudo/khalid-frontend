@@ -181,7 +181,7 @@ export default function MediaFacade({
       <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors" />
 
       {/* Play button indicator */}
-      <div className="relative z-10 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#4169E1] text-white flex items-center justify-center shadow-lg shadow-[#4169E1]/40 transform group-hover:scale-110 transition-transform">
+      <div className="relative z-10 w-12 h-12 md:w-14 md:h-14 rounded-full bg-[#3558D4] text-white flex items-center justify-center shadow-lg shadow-[#4169E1]/40 transform group-hover:scale-110 transition-transform">
         <svg className="w-5 h-5 fill-current ml-0.5" viewBox="0 0 24 24">
           <path d="M8 5v14l11-7z" />
         </svg>

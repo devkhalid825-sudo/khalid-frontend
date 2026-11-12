@@ -171,7 +171,7 @@ const Technology = () => {
           <div className="flex flex-row flex-wrap items-center justify-center lg:justify-start gap-3 md:gap-4">
             <Link
               href="/contact"
-              className="inline-block bg-[#4169E1] hover:bg-[#3558c8] text-white px-6 py-2.5 md:px-8 md:py-3.5 rounded-full text-sm md:text-base font-semibold transition-all shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 transform hover:-translate-y-0.5"
+              className="inline-block bg-[#3558D4] hover:bg-[#2A48B8] text-white px-6 py-2.5 md:px-8 md:py-3.5 rounded-full text-sm md:text-base font-semibold transition-all shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 transform hover:-translate-y-0.5"
             >
               Book Project Consultation
             </Link>

@@ -63,7 +63,7 @@ const UKServicesPage = () => {
                                 </p>
                                 <div className="flex flex-row flex-wrap gap-3 md:gap-4">
                                     <button data-track-destination="/contact" onClick={() => navigate('/contact')}
-                                        className="bg-[#4169E1] hover:bg-[#3558c8] text-white px-5 md:px-8 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40">
+                                        className="bg-[#3558D4] hover:bg-[#2A48B8] text-white px-5 md:px-8 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-medium transition-all shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40">
                                         Start a Project
                                     </button>
                                     <button data-track-destination="/portfolio" onClick={() => navigate('/portfolio')}
@@ -74,7 +74,7 @@ const UKServicesPage = () => {
                             </div>
                             <div className="flex-1 relative w-full flex justify-center lg:justify-end">
                                 <div className="relative w-full max-w-[500px] aspect-[4/3]">
-                                    <div className="relative bg-[#4169E1]/20 p-3 md:p-4 rounded-[20px] sm:rounded-[32px] shadow-2xl h-full border border-white/10"
+                                    <div className="relative bg-[#3558D4]/20 p-3 md:p-4 rounded-[20px] sm:rounded-[32px] shadow-2xl h-full border border-white/10"
                                         style={{ clipPath: "polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%)" }}
                                     >
                                         <div className="relative w-full h-full bg-[#111] p-[2px] rounded-[18px] sm:rounded-[28px] overflow-hidden"
@@ -115,7 +115,7 @@ const UKServicesPage = () => {
                             className="group relative bg-[#111111] border border-white/5 rounded-[2rem] p-8 md:p-10 hover:border-[#4169E1]/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(65,105,225,0.05)] cursor-pointer"
                         >
                             <div className="flex items-center gap-4 mb-6">
-                                <div className="w-14 h-14 rounded-full bg-[#4169E1]/10 flex items-center justify-center text-[#4169E1] text-xl font-bold">
+                                <div className="w-14 h-14 rounded-full bg-[#3558D4]/10 flex items-center justify-center text-[#4169E1] text-xl font-bold">
                                     {service.icon}
                                 </div>
                             </div>

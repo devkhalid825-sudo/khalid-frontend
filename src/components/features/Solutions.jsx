@@ -123,7 +123,7 @@ const SolutionsSection = () => {
             </div>
             <Link
               href="/contact"
-              className="solutions-cta-btn inline-flex items-center gap-2 bg-white hover:bg-zinc-200 text-black px-5 sm:px-6 md:px-7 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all shadow-md hover:scale-[1.02] cursor-pointer whitespace-nowrap"
+              className="solutions-cta-btn inline-flex items-center gap-2 bg-[#3558D4] hover:bg-[#2A48B8] text-white shadow-[0_2px_15px_rgba(53,88,212,0.35)] px-5 sm:px-6 md:px-7 py-3 rounded-full text-xs sm:text-sm font-semibold tracking-wide transition-all shadow-md hover:scale-[1.02] cursor-pointer whitespace-nowrap"
             >
               <span>Inquire Now</span>
               <FiArrowRight className="text-sm" />
@@ -218,7 +218,7 @@ const SolutionsSection = () => {
                       <div className="solution-card-footer pt-3 flex items-center justify-end border-t border-white/10">
                         <Link
                           href={card.linkHref}
-                          className="solution-card-link inline-flex items-center gap-2.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/5 group-hover:bg-[#4169E1] text-white/90 group-hover:text-white border border-white/10 group-hover:border-[#4169E1] text-xs sm:text-[13px] font-semibold transition-all duration-300 shadow-sm group-hover:shadow-[0_4px_20px_rgba(65,105,225,0.4)]"
+                          className="solution-card-link inline-flex items-center gap-2.5 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full bg-white/5 group-hover:bg-[#3558D4] text-white/90 group-hover:text-white border border-white/10 group-hover:border-[#4169E1] text-xs sm:text-[13px] font-semibold transition-all duration-300 shadow-sm group-hover:shadow-[0_4px_20px_rgba(65,105,225,0.4)]"
                         >
                           <span className="whitespace-nowrap">{card.linkText}</span>
                           <span className="w-5 h-5 rounded-full bg-white/10 group-hover:bg-white group-hover:text-[#4169E1] flex items-center justify-center text-[11px] font-bold transition-all transform group-hover:translate-x-1 shrink-0">

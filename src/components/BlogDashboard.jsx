@@ -45,9 +45,9 @@ const SortableBlogItem = ({ blog, onEdit, onDelete, onMoveUp, onMoveDown, isFirs
         <h4 className="text-xs md:text-base font-black tracking-tight text-[#0D0D0D] truncate">{blog.title}</h4>
         <div className="flex flex-wrap items-center gap-x-2 gap-y-0.5 text-[6px] md:text-[8px] text-[#0D0D0D]/70 font-bold uppercase tracking-[0.1em] md:tracking-[0.2em] mt-0.5 md:mt-1">
           <span>{blog.date}</span>
-          <span className="w-1 h-1 rounded-full bg-[#4169E1]/40 shrink-0"></span>
+          <span className="w-1 h-1 rounded-full bg-[#3558D4]/40 shrink-0"></span>
           <span>{blog.category}</span>
-          <span className="w-1 h-1 rounded-full bg-[#4169E1]/40 shrink-0"></span>
+          <span className="w-1 h-1 rounded-full bg-[#3558D4]/40 shrink-0"></span>
           <span className="truncate max-w-[60px] md:max-w-none">/{blog.slug}</span>
         </div>
       </div>
@@ -290,7 +290,7 @@ const BlogDashboard = () => {
   return (
     <div>
       {msg && (
-        <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#4169E1] text-white px-6 py-4 rounded-2xl shadow-[0_0_30px_rgba(65,105,225,0.3)] font-bold flex items-center gap-3 animate-in fade-in text-[10px] uppercase tracking-widest">
+        <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#3558D4] text-white px-6 py-4 rounded-2xl shadow-[0_0_30px_rgba(65,105,225,0.3)] font-bold flex items-center gap-3 animate-in fade-in text-[10px] uppercase tracking-widest">
           <FiSave size={18} /> {msg}
         </div>
       )}
@@ -302,7 +302,7 @@ const BlogDashboard = () => {
         </div>
         <button
           onClick={openNewForm}
-          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#4169E1] text-white font-black px-5 py-3 rounded-xl hover:bg-[#0D0D0D] transition-all text-[8px] uppercase tracking-[0.2em]"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#3558D4] text-white font-black px-5 py-3 rounded-xl hover:bg-[#0D0D0D] transition-all text-[8px] uppercase tracking-[0.2em]"
         >
           <FiPlus /> New Blog
         </button>
@@ -426,7 +426,7 @@ const BlogDashboard = () => {
                         key={t}
                         type="button"
                         onClick={() => setForm(f => ({ ...f, heroType: t }))}
-                        className={`flex-1 text-[9px] font-bold uppercase tracking-widest px-4 py-3 rounded-xl border transition-all ${form.heroType === t ? 'bg-[#4169E1] text-white border-[#4169E1]' : 'bg-[#0D0D0D]/10 text-[#0D0D0D]/60 border-[#0D0D0D]/20 hover:border-[#4169E1]/50'}`}
+                        className={`flex-1 text-[9px] font-bold uppercase tracking-widest px-4 py-3 rounded-xl border transition-all ${form.heroType === t ? 'bg-[#3558D4] text-white border-[#4169E1]' : 'bg-[#0D0D0D]/10 text-[#0D0D0D]/60 border-[#0D0D0D]/20 hover:border-[#4169E1]/50'}`}
                       >
                         {t === 'image' ? 'Image' : 'YouTube Video'}
                       </button>
@@ -490,7 +490,7 @@ const BlogDashboard = () => {
               </div>
               <div className="flex gap-3 pt-2">
                 <button type="button" onClick={() => setShowForm(false)} className="flex-1 border border-[#0D0D0D]/20 text-[#0D0D0D]/60 font-black py-3.5 rounded-xl hover:bg-[#0D0D0D]/10 transition-all text-[8px] uppercase tracking-[0.2em]">Cancel</button>
-                <button type="submit" disabled={saving || uploading} className="flex-1 bg-[#4169E1] text-white font-black py-3.5 rounded-xl hover:bg-[#0D0D0D] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em]">
+                <button type="submit" disabled={saving || uploading} className="flex-1 bg-[#3558D4] text-white font-black py-3.5 rounded-xl hover:bg-[#0D0D0D] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em]">
                   {saving || uploading ? 'Saving...' : editing ? 'Update Blog' : 'Publish Blog'}
                 </button>
               </div>

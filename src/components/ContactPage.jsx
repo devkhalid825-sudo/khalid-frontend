@@ -3,7 +3,7 @@
 import React, { useEffect } from 'react';
 import Header from './layouts/Header';
 import Footer from './layouts/Footer';
-import ContactForm from './ContactForm';
+import ScopingFunnel from './features/ScopingFunnel';
 
 import { getImgSrc } from '../utils/api';
 import { m as motion } from 'framer-motion';
@@ -27,23 +27,23 @@ const ContactPage = () => {
             <Header />
 
             {/* SECTION 1: CONNECT WITH US */}
-            <section className="pt-24 sm:pt-32 md:pt-40 pb-12 sm:pb-20 px-4 sm:px-8 md:px-16 max-w-[1750px] mx-auto">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-14 xl:gap-20 items-start">
+            <section className="pt-24 sm:pt-32 md:pt-40 pb-8 sm:pb-12 px-4 sm:px-8 md:px-16 max-w-[1750px] mx-auto">
+                <div className="max-w-[1100px] mx-auto">
                     {/* Left side text */}
-                    <div className="flex flex-col justify-start items-center text-center lg:items-start lg:text-left pt-2 lg:pt-6 pb-2 lg:pb-0 lg:sticky lg:top-32">
-                        <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#4169E1]/10 border border-[#4169E1]/20 text-[#4169E1] text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-4 sm:mb-6">
+                    <div className="flex flex-col items-center text-center pt-2">
+                        <span className="inline-block px-3 sm:px-4 py-1 sm:py-1.5 rounded-full bg-[#3558D4]/10 border border-[#4169E1]/20 text-[#4169E1] text-[10px] sm:text-xs font-bold tracking-widest uppercase mb-4 sm:mb-6">
                             Start a Project
                         </span>
                         <h1 className="text-3xl sm:text-5xl lg:text-[54px] font-bold tracking-tight leading-[1.1] mb-4 sm:mb-6 text-white">
                             Let&apos;s Build Something <span className="text-[#4169E1]">Exceptional.</span>
                         </h1>
-                        <p className="text-zinc-300 text-xs sm:text-base md:text-lg font-light leading-relaxed mb-6 sm:mb-8 max-w-lg mx-auto lg:mx-0">
+                        <p className="text-zinc-300 text-xs sm:text-base md:text-lg font-light leading-relaxed mb-6 sm:mb-8 max-w-2xl mx-auto">
                             Share your project brief for a personalized 3D engineering breakdown, or book a 15-minute scoping call directly on our calendar.
                         </p>
 
-                        <div className="space-y-3 sm:space-y-4 w-full max-w-md pt-5 sm:pt-6 border-t border-white/10 mx-auto lg:mx-0 text-left">
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6 w-full pt-5 sm:pt-6 border-t border-white/10 text-left">
                             <div className="flex items-start gap-3 sm:gap-3.5 p-2.5 sm:p-0 rounded-xl bg-white/[0.02] sm:bg-transparent border border-white/5 sm:border-0">
-                                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#4169E1]/15 text-[#4169E1] flex items-center justify-center shrink-0 mt-0.5 border border-[#4169E1]/20">
+                                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#3558D4]/15 text-[#4169E1] flex items-center justify-center shrink-0 mt-0.5 border border-[#4169E1]/20">
                                     <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                                         <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
                                     </svg>
@@ -54,7 +54,7 @@ const ContactPage = () => {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3 sm:gap-3.5 p-2.5 sm:p-0 rounded-xl bg-white/[0.02] sm:bg-transparent border border-white/5 sm:border-0">
-                                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#4169E1]/15 text-[#4169E1] flex items-center justify-center shrink-0 mt-0.5 border border-[#4169E1]/20">
+                                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#3558D4]/15 text-[#4169E1] flex items-center justify-center shrink-0 mt-0.5 border border-[#4169E1]/20">
                                     <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                                         <circle cx="12" cy="12" r="10" />
                                         <circle cx="12" cy="12" r="6" />
@@ -67,7 +67,7 @@ const ContactPage = () => {
                                 </div>
                             </div>
                             <div className="flex items-start gap-3 sm:gap-3.5 p-2.5 sm:p-0 rounded-xl bg-white/[0.02] sm:bg-transparent border border-white/5 sm:border-0">
-                                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#4169E1]/15 text-[#4169E1] flex items-center justify-center shrink-0 mt-0.5 border border-[#4169E1]/20">
+                                <span className="w-7 h-7 sm:w-8 sm:h-8 rounded-lg bg-[#3558D4]/15 text-[#4169E1] flex items-center justify-center shrink-0 mt-0.5 border border-[#4169E1]/20">
                                     <svg className="w-3.5 h-3.5 sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
                                         <path d="m9 12 2 2 4-4" />
@@ -81,10 +81,11 @@ const ContactPage = () => {
                         </div>
                     </div>
 
-                    {/* Right side form / calendly card */}
-                    <ContactForm />
                 </div>
             </section>
+
+            {/* 3-tap scoping funnel + Calendly card (same block as About / Capabilities / Home) */}
+            <ScopingFunnel sectionId="contact-form" formId="contact_page" heading={null} className="!pt-0" />
 
             {/* SECTION 2: LOCATION & ABOUT */}
             <section className="py-14 sm:py-24 bg-black border-t border-white/10">

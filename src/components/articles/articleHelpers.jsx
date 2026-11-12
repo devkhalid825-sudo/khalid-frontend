@@ -67,7 +67,7 @@ export const ImagePlaceholder = ({ height = "h-[400px]", text = "Asset", classNa
       {link && (
         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
           <a href={link} target="_blank" rel="noopener noreferrer" className="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
-            <div className="bg-[#4169E1] text-white px-8 py-3 rounded-full text-sm font-medium shadow-2xl flex items-center gap-2 hover:scale-105 active:scale-95 transition-all">
+            <div className="bg-[#3558D4] text-white px-8 py-3 rounded-full text-sm font-medium shadow-2xl flex items-center gap-2 hover:scale-105 active:scale-95 transition-all">
               <span>{linkText || 'Learn More'}</span>
               <FaArrowRight className="text-[10px]" />
             </div>
@@ -150,7 +150,7 @@ export const TextCarousel = ({ paragraphs, delay = 5000 }) => {
           <button
             key={i}
             onClick={() => setIndex(i)}
-            className={`h-1 rounded-full transition-all duration-500 ${i === index ? 'bg-[#4169E1] w-10' : 'bg-gray-200 w-2 hover:bg-gray-300'}`}
+            className={`h-1 rounded-full transition-all duration-500 ${i === index ? 'bg-[#3558D4] w-10' : 'bg-gray-200 w-2 hover:bg-gray-300'}`}
             aria-label={`Go to slide ${i + 1}`}
           />
         ))}
@@ -201,7 +201,7 @@ export const FeatureCarousel = ({ features, delay = 6000, variant = "white" }) =
           <button
             key={i}
             onClick={() => setIndex(i)}
-            className={`h-1 rounded-full transition-all duration-500 ${i === index ? 'bg-[#4169E1] w-10' : `${isDark ? 'bg-gray-600' : 'bg-gray-200'} w-2 hover:bg-gray-300`}`}
+            className={`h-1 rounded-full transition-all duration-500 ${i === index ? 'bg-[#3558D4] w-10' : `${isDark ? 'bg-gray-600' : 'bg-gray-200'} w-2 hover:bg-gray-300`}`}
             aria-label={`Go to feature ${i + 1}`}
           />
         ))}

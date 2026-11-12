@@ -46,7 +46,7 @@ const Process = () => {
                     </div>
                     <Link
                         to="/contact"
-                        className="bg-[#4169E1] hover:bg-[#3558c8] text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-medium transition-all inline-block shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40 shrink-0"
+                        className="bg-[#3558D4] hover:bg-[#2A48B8] text-white px-6 md:px-8 py-2.5 md:py-3 rounded-full text-xs md:text-sm font-medium transition-all inline-block shadow-lg shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40 shrink-0"
                     >
                         Start Your Project
                     </Link>
@@ -62,7 +62,7 @@ const Process = () => {
                                 className="flex flex-col items-center lg:items-start text-center lg:text-left gap-4 md:gap-8 group"
                             >
                                 <div className="relative">
-                                    <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center text-xl font-bold group-hover:bg-[#4169E1] group-hover:text-white transition-all duration-500 shadow-2xl relative z-20 will-change-transform">
+                                    <div className="w-14 h-14 md:w-20 md:h-20 rounded-full bg-zinc-900 border border-white/10 flex items-center justify-center text-xl font-bold group-hover:bg-[#3558D4] group-hover:text-white transition-all duration-500 shadow-2xl relative z-20 will-change-transform">
                                         {step.number}
                                     </div>
                                 </div>

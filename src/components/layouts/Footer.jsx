@@ -99,7 +99,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative site-main-footer bg-gradient-to-b from-[#0a1628] to-[#1a2a6e] border-t border-white/10 text-white pt-4 md:pt-6 pb-12 md:pb-16 font-sans overflow-hidden transition-colors duration-300">
+    <footer className="relative site-main-footer bg-[#3558D4] border-t border-white/10 text-white pt-4 md:pt-6 pb-12 md:pb-16 font-sans overflow-hidden transition-colors duration-300">
       <style dangerouslySetInnerHTML={{ __html: `
         /* Enforce identical clean sans-serif typography across ALL footer text (no serif bleed) */
         .site-main-footer,
@@ -112,6 +112,21 @@ const Footer = () => {
         .site-main-footer input {
           font-family: var(--font-sans), system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
           font-style: normal !important;
+        }
+
+        /* Newsletter submit button: keep blue text on white pill (overrides white text inheritance) */
+        .site-main-footer .footer-submit-btn,
+        html.light .site-main-footer .footer-submit-btn,
+        html.dark .site-main-footer .footer-submit-btn {
+          background-color: #ffffff !important;
+          color: #3558D4 !important;
+          font-weight: 700 !important;
+          letter-spacing: 0.02em;
+          min-width: 160px;
+        }
+        .site-main-footer .footer-submit-btn:hover {
+          background-color: rgba(255, 255, 255, 0.92) !important;
+          color: #2a46b0 !important;
         }
 
         /* Consistent link colors (prevents visited links turning purple/dark-blue on blue background) */
@@ -173,14 +188,14 @@ const Footer = () => {
             value={footerEmail}
             onChange={(e) => setFooterEmail(e.target.value)}
             suppressHydrationWarning
-            className={`bg-white/5 backdrop-blur-md border border-white/20 rounded-full px-8 py-3 w-full sm:w-[500px] md:w-[850px] lg:w-[1000px] focus:outline-none focus:border-[#4169E1] transition-all placeholder:text-white/40 text-sm shadow-inner footer-email-input ${status === 'success' ? 'border-green-400 text-green-400' : ''
+            className={`bg-white/5 backdrop-blur-md border border-white/20 rounded-full px-8 py-3 w-full sm:w-[500px] md:w-[850px] lg:w-[1000px] focus:outline-none focus:border-white transition-all placeholder:text-white/40 text-sm shadow-inner footer-email-input ${status === 'success' ? 'border-green-400 text-green-400' : ''
               }`}
           />
           <button
             onClick={handleFooterSubmit}
             disabled={status === 'loading'}
             suppressHydrationWarning
-            className="w-full sm:w-auto bg-[#4169E1] text-white font-bold px-12 py-3 rounded-full hover:bg-[#3558c8] hover:scale-105 transition-all duration-300 text-sm md:text-base whitespace-nowrap disabled:opacity-50 cursor-pointer"
+            className="w-full sm:w-auto footer-submit-btn bg-white text-[#4169E1] font-bold px-12 py-3 rounded-full hover:bg-white/90 shadow-[0_4px_18px_rgba(0,0,0,0.15)] hover:scale-105 transition-all duration-300 text-sm md:text-base whitespace-nowrap disabled:opacity-50 cursor-pointer"
           >
             {status === 'loading' ? 'Sending...' : 'Submit'}
           </button>
@@ -222,13 +237,10 @@ const Footer = () => {
                     <Link href="/capabilities">Capabilities</Link>
                   </li>
                   <li className="hover:text-white cursor-pointer transition-colors w-fit">
-                    <Link href="/portfolio">Portfolio</Link>
+                    <Link href="/portfolio">Work</Link>
                   </li>
                   <li className="hover:text-white cursor-pointer transition-colors w-fit">
                     <Link href="/industries">Industries</Link>
-                  </li>
-                  <li className="hover:text-white cursor-pointer transition-colors w-fit">
-                    <Link href="/case-studies">Case Studies</Link>
                   </li>
                   <li className="hover:text-white cursor-pointer transition-colors w-fit">
                     <Link href="/blog">Blogs</Link>

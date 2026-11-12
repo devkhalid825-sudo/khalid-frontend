@@ -519,7 +519,7 @@ const AhmedFoodLayout = ({
                     {item.phase && (
                       <span className={`text-[10px] sm:text-[11px] font-semibold px-3 py-1 rounded-full uppercase tracking-[0.08em] whitespace-nowrap shrink-0 ${isLight
                         ? 'bg-[#2563EB]/10 text-[#2563EB]'
-                        : 'bg-[#4169E1]/15 text-[#4169E1] border border-[#4169E1]/30'
+                        : 'bg-[#3558D4]/15 text-[#4169E1] border border-[#4169E1]/30'
                         }`}>
                         {item.phase}
                       </span>
@@ -574,7 +574,7 @@ const AhmedFoodLayout = ({
                     key={idx}
                     className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-semibold border transition-all ${isLight
                       ? 'bg-[#EBF2FF] text-[#2563EB] border-[#BFDBFE]'
-                      : 'bg-[#4169E1]/15 text-[#4169E1] border-[#4169E1]/35'
+                      : 'bg-[#3558D4]/15 text-[#4169E1] border-[#4169E1]/35'
                       }`}
                   >
                     {tool}
@@ -1001,7 +1001,7 @@ const AhmedFoodLayout = ({
   const starsCount = Math.min(5, Math.max(1, Number(heroStars || 5)));
 
   return (
-    <div className={`w-full overflow-x-hidden transition-colors duration-300 ${isLight ? 'bg-white text-neutral-900 selection:bg-[#2563EB]/30' : 'bg-[#0D0D0D] text-[#F2F0EB] selection:bg-[#4169E1]/30'} ${hideThemeToggle ? 'hardcoded-article' : ''}`}>
+    <div className={`w-full overflow-x-hidden transition-colors duration-300 ${isLight ? 'bg-white text-neutral-900 selection:bg-[#2563EB]/30' : 'bg-[#0D0D0D] text-[#F2F0EB] selection:bg-[#3558D4]/30'} ${hideThemeToggle ? 'hardcoded-article' : ''}`}>
 
       {/* HERO SECTION — LEAP 2026 STYLE 3-COLUMN */}
       <section className={`relative min-h-screen flex flex-col justify-between px-2.5 sm:px-6 md:px-10 lg:px-14 pt-[75px] sm:pt-[90px] md:pt-[100px] pb-4 sm:pb-6 overflow-hidden transition-colors duration-300 ${isLight ? 'bg-white text-neutral-900' : 'bg-[#0D0D0D] text-[#F2F0EB]'}`}>
@@ -1046,7 +1046,7 @@ const AhmedFoodLayout = ({
                   rel={ctaUrl.startsWith('http') ? 'noopener noreferrer' : undefined}
                   className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm !text-white transition-all duration-300 no-underline shadow-lg active:scale-95 ${isLight
                     ? 'bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_16px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.5)] border border-blue-600/20'
-                    : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#3158D4] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
+                    : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#2A48B8] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
                     }`}
                 >
                   <FaPaperPlane className="text-[11px] sm:text-xs !text-white fill-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" aria-hidden="true" />
@@ -1058,7 +1058,7 @@ const AhmedFoodLayout = ({
                   data-track-destination="#contact" onClick={handleStartProject}
                   className={`group inline-flex items-center gap-2 px-6 sm:px-8 py-2.5 sm:py-3 rounded-full font-bold uppercase tracking-wider text-xs sm:text-sm !text-white transition-all duration-300 border-none cursor-pointer shadow-lg active:scale-95 ${isLight
                     ? 'bg-[#2563EB] hover:bg-[#1D4ED8] shadow-[0_4px_16px_rgba(37,99,235,0.35)] hover:shadow-[0_6px_22px_rgba(37,99,235,0.5)] border border-blue-600/20'
-                    : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#3158D4] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
+                    : 'bg-gradient-to-r from-[#2563EB] to-[#4169E1] hover:from-[#1D4ED8] hover:to-[#2A48B8] shadow-[0_0_20px_rgba(65,105,225,0.6)] hover:shadow-[0_0_30px_rgba(65,105,225,0.9)] border border-blue-400/40'
                     }`}
                 >
                   <FaPaperPlane className="text-[11px] sm:text-xs !text-white fill-white transition-transform duration-200 group-hover:translate-x-0.5 shrink-0" aria-hidden="true" />
@@ -1081,7 +1081,7 @@ const AhmedFoodLayout = ({
                         type="button"
                         onClick={() => setActiveVideo(index)}
                         className={`text-[10px] sm:text-xs font-semibold px-2 sm:px-5 py-2 sm:py-2.5 rounded-full border transition-all duration-200 cursor-pointer text-center flex items-center justify-center leading-tight active:scale-95 shadow-sm min-h-[40px] sm:min-h-0 ${activeVideo === index
-                          ? (isLight ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-md shadow-[#2563EB]/25' : 'bg-[#4169E1] text-white border-[#4169E1] shadow-md shadow-[#4169E1]/25')
+                          ? (isLight ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-md shadow-[#2563EB]/25' : 'bg-[#3558D4] text-white border-[#4169E1] shadow-md shadow-[#4169E1]/25')
                           : (isLight ? 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400 hover:text-black' : 'bg-[#141414] text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white')
                           }`}
                       >
@@ -1098,7 +1098,7 @@ const AhmedFoodLayout = ({
                         type="button"
                         onClick={() => setActiveVideo(index)}
                         className={`text-[10px] sm:text-xs font-semibold px-2 sm:px-5 py-2 sm:py-2.5 rounded-full border transition-all duration-200 cursor-pointer text-center flex items-center justify-center leading-tight active:scale-95 shadow-sm min-h-[40px] sm:min-h-0 ${activeVideo === index
-                          ? (isLight ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-md shadow-[#2563EB]/25' : 'bg-[#4169E1] text-white border-[#4169E1] shadow-md shadow-[#4169E1]/25')
+                          ? (isLight ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-md shadow-[#2563EB]/25' : 'bg-[#3558D4] text-white border-[#4169E1] shadow-md shadow-[#4169E1]/25')
                           : (isLight ? 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400 hover:text-black' : 'bg-[#141414] text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white')
                           }`}
                       >
@@ -1116,7 +1116,7 @@ const AhmedFoodLayout = ({
                       type="button"
                       onClick={() => setActiveVideo(idx)}
                       className={`text-[10px] sm:text-xs font-semibold px-2.5 sm:px-5 py-2 sm:py-2.5 rounded-full border transition-all duration-200 cursor-pointer text-center flex items-center justify-center leading-tight active:scale-95 shadow-sm min-h-[40px] sm:min-h-0 ${activeVideo === idx
-                        ? (isLight ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-md shadow-[#2563EB]/25' : 'bg-[#4169E1] text-white border-[#4169E1] shadow-md shadow-[#4169E1]/25')
+                        ? (isLight ? 'bg-[#2563EB] text-white border-[#2563EB] shadow-md shadow-[#2563EB]/25' : 'bg-[#3558D4] text-white border-[#4169E1] shadow-md shadow-[#4169E1]/25')
                         : (isLight ? 'bg-white text-zinc-700 border-zinc-200 hover:border-zinc-400 hover:text-black' : 'bg-[#141414] text-zinc-400 border-zinc-800 hover:border-zinc-600 hover:text-white')
                         }`}
                     >
@@ -1210,7 +1210,7 @@ const AhmedFoodLayout = ({
                   rel="noopener noreferrer"
                   className={`inline-flex items-center justify-center gap-1.5 px-5 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-semibold transition-all duration-300 shadow-md hover:scale-105 active:scale-95 whitespace-nowrap shrink-0 ${isLight
                     ? 'bg-[#2563EB] hover:bg-[#1d4ed8] text-white shadow-blue-500/20'
-                    : 'bg-[#4169E1] hover:bg-[#3558c8] text-white shadow-[#4169E1]/25'
+                    : 'bg-[#3558D4] hover:bg-[#2A48B8] text-white shadow-[#4169E1]/25'
                     }`}
                 >
                   <span>Book a scoping call</span>
@@ -1395,7 +1395,7 @@ const AhmedFoodLayout = ({
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <span className={`inline-flex items-center px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] mb-2.5 ${isLight ? 'bg-blue-50 text-[#2563EB]' : 'bg-[#4169E1]/15 text-[#4169E1]'
+                  <span className={`inline-flex items-center px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] mb-2.5 ${isLight ? 'bg-blue-50 text-[#2563EB]' : 'bg-[#3558D4]/15 text-[#4169E1]'
                     }`}>
                     Next Project
                   </span>
@@ -1450,7 +1450,7 @@ const AhmedFoodLayout = ({
                   <div className="mb-3.5">
                     <span className={`inline-flex items-center px-3.5 py-1 rounded-full text-[10px] sm:text-[11px] font-bold uppercase tracking-[0.08em] ${isLight
                       ? 'bg-blue-50 text-[#2563EB]'
-                      : 'bg-[#4169E1]/15 text-[#4169E1]'
+                      : 'bg-[#3558D4]/15 text-[#4169E1]'
                       }`}>
                       {eyebrow}
                     </span>

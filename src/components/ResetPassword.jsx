@@ -52,7 +52,7 @@ const ResetPassword = () => {
           <h2 className="text-2xl md:text-3xl font-black tracking-tight uppercase bg-gradient-to-r from-[#4169E1] to-[#8B5CF6] bg-clip-text text-transparent">
             Reset Password
           </h2>
-          <div className="h-0.5 w-8 bg-[#4169E1] mx-auto mt-3 rounded-full" />
+          <div className="h-0.5 w-8 bg-[#3558D4] mx-auto mt-3 rounded-full" />
           <p className="text-[#0D0D0D]/60 text-xs md:text-sm mt-3 font-light">
             Set your new password below
           </p>
@@ -126,7 +126,7 @@ const ResetPassword = () => {
             <button
               type="submit"
               disabled={loading || !!message}
-              className="w-full bg-[#4169E1] text-white font-black py-4 rounded-xl hover:bg-[#0D0D0D] transition-all transform active:scale-95 disabled:opacity-50 text-[9px] uppercase tracking-[0.3em] flex items-center justify-center gap-3"
+              className="w-full bg-[#3558D4] text-white font-black py-4 rounded-xl hover:bg-[#0D0D0D] transition-all transform active:scale-95 disabled:opacity-50 text-[9px] uppercase tracking-[0.3em] flex items-center justify-center gap-3"
             >
               {loading ? (
                 <>

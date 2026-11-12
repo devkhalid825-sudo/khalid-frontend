@@ -8,13 +8,15 @@ import { useRateLimitTimer } from '@/hooks/useRateLimitTimer';
 import { useTheme } from '@/components/providers/ThemeProvider';
 
 import { trackFormSubmission } from '@/components/analytics/tracking';
+import ScopingFunnel from './ScopingFunnel';
 const PILLARS = [
   { id: 'configurators', label: 'Interactive 3D Web & Product Configurators' },
   { id: 'archviz', label: 'Real-Time ArchViz & Spatial VR/AR' },
   { id: 'commercial', label: 'Cinematic 3D Product & Commercial Visuals' },
 ];
 
-const Contact = () => {
+// Previous 6-field contact form, kept for reference / reuse. Not rendered by default anymore.
+export const LegacyContactForm = () => {
   const { isLight } = useTheme();
   const form = useRef();
   const recaptchaRef = useRef(null);
@@ -168,11 +170,11 @@ const Contact = () => {
   return (
     <section id="contact" className="py-10 md:py-16 bg-black text-white overflow-hidden">
       <div className="home-container">
-        <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold mb-6 md:mb-10 tracking-[-0.02em] leading-[1.1] text-center sm:text-left">
-          Contact Us
-        </h2>
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-start">
-          <div className="flex flex-col justify-center items-center text-center lg:items-start lg:text-left h-full pt-2 lg:pt-0 pb-6 xl:pb-0 xl:pl-12">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 xl:gap-16 items-stretch">
+          <div className="flex flex-col justify-center items-center text-center lg:items-start lg:text-left pt-2 lg:pt-0 pb-6 xl:pb-0 xl:pl-12">
+            <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold mb-6 md:mb-10 tracking-[-0.02em] leading-[1.1]">
+              Contact Us
+            </h2>
             <h3 className="text-2xl lg:text-4xl xl:text-5xl font-semibold leading-[1.2] tracking-[-0.02em]">
               Let’s build something remarkable.
             </h3>
@@ -198,13 +200,13 @@ const Contact = () => {
                         aria-pressed={isSelected}
                         className={`w-full flex items-center gap-3 text-left rounded-xl p-3.5 transition-all duration-300 border ${
                           isSelected
-                            ? 'bg-[#4169E1]/[0.08] border-[#4169E1]/50'
+                            ? 'bg-[#3558D4]/[0.08] border-[#4169E1]/50'
                             : 'bg-white/[0.03] border-white/[0.08] hover:border-white/20'
                         }`}
                       >
                         <span
                           className={`w-4 h-4 rounded border-2 flex items-center justify-center shrink-0 transition-all duration-200 ${
-                            isSelected ? 'bg-[#4169E1] border-[#4169E1]' : 'border-gray-500'
+                            isSelected ? 'bg-[#3558D4] border-[#4169E1]' : 'border-gray-500'
                           }`}
                         >
                           {isSelected && (
@@ -353,7 +355,7 @@ const Contact = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting || isLocked}
-                  className={`w-full contact-submit-btn font-bold py-3.5 md:py-4 rounded-full text-sm md:text-base transition-all transform active:scale-[0.98] bg-[#4169E1] hover:bg-[#3458c8] text-white shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 ${
+                  className={`w-full contact-submit-btn font-bold py-3.5 md:py-4 rounded-full text-sm md:text-base transition-all transform active:scale-[0.98] bg-[#3558D4] hover:bg-[#3458c8] text-white shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 ${
                     isSubmitting || isLocked
                       ? 'opacity-50 cursor-not-allowed pointer-events-none'
                       : ''
@@ -380,7 +382,7 @@ const Contact = () => {
                   href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex items-center justify-center gap-4 bg-[#4169E1]/5 hover:bg-[#4169E1]/15 text-[#4169E1] border border-[#4169E1]/20 py-4 md:py-5 px-5 md:px-8 rounded-2xl transition-all duration-300 group"
+                  className="flex items-center justify-center gap-4 bg-[#3558D4]/5 hover:bg-[#3558D4]/15 text-[#4169E1] border border-[#4169E1]/20 py-4 md:py-5 px-5 md:px-8 rounded-2xl transition-all duration-300 group"
                 >
                   <SiCalendly className="w-6 h-6 md:w-7 md:h-7 group-hover:scale-110 transition-transform duration-300" />
                   <div className="text-left">
@@ -398,7 +400,7 @@ const Contact = () => {
             <div className="bg-[#111111] border border-white/10 rounded-[2rem] p-8 md:p-12 max-w-lg w-full text-center shadow-2xl">
               <div
                 className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 ${
-                  submitStatus === 'success' ? 'bg-[#4169E1]/20 text-[#4169E1]' : 'bg-red-400/20 text-red-400'
+                  submitStatus === 'success' ? 'bg-[#3558D4]/20 text-[#4169E1]' : 'bg-red-400/20 text-red-400'
                 }`}
               >
                 {submitStatus === 'success' ? (
@@ -424,7 +426,7 @@ const Contact = () => {
 
               <button
                 onClick={closeModal}
-                className="w-full bg-[#4169E1] text-black font-bold py-4 rounded-full transition-transform active:scale-95 hover:bg-[#8ab4ff]"
+                className="w-full bg-[#3558D4] text-black font-bold py-4 rounded-full transition-transform active:scale-95 hover:bg-[#8ab4ff]"
               >
                 Close
               </button>
@@ -435,5 +437,8 @@ const Contact = () => {
     </section>
   );
 };
+
+// Site-wide contact block (homepage, services, industries, portfolio, blog, ...): the 3-tap scoping funnel.
+const Contact = () => <ScopingFunnel sectionId="contact" formId="main_contact" />;
 
 export default Contact;

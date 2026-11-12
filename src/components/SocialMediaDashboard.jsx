@@ -118,14 +118,14 @@ const SocialMediaDashboard = () => {
   return (
     <div>
       {msg && (
-        <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#4169E1] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center gap-3 animate-in fade-in text-[10px] uppercase tracking-widest">
+        <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#3558D4] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center gap-3 animate-in fade-in text-[10px] uppercase tracking-widest">
           {msg}
         </div>
       )}
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 md:mb-8">
         <h3 className="text-[#0D0D0D] text-xl font-black tracking-tight uppercase">Social Media</h3>
-        <button onClick={openNewForm} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#4169E1] text-white font-black px-5 py-3 rounded-xl hover:bg-[#0D0D0D] transition-all text-[8px] uppercase tracking-[0.2em]">
+        <button onClick={openNewForm} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#3558D4] text-white font-black px-5 py-3 rounded-xl hover:bg-[#0D0D0D] transition-all text-[8px] uppercase tracking-[0.2em]">
           <FiPlus /> Add Video
         </button>
       </div>
@@ -173,7 +173,7 @@ const SocialMediaDashboard = () => {
               </div>
               <div className="flex gap-3 pt-4 border-t border-[#0D0D0D]/20">
                 <button type="button" onClick={() => setShowForm(false)} className="flex-1 border border-[#0D0D0D]/20 text-[#0D0D0D]/40 font-black py-3.5 rounded-xl hover:bg-[#0D0D0D]/10 transition-all text-[8px] uppercase tracking-[0.2em]">Cancel</button>
-                <button type="submit" disabled={saving} className="flex-1 bg-[#4169E1] text-white font-black py-3.5 rounded-xl hover:bg-[#0D0D0D] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
+                <button type="submit" disabled={saving} className="flex-1 bg-[#3558D4] text-white font-black py-3.5 rounded-xl hover:bg-[#0D0D0D] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
                   <FiSave /> {saving ? 'Saving...' : 'Save'}
                 </button>
               </div>

@@ -418,7 +418,7 @@ const ClientReviews = ({ initialReviews = null }) => {
                           <span className="font-medium text-white">{review.clientName}</span>
                           {review.company && (
                             <>
-                              <span className="w-1 h-1 bg-[#4169E1] rounded-full"></span>
+                              <span className="w-1 h-1 bg-[#3558D4] rounded-full"></span>
                               <span>{review.company}</span>
                             </>
                           )}
@@ -498,7 +498,7 @@ const ClientReviews = ({ initialReviews = null }) => {
                       />
                       <div className="pt-4">
                         <h3 className="text-white text-[15px] font-semibold tracking-[-0.02em] leading-snug font-heading">
-                          <span className="text-[#4169E1] mr-1 hidden group-hover/card:inline">/</span>
+                          <span className="text-[#3558D4] mr-1 hidden group-hover/card:inline">/</span>
                           {review.projectName || review.clientName}
                         </h3>
                         <p className="text-zinc-400 text-[13px] mt-1 font-serif leading-[1.75]">

@@ -221,7 +221,7 @@ const SortableProjectItem = ({ project, onEdit, onDelete, onMoveUp, onMoveDown, 
           {(project.category || '').split(',').map((c, i) => (
             <span key={i} className="text-[#4169E1]">{c.trim()}{i < (project.category || '').split(',').length - 1 ? ', ' : ''}</span>
           ))}
-          <span className="w-1 h-1 rounded-full bg-[#4169E1]/40 shrink-0"></span>
+          <span className="w-1 h-1 rounded-full bg-[#3558D4]/40 shrink-0"></span>
           <span className="truncate max-w-[60px] md:max-w-none text-[#555]">{project.path}</span>
         </div>
       </div>
@@ -869,14 +869,14 @@ const ProjectDashboard = () => {
 
   return (
     <div className="bg-[#0D0D0D] p-4 md:p-6 rounded-2xl">
-      {msg && <div className="fixed top-8 right-8 z-[60] bg-[#4169E1] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center gap-3 animate-in fade-in text-[10px] uppercase tracking-widest"><FiSave size={18} /> {msg}</div>}
+      {msg && <div className="fixed top-8 right-8 z-[60] bg-[#3558D4] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center gap-3 animate-in fade-in text-[10px] uppercase tracking-widest"><FiSave size={18} /> {msg}</div>}
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 md:mb-8">
         <div>
           <h3 className="text-base md:text-lg font-bold uppercase tracking-tight text-[#F2F0EB]">Projects</h3>
           <p className="text-[#888] text-[7px] md:text-[8px] uppercase tracking-widest mt-1">Manage portfolio projects — drag to reorder</p>
         </div>
-        <button onClick={openNewForm} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#4169E1] text-white font-bold px-5 py-3 rounded-xl hover:bg-[#3158D4] transition-all text-[8px] uppercase tracking-[0.2em]"><FiPlus /> New Project</button>
+        <button onClick={openNewForm} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#3558D4] text-white font-bold px-5 py-3 rounded-xl hover:bg-[#2A48B8] transition-all text-[8px] uppercase tracking-[0.2em]"><FiPlus /> New Project</button>
       </div>
 
       {projects.length === 0 ? (
@@ -961,7 +961,7 @@ const ProjectDashboard = () => {
                             const current = form.category ? form.category.split(',').map(s => s.trim()).filter(Boolean) : [];
                             const next = selected ? current.filter(x => x !== c) : [...current, c];
                             setForm(f => ({ ...f, category: next.join(', ') }));
-                          }} className={`text-[10px] font-bold uppercase tracking-[0.12em] px-3.5 py-2 rounded-xl border transition-all ${selected ? 'bg-[#4169E1] text-white border-[#4169E1]' : 'bg-[#1A1A1A] text-[#555] border-[#333] hover:border-[#4169E1]/50'
+                          }} className={`text-[10px] font-bold uppercase tracking-[0.12em] px-3.5 py-2 rounded-xl border transition-all ${selected ? 'bg-[#3558D4] text-white border-[#4169E1]' : 'bg-[#1A1A1A] text-[#555] border-[#333] hover:border-[#4169E1]/50'
                             }`}>{c}</button>
                         );
                       })}
@@ -1028,7 +1028,7 @@ const ProjectDashboard = () => {
                         type="button"
                         onClick={() => setForm(f => ({ ...f, heroAspectRatio: r.id }))}
                         className={`text-left p-3 rounded-xl border transition-all ${(form.heroAspectRatio || 'video') === r.id
-                          ? 'bg-[#4169E1]/20 border-[#4169E1] text-white'
+                          ? 'bg-[#3558D4]/20 border-[#4169E1] text-white'
                           : 'bg-[#1A1A1A] border-[#333] text-[#888] hover:border-[#555] hover:text-[#ccc]'
                           }`}
                       >
@@ -1044,7 +1044,7 @@ const ProjectDashboard = () => {
                   <div className="flex gap-2 mb-3">
                     {['image', 'video'].map((t) => (
                       <button key={t} type="button" onClick={() => setForm(f => ({ ...f, heroType: t, heroImage: t === 'video' ? '' : f.heroImage, heroVideo: t === 'image' ? '' : f.heroVideo }))}
-                        className={`flex-1 text-[9px] font-bold uppercase tracking-widest px-4 py-3 rounded-xl border transition-all ${form.heroType === t ? 'bg-[#4169E1] text-white border-[#4169E1]' : 'bg-[#1A1A1A] text-[#555] border-[#333] hover:border-[#4169E1]/50'}`}>
+                        className={`flex-1 text-[9px] font-bold uppercase tracking-widest px-4 py-3 rounded-xl border transition-all ${form.heroType === t ? 'bg-[#3558D4] text-white border-[#4169E1]' : 'bg-[#1A1A1A] text-[#555] border-[#333] hover:border-[#4169E1]/50'}`}>
                         {t === 'image' ? '🖼 Hero Image' : '🎬 Hero Video / Reel'}
                       </button>
                     ))}
@@ -1569,7 +1569,7 @@ const ProjectDashboard = () => {
                               type="button"
                               disabled={idx === 0}
                               onClick={() => moveGalleryImage('galleryThumbnails', idx, -1)}
-                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#4169E1] text-white rounded disabled:opacity-20 transition-colors"
+                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#3558D4] text-white rounded disabled:opacity-20 transition-colors"
                               title="Move left"
                             >
                               <FiChevronLeft size={13} />
@@ -1578,7 +1578,7 @@ const ProjectDashboard = () => {
                               type="button"
                               disabled={idx === allUrls.length - 1}
                               onClick={() => moveGalleryImage('galleryThumbnails', idx, 1)}
-                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#4169E1] text-white rounded disabled:opacity-20 transition-colors"
+                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#3558D4] text-white rounded disabled:opacity-20 transition-colors"
                               title="Move right"
                             >
                               <FiChevronRight size={13} />
@@ -1671,7 +1671,7 @@ const ProjectDashboard = () => {
                               type="button"
                               disabled={idx === 0}
                               onClick={() => moveGalleryImage('galleryStills', idx, -1)}
-                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#4169E1] text-white rounded disabled:opacity-20 transition-colors"
+                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#3558D4] text-white rounded disabled:opacity-20 transition-colors"
                               title="Move left"
                             >
                               <FiChevronLeft size={13} />
@@ -1680,7 +1680,7 @@ const ProjectDashboard = () => {
                               type="button"
                               disabled={idx === allUrls.length - 1}
                               onClick={() => moveGalleryImage('galleryStills', idx, 1)}
-                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#4169E1] text-white rounded disabled:opacity-20 transition-colors"
+                              className="p-1.5 bg-[#1A1A1A] hover:bg-[#3558D4] text-white rounded disabled:opacity-20 transition-colors"
                               title="Move right"
                             >
                               <FiChevronRight size={13} />
@@ -1861,7 +1861,7 @@ const ProjectDashboard = () => {
                         const trimmed = t.trim();
                         if (!trimmed) return null;
                         return (
-                          <span key={idx} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#4169E1]/20 text-[#60a5fa] border border-[#4169E1]/30">
+                          <span key={idx} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-semibold bg-[#3558D4]/20 text-[#60a5fa] border border-[#4169E1]/30">
                             {trimmed}
                           </span>
                         );
@@ -2028,7 +2028,7 @@ const ProjectDashboard = () => {
                         const trimmed = k.trim();
                         if (!trimmed) return null;
                         return (
-                          <span key={idx} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#4169E1]/15 text-[#93c5fd] border border-[#4169E1]/30">
+                          <span key={idx} className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-medium bg-[#3558D4]/15 text-[#93c5fd] border border-[#4169E1]/30">
                             #{trimmed}
                           </span>
                         );
@@ -2072,7 +2072,7 @@ const ProjectDashboard = () => {
               {/* ===== ACTION BUTTONS ===== */}
               <div className="flex gap-3 pt-4 sticky bottom-0 bg-[#0D0D0D] pb-2">
                 <button type="button" onClick={() => setShowForm(false)} className="flex-1 border border-[#333] text-[#888] font-bold py-3.5 rounded-xl hover:bg-[#1A1A1A] transition-all text-[8px] uppercase tracking-[0.2em]">Cancel</button>
-                <button type="submit" disabled={saving} className="flex-1 bg-[#4169E1] text-white font-bold py-3.5 rounded-xl hover:bg-[#3158D4] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em]">
+                <button type="submit" disabled={saving} className="flex-1 bg-[#3558D4] text-white font-bold py-3.5 rounded-xl hover:bg-[#2A48B8] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em]">
                   {saving ? 'Saving...' : editing ? 'Update Project' : 'Create Project'}
                 </button>
               </div>

@@ -37,23 +37,24 @@ const ReCaptcha = forwardRef(function ReCaptcha(
 
   useEffect(() => {
     let intervalId = null;
+    const container = containerRef.current;
+    if (!container) return undefined;
 
-    // Reset container if theme changes so grecaptcha re-renders with the updated theme
-    if (containerRef.current) {
-      containerRef.current.innerHTML = '';
-      widgetIdRef.current = null;
-    }
+    // grecaptcha refuses to render twice into the same element, so on every
+    // theme change we mount a brand-new child node instead of reusing one.
+    container.innerHTML = '';
+    widgetIdRef.current = null;
+    const mountEl = document.createElement('div');
+    container.appendChild(mountEl);
 
     const renderWidget = () => {
-      if (!containerRef.current) return false;
-      // If already rendered inside this container
-      if (containerRef.current.children.length > 0) return true;
+      if (widgetIdRef.current !== null) return true;
       if (typeof window === 'undefined' || !window.grecaptcha || typeof window.grecaptcha.render !== 'function') {
         return false;
       }
 
       try {
-        widgetIdRef.current = window.grecaptcha.render(containerRef.current, {
+        widgetIdRef.current = window.grecaptcha.render(mountEl, {
           sitekey: SITE_KEY,
           theme: theme,
           callback: (token) => {
@@ -97,6 +98,11 @@ const ReCaptcha = forwardRef(function ReCaptcha(
 
     return () => {
       if (intervalId) clearInterval(intervalId);
+      // The old widget (and its token) is discarded on theme change/unmount,
+      // so tell the parent to clear any stored token.
+      if (widgetIdRef.current !== null && onExpiredRef.current) onExpiredRef.current();
+      widgetIdRef.current = null;
+      if (mountEl.parentNode) mountEl.parentNode.removeChild(mountEl);
     };
   }, [theme]);
 

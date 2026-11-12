@@ -20,7 +20,7 @@ const stackImg = getImgSrc(_stackImg);
 
 const CTA = ({ label, to = "/contact", className = "" }) =>
   !label ? null : (
-    <Link href={to} className={`inline-flex items-center gap-2 text-[13px] font-semibold px-[20px] py-[10px] bg-[#4169E1] text-white rounded-[6px] border border-[#4169E1] hover:bg-[#3158D4] transition-all duration-200 ${className}`}>
+    <Link href={to} className={`inline-flex items-center gap-2 text-[13px] font-semibold px-[20px] py-[10px] bg-[#3558D4] text-white rounded-[6px] border border-[#4169E1] hover:bg-[#2A48B8] transition-all duration-200 ${className}`}>
       {label} <span aria-hidden="true">→</span>
     </Link>
   );
@@ -67,7 +67,7 @@ const ProcessCard = ({ step, phase, title, desc }) => (
   <div className="bg-[#1A1A1A] rounded-2xl p-4 md:p-8 border border-white/5">
     <div className="flex items-center gap-3 md:gap-4 mb-3 md:mb-4">
       <span className="text-2xl md:text-4xl font-bold text-[#4169E1]">{step}</span>
-      {phase && <span className="text-[10px] md:text-[12px] font-semibold text-[#4169E1] bg-[#4169E1]/10 px-2 md:px-3 py-1 rounded-full uppercase tracking-[0.08em]">{phase}</span>}
+      {phase && <span className="text-[10px] md:text-[12px] font-semibold text-[#4169E1] bg-[#3558D4]/10 px-2 md:px-3 py-1 rounded-full uppercase tracking-[0.08em]">{phase}</span>}
     </div>
     <h4 className="text-sm md:text-[20px] font-semibold text-[#F2F0EB] mb-2 md:mb-3">{title}</h4>
     {desc && <p className="text-xs md:text-[15px] font-light leading-[1.6] md:leading-[1.7] text-white/70">{desc}</p>}
@@ -91,7 +91,7 @@ const FaqItem = ({ q, a, isOpen, onToggle }) => (
   </div>
 );
 
-const TextCarousel = ({ texts }) => { const [current, setCurrent] = useState(0); const [touchStart, setTouchStart] = useState(null); const onTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX); const onTouchEnd = (e) => { if (touchStart === null) return; const diff = touchStart - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) { if (diff > 0 && current < texts.length - 1) setCurrent(current + 1); if (diff < 0 && current > 0) setCurrent(current - 1); } setTouchStart(null); }; return (<div><div className="relative min-h-[140px]" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>{texts.map((text, i) => (<div key={i} className={`transition-all duration-500 ${i === current ? "opacity-100 relative" : "opacity-0 absolute inset-0 pointer-events-none"}`}><ReadText text={text} /></div>))}</div><div className="flex gap-2 mt-6">{texts.map((_, i) => (<button key={i} onClick={() => setCurrent(i)} className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${i === current ? "bg-[#4169E1] w-6" : "bg-[#333] w-2"}`} />))}</div></div>);
+const TextCarousel = ({ texts }) => { const [current, setCurrent] = useState(0); const [touchStart, setTouchStart] = useState(null); const onTouchStart = (e) => setTouchStart(e.targetTouches[0].clientX); const onTouchEnd = (e) => { if (touchStart === null) return; const diff = touchStart - e.changedTouches[0].clientX; if (Math.abs(diff) > 50) { if (diff > 0 && current < texts.length - 1) setCurrent(current + 1); if (diff < 0 && current > 0) setCurrent(current - 1); } setTouchStart(null); }; return (<div><div className="relative min-h-[140px]" onTouchStart={onTouchStart} onTouchEnd={onTouchEnd}>{texts.map((text, i) => (<div key={i} className={`transition-all duration-500 ${i === current ? "opacity-100 relative" : "opacity-0 absolute inset-0 pointer-events-none"}`}><ReadText text={text} /></div>))}</div><div className="flex gap-2 mt-6">{texts.map((_, i) => (<button key={i} onClick={() => setCurrent(i)} className={`h-2 rounded-full transition-all duration-300 cursor-pointer ${i === current ? "bg-[#3558D4] w-6" : "bg-[#333] w-2"}`} />))}</div></div>);
 };
 
 const UKProductVisualisationPage = () => {
@@ -103,7 +103,7 @@ const UKProductVisualisationPage = () => {
     return (
 
   <>
-    <div className="w-full overflow-x-hidden bg-[#0D0D0D] text-[#F2F0EB] selection:bg-[#4169E1]/30 selection:text-[#F2F0EB]">
+    <div className="w-full overflow-x-hidden bg-[#0D0D0D] text-[#F2F0EB] selection:bg-[#3558D4]/30 selection:text-[#F2F0EB]">
 
       {/* Hero Section */}
       <section className="bg-[#0D0D0D] px-5 md:px-8 pt-[100px] md:pt-[140px] pb-[3rem] relative md:min-h-screen">
@@ -112,7 +112,7 @@ const UKProductVisualisationPage = () => {
           3D Product Visualisation Services for UK E-Commerce and Manufacturers<span className="text-[#4169E1]">.</span>
         </h1>
         <div className="flex flex-wrap gap-[8px] mt-[3rem]">
-          <button data-track-destination="/contact" onClick={handleStartProject} className="text-[13px] font-semibold px-[20px] py-[10px] bg-[#4169E1] text-white rounded-[6px] border border-[#4169E1] hover:bg-[#3158D4] transition-all duration-200 cursor-pointer ml-0 md:ml-auto">Start a Project →</button>
+          <button data-track-destination="/contact" onClick={handleStartProject} className="text-[13px] font-semibold px-[20px] py-[10px] bg-[#3558D4] text-white rounded-[6px] border border-[#4169E1] hover:bg-[#2A48B8] transition-all duration-200 cursor-pointer ml-0 md:ml-auto">Start a Project →</button>
         </div>
         <div className="w-full mt-[1.5rem] h-[40vh] sm:h-[55vh] md:h-[65vh] overflow-hidden">
           <iframe
@@ -301,7 +301,7 @@ const UKProductVisualisationPage = () => {
             <button className="inline-flex items-center gap-[8px] text-[13px] font-medium px-[20px] py-[10px] border border-[#333] rounded-[6px] hover:border-[#F2F0EB] hover:text-[#F2F0EB] transition-all duration-200 text-[#888] bg-transparent cursor-pointer" data-track-destination="/" onClick={() => navigate("/")}>
               <span aria-hidden="true">▦</span> All work
             </button>
-            <button className="inline-flex items-center gap-[8px] text-[13px] font-semibold px-[20px] py-[10px] bg-[#4169E1] text-white rounded-[6px] hover:bg-[#3158D4] transition-all duration-200 border-none cursor-pointer" data-track-destination="/contact" onClick={handleStartProject}>
+            <button className="inline-flex items-center gap-[8px] text-[13px] font-semibold px-[20px] py-[10px] bg-[#3558D4] text-white rounded-[6px] hover:bg-[#2A48B8] transition-all duration-200 border-none cursor-pointer" data-track-destination="/contact" onClick={handleStartProject}>
               <span aria-hidden="true">➤</span> Start a project
             </button>
           </div>
@@ -310,7 +310,7 @@ const UKProductVisualisationPage = () => {
       <ServiceRelatedLinks relatedServices={[{label:"3D Animation Services",to:"/uk/services/3d-animation-services"},{label:"3D Product Configurators",to:"/services/3d-product-configurators"},{label:"Architectural Visualization",to:"/services/architectural-visualization"}]} relatedArticles={[{label:"Architectural Visualization: The Complete Guide",to:"/blog/architectural-visualization-guide"},{label:"Industrial 3D Animation",to:"/blog/industrial-animation"}]} />
       <LatestWork />
       <ClientReviews />
-      <div id="contact"><Contact /></div>
+      <Contact />
       <Footer />
     </div>
   

@@ -11,7 +11,7 @@ const HeroCTA = () => {
       <div className="flex items-center justify-start gap-4 w-full">
         <Link
           href="/contact"
-          className="inline-flex items-center justify-center gap-2 bg-[#4169E1] hover:bg-[#3558c8] active:bg-[#2e4fba] text-white font-medium text-sm sm:text-base tracking-wide rounded-full px-5 py-2.5 transition-all duration-300 shadow-md shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40"
+          className="inline-flex items-center justify-center gap-2 bg-[#3558D4] hover:bg-[#2A48B8] active:bg-[#2e4fba] text-white font-medium text-sm sm:text-base tracking-wide rounded-full px-5 py-2.5 transition-all duration-300 shadow-md shadow-[#4169E1]/20 hover:shadow-[#4169E1]/40"
         >
           <svg
             viewBox="0 0 24 24"

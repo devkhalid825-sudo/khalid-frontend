@@ -31,7 +31,8 @@ const serviceRedirects = [
 ];
 
 const redirects = [
-  ["/case-study", "/case-studies"],
+  ["/case-study", "/portfolio"],
+  ["/case-studies", "/portfolio"],
   ["/case-study-one", "/project/gabani-emerald"],
   ["/case-study-two", "/project/villa-luxury"],
   ["/case-study-three", "/project/volvo-configurator"],
@@ -299,9 +300,6 @@ const nextConfig: NextConfig = {
   typescript: {
     // Avoid running heavy tsc during build on low-RAM servers/VPS to prevent OOM "Killed"
     ignoreBuildErrors: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
   },
 
   // Webpack alias (production build)

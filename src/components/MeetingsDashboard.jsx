@@ -227,12 +227,12 @@ const MeetingsDashboard = () => {
 
           <button
             onClick={() => { setActiveTab('requests'); setIsSidebarOpen(false); }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${activeTab === 'requests' ? 'bg-[#4169E1] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${activeTab === 'requests' ? 'bg-[#3558D4] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
           >
             <FiMail className="text-base" />
             <span className="text-[10px] uppercase tracking-[0.2em]">Meetings</span>
             {pendingMeetings.length > 0 && (
-              <span className={`ml-auto px-1.5 py-0.5 rounded text-[8px] ${activeTab === 'requests' ? 'bg-white/20 text-white font-black' : 'bg-[#4169E1]/10 text-[#4169E1]'}`}>
+              <span className={`ml-auto px-1.5 py-0.5 rounded text-[8px] ${activeTab === 'requests' ? 'bg-white/20 text-white font-black' : 'bg-[#3558D4]/10 text-[#4169E1]'}`}>
                 {pendingMeetings.length}
               </span>
             )}
@@ -240,12 +240,12 @@ const MeetingsDashboard = () => {
 
           <button
             onClick={() => { setActiveTab('contacts'); setIsSidebarOpen(false); }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${activeTab === 'contacts' ? 'bg-[#4169E1] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${activeTab === 'contacts' ? 'bg-[#3558D4] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
           >
             <FiMessageSquare className="text-base" />
             <span className="text-[10px] uppercase tracking-[0.2em]">Inquiries</span>
             {contacts.length > 0 && (
-              <span className={`ml-auto px-1.5 py-0.5 rounded text-[8px] ${activeTab === 'contacts' ? 'bg-white/20 text-white font-black' : 'bg-[#4169E1]/10 text-[#4169E1]'}`}>
+              <span className={`ml-auto px-1.5 py-0.5 rounded text-[8px] ${activeTab === 'contacts' ? 'bg-white/20 text-white font-black' : 'bg-[#3558D4]/10 text-[#4169E1]'}`}>
                 {contacts.length}
               </span>
             )}
@@ -253,12 +253,12 @@ const MeetingsDashboard = () => {
 
           <button
             onClick={() => { setActiveTab('approved'); setIsSidebarOpen(false); }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${activeTab === 'approved' ? 'bg-[#4169E1] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${activeTab === 'approved' ? 'bg-[#3558D4] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
           >
             <FiCheckCircle className="text-base" />
             <span className="text-[10px] uppercase tracking-[0.2em]">Authorized</span>
             {approvedMeetings.length > 0 && (
-              <span className={`ml-auto px-1.5 py-0.5 rounded text-[8px] ${activeTab === 'approved' ? 'bg-white/20 text-white font-black' : 'bg-[#4169E1]/10 text-[#4169E1]'}`}>
+              <span className={`ml-auto px-1.5 py-0.5 rounded text-[8px] ${activeTab === 'approved' ? 'bg-white/20 text-white font-black' : 'bg-[#3558D4]/10 text-[#4169E1]'}`}>
                 {approvedMeetings.length}
               </span>
             )}
@@ -266,7 +266,7 @@ const MeetingsDashboard = () => {
 
           <button
             onClick={() => { setActiveTab('blogs'); setIsSidebarOpen(false); }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'blogs' ? 'bg-[#4169E1] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'blogs' ? 'bg-[#3558D4] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
           >
             <FiEdit3 className="text-base" />
             <span className="text-[10px] uppercase tracking-[0.2em]">Blogs</span>
@@ -274,7 +274,7 @@ const MeetingsDashboard = () => {
 
           <button
             onClick={() => { setActiveTab('projects'); setIsSidebarOpen(false); }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'projects' ? 'bg-[#4169E1] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'projects' ? 'bg-[#3558D4] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
           >
             <FiBriefcase className="text-base" />
             <span className="text-[10px] uppercase tracking-[0.2em]">Projects</span>
@@ -282,7 +282,7 @@ const MeetingsDashboard = () => {
 
           <button
             onClick={() => { setActiveTab('case-studies'); setIsSidebarOpen(false); }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'case-studies' ? 'bg-[#4169E1] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'case-studies' ? 'bg-[#3558D4] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
           >
             <FiFileText className="text-base" />
             <span className="text-[10px] uppercase tracking-[0.2em]">Case Studies</span>
@@ -290,7 +290,7 @@ const MeetingsDashboard = () => {
 
           <button
             onClick={() => { setActiveTab('reviews'); setIsSidebarOpen(false); }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'reviews' ? 'bg-[#4169E1] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'reviews' ? 'bg-[#3558D4] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
           >
             <FiMessageSquare className="text-base" />
             <span className="text-[10px] uppercase tracking-[0.2em]">Reviews</span>
@@ -298,7 +298,7 @@ const MeetingsDashboard = () => {
 
           <button
             onClick={() => { setActiveTab('social'); setIsSidebarOpen(false); }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'social' ? 'bg-[#4169E1] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'social' ? 'bg-[#3558D4] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
           >
             <FiEdit3 className="text-base" />
             <span className="text-[10px] uppercase tracking-[0.2em]">Social Media</span>
@@ -306,7 +306,7 @@ const MeetingsDashboard = () => {
 
           <button
             onClick={() => { setActiveTab('settings'); setIsSidebarOpen(false); }}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'settings' ? 'bg-[#4169E1] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-500 group ${activeTab === 'settings' ? 'bg-[#3558D4] text-white font-bold shadow-lg' : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'}`}
           >
             <FiSettings className={`text-base transition-transform duration-500 ${activeTab === 'settings' ? '' : 'group-hover:rotate-90'}`} />
             <span className="text-[10px] uppercase tracking-[0.2em]">Settings</span>
@@ -340,7 +340,7 @@ const MeetingsDashboard = () => {
 
         {/* Success Alert */}
         {successMsg && (
-          <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#4169E1] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center justify-center md:justify-start gap-3 animate-in fade-in slide-in-from-top-10 md:slide-in-from-right-10 duration-500 text-[10px] uppercase tracking-widest">
+          <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#3558D4] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center justify-center md:justify-start gap-3 animate-in fade-in slide-in-from-top-10 md:slide-in-from-right-10 duration-500 text-[10px] uppercase tracking-widest">
             <FiCheckCircle size={18} /> {successMsg}
           </div>
         )}
@@ -390,7 +390,7 @@ const MeetingsDashboard = () => {
                 <h4 className="text-sm md:text-base font-black uppercase tracking-tight bg-gradient-to-r from-[#4169E1] to-[#8B5CF6] bg-clip-text text-transparent">Activity Overview</h4>
                 <p className="text-[#0D0D0D]/80 text-[8px] md:text-[10px] uppercase tracking-widest mt-1">Monthly engagement trend</p>
               </div>
-              <span className="flex items-center gap-1.5 text-[#4169E1]"><span className="w-2 h-2 rounded-full bg-[#4169E1]"></span> Activity</span>
+              <span className="flex items-center gap-1.5 text-[#4169E1]"><span className="w-2 h-2 rounded-full bg-[#3558D4]"></span> Activity</span>
             </div>
             <div className="relative h-32 md:h-44">
               <svg viewBox="0 0 600 200" className="w-full h-full" preserveAspectRatio="none">
@@ -457,7 +457,7 @@ const MeetingsDashboard = () => {
                 { label: 'Blogs', value: blogCount, opacity: '0.15' },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-1.5 md:gap-2">
-                  <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full shrink-0 bg-[#4169E1]" style={{ opacity: item.opacity }}></span>
+                  <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full shrink-0 bg-[#3558D4]" style={{ opacity: item.opacity }}></span>
                   <span className="text-[6px] md:text-[7px] text-[#0D0D0D]/70 font-bold uppercase tracking-widest truncate">{item.label}</span>
                   <span className="text-[7px] md:text-[8px] text-[#0D0D0D] font-black ml-auto">{item.value}</span>
                 </div>
@@ -472,7 +472,7 @@ const MeetingsDashboard = () => {
               <h2 className="text-2xl md:text-4xl font-black tracking-tight uppercase bg-gradient-to-r from-[#4169E1] to-[#8B5CF6] bg-clip-text text-transparent">
                 {activeTab === 'approved' ? 'Archives' : activeTab === 'contacts' ? 'Contact Inquiries' : activeTab === 'blogs' ? 'Blog Management' : activeTab === 'projects' ? 'Project Management' : activeTab === 'case-studies' ? 'Case Study Management' : activeTab === 'reviews' ? 'Review Management' : activeTab === 'social' ? 'Social Media' : 'Meeting Inbox'}
               </h2>
-              <div className="h-0.5 w-8 bg-[#4169E1] mt-3 rounded-full" />
+              <div className="h-0.5 w-8 bg-[#3558D4] mt-3 rounded-full" />
               <p className="text-[#0D0D0D]/70 text-[11px] md:text-sm mt-3 font-light max-w-md leading-relaxed">
                 {activeTab === 'requests' ? 'Review and authorize incoming meeting requests from the contact form.' :
                   activeTab === 'approved' ? 'Archive of all authorized and completed meeting nodes.' :
@@ -532,7 +532,7 @@ const MeetingsDashboard = () => {
                         <button
                           onClick={() => handleApprove(meeting.id)}
                           disabled={actionLoading === meeting.id}
-                          className="w-full sm:w-auto bg-[#0D0D0D] text-white font-black px-6 py-3 rounded-xl hover:bg-[#4169E1] transition-all duration-500 text-[8px] uppercase tracking-[0.2em] disabled:opacity-30 flex items-center justify-center gap-2 group/btn"
+                          className="w-full sm:w-auto bg-[#0D0D0D] text-white font-black px-6 py-3 rounded-xl hover:bg-[#3558D4] transition-all duration-500 text-[8px] uppercase tracking-[0.2em] disabled:opacity-30 flex items-center justify-center gap-2 group/btn"
                         >
                           {actionLoading === meeting.id ? 'Working...' : 'Approve'}
                           <FiChevronRight className="group-hover/btn:translate-x-1 transition-transform" />
@@ -546,7 +546,7 @@ const MeetingsDashboard = () => {
                       </>
                     ) : (
                       <>
-                        <div className="w-full sm:w-auto bg-[#4169E1]/10 border border-[#4169E1]/20 text-[#4169E1] font-black px-6 py-3 rounded-xl text-[8px] uppercase tracking-[0.4em] flex items-center justify-center gap-2">
+                        <div className="w-full sm:w-auto bg-[#3558D4]/10 border border-[#4169E1]/20 text-[#4169E1] font-black px-6 py-3 rounded-xl text-[8px] uppercase tracking-[0.4em] flex items-center justify-center gap-2">
                           <FiCheckCircle className="text-base animate-pulse" /> Authorized
                         </div>
                         <button
@@ -699,7 +699,7 @@ const MeetingsDashboard = () => {
                 <button
                   type="submit"
                   disabled={actionLoading === 'password'}
-                  className="w-full bg-[#4169E1] text-white font-black py-4 rounded-xl hover:bg-[#0D0D0D] transition-all transform active:scale-95 disabled:opacity-50 text-[9px] uppercase tracking-[0.3em]"
+                  className="w-full bg-[#3558D4] text-white font-black py-4 rounded-xl hover:bg-[#0D0D0D] transition-all transform active:scale-95 disabled:opacity-50 text-[9px] uppercase tracking-[0.3em]"
                 >
                   {actionLoading === 'password' ? 'Updating...' : 'Update Password'}
                 </button>

@@ -22,7 +22,7 @@ const SortableReviewItem = ({ review, onEdit, onDelete }) => {
           <span>{review.company || '—'}</span>
           {review.projectName && (
             <>
-              <span className="w-1 h-1 rounded-full bg-[#4169E1]/40 shrink-0"></span>
+              <span className="w-1 h-1 rounded-full bg-[#3558D4]/40 shrink-0"></span>
               <span className="truncate max-w-[60px] md:max-w-none">{review.projectName}</span>
             </>
           )}
@@ -156,14 +156,14 @@ const ReviewDashboard = () => {
   return (
     <div>
       {msg && (
-        <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#4169E1] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center gap-3 animate-in fade-in text-[10px] uppercase tracking-widest">
+        <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#3558D4] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center gap-3 animate-in fade-in text-[10px] uppercase tracking-widest">
           {msg}
         </div>
       )}
 
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 md:mb-8">
         <h3 className="text-[#0D0D0D] text-xl font-black tracking-tight uppercase">Client Reviews</h3>
-        <button onClick={openNewForm} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#4169E1] text-white font-black px-5 py-3 rounded-xl hover:bg-[#0D0D0D] transition-all text-[8px] uppercase tracking-[0.2em]">
+        <button onClick={openNewForm} className="w-full sm:w-auto flex items-center justify-center gap-2 bg-[#3558D4] text-white font-black px-5 py-3 rounded-xl hover:bg-[#0D0D0D] transition-all text-[8px] uppercase tracking-[0.2em]">
           <FiPlus /> Add Review
         </button>
       </div>
@@ -176,7 +176,7 @@ const ReviewDashboard = () => {
           {localStorage.getItem(importedKey) ? (
             <p className="text-[#0D0D0D]/40 text-[7px] uppercase tracking-[0.3em]">Already imported. Click Add Review to create new ones.</p>
           ) : (
-            <button onClick={importStaticReviews} disabled={seeding} className="inline-flex items-center gap-2 bg-[#4169E1] text-white font-black px-6 py-3 rounded-xl hover:bg-[#0D0D0D] transition-all text-[8px] uppercase tracking-[0.2em] disabled:opacity-50">
+            <button onClick={importStaticReviews} disabled={seeding} className="inline-flex items-center gap-2 bg-[#3558D4] text-white font-black px-6 py-3 rounded-xl hover:bg-[#0D0D0D] transition-all text-[8px] uppercase tracking-[0.2em] disabled:opacity-50">
               {seeding ? 'Importing...' : 'Import Existing Reviews'}
             </button>
           )}
@@ -239,7 +239,7 @@ const ReviewDashboard = () => {
               </div>
               <div className="flex gap-3 pt-4 border-t border-[#0D0D0D]/20">
                 <button type="button" onClick={() => setShowForm(false)} className="flex-1 border border-[#0D0D0D]/20 text-[#0D0D0D]/40 font-black py-3.5 rounded-xl hover:bg-[#0D0D0D]/10 transition-all text-[8px] uppercase tracking-[0.2em]">Cancel</button>
-                <button type="submit" disabled={saving} className="flex-1 bg-[#4169E1] text-white font-black py-3.5 rounded-xl hover:bg-[#0D0D0D] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
+                <button type="submit" disabled={saving} className="flex-1 bg-[#3558D4] text-white font-black py-3.5 rounded-xl hover:bg-[#0D0D0D] transition-all disabled:opacity-50 text-[8px] uppercase tracking-[0.2em] flex items-center justify-center gap-2">
                   <FiSave /> {saving ? 'Saving...' : 'Save'}
                 </button>
               </div>

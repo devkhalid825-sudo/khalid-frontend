@@ -232,7 +232,7 @@ body {
 .mobile-review-pagination .swiper-pagination-bullet-active,
 .mobile-social-pagination .swiper-pagination-bullet-active,
 .mobile-solutions-pagination .swiper-pagination-bullet-active {
-  background: #4169e1;
+  background: #3558D4;
 }
 
 /* Performance: GPU acceleration for hover animations */
@@ -468,7 +468,7 @@ body {
   display: block;
   width: 3rem;
   height: 3px;
-  background: #4169E1;
+  background: #3558D4;
   margin-bottom: 1rem;
 }
 
@@ -616,7 +616,7 @@ body {
   display: block;
   width: 3rem;
   height: 3px;
-  background: #4169E1;
+  background: #3558D4;
   margin-bottom: 1rem;
 }
 
@@ -862,7 +862,7 @@ html.light .text-white\/10 {
 }
 
 /* 7. Hover States: NEVER turn text white on white background on hover */
-html.light .hover\:text-white:hover:not(.capabilities-explore-btn):not([class*="hover:bg-[#4169E1]"]):not([class*="hover:bg-blue"]),
+html.light .hover\:text-white:hover:not(.capabilities-explore-btn):not([class*="hover:bg-[#3558D4]"]):not([class*="hover:bg-blue"]),
 html.light .group:hover .group-hover\:text-white:not(.capabilities-explore-btn *):not([class*="group-hover/btn"]):not(.latest-work-cta):not([class*="group-hover:bg"]) {
   color: #4169e1 !important;
 }
@@ -979,12 +979,12 @@ html.light .rounded-\[2rem\].border {
 }
 
 /* 12. Primary Action Buttons & Accents - MUST KEEP WHITE TEXT */
-html.light .bg-\[\#4169E1\],
-html.light .bg-\[\#4169E1\] *,
-html.light .bg-\[\#3158D4\],
-html.light .bg-\[\#3158D4\] *,
-html.light .bg-\[\#3558c8\],
-html.light .bg-\[\#3558c8\] *,
+html.light .bg-\[\#3558D4\],
+html.light .bg-\[\#3558D4\] *,
+html.light .bg-\[\#2A48B8\],
+html.light .bg-\[\#2A48B8\] *,
+html.light .bg-\[\#2A48B8\],
+html.light .bg-\[\#2A48B8\] *,
 html.light .bg-\[\#2563EB\],
 html.light .bg-\[\#2563EB\] *,
 html.light .bg-\[\#25D366\],
@@ -995,8 +995,8 @@ html.light .bg-blue-600,
 html.light .bg-blue-600 *,
 html.light .bg-blue-500,
 html.light .bg-blue-500 *,
-html.light button.bg-\[\#4169E1\],
-html.light a.bg-\[\#4169E1\],
+html.light button.bg-\[\#3558D4\],
+html.light a.bg-\[\#3558D4\],
 html.light .btn-primary,
 html.light .btn-primary *,
 html.light .capabilities-explore-btn:hover,
@@ -1005,12 +1005,12 @@ html.light .capabilities-explore-btn:hover *,
 .capabilities-explore-btn:hover *,
 html.light a.capabilities-explore-btn:hover,
 html.light a.capabilities-explore-btn:hover *,
-html.light .hover\:bg-\[\#4169E1\]:hover,
-html.light .hover\:bg-\[\#4169E1\]:hover *,
-html.light a.hover\:bg-\[\#4169E1\]:hover,
-html.light a.hover\:bg-\[\#4169E1\]:hover *,
-html.light button.hover\:bg-\[\#4169E1\]:hover,
-html.light button.hover\:bg-\[\#4169E1\]:hover * {
+html.light .hover\:bg-\[\#3558D4\]:hover,
+html.light .hover\:bg-\[\#3558D4\]:hover *,
+html.light a.hover\:bg-\[\#3558D4\]:hover,
+html.light a.hover\:bg-\[\#3558D4\]:hover *,
+html.light button.hover\:bg-\[\#3558D4\]:hover,
+html.light button.hover\:bg-\[\#3558D4\]:hover * {
   color: #ffffff !important;
 }
 
@@ -1022,7 +1022,7 @@ html.light .contact-submit-btn,
 html.light #contact button[type="submit"],
 html[data-theme="light"] .contact-submit-btn,
 html[data-theme="light"] #contact button[type="submit"] {
-  background-color: #4169E1 !important;
+  background-color: #3558D4 !important;
   color: #ffffff !important;
   border: 1px solid rgba(65, 105, 225, 0.4) !important;
   box-shadow: 0 10px 25px -5px rgba(65, 105, 225, 0.35), 0 8px 10px -6px rgba(65, 105, 225, 0.25) !important;
@@ -1167,7 +1167,7 @@ html.light textarea:focus {
 /* Footer must always stay in signature dark blue (night effect), even in day mode */
 html.light .site-main-footer,
 html.light footer.site-main-footer {
-  background: linear-gradient(180deg, #1a2a6e 0%, #1a2a6e 100%) !important;
+  background: #3558D4 !important;
   color: #ffffff !important;
   border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
@@ -1219,7 +1219,7 @@ html.light .site-main-footer .site-logo {
 
 html.light .site-main-footer ul li a:hover,
 html.light .site-main-footer a:hover {
-  color: #4169e1 !important;
+  color: #ffffff !important;
 }
 
 /* Industries Section in Day Mode - clean light cards */
@@ -1292,7 +1292,7 @@ html.light .mobile-solutions-pagination .swiper-pagination-bullet {
 html.light .mobile-review-pagination .swiper-pagination-bullet-active,
 html.light .mobile-social-pagination .swiper-pagination-bullet-active,
 html.light .mobile-solutions-pagination .swiper-pagination-bullet-active {
-  background: #4169e1 !important;
+  background: #3558D4 !important;
 }
 
 /* Social Media Icons in Day Mode (was invisible on white bg) */
@@ -1367,13 +1367,20 @@ html.light #news .news-heading {
   color: #ffffff !important;
 }
 
+/* "View All" on the blue News banner: white pill, blue text in both modes */
+#news .news-view-all-btn,
+html.light #news .news-view-all-btn {
+  background-color: #ffffff !important;
+  color: #3558D4 !important;
+}
+
 /* ==========================================================================
    FOOTER STYLING (SIGNATURE DEEP BLUE GRADIENT PRESERVED)
    ========================================================================== */
 
 .site-main-footer,
 footer.site-main-footer {
-  background: linear-gradient(180deg, #0a1628 0%, #1a2a6e 100%) !important;
+  background: #3558D4 !important;
   color: #ffffff !important;
   border-top: 1px solid rgba(255, 255, 255, 0.12) !important;
 }
@@ -1400,7 +1407,7 @@ footer.site-main-footer {
 }
 
 .site-main-footer p a:hover {
-  color: #4169e1 !important;
+  color: #ffffff !important;
 }
 
 .site-main-footer .footer-email-input {
@@ -1468,12 +1475,16 @@ html.light .solutions-nav-btn:hover {
 }
 
 html.light .solutions-cta-btn {
-  background-color: #0a0f1d !important;
+  background-color: #3558D4 !important;
+  color: #ffffff !important;
+}
+.solutions-cta-btn *,
+html.light .solutions-cta-btn * {
   color: #ffffff !important;
 }
 
 html.light .solutions-cta-btn:hover {
-  background-color: #1e293b !important;
+  background-color: #2A48B8 !important;
   color: #ffffff !important;
 }
 
@@ -1648,7 +1659,7 @@ html.light .services-hero-section button.text-white\/70:hover {
 html.light .services-hero-section .bg-\[\#111\] {
   background-color: #111111 !important;
 }
-html.light .services-hero-section .bg-\[\#4169E1\]\/20 {
+html.light .services-hero-section .bg-\[\#3558D4\]\/20 {
   background-color: rgba(65, 105, 225, 0.2) !important;
 }
 html.light .services-hero-section .border-white\/10 {
@@ -1750,6 +1761,28 @@ html.light header {
 }
 
 
+/* Desktop hero: fade the left/right edges into the page background */
+.hero-edge-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 12%;
+  z-index: 10; /* above the side cards, below the center card (z-20) and arrows (z-40) */
+  pointer-events: none;
+  --hero-fade-bg: 0, 0, 0;
+}
+.hero-edge-fade-left {
+  left: 0;
+  background: linear-gradient(90deg, rgba(var(--hero-fade-bg), 1) 0%, rgba(var(--hero-fade-bg), 0.75) 35%, rgba(var(--hero-fade-bg), 0) 100%);
+}
+.hero-edge-fade-right {
+  right: 0;
+  background: linear-gradient(270deg, rgba(var(--hero-fade-bg), 1) 0%, rgba(var(--hero-fade-bg), 0.75) 35%, rgba(var(--hero-fade-bg), 0) 100%);
+}
+html.light .hero-edge-fade {
+  --hero-fade-bg: 255, 255, 255;
+}
+
 /* Desktop Hero Day/Light Mode - Clean Pure White without dark gradient or black shadow bleeding */
 html.light .desktop-hero-section {
   background-color: #ffffff !important;
@@ -1796,14 +1829,18 @@ header.header-menu-open .header-main-logo,
 /* Header Contact Us button: Always solid Royal Blue with crisp white text */
 .site-header-contact-btn,
 html.light .site-header-contact-btn,
-header .site-header-contact-btn {
-  background-color: #4169E1 !important;
+header .site-header-contact-btn,
+.latest-work-portfolio-btn,
+html.light .latest-work-portfolio-btn {
+  background-color: #3558D4 !important;
   color: #ffffff !important;
   border: none !important;
 }
 .site-header-contact-btn:hover,
-html.light .site-header-contact-btn:hover {
-  background-color: #3158D4 !important;
+html.light .site-header-contact-btn:hover,
+.latest-work-portfolio-btn:hover,
+html.light .latest-work-portfolio-btn:hover {
+  background-color: #2A48B8 !important;
   color: #ffffff !important;
 }
 
@@ -2672,7 +2709,7 @@ html.light .home-cards-section { --hc-line: transparent; --hc-card: #ffffff; bor
   color: #a1a1aa;
 }
 html.light .home-eyebrow { color: #475569 !important; }
-.home-eyebrow-dot { width: 6px; height: 6px; border-radius: 999px; background: #4169E1; }
+.home-eyebrow-dot { width: 6px; height: 6px; border-radius: 999px; background: #3558D4; }
 
 .home-card {
   position: relative;
@@ -2817,3 +2854,93 @@ html.light .services-hero-section header:not(.header-scrolled):not(.header-menu-
 header.header-scrolled.bg-white\/95:not(.header-menu-open) .header-main-logo {
   filter: brightness(0) !important;
 }
+
+
+/* Header "Let's Talk" button: soft pulsing glow, periodic shine sweep, arrow nudges on hover */
+.site-header-contact-btn {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  animation: lets-talk-glow 2.8s ease-in-out infinite;
+}
+.site-header-contact-btn::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(120deg, transparent 0%, rgba(255, 255, 255, 0.45) 50%, transparent 100%);
+  transform: skewX(-20deg);
+  animation: lets-talk-shine 3.5s ease-in-out infinite;
+  pointer-events: none;
+  z-index: 0;
+}
+.site-header-contact-btn .lets-talk-label {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.site-header-contact-btn .lets-talk-arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+.site-header-contact-btn:hover .lets-talk-arrow {
+  transform: translateX(4px);
+}
+@keyframes lets-talk-glow {
+  0%, 100% { box-shadow: 0 2px 15px rgba(53, 88, 212, 0.35); }
+  50% { box-shadow: 0 2px 26px rgba(53, 88, 212, 0.7), 0 0 0 4px rgba(53, 88, 212, 0.15); }
+}
+@keyframes lets-talk-shine {
+  0%, 60% { left: -75%; }
+  100% { left: 130%; }
+}
+/* Day mode: no glow halo around the button, only a light shadow */
+html.light .site-header-contact-btn,
+html[data-theme="light"] .site-header-contact-btn {
+  animation: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12) !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  .site-header-contact-btn,
+  .site-header-contact-btn::after { animation: none; }
+}
+
+
+/* ==========================================================================
+   Scoping funnel ("Move forward.") - day mode
+   ========================================================================== */
+html.light .sf-section { background-color: #ffffff !important; }
+html.light .sf-card {
+  background-color: #ffffff !important;
+  border-color: rgba(15, 23, 42, 0.1) !important;
+  box-shadow: 0 10px 40px -12px rgba(0, 0, 0, 0.12) !important;
+}
+html.light .sf-title { color: #0f172a !important; }
+html.light .sf-muted { color: #52525b !important; }
+html.light .sf-option {
+  background-color: #f8fafc !important;
+  border-color: rgba(15, 23, 42, 0.12) !important;
+}
+html.light .sf-option:hover { border-color: rgba(15, 23, 42, 0.3) !important; }
+html.light .sf-option-active {
+  background-color: rgba(53, 88, 212, 0.06) !important;
+  border-color: #3558D4 !important;
+  box-shadow: 0 0 0 1px rgba(53, 88, 212, 0.15) !important;
+}
+html.light .sf-radio { border-color: #cbd5e1 !important; }
+html.light .sf-step-idle { background-color: #e4e4e7 !important; color: #71717a !important; }
+html.light .sf-back { color: #71717a !important; }
+html.light .sf-back:hover { color: #0f172a !important; }
+html.light .sf-next { background-color: #3558D4 !important; color: #ffffff !important; }
+html.light .sf-next:hover { background-color: #2A48B8 !important; }
+html.light .sf-input {
+  background-color: #f8fafc !important;
+  border-color: #d4d4d8 !important;
+  color: #0f172a !important;
+}
+html.light .sf-input::placeholder { color: #a1a1aa !important; }
+html.light .sf-input:focus { border-color: #3558D4 !important; }

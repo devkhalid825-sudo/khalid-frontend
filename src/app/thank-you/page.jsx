@@ -20,7 +20,7 @@ export default function Page() {
       <BookingConfirmedEvent />
       <Header />
       <section className="max-w-3xl mx-auto px-5 sm:px-8 pt-40 md:pt-52 pb-24 md:pb-32 text-center">
-        <div className="mx-auto mb-8 w-14 h-14 rounded-full border border-[#4169E1]/40 bg-[#4169E1]/10 flex items-center justify-center">
+        <div className="mx-auto mb-8 w-14 h-14 rounded-full border border-[#4169E1]/40 bg-[#3558D4]/10 flex items-center justify-center">
           <svg className="w-6 h-6 text-[#8aa4f0]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24" aria-hidden="true">
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>

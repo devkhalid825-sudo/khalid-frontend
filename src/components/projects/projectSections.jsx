@@ -44,7 +44,7 @@ export const ProcessSection = ({ steps }) => (
         <div key={i} className="bg-white rounded-2xl p-6 md:p-8 border border-[#E0DDD7]">
           <div className="flex items-center gap-4 mb-4">
             <span className="text-3xl md:text-4xl font-bold text-[#4169E1]">{item.step}</span>
-            <span className="text-[11px] md:text-[12px] font-semibold text-[#4169E1] bg-[#4169E1]/10 px-3 py-1 rounded-full uppercase tracking-[0.08em]">{item.phase}</span>
+            <span className="text-[11px] md:text-[12px] font-semibold text-[#4169E1] bg-[#3558D4]/10 px-3 py-1 rounded-full uppercase tracking-[0.08em]">{item.phase}</span>
           </div>
           <h3 className="text-[17px] md:text-[20px] font-semibold text-[#0D0D0D] mb-3">{item.title}</h3>
           <p className="text-sm md:text-[15px] font-light leading-[1.7] text-[#555]/80">{item.desc}</p>

@@ -28,7 +28,7 @@ const CaseStudyLayout = ({
     };
 
     return (
-        <div className="w-full overflow-x-hidden bg-[#F2F0EB] text-[#0D0D0D] selection:bg-[#4169E1]/30 selection:text-[#0D0D0D]">
+        <div className="w-full overflow-x-hidden bg-[#F2F0EB] text-[#0D0D0D] selection:bg-[#3558D4]/30 selection:text-[#0D0D0D]">
             <section className="bg-[#0D0D0D] px-8 py-[3.5rem] pb-[3rem] relative min-h-screen">
                 <Header />
 
@@ -57,7 +57,7 @@ const CaseStudyLayout = ({
                                     target={btn.external ? "_blank" : "_self"}
                                     rel={btn.external ? "noopener noreferrer" : ""}
                                     className={`text-[13px] font-medium px-[18px] py-[8px] rounded-full border transition-all duration-200 cursor-pointer ${btn.primary
-                                        ? 'bg-[#4169E1] text-white border-[#4169E1] hover:bg-[#3158D4]'
+                                        ? 'bg-[#3558D4] text-white border-[#4169E1] hover:bg-[#2A48B8]'
                                         : 'bg-transparent text-[#888] border-[#333] hover:border-[#666] hover:text-[#ccc]'
                                         }`}
                                 >
@@ -68,7 +68,7 @@ const CaseStudyLayout = ({
                                     key={i}
                                     onClick={btn.onClick || handleStartProject}
                                     className={`text-[13px] font-medium px-[18px] py-[8px] rounded-full border transition-all duration-200 cursor-pointer ${btn.primary
-                                        ? 'bg-[#4169E1] text-white border-[#4169E1] hover:bg-[#3158D4]'
+                                        ? 'bg-[#3558D4] text-white border-[#4169E1] hover:bg-[#2A48B8]'
                                         : 'bg-transparent text-[#888] border-[#333] hover:border-[#666] hover:text-[#ccc]'
                                         }`}
                                 >
@@ -114,7 +114,7 @@ const CaseStudyLayout = ({
                             <FaThLarge aria-hidden="true" /> All work
                         </button>
                         <button
-                            className="inline-flex items-center gap-[8px] text-[13px] font-semibold px-[20px] py-[10px] bg-[#4169E1] text-white rounded-[6px] hover:bg-[#3158D4] transition-all duration-200 border-none cursor-pointer"
+                            className="inline-flex items-center gap-[8px] text-[13px] font-semibold px-[20px] py-[10px] bg-[#3558D4] text-white rounded-[6px] hover:bg-[#2A48B8] transition-all duration-200 border-none cursor-pointer"
                             data-track-destination="#contact" onClick={handleStartProject}
                         >
                             <FaPaperPlane aria-hidden="true" /> Start a project
@@ -122,7 +122,7 @@ const CaseStudyLayout = ({
                     </div>
                     {nextProject && (
                         <button
-                            className="inline-flex items-center gap-[8px] text-[13px] font-semibold px-[20px] py-[10px] bg-[#4169E1] text-white rounded-[6px] hover:bg-[#3158D4] transition-all duration-200 border-none cursor-pointer"
+                            className="inline-flex items-center gap-[8px] text-[13px] font-semibold px-[20px] py-[10px] bg-[#3558D4] text-white rounded-[6px] hover:bg-[#2A48B8] transition-all duration-200 border-none cursor-pointer"
                             onClick={() => navigate(nextProject.path)}
                         >
                             Next Project →

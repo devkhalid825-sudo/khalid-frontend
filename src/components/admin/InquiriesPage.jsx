@@ -57,14 +57,14 @@ const InquiriesPage = () => {
     <>
       
       {successMsg && (
-        <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#4169E1] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center justify-center md:justify-start gap-3 text-[10px] uppercase tracking-widest">
+        <div className="fixed top-24 right-6 left-6 md:left-auto md:top-8 md:right-8 z-[60] bg-[#3558D4] text-white px-6 py-4 rounded-2xl shadow-lg font-bold flex items-center justify-center md:justify-start gap-3 text-[10px] uppercase tracking-widest">
           <FiCheckCircle size={18} /> {successMsg}
         </div>
       )}
 
       <header className="mb-6 md:mb-8">
         <h2 className="text-2xl md:text-4xl font-black tracking-tight uppercase bg-gradient-to-r from-[#4169E1] to-[#8B5CF6] bg-clip-text text-transparent">Contact Inquiries</h2>
-        <div className="h-0.5 w-8 bg-[#4169E1] mt-3 rounded-full" />
+        <div className="h-0.5 w-8 bg-[#3558D4] mt-3 rounded-full" />
         <p className="text-[#0D0D0D]/70 text-[11px] md:text-sm mt-3 font-light max-w-md leading-relaxed">
           Incoming inquiries from the contact page.
         </p>
@@ -103,7 +103,7 @@ const InquiriesPage = () => {
                       {contact.interest || 'General'}
                     </span>
                     {contact.pillars && contact.pillars !== contact.interest && (
-                      <span className="px-2.5 md:px-3 py-1 md:py-1.5 bg-[#4169E1]/10 border border-[#4169E1]/20 rounded-full text-[7px] md:text-[8px] font-bold uppercase tracking-widest text-[#4169E1]/80 max-w-[180px] truncate">
+                      <span className="px-2.5 md:px-3 py-1 md:py-1.5 bg-[#3558D4]/10 border border-[#4169E1]/20 rounded-full text-[7px] md:text-[8px] font-bold uppercase tracking-widest text-[#4169E1]/80 max-w-[180px] truncate">
                         Pillars: {contact.pillars}
                       </span>
                     )}

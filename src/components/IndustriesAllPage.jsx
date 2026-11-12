@@ -92,7 +92,7 @@ return (
                                 <div className="flex flex-wrap gap-4">
                                     <button
                                         data-track-destination="/contact" onClick={() => navigate('/contact')}
-                                        className="px-6 py-3 bg-[#4169E1] text-white rounded-full text-sm font-medium hover:bg-[#3558c8] transition-all shadow-lg shadow-[#4169E1]/20"
+                                        className="px-6 py-3 bg-[#3558D4] text-white rounded-full text-sm font-medium hover:bg-[#2A48B8] transition-all shadow-lg shadow-[#4169E1]/20"
                                     >
                                         Discuss Your Project
                                     </button>
@@ -109,7 +109,7 @@ return (
                             </div>
                             <div className="flex-1 relative w-full flex justify-center lg:justify-end">
                                 <div className="relative w-full max-w-[500px] aspect-[4/3]">
-                                    <div className="relative bg-[#4169E1]/20 p-3 md:p-4 rounded-[20px] sm:rounded-[32px] shadow-2xl h-full border border-white/10"
+                                    <div className="relative bg-[#3558D4]/20 p-3 md:p-4 rounded-[20px] sm:rounded-[32px] shadow-2xl h-full border border-white/10"
                                         style={{ clipPath: "polygon(0 0, calc(100% - 40px) 0, 100% 40px, 100% 100%, 0 100%)" }}
                                     >
                                         <div className="relative w-full h-full bg-[#111] p-[2px] rounded-[18px] sm:rounded-[28px] overflow-hidden"
@@ -150,7 +150,7 @@ return (
                                         key={cat}
                                         onClick={() => handleCategoryChange(cat)}
                                         className={`text-xs font-medium px-4 py-2 rounded-full border transition-all duration-300 ${activeCategory === cat && !searchTerm
-                                            ? 'bg-[#4169E1]/10 text-[#4169E1] border-[#4169E1]/30 shadow-[inset_0_0_0_1px_rgba(65,105,225,0.3)]'
+                                            ? 'bg-[#3558D4]/10 text-[#4169E1] border-[#4169E1]/30 shadow-[inset_0_0_0_1px_rgba(65,105,225,0.3)]'
                                             : 'bg-transparent text-zinc-500 border-white/[0.06] hover:text-zinc-300 hover:border-white/[0.15]'
                                             }`}
                                     >
@@ -163,7 +163,7 @@ return (
                         {/* RIGHT: CTA Panel */}
                         <div className="lg:col-span-5">
                             <div className="h-full bg-gradient-to-br from-[#0e0e0e] via-[#0e0e0e] to-[#0e0e0e] rounded-2xl border border-white/[0.04] p-6 md:p-8 flex flex-col justify-center relative overflow-hidden group">
-                                <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#4169E1]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#4169E1]/10 transition-all duration-700"></div>
+                                <div className="absolute -top-20 -right-20 w-40 h-40 bg-[#3558D4]/5 rounded-full blur-3xl pointer-events-none group-hover:bg-[#3558D4]/10 transition-all duration-700"></div>
                                 <div className="relative z-10">
                                     <span className="text-[11px] font-semibold tracking-[0.15em] uppercase text-[#4169E1] mb-2 block">Let&apos;s Collaborate</span>
                                     <h3 className="text-xl md:text-2xl font-bold tracking-tight text-white mb-3">
@@ -175,7 +175,7 @@ return (
                                     <div className="flex flex-wrap gap-2.5">
                                         <button
                                             data-track-destination="/contact" onClick={() => navigate('/contact')}
-                                            className="inline-flex items-center gap-2 bg-[#4169E1] hover:bg-[#3158D4] text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-all shadow-lg shadow-[#4169E1]/20"
+                                            className="inline-flex items-center gap-2 bg-[#3558D4] hover:bg-[#2A48B8] text-white px-5 py-2.5 rounded-xl text-sm font-medium transition-all shadow-lg shadow-[#4169E1]/20"
                                         >
                                             Start a Project <FiArrowRight className="w-3.5 h-3.5" />
                                         </button>
@@ -208,7 +208,7 @@ return (
                                 onClick={() => navigate(`/industries/${ind.slug}`)}
                                 className="group bg-[#111111] border border-white/5 rounded-2xl p-5 hover:border-[#4169E1]/30 transition-all duration-500 cursor-pointer"
                             >
-                                <div className="w-10 h-10 rounded-full bg-[#4169E1]/10 flex items-center justify-center text-[#4169E1] text-sm mb-4">
+                                <div className="w-10 h-10 rounded-full bg-[#3558D4]/10 flex items-center justify-center text-[#4169E1] text-sm mb-4">
                                     {iconMap[ind.icon] || <HiOutlineBuildingOffice2 className="w-5 h-5" />}
                                 </div>
                                 <h3 className="text-sm font-bold text-white mb-2 group-hover:text-[#4169E1] transition-colors">{ind.title}</h3>
@@ -230,7 +230,7 @@ return (
                                         onClick={() => navigate(`/industries/${ind.slug}`)}
                                         className="snap-start shrink-0 w-[75vw] max-w-[280px] group bg-[#111111] border border-white/5 rounded-2xl p-5 hover:border-[#4169E1]/30 transition-all duration-500 cursor-pointer"
                                     >
-                                        <div className="w-10 h-10 rounded-full bg-[#4169E1]/10 flex items-center justify-center text-[#4169E1] text-sm mb-4">
+                                        <div className="w-10 h-10 rounded-full bg-[#3558D4]/10 flex items-center justify-center text-[#4169E1] text-sm mb-4">
                                             {iconMap[ind.icon] || <HiOutlineBuildingOffice2 className="w-5 h-5" />}
                                         </div>
                                         <h3 className="text-sm font-bold text-white mb-2 group-hover:text-[#4169E1] transition-colors">{ind.title}</h3>
@@ -253,7 +253,7 @@ return (
                                 onClick={() => navigate(`/industries/${ind.slug}`)}
                                 className="group relative bg-[#111111] border border-white/5 rounded-[2rem] p-8 md:p-10 hover:border-[#4169E1]/30 transition-all duration-500 hover:shadow-[0_0_40px_rgba(65,105,225,0.05)] cursor-pointer"
                             >
-                                <div className="w-14 h-14 rounded-full bg-[#4169E1]/10 flex items-center justify-center text-[#4169E1] text-xl mb-6">
+                                <div className="w-14 h-14 rounded-full bg-[#3558D4]/10 flex items-center justify-center text-[#4169E1] text-xl mb-6">
                                     {iconMap[ind.icon] || <HiOutlineBuildingOffice2 className="w-7 h-7" />}
                                 </div>
 

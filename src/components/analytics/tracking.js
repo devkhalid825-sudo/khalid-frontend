@@ -44,6 +44,9 @@ export const FORM_NAMES = {
   uk_contact: 'UK Contact Form',
   au_contact: 'AU Contact Form',
   footer_newsletter: 'Footer Newsletter Signup',
+  scoping_funnel: 'Scoping Funnel',
+  about_scoping_funnel: 'About Scoping Funnel',
+  capabilities_scoping_funnel: 'Capabilities Scoping Funnel',
 };
 
 // URL parameters Calendly adds on redirect that identify the invitee — never sent to GA4.

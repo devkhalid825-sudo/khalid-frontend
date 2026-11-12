@@ -86,17 +86,17 @@ const UsConfigurator = ({
           >
             <div className="absolute inset-0 bg-gradient-to-br from-blue-900/20 via-black to-zinc-900 opacity-90" />
             <div className="relative z-10 flex flex-col items-center text-center">
-              <span className="text-[11px] font-semibold text-[#4169E1] bg-[#4169E1]/10 border border-[#4169E1]/30 px-3 py-1 rounded-full uppercase tracking-widest mb-4">
+              <span className="text-[11px] font-semibold text-[#4169E1] bg-[#3558D4]/10 border border-[#4169E1]/30 px-3 py-1 rounded-full uppercase tracking-widest mb-4">
                 {badge}
               </span>
-              <div className="w-13 h-13 rounded-full bg-[#4169E1] text-white flex items-center justify-center shadow-lg shadow-[#4169E1]/40 mb-3 group-hover:scale-110 transition-transform">
+              <div className="w-13 h-13 rounded-full bg-[#3558D4] text-white flex items-center justify-center shadow-lg shadow-[#4169E1]/40 mb-3 group-hover:scale-110 transition-transform">
                 <svg className="w-6 h-6 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M18 3h-3M15 3h6v6M12 12l6-6M14 8l4-4M6 21h10M9 18v3m6-3v3" />
                 </svg>
               </div>
               <h4 className="text-base font-medium text-white mb-1">{title}</h4>
               <p className="text-xs text-zinc-400 max-w-xs">Click to launch the real-time 3D model in your browser</p>
-              <span className="mt-4 inline-flex items-center gap-2 bg-[#4169E1] text-white text-sm font-medium px-5 py-2.5 rounded-full transition-transform group-hover:scale-105">
+              <span className="mt-4 inline-flex items-center gap-2 bg-[#3558D4] text-white text-sm font-medium px-5 py-2.5 rounded-full transition-transform group-hover:scale-105">
                 View Live Demo
               </span>
             </div>

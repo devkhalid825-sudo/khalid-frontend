@@ -337,7 +337,7 @@ const News = ({ initialBlogs = null }) => {
   return (
     <section
       id="news"
-      className="w-full bg-[#1e2d6e] py-8 md:py-14 overflow-hidden flex flex-col justify-center relative"
+      className="w-full bg-[#3558D4] py-8 md:py-14 overflow-hidden flex flex-col justify-center relative"
     >
       <div className="w-full relative">
         <div className="home-container flex justify-between items-center gap-2 mb-6 md:mb-10">
@@ -349,7 +349,7 @@ const News = ({ initialBlogs = null }) => {
           </h2>
           <Link
             href="/blog"
-            className="rounded-full text-[11px] md:text-base bg-white text-[#4169E1] font-bold py-1.5 px-4 md:py-2 md:px-8 shadow-sm hover:scale-105 transition flex items-center justify-center whitespace-nowrap flex-shrink-0"
+            className="news-view-all-btn rounded-full text-[11px] md:text-base bg-white text-[#3558D4] font-bold py-1.5 px-4 md:py-2 md:px-8 shadow-sm hover:scale-105 transition flex items-center justify-center whitespace-nowrap flex-shrink-0"
           >
             View All
           </Link>
@@ -417,7 +417,7 @@ const News = ({ initialBlogs = null }) => {
                     <div className="mt-3 flex items-center justify-between text-[12px] md:text-[13px] font-medium" style={{ color: 'rgba(255,255,255,0.85)' }}>
                       <span>Read Article</span>
                       <span
-                        className="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-300 group-hover/card:bg-white group-hover/card:text-[#1e2d6e]"
+                        className="w-7 h-7 md:w-8 md:h-8 rounded-full flex items-center justify-center transition-all duration-300 group-hover/card:bg-white group-hover/card:text-[#4169E1]"
                         style={{ border: '1px solid rgba(255,255,255,0.3)' }}
                       >
                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">

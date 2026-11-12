@@ -48,7 +48,7 @@ const AdminLayout = ({ children }) => {
 
   const getLinkClass = (isActive) =>
     `w-full flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 text-[10px] uppercase tracking-[0.2em] ${isActive
-      ? 'bg-[#4169E1] text-white font-bold shadow-lg'
+      ? 'bg-[#3558D4] text-white font-bold shadow-lg'
       : 'text-[#0D0D0D]/80 hover:text-[#0D0D0D] hover:bg-[#0D0D0D]/10'
     }`;
 

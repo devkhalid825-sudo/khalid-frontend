@@ -99,7 +99,7 @@ const CaseStudies = ({ isLight = false, initialFeatured = null }) => {
           transition: all 0.3s ease;
         }
         .top-pagination .swiper-pagination-bullet-active {
-          background: #4169E1;
+          background: #3558D4;
           width: 24px;
           border-radius: 9999px;
         }

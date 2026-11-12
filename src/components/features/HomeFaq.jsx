@@ -41,7 +41,7 @@ const HomeFaq = () => {
                 aria-controls={`home-faq-panel-${tab.id}`}
                 onClick={() => selectTab(tab.id)}
                 className={`px-4 md:px-5 py-2.5 rounded-full border text-xs sm:text-[13px] font-semibold leading-snug md:whitespace-nowrap transition-colors cursor-pointer ${isActive
-                  ? 'bg-[#4169E1] border-[#4169E1] text-white'
+                  ? 'bg-[#3558D4] border-[#4169E1] text-white'
                   : isLight
                     ? 'bg-white border-zinc-300 text-zinc-700 hover:border-zinc-500 hover:text-black'
                     : 'bg-transparent border-zinc-700 text-zinc-300 hover:border-zinc-500 hover:text-white'

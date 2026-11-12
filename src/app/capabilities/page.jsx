@@ -2,15 +2,17 @@ import CapabilitiesPage from '@/components/CapabilitiesPage';
 import { buildMetadata } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { buildFaqSchema } from '@/lib/seo';
+import { CAPABILITIES_FAQS } from '@/seo/pageFaqs';
 
 const schema = {
   '@context': 'https://schema.org',
   '@type': 'WebPage',
   '@id': `${SITE_URL}/capabilities#webpage`,
   url: `${SITE_URL}/capabilities`,
-  name: 'Enterprise 3D Configurator, WebGL & AR/VR Services | Elipse Studio',
+  name: '3D Engineering, CAD-to-WebGL & Real-Time Tech Capabilities | Elipse Studio',
   description:
-    'Custom 3D web configurators, architectural VR walkthroughs, and enterprise WebGL development. Discover how Elipse Studio powers real-time 3D experiences.',
+    'Technical capabilities and engineering pipelines at Elipse Studio covering CAD optimization, WebGL, PlayCanvas, Unreal Engine 5 Pixel Streaming, VR, Shopify Plus/HubSpot integrations, and CGI production.',
   isPartOf: { '@id': `${SITE_URL}/#website` },
   about: { '@id': `${SITE_URL}/#organization` },
   breadcrumb: { '@id': `${SITE_URL}/capabilities#breadcrumb` },
@@ -21,11 +23,11 @@ const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   '@id': `${SITE_URL}/capabilities#service`,
-  name: 'Enterprise 3D Configurator, WebGL & AR/VR Capabilities',
+  name: '3D Engineering, CAD-to-WebGL & Real-Time Tech Capabilities',
   serviceType: [
     'Interactive 3D Configurators',
-    'Real-Time ArchViz & Spatial VR/AR',
-    'Cinematic 3D Product & Commercial Visuals',
+    'Real-Time ArchViz & Interactive Virtual Tours',
+    'CGI Production Studio',
     'WebGL & Three.js Development',
     'Virtual Showrooms & Digital Twins',
   ],
@@ -38,7 +40,7 @@ const serviceSchema = {
   },
   url: `${SITE_URL}/capabilities`,
   description:
-    'Custom 3D web configurators, architectural VR walkthroughs, and enterprise WebGL development. Discover how Elipse Studio powers real-time 3D experiences.',
+    'Technical capabilities and engineering pipelines at Elipse Studio covering CAD optimization, WebGL, PlayCanvas, Unreal Engine 5 Pixel Streaming, VR, Shopify Plus/HubSpot integrations, and CGI production.',
   areaServed: [
     { '@type': 'Country', name: 'United Arab Emirates' },
     { '@type': 'Country', name: 'Saudi Arabia' },
@@ -63,7 +65,7 @@ const serviceSchema = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Architectural Visualization & Spatial VR/AR',
+          name: 'Real-Time ArchViz & Interactive Virtual Tours',
           url: `${SITE_URL}/services/architectural-visualization`,
         },
       },
@@ -71,7 +73,7 @@ const serviceSchema = {
         '@type': 'Offer',
         itemOffered: {
           '@type': 'Service',
-          name: 'Cinematic 3D Product & Commercial Visuals',
+          name: 'CGI Production Studio',
           url: `${SITE_URL}/services/3d-product-visualization`,
         },
       },
@@ -91,19 +93,21 @@ const breadcrumb = {
 
 export function generateMetadata() {
   return buildMetadata({
-    title: 'Enterprise 3D Configurator, WebGL & AR/VR Services | Elipse Studio',
+    title: '3D Engineering, CAD-to-WebGL & Real-Time Tech Capabilities | Elipse Studio',
     description:
-      'Custom 3D web configurators, architectural VR walkthroughs, and enterprise WebGL development. Discover how Elipse Studio powers real-time 3D experiences.',
+      "Explore Elipse Studio's real-time 3D engineering capabilities: CAD optimization, WebGL and Unreal Engine 5 Pixel Streaming, Shopify Plus and HubSpot CPQ integrations, VR, and commercial CGI.",
     canonical: `${SITE_URL}/capabilities`,
     ogImage: `${SITE_URL}/assets/actuallogo.webp`,
-    ogImageAlt: 'Elipse Studio — Enterprise 3D Configurator, WebGL & AR/VR Services',
+    ogImageAlt: 'Elipse Studio — 3D Engineering, CAD-to-WebGL & Real-Time Tech Capabilities',
   });
 }
+
+const faqSchema = buildFaqSchema(CAPABILITIES_FAQS);
 
 export default function Page() {
   return (
     <>
-      <MultiJsonLd schemas={[schema, serviceSchema, breadcrumb]} />
+      <MultiJsonLd schemas={[schema, serviceSchema, breadcrumb, faqSchema].filter(Boolean)} />
       <CapabilitiesPage />
     </>
   );

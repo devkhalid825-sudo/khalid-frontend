@@ -18,7 +18,7 @@ const CaseStudiesPage = () => {
   }, []);
 
   return (
-    <div className="bg-black min-h-screen text-white font-sans selection:bg-[#4169E1]/30 selection:text-white overflow-x-hidden">
+    <div className="bg-black min-h-screen text-white font-sans selection:bg-[#3558D4]/30 selection:text-white overflow-x-hidden">
       <Header darkHero={true} />
 
       {/* ══════════════════════════════════════════════════════════
@@ -38,7 +38,7 @@ const CaseStudiesPage = () => {
         </div>
 
         {/* Ambient subtle blue glow */}
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#4169E1]/15 rounded-full blur-[140px] pointer-events-none" />
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#3558D4]/15 rounded-full blur-[140px] pointer-events-none" />
 
         {/* Hero Content */}
         <div className="relative z-10 w-full max-w-7xl mx-auto px-5 sm:px-8 md:px-12 py-32 sm:py-40 md:py-48 flex flex-col justify-center items-center text-center">

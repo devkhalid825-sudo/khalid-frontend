@@ -17,7 +17,7 @@ const PortfolioPage = () => {
   }, []);
 
   return (
-    <div className={`portfolio-page min-h-screen transition-colors duration-300 font-sans selection:bg-[#4169E1]/30 selection:text-white overflow-x-hidden ${isLight ? 'bg-white text-zinc-900' : 'bg-black text-white'}`}>
+    <div className={`portfolio-page min-h-screen transition-colors duration-300 font-sans selection:bg-[#3558D4]/30 selection:text-white overflow-x-hidden ${isLight ? 'bg-white text-zinc-900' : 'bg-black text-white'}`}>
       <Header darkHero={false} lightHero={true} />
 
       {/* Minimal Clean Portfolio Hero (Exact match with uploaded screenshot) */}

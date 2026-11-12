@@ -65,7 +65,7 @@ const DashboardOverview = () => {
         <h2 className="text-2xl md:text-4xl font-black tracking-tight uppercase bg-gradient-to-r from-[#4169E1] to-[#8B5CF6] bg-clip-text text-transparent">
           Dashboard Overview
         </h2>
-        <div className="h-0.5 w-8 bg-[#4169E1] mt-3 rounded-full" />
+        <div className="h-0.5 w-8 bg-[#3558D4] mt-3 rounded-full" />
       </header>
 
       {/* Stats Grid */}
@@ -163,7 +163,7 @@ const DashboardOverview = () => {
               { label: 'Blogs', value: blogCount, opacity: '0.15' },
             ].map((item, i) => (
               <div key={i} className="flex items-center gap-1.5 md:gap-2">
-                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full shrink-0 bg-[#4169E1]" style={{ opacity: item.opacity }} />
+                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full shrink-0 bg-[#3558D4]" style={{ opacity: item.opacity }} />
                 <span className="text-[6px] md:text-[7px] text-[#0D0D0D]/70 font-bold uppercase tracking-widest truncate">{item.label}</span>
                 <span className="text-[7px] md:text-[8px] text-[#0D0D0D] font-black ml-auto">{item.value}</span>
               </div>

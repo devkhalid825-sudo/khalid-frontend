@@ -119,7 +119,7 @@ const HtmlEditor = ({ value, onChange, label, minHeight = 300 }) => {
             onClick={() => setMode(m.key)}
             className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[9px] font-bold uppercase tracking-widest transition-all ${
               mode === m.key
-                ? 'bg-[#4169E1]/20 text-[#4169E1]'
+                ? 'bg-[#3558D4]/20 text-[#4169E1]'
                 : 'text-[#555] hover:text-[#F2F0EB] hover:bg-[#222]'
             }`}
           >
@@ -132,7 +132,7 @@ const HtmlEditor = ({ value, onChange, label, minHeight = 300 }) => {
         <button
           type="button"
           onClick={insertCreditsTemplate}
-          className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider text-[#4169E1] bg-[#4169E1]/10 hover:bg-[#4169E1]/20 border border-[#4169E1]/30 transition-all cursor-pointer"
+          className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-[9px] font-bold uppercase tracking-wider text-[#4169E1] bg-[#3558D4]/10 hover:bg-[#3558D4]/20 border border-[#4169E1]/30 transition-all cursor-pointer"
           title="Insert Formal Project Credits Template"
         >
           + Credits

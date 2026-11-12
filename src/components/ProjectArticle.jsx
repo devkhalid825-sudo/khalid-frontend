@@ -77,7 +77,7 @@ const ProjectArticle = ({ slug, initialData }) => {
     <div className="min-h-screen bg-[#F2F0EB] flex flex-col items-center justify-center px-6 gap-6">
       <span className="text-[120px] md:text-[200px] font-black text-gray-300 block leading-none">404</span>
       <p className="text-lg text-gray-500 font-light -mt-4">{error}</p>
-      <Link to="/" className="flex items-center gap-2 bg-[#0D0D0D] text-[#F2F0EB] px-6 py-3 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-[#4169E1] transition-all">
+      <Link to="/" className="flex items-center gap-2 bg-[#0D0D0D] text-[#F2F0EB] px-6 py-3 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-[#3558D4] transition-all">
         <FiArrowLeft /> Back to Home
       </Link>
     </div>

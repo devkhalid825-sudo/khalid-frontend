@@ -636,7 +636,7 @@ const BlogsPage = ({ initialBlogs }) => {
     };
 
     return (
-        <div data-nav="dark" className="bg-[#0a0a0a] min-h-screen text-white font-sans selection:bg-[#4169E1] selection:text-black overflow-x-hidden">
+        <div data-nav="dark" className="bg-[#0a0a0a] min-h-screen text-white font-sans selection:bg-[#3558D4] selection:text-black overflow-x-hidden">
 
             <section data-nav="dark" className="blogs-hero-section keep-dark-hero relative w-full bg-black !bg-black text-white !text-white">
                 <div className="relative mx-auto min-h-screen w-full overflow-hidden bg-black !bg-black shadow-2xl flex flex-col">
@@ -678,7 +678,7 @@ const BlogsPage = ({ initialBlogs }) => {
                                     transition: all 0.3s ease;
                                 }
                                 .featured-swiper .swiper-pagination-bullet-active {
-                                    background: #4169E1;
+                                    background: #3558D4;
                                     width: 24px;
                                 }
                                 .featured-swiper {
@@ -769,7 +769,7 @@ const BlogsPage = ({ initialBlogs }) => {
                                 disabled={currentPage === 1}
                                 className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold border transition-all ${currentPage === 1
                                     ? 'border-white/10 text-zinc-600 cursor-not-allowed'
-                                    : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#4169E1]/10'
+                                    : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#3558D4]/10'
                                     }`}
                             >
                                 ← Previous
@@ -788,7 +788,7 @@ const BlogsPage = ({ initialBlogs }) => {
                                                 key={pageNum}
                                                 onClick={() => handlePageChange(pageNum)}
                                                 className={`w-9 h-9 md:w-11 md:h-11 rounded-full text-xs md:text-sm font-semibold transition-all ${currentPage === pageNum
-                                                    ? 'bg-[#4169E1] text-white shadow-lg shadow-[#4169E1]/30'
+                                                    ? 'bg-[#3558D4] text-white shadow-lg shadow-[#4169E1]/30'
                                                     : 'bg-white/5 border border-white/10 text-zinc-400 hover:text-white hover:border-white/30'
                                                     }`}
                                             >
@@ -814,7 +814,7 @@ const BlogsPage = ({ initialBlogs }) => {
                                 disabled={currentPage === totalPages}
                                 className={`px-4 py-2.5 rounded-full text-xs md:text-sm font-semibold border transition-all ${currentPage === totalPages
                                     ? 'border-white/10 text-zinc-600 cursor-not-allowed'
-                                    : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#4169E1]/10'
+                                    : 'border-white/20 text-white hover:border-[#4169E1] hover:bg-[#3558D4]/10'
                                     }`}
                             >
                                 Next →

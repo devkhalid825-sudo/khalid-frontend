@@ -212,7 +212,7 @@ function renderWithContextualLinks(text, targetServices) {
                 <Link
                     key={idx}
                     href={match.service.href}
-                    className="text-[#4169E1] font-semibold underline decoration-[#4169E1]/40 hover:decoration-[#4169E1] hover:text-[#3158D4] transition-colors"
+                    className="text-[#4169E1] font-semibold underline decoration-[#4169E1]/40 hover:decoration-[#4169E1] hover:text-[#2A48B8] transition-colors"
                 >
                     {part}
                 </Link>
@@ -253,7 +253,7 @@ const IndustryLayout = ({
 
     <>
 
-        <div className="w-full overflow-x-hidden bg-white text-[#0D0D0D] selection:bg-[#4169E1]/30 selection:text-[#0D0D0D]">
+        <div className="w-full overflow-x-hidden bg-white text-[#0D0D0D] selection:bg-[#3558D4]/30 selection:text-[#0D0D0D]">
 
             {/* SECTION 1: STANDARDIZED INDUSTRY HERO (BLOG HERO DESIGN) */}
             <IndustryHero
@@ -297,7 +297,7 @@ const IndustryLayout = ({
                 <section className="px-5 md:px-8 py-12 md:py-20 bg-[#0D0D0D] border-t border-b border-white/10 text-[#F2F0EB]">
                     <div className="max-w-[1500px] mx-auto">
                         <div className="max-w-3xl mx-auto text-center mb-10 md:mb-14">
-                            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.16em] uppercase text-[#4169E1] bg-[#4169E1]/10 border border-[#4169E1]/20 px-4 py-1.5 rounded-full mb-3.5 shadow-sm">
+                            <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-[0.16em] uppercase text-[#4169E1] bg-[#3558D4]/10 border border-[#4169E1]/20 px-4 py-1.5 rounded-full mb-3.5 shadow-sm">
                                 ✦ Core Services Matrix
                             </span>
                             <h3 className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-white mb-3 leading-tight">
@@ -322,12 +322,12 @@ const IndustryLayout = ({
                                     className="group relative p-6 sm:p-8 rounded-2xl bg-[#141414] hover:bg-[#181818] border border-white/10 hover:border-[#4169E1]/60 shadow-xl hover:shadow-2xl hover:shadow-[#4169E1]/10 transition-all duration-300 flex flex-col justify-between hover:-translate-y-1 overflow-hidden"
                                 >
                                     {/* Ambient card corner glow */}
-                                    <div className="absolute -top-12 -right-12 w-28 h-28 bg-[#4169E1]/10 rounded-full blur-2xl group-hover:bg-[#4169E1]/25 transition-all pointer-events-none" />
+                                    <div className="absolute -top-12 -right-12 w-28 h-28 bg-[#3558D4]/10 rounded-full blur-2xl group-hover:bg-[#3558D4]/25 transition-all pointer-events-none" />
 
                                     <div className="relative z-10">
                                         <div className="flex items-center justify-between gap-3 mb-5">
                                             <span className="inline-flex items-center gap-2 text-xs font-semibold tracking-wider uppercase text-[#4169E1]">
-                                                <span className="w-2 h-2 rounded-full bg-[#4169E1] shadow-[0_0_8px_#4169E1]" />
+                                                <span className="w-2 h-2 rounded-full bg-[#3558D4] shadow-[0_0_8px_#4169E1]" />
                                                 Core Capability 0{idx + 1}
                                             </span>
                                             {srv.tech && (
@@ -464,7 +464,7 @@ const IndustryLayout = ({
                         <div className="flex flex-wrap justify-center gap-3 md:gap-4">
                             <button
                                 data-track-destination="/portfolio" onClick={() => navigate('/portfolio')}
-                                className="px-6 md:px-8 py-3 md:py-3.5 bg-[#4169E1] text-white rounded-full font-semibold hover:bg-[#3158D4] transition-colors text-xs md:text-sm"
+                                className="px-6 md:px-8 py-3 md:py-3.5 bg-[#3558D4] text-white rounded-full font-semibold hover:bg-[#2A48B8] transition-colors text-xs md:text-sm"
                             >
                                 {midCta.buttonText}
                             </button>
@@ -555,7 +555,7 @@ const IndustryLayout = ({
                         <div className="flex flex-wrap justify-center gap-3 md:gap-4">
                             <button
                                 onClick={() => navigate(finalCta.buttonLink)}
-                                className="px-6 md:px-8 py-3 md:py-3.5 bg-[#4169E1] text-white rounded-full font-semibold hover:bg-[#3158D4] transition-colors text-xs md:text-sm"
+                                className="px-6 md:px-8 py-3 md:py-3.5 bg-[#3558D4] text-white rounded-full font-semibold hover:bg-[#2A48B8] transition-colors text-xs md:text-sm"
                             >
                                 {finalCta.buttonText}
                             </button>
@@ -580,7 +580,7 @@ const IndustryLayout = ({
                         <FaThLarge aria-hidden="true" /> All work
                     </button>
                     <button
-                        className="inline-flex items-center gap-[8px] text-[13px] font-semibold px-[20px] py-[10px] bg-[#4169E1] text-white rounded-[6px] hover:bg-[#3158D4] transition-all duration-200 border-none cursor-pointer"
+                        className="inline-flex items-center gap-[8px] text-[13px] font-semibold px-[20px] py-[10px] bg-[#3558D4] text-white rounded-[6px] hover:bg-[#2A48B8] transition-all duration-200 border-none cursor-pointer"
                         data-track-destination="/contact" onClick={handleStartProject}
                     >
                         <FaPaperPlane aria-hidden="true" /> Start a project

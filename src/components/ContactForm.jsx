@@ -186,7 +186,7 @@ const ContactForm = () => {
                     onClick={() => setActiveTab('form')}
                     className={`flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-xl text-[11px] sm:text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer ${
                         activeTab === 'form'
-                            ? 'bg-[#4169E1] text-white shadow-lg shadow-[#4169E1]/30'
+                            ? 'bg-[#3558D4] text-white shadow-lg shadow-[#4169E1]/30'
                             : 'text-gray-400 hover:text-white hover:bg-white/[0.02]'
                     }`}
                 >
@@ -199,7 +199,7 @@ const ContactForm = () => {
                     data-track-id="contact-book-call-tab" data-track-destination="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" onClick={() => setActiveTab('calendly')}
                     className={`flex-1 py-2.5 sm:py-3 px-2 sm:px-4 rounded-lg sm:rounded-xl text-[11px] sm:text-sm font-semibold transition-all duration-300 flex items-center justify-center gap-1.5 sm:gap-2 cursor-pointer ${
                         activeTab === 'calendly'
-                            ? 'bg-[#4169E1] text-white shadow-lg shadow-[#4169E1]/30'
+                            ? 'bg-[#3558D4] text-white shadow-lg shadow-[#4169E1]/30'
                             : 'text-gray-400 hover:text-white hover:bg-white/[0.02]'
                     }`}
                 >
@@ -228,14 +228,14 @@ const ContactForm = () => {
                                         aria-pressed={isSelected}
                                         className={`w-full flex items-start gap-2.5 sm:gap-3.5 text-left rounded-xl p-3 sm:p-4 transition-all duration-300 border cursor-pointer ${
                                             isSelected
-                                                ? 'bg-[#4169E1]/10 border-[#4169E1] shadow-[0_0_20px_rgba(65,105,225,0.12)]'
+                                                ? 'bg-[#3558D4]/10 border-[#4169E1] shadow-[0_0_20px_rgba(65,105,225,0.12)]'
                                                 : 'bg-white/[0.03] border-white/[0.08] hover:border-white/20'
                                         }`}
                                     >
                                         <span
                                             className={`mt-0.5 w-4 h-4 sm:w-5 sm:h-5 rounded-md border-2 flex items-center justify-center shrink-0 transition-all duration-200 ${
                                                 isSelected
-                                                    ? 'bg-[#4169E1] border-[#4169E1]'
+                                                    ? 'bg-[#3558D4] border-[#4169E1]'
                                                     : 'border-gray-500'
                                             }`}
                                         >
@@ -374,7 +374,7 @@ const ContactForm = () => {
                         <button
                             type="submit"
                             disabled={isSubmitting || isLocked}
-                            className={`w-full contact-submit-btn flex items-center justify-center gap-2 text-center font-bold py-3.5 sm:py-4 px-4 sm:px-6 rounded-full text-xs sm:text-sm md:text-base transition-all cursor-pointer transform active:scale-[0.98] bg-[#4169E1] hover:bg-[#3458c8] text-white shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 ${
+                            className={`w-full contact-submit-btn flex items-center justify-center gap-2 text-center font-bold py-3.5 sm:py-4 px-4 sm:px-6 rounded-full text-xs sm:text-sm md:text-base transition-all cursor-pointer transform active:scale-[0.98] bg-[#3558D4] hover:bg-[#3458c8] text-white shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 ${
                                 isSubmitting || isLocked
                                     ? 'opacity-50 cursor-not-allowed pointer-events-none'
                                     : ''
@@ -399,7 +399,7 @@ const ContactForm = () => {
                         <button
                             type="button"
                             data-track-id="contact-book-direct-call" data-track-destination="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting" onClick={() => setActiveTab('calendly')}
-                            className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full border border-[#4169E1]/40 bg-[#4169E1]/10 hover:bg-[#4169E1]/20 text-[#4169E1] text-[11px] sm:text-xs font-semibold transition-all shrink-0 cursor-pointer flex items-center gap-1.5"
+                            className="px-3.5 sm:px-4 py-1.5 sm:py-2 rounded-full border border-[#4169E1]/40 bg-[#3558D4]/10 hover:bg-[#3558D4]/20 text-[#4169E1] text-[11px] sm:text-xs font-semibold transition-all shrink-0 cursor-pointer flex items-center gap-1.5"
                         >
                             <span>Book Direct Call</span>
                             <span>→</span>
@@ -411,7 +411,7 @@ const ContactForm = () => {
                 <div className="space-y-4 sm:space-y-6">
                     <div className="bg-white/[0.03] border border-white/10 rounded-xl sm:rounded-2xl p-3 sm:p-5 flex items-center justify-between gap-3 sm:gap-4">
                         <div className="flex items-center gap-2.5 sm:gap-3.5">
-                            <span className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#4169E1]/15 text-[#4169E1] flex items-center justify-center shrink-0">
+                            <span className="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-[#3558D4]/15 text-[#4169E1] flex items-center justify-center shrink-0">
                                 <svg className="w-4 h-4 sm:w-5 sm:h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                                 </svg>
@@ -459,7 +459,7 @@ const ContactForm = () => {
             {submitStatus && (
                 <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-300">
                     <div className="bg-[#0c0c0c] border border-white/10 rounded-[2rem] p-8 md:p-12 max-w-lg w-full text-center shadow-2xl transform animate-in zoom-in-95 duration-300">
-                        <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 ${submitStatus === 'success' ? 'bg-[#4169E1]/20 text-[#4169E1]' : 'bg-red-400/20 text-red-400'}`}>
+                        <div className={`w-20 h-20 rounded-full flex items-center justify-center mx-auto mb-6 ${submitStatus === 'success' ? 'bg-[#3558D4]/20 text-[#4169E1]' : 'bg-red-400/20 text-red-400'}`}>
                             {submitStatus === 'success' ? (
                                 <svg className="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7" /></svg>
                             ) : (
@@ -479,7 +479,7 @@ const ContactForm = () => {
 
                         <button
                             onClick={closeModal}
-                            className="w-full bg-[#4169E1] hover:bg-[#3558c8] text-white font-bold py-4 rounded-full transition-transform active:scale-95 cursor-pointer shadow-lg shadow-[#4169E1]/30"
+                            className="w-full bg-[#3558D4] hover:bg-[#2A48B8] text-white font-bold py-4 rounded-full transition-transform active:scale-95 cursor-pointer shadow-lg shadow-[#4169E1]/30"
                         >
                             Close
                         </button>

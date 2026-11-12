@@ -28,7 +28,7 @@ class ErrorBoundary extends React.Component {
             {/* Plain <a>, not next/link: this only renders after the router's own tree has
                 already crashed, so it must not depend on client-side router/prefetch state. */}
             {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
-            <a href="/" style={{backgroundColor:'#4169E1',color:'#fff',padding:'0.75rem 2rem',borderRadius:'999px',fontSize:'0.75rem',fontWeight:700,letterSpacing:'0.15em',textTransform:'uppercase',textDecoration:'none',display:'inline-block'}}>Go to Home</a>
+            <a href="/" style={{backgroundColor:'#3558D4',color:'#fff',padding:'0.75rem 2rem',borderRadius:'999px',fontSize:'0.75rem',fontWeight:700,letterSpacing:'0.15em',textTransform:'uppercase',textDecoration:'none',display:'inline-block'}}>Go to Home</a>
           </div>
           <a href="https://elipsestudio.com" style={{marginTop:'2rem',fontSize:'0.75rem',color:'rgba(255,255,255,0.15)',textDecoration:'none',letterSpacing:'0.1em',textTransform:'uppercase'}}>Elipse Studio</a>
         </div>

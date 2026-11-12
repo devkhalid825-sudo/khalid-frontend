@@ -54,7 +54,7 @@ export default function LegalPage({ title, intro, lastUpdated, sections, highlig
 
           <div className="mt-6 flex flex-wrap items-center gap-3 text-xs sm:text-sm text-white/60">
             <span className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-white/10 bg-white/5">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#4169E1]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-[#3558D4]" />
               Last updated {lastUpdated}
             </span>
             <span className="px-3 py-1.5 rounded-full border border-white/10 bg-white/5">GDPR · UK DPA · CCPA · PDPA</span>
@@ -71,7 +71,7 @@ export default function LegalPage({ title, intro, lastUpdated, sections, highlig
                   key={h.title}
                   className="rounded-2xl border border-white/10 bg-white/[0.03] p-5 md:p-6"
                 >
-                  <div className="w-8 h-[2px] bg-[#4169E1] mb-4" />
+                  <div className="w-8 h-[2px] bg-[#3558D4] mb-4" />
                   <h3 className="text-base font-semibold mb-2">{h.title}</h3>
                   <p className="text-sm font-light leading-relaxed text-white/60">{h.text}</p>
                 </div>
@@ -95,12 +95,12 @@ export default function LegalPage({ title, intro, lastUpdated, sections, highlig
               className="scroll-mt-32 rounded-2xl border border-white/10 bg-white/[0.02] hover:border-white/20 transition-colors p-6 md:p-9"
             >
               <div className="flex items-start gap-4 mb-5">
-                <span className="shrink-0 mt-0.5 w-9 h-9 rounded-full border border-[#4169E1]/40 bg-[#4169E1]/10 text-[#8aa4f0] text-xs font-semibold tabular-nums flex items-center justify-center">
+                <span className="shrink-0 mt-0.5 w-9 h-9 rounded-full border border-[#4169E1]/40 bg-[#3558D4]/10 text-[#8aa4f0] text-xs font-semibold tabular-nums flex items-center justify-center">
                   {String(i + 1).padStart(2, '0')}
                 </span>
                 <h2 className="text-xl md:text-2xl font-semibold leading-tight pt-1">{s.title}</h2>
               </div>
-              <div className="md:pl-[52px] space-y-4 text-[15px] md:text-base font-light leading-relaxed text-white/70 [&_ul]:space-y-3 [&_li]:relative [&_li]:pl-5 [&_li]:before:content-[''] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-[0.7em] [&_li]:before:w-1.5 [&_li]:before:h-1.5 [&_li]:before:rounded-full [&_li]:before:bg-[#4169E1] [&_strong]:text-white [&_strong]:font-medium [&_a]:text-[#8aa4f0] [&_a:hover]:text-white [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-white/20">
+              <div className="md:pl-[52px] space-y-4 text-[15px] md:text-base font-light leading-relaxed text-white/70 [&_ul]:space-y-3 [&_li]:relative [&_li]:pl-5 [&_li]:before:content-[''] [&_li]:before:absolute [&_li]:before:left-0 [&_li]:before:top-[0.7em] [&_li]:before:w-1.5 [&_li]:before:h-1.5 [&_li]:before:rounded-full [&_li]:before:bg-[#3558D4] [&_strong]:text-white [&_strong]:font-medium [&_a]:text-[#8aa4f0] [&_a:hover]:text-white [&_a]:underline [&_a]:underline-offset-4 [&_a]:decoration-white/20">
                 {s.body}
               </div>
             </article>

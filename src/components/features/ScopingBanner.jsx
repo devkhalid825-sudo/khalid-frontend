@@ -11,7 +11,7 @@ export function ScopingBanner() {
     >
       {/* Ambient background glow */}
       <div
-        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#4169E1]/15 rounded-full blur-[140px] pointer-events-none"
+        className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[300px] bg-[#3558D4]/15 rounded-full blur-[140px] pointer-events-none"
         aria-hidden="true"
       />
 
@@ -35,7 +35,7 @@ export function ScopingBanner() {
         {/* CTA Button */}
         <Link
           href="/contact"
-          className="inline-flex items-center justify-center gap-2.5 bg-[#4169E1] hover:bg-[#3158D4] active:bg-[#2749b5] text-white font-medium text-sm sm:text-base px-8 py-3.5 sm:py-4 rounded-full transition-all duration-300 shadow-[0_4px_25px_rgba(65,105,225,0.35)] hover:shadow-[0_6px_35px_rgba(65,105,225,0.5)] hover:scale-105"
+          className="inline-flex items-center justify-center gap-2.5 bg-[#3558D4] hover:bg-[#2A48B8] active:bg-[#2749b5] text-white font-medium text-sm sm:text-base px-8 py-3.5 sm:py-4 rounded-full transition-all duration-300 shadow-[0_4px_25px_rgba(65,105,225,0.35)] hover:shadow-[0_6px_35px_rgba(65,105,225,0.5)] hover:scale-105"
           style={{ color: '#ffffff' }}
         >
           <span>Book a 15-Minute Scoping Call</span>

@@ -78,7 +78,7 @@ const CaseStudyDetail = ({ slug, initialData }) => {
     <div className="min-h-screen bg-[#0D0D0D] flex flex-col items-center justify-center px-6 gap-6">
       <span className="text-[120px] md:text-[200px] font-black text-white/10 block leading-none">404</span>
       <p className="text-lg text-white/50 font-light -mt-4">{error}</p>
-      <Link to="/case-studies" className="flex items-center gap-2 bg-[#4169E1] text-white px-6 py-3 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-[#3158D4] transition-all">
+      <Link to="/case-studies" className="flex items-center gap-2 bg-[#3558D4] text-white px-6 py-3 rounded-full text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-[#2A48B8] transition-all">
         <FiArrowLeft /> Back to Case Studies
       </Link>
     </div>

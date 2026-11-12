@@ -277,7 +277,7 @@ const AnamorphicBillboardProductionArticle = () => {
   ];
 
   return (
-    <div data-nav="light" className="hardcoded-article w-full min-h-screen overflow-x-hidden bg-white text-zinc-900 selection:bg-[#4169E1]/30 selection:text-white">
+    <div data-nav="light" className="hardcoded-article w-full min-h-screen overflow-x-hidden bg-white text-zinc-900 selection:bg-[#3558D4]/30 selection:text-white">
       <Header lightHero={true} hideThemeToggle={true} />
 
       <main className="px-3 sm:px-6 md:px-10 lg:px-14 xl:px-16 pt-14 sm:pt-16 md:pt-20 pb-12 sm:pb-20 bg-white">
