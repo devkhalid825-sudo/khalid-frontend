@@ -197,6 +197,8 @@ const SortableProjectItem = ({ project, onEdit, onDelete, onMoveUp, onMoveDown, 
       <div className="w-10 h-10 md:w-16 md:h-16 rounded-lg md:rounded-xl overflow-hidden bg-[#1A1A1A] shrink-0 border border-[#333] relative">
         {project.image ? (
           <img src={resolvePreviewUrl(project.image)} alt="" className="w-full h-full object-cover" />
+        ) : project.video && !/youtu\.?be|vimeo/i.test(project.video) ? (
+          <video src={resolvePreviewUrl(project.video)} muted playsInline preload="metadata" className="w-full h-full object-cover" />
         ) : (
           <div className="w-full h-full flex items-center justify-center text-[#555]">
             <FiImage size={20} />

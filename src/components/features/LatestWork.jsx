@@ -245,7 +245,8 @@ const VideoHoverCard = ({ project, isLight, index = 0 }) => {
     >
       {/* 1. 16:9 HD Media Container */}
       <div className="relative w-full aspect-[16/9] overflow-hidden bg-zinc-900 shrink-0">
-        {imageSrc ? (
+        {/* A card video plays even when no card image (poster) was uploaded. */}
+        {imageSrc || cardVideo ? (
           <motion.div className="relative w-full h-full" custom={anim} variants={mediaVariants}>
             {/* next/image serves a ~640–830px resized file instead of the 1920px
                 original — far cheaper to decode and to animate the blur over. */}
