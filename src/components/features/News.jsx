@@ -369,9 +369,21 @@ const News = ({ initialBlogs = null }) => {
         {/* Bottom padding gives the card shadow room so the slider's
             overflow clip doesn't cut it into a hard line; -mb cancels it. */}
         <div className="home-container slider-focus slider-focus--soft -mb-10">
+          <div className="relative slider-edge-fade">
+            {/* Left edge blur & fade overlay (subtle edge dissolve) */}
+            <div
+              className="pointer-events-none absolute left-0 top-0 bottom-10 w-8 sm:w-14 md:w-20 z-20 bg-gradient-to-r from-[#223A9F]/90 via-[#223A9F]/35 to-transparent backdrop-blur-[1.5px]"
+              aria-hidden="true"
+            />
+            {/* Right edge blur & fade overlay (subtle edge dissolve) */}
+            <div
+              className="pointer-events-none absolute right-0 top-0 bottom-10 w-8 sm:w-14 md:w-20 z-20 bg-gradient-to-l from-[#223A9F]/90 via-[#223A9F]/35 to-transparent backdrop-blur-[1.5px]"
+              aria-hidden="true"
+            />
 
-        <Swiper
-          modules={[Autoplay, FreeMode]}
+            <Swiper
+              className="slider-edge-fade"
+              modules={[Autoplay, FreeMode]}
           loop={true}
           // One card sits in the centre and gets the focus (see .slider-focus).
           // Set directly: switching it on through `breakpoints` does not apply in loop mode.
@@ -447,7 +459,8 @@ const News = ({ initialBlogs = null }) => {
               </SwiperSlide>
             );
           })}
-        </Swiper>
+            </Swiper>
+          </div>
         </div>
       </div>
     </section>

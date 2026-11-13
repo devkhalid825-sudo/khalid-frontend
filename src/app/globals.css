@@ -3041,14 +3041,14 @@ html.light .sf-input:focus { border-color: #3558D4 !important; }
    ended in a hard vertical cut. */
 .slider-edge-fade.swiper,
 .slider-edge-fade > .swiper {
-  -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.6) 3%, #000 8%, #000 92%, rgba(0,0,0,0.6) 97%, transparent 100%);
-  mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.6) 3%, #000 8%, #000 92%, rgba(0,0,0,0.6) 97%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.4) 2%, #000 7%, #000 93%, rgba(0,0,0,0.4) 98%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.4) 2%, #000 7%, #000 93%, rgba(0,0,0,0.4) 98%, transparent 100%);
 }
 @media (max-width: 767px) {
   .slider-edge-fade.swiper,
   .slider-edge-fade > .swiper {
-    -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.6) 2%, #000 6%, #000 94%, rgba(0,0,0,0.6) 98%, transparent 100%);
-    mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.6) 2%, #000 6%, #000 94%, rgba(0,0,0,0.6) 98%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.4) 2%, #000 5%, #000 95%, rgba(0,0,0,0.4) 98%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0, rgba(0,0,0,0.4) 2%, #000 5%, #000 95%, rgba(0,0,0,0.4) 98%, transparent 100%);
   }
 }
 
