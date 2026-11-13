@@ -49,6 +49,8 @@ export const PROJECT_VALUE_PROPOSITIONS = {
     'Interactive WebGL textile and fabric configurator featuring physical thread simulation and instant colorways.',
   'yacht-configurator':
     'Luxury marine yacht configurator offering real-time deck, interior finishes, and hull customization in WebGL.',
+  'digix-film':
+    'Cinematic 3D brand film and dynamic motion graphics tracing the evolution from traditional static billboards to immersive digital signage.',
 };
 
 export const CATEGORY_FALLBACKS = {

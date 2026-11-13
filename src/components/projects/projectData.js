@@ -95,6 +95,37 @@ export const projectList = [
         images: ['https://elipsestudio.com/media/53']
       }
     ]
+  },
+  {
+    slug: 'digix-film',
+    title: 'DIGIX Digital Signage Film',
+    meta: [
+      { label: 'Category', value: 'Animation' },
+      { label: 'Service', value: 'Motion Graphics' },
+      { label: 'Deliverables', value: 'Cinematic Brand Film · Motion Graphics' },
+      { label: 'Description', value: 'A cinematic brand film tracing the shift from static billboards to dynamic digital signage.' }
+    ],
+    heroImage: '/assets/About-page/digix.png',
+    nextProject: { path: '/project/gluco-kahani', name: 'Gluco Kahani' },
+    sections: [
+      {
+        type: 'overview',
+        heading: 'The Evolution of Digital Signage',
+        text: 'A cinematic brand film tracing the shift from static billboards to dynamic digital signage.',
+        challenge: {
+          heading: 'High-Impact Visual Narrative',
+          text: 'Crafting a visually striking narrative contrasting static print billboards with the vibrant versatility of modern digital signage.'
+        }
+      },
+      {
+        type: 'results',
+        title: 'Project Highlights',
+        results: [
+          { value: '4K', title: 'Broadcast-Ready Output', desc: 'Rendered at pristine 4K resolution with dynamic lighting' },
+          { value: '100%', title: 'Dynamic Motion Graphics', desc: 'Bespoke animation and commercial video production' }
+        ]
+      }
+    ]
   }
 ];
 

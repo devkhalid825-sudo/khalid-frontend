@@ -24,6 +24,7 @@ import dogguoImgRaw from '../../assets/animation/DOGGUO.webp';
 import parcoImgRaw from '../../assets/animation/parcho.webp';
 import dhoopImgRaw from '../../assets/animation/motiongrapics copy.webp';
 import giordanoImgRaw from '../../assets/animation/Giordano.webp';
+import digixImgRaw from '../../assets/About-page/digix.png';
 
 import { withCalendlyAttribution } from '@/components/analytics/tracking';
 const ahmedJamSpreadImg = getImgSrc(ahmedJamSpreadImgRaw);
@@ -40,6 +41,7 @@ const dogguoImg = getImgSrc(dogguoImgRaw);
 const parcoImg = getImgSrc(parcoImgRaw);
 const dhoopImg = getImgSrc(dhoopImgRaw);
 const giordanoImg = getImgSrc(giordanoImgRaw);
+const digixImg = getImgSrc(digixImgRaw);
 
 // Selected 3D Product Visualization & Commercial CGI Portfolio Builds
 const PRODUCT_VIZ_BUILDS = [
@@ -150,6 +152,15 @@ const PRODUCT_VIZ_BUILDS = [
     tech: 'Industrial 3D · Motion Graphics',
     tags: ['Motion Graphics', 'Explainer Video'],
     projectPath: '/project/parcho',
+  },
+  {
+    title: 'DIGIX Digital Signage Film',
+    category: 'Motion Graphics & Brand Film',
+    desc: 'A cinematic brand film tracing the shift from static billboards to dynamic digital signage.',
+    image: digixImg,
+    tech: 'Motion Graphics · Brand Film · 3D VFX',
+    tags: ['Motion Graphics'],
+    projectPath: '/project/digix-film',
   },
   {
     title: 'Gluco Kahani | 3D Character Animation',
