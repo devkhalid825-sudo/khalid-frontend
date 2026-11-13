@@ -122,20 +122,10 @@ export default function RootLayout({ children }) {
             `,
           }}
         />
-        {/* Google tag (gtag.js) */}
-        <script
-          async
-          src="https://www.googletagmanager.com/gtag/js?id=G-4VLP3K6ZJS"
-        />
+        {/* Calendly PII sanitizer — removes invitee personal data from address bar before analytics tags read page URL on /thank-you */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-
-              // Calendly's /thank-you redirect can carry invitee name/email/phone: remove them from the
-              // address bar BEFORE GA4 reads the URL (page_location must not be pinned, or SPA page_views stop).
               try {
                 var gaUrl = new URL(location.href), gaPii = false;
                 Array.from(gaUrl.searchParams.keys()).forEach(function (k) {
@@ -143,7 +133,6 @@ export default function RootLayout({ children }) {
                 });
                 if (gaPii) history.replaceState(history.state, '', gaUrl.toString());
               } catch (e) {}
-              gtag('config', 'G-4VLP3K6ZJS');
             `,
           }}
         />

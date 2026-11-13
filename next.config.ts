@@ -31,6 +31,16 @@ const serviceRedirects = [
 ];
 
 const redirects = [
+  // Industries consolidation (Bilal Lania Directive: 3 permanent 301 redirects + fix broken e-commerce 404)
+  ["/industries/healthcare", "/industries"],
+  ["/industries/healthcare/", "/industries"],
+  ["/industries/energy-utilities", "/industries/manufacturing"],
+  ["/industries/energy-utilities/", "/industries/manufacturing"],
+  ["/industries/construction", "/industries/architecture"],
+  ["/industries/construction/", "/industries/architecture"],
+  ["/industries/ecommerce", "/industries/e-commerce"],
+  ["/industries/ecommerce/", "/industries/e-commerce"],
+
   ["/case-study", "/portfolio"],
   ["/case-studies", "/portfolio"],
   ["/case-study-one", "/project/gabani-emerald"],

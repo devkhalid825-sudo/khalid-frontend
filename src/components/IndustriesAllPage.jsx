@@ -18,7 +18,8 @@ import {
     HiOutlineHomeModern,
     HiOutlineWrenchScrewdriver,
     HiOutlineBolt,
-    HiOutlineBuildingOffice
+    HiOutlineBuildingOffice,
+    HiOutlineBuildingStorefront
 } from 'react-icons/hi2';
 import { LuSofa, LuFactory, LuRuler } from "react-icons/lu";
 
@@ -35,11 +36,18 @@ const iconMap = {
     HiOutlineWrenchScrewdriver: <HiOutlineWrenchScrewdriver className="w-7 h-7" />,
     HiOutlineBolt: <HiOutlineBolt className="w-7 h-7" />,
     HiOutlineBuildingOffice: <HiOutlineBuildingOffice className="w-7 h-7" />,
+    HiOutlineBuildingStorefront: <HiOutlineBuildingStorefront className="w-7 h-7" />,
 };
 
 
 
-const categories = ["ALL", "Real Estate", "Architecture", "Interior Design", "Industrial", "Advertising", "Healthcare", "Education & Training", "Retail"];
+const categories = [
+    "ALL",
+    "Real Estate & ArchViz",
+    "E-Commerce & Retail",
+    "Automotive & Manufacturing",
+    "Training & Hospitality"
+];
 
 const IndustriesAllPage = () => {
     const router = useRouter();

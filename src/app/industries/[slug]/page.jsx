@@ -15,7 +15,7 @@ function industrySchemas(slug, industry, description) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Service',
-    name: `${industry.title} Solutions`,
+    name: industry.hero?.h1 || `${industry.title} Solutions`,
     provider: {
       '@type': 'Organization',
       name: 'Elipse Studio',
@@ -114,6 +114,7 @@ export default async function Page({ params }) {
         technology={industry.technology}
         faqs={industry.faqs}
         finalCta={industry.finalCta}
+        featuredCaseStudies={industry.featuredCaseStudies}
       />
     </>
   );

@@ -10,7 +10,8 @@ export async function getIndustries() {
 }
 
 export async function getIndustryBySlug(slug) {
-  return industriesJson.find((ind) => ind.slug === slug) || null;
+  const normalized = slug === 'ecommerce' ? 'e-commerce' : slug;
+  return industriesJson.find((ind) => ind.slug === normalized || ind.slug === slug) || null;
 }
 
 export default industriesData;

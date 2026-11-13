@@ -53,6 +53,7 @@ const getIndustryStats = (slug) => {
                 { stat: "100%", label: "Design Fidelity", desc: "Perfect matching to actual specifications, finishes, and physical material libraries." }
             ];
         case "ecommerce":
+        case "e-commerce":
         case "retail":
         case "furniture":
         case "automotive":
@@ -177,6 +178,7 @@ const INDUSTRY_CORE_SERVICES = {
     'automotive': [CORE_SERVICES.configurators, CORE_SERVICES.cinematics],
     'retail': [CORE_SERVICES.configurators],
     'ecommerce': [CORE_SERVICES.configurators],
+    'e-commerce': [CORE_SERVICES.configurators],
     'furniture': [CORE_SERVICES.configurators],
     'manufacturing': [CORE_SERVICES.configurators, CORE_SERVICES.cinematics],
     'construction': [CORE_SERVICES.configurators, CORE_SERVICES.cinematics],
@@ -237,7 +239,8 @@ const IndustryLayout = ({
     useCases,
     technology,
     faqs,
-    finalCta
+    finalCta,
+    featuredCaseStudies,
 }) => {
     const router = useRouter();
     const navigate = (url) => router.push(url);
@@ -475,6 +478,32 @@ const IndustryLayout = ({
                                 Book a Discovery Call
                             </button>
                         </div>
+                        {featuredCaseStudies && featuredCaseStudies.length > 0 && (
+                            <div className="mt-8 pt-6 border-t border-white/10 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+                                <span className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.15em] text-[#4169E1] mr-1">
+                                    ✦ Featured Case Studies:
+                                </span>
+                                {featuredCaseStudies.map((cs, idx) => (
+                                    cs.link ? (
+                                        <Link
+                                            key={idx}
+                                            href={cs.link}
+                                            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full text-xs font-medium bg-white/[0.06] hover:bg-[#3558D4] text-white border border-white/15 hover:border-[#4169E1] transition-all duration-300"
+                                        >
+                                            <span>{cs.title}</span>
+                                            <span className="text-[11px] text-[#4169E1] group-hover:text-white">↗</span>
+                                        </Link>
+                                    ) : (
+                                        <span
+                                            key={idx}
+                                            className="inline-flex items-center px-4 py-1.5 rounded-full text-xs font-medium bg-white/[0.04] text-white/70 border border-white/10"
+                                        >
+                                            {cs.title}
+                                        </span>
+                                    )
+                                ))}
+                            </div>
+                        )}
                     </div>
                 </section>
             )}

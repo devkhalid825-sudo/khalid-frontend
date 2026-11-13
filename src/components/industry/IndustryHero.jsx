@@ -22,8 +22,9 @@ export default function IndustryHero({
   solutionsCount = 0,
   onStartProject,
 }) {
-  const headline = hero?.headline || `Enterprise 3D & Immersive Tech for ${title}`;
-  const subheadline = hero?.subheadline || `Discover how Elipse Studio powers photorealistic rendering, real-time configurators, and spatial experiences for ${title.toLowerCase()} leaders worldwide.`;
+  const h1Title = hero?.h1 || title;
+  const heroSubhead = hero?.subhead || hero?.subheadline || hero?.headline || `Enterprise 3D & Immersive Tech for ${title}`;
+  const supportingDesc = hero?.subhead ? (hero?.subheadline !== hero?.subhead ? hero?.subheadline : null) : null;
   const heroImage = hero?.image;
   const ctaText = hero?.ctaText || 'Get in Touch';
   const ctaLink = hero?.ctaLink || '/contact';
@@ -74,20 +75,20 @@ export default function IndustryHero({
         </div>
 
         {/* Main Center Headline */}
-        <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-[54px] lg:text-6xl font-bold tracking-tight max-w-4xl leading-[1.08] mb-3 sm:mb-5 px-1 sm:px-4 text-white">
-          {title}
+        <h1 className="text-3xl xs:text-4xl sm:text-5xl md:text-[54px] lg:text-6xl font-bold tracking-tight max-w-5xl leading-[1.08] mb-3 sm:mb-5 px-1 sm:px-4 text-white">
+          {h1Title}
           <span className="text-[#4169E1]">.</span>
         </h1>
 
         {/* Subtitle / Headline from Data */}
         <p className="text-sm sm:text-base md:text-lg lg:text-xl font-normal text-white/90 max-w-3xl mx-auto leading-relaxed mb-3 sm:mb-4 px-2">
-          {headline}
+          {heroSubhead}
         </p>
 
         {/* Supporting description */}
-        {subheadline && (
+        {supportingDesc && (
           <p className="text-xs sm:text-sm md:text-base text-zinc-400 font-light max-w-2xl mx-auto leading-relaxed mb-6 sm:mb-8 px-3">
-            {subheadline}
+            {supportingDesc}
           </p>
         )}
 
