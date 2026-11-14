@@ -294,17 +294,17 @@
 export const HOMEPAGE_FAQ_TABS = [
   {
     id: 'configurators',
-    label: '3D Interactive Configurators',
+    label: '3D Configurators',
     faqs: SERVICE_FAQS['interactive-3d-web-product-configurators'].slice(0, 5),
   },
   {
     id: 'archviz',
-    label: 'Real-Time ArchViz & Spatial VR',
+    label: 'ArchViz & VR',
     faqs: SERVICE_FAQS['architectural-visualization'].slice(0, 5),
   },
   {
     id: 'cinematic',
-    label: 'Cinematic 3D Product Visuals & Anamorphic Screens',
+    label: 'Commercial CGI',
     faqs: [
       SERVICE_FAQS['cinematic-3d-product-commercial-visuals'][0],
       SERVICE_FAQS['3d-product-visualization'][0],
