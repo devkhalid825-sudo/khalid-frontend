@@ -52,8 +52,8 @@ const METHOD = [
 
 // Shared layout for "Core Capabilities" and "How We Work" so both match:
 // same container, header, card style, spacing and reveal animation.
-const CardSection = ({ eyebrow, title, intro, items, cols }) => (
-  <section className="home-cards-section bg-black py-14 md:py-20">
+const CardSection = ({ eyebrow, title, intro, items, cols, mobileFlex = false }) => (
+  <section className="home-cards-section bg-black py-14 md:py-20 overflow-hidden">
     <div className="home-container">
       <Reveal className="home-cards-head">
         <div>
@@ -68,7 +68,13 @@ const CardSection = ({ eyebrow, title, intro, items, cols }) => (
         {intro && <p className="home-cards-intro text-gray-400 font-serif leading-[1.75]">{intro}</p>}
       </Reveal>
 
-      <RevealGroup className={`grid grid-cols-1 ${cols} gap-5 md:gap-6`}>
+      <RevealGroup
+        className={
+          mobileFlex
+            ? 'flex flex-nowrap items-stretch overflow-x-auto pb-4 pt-1 gap-4 snap-x snap-mandatory no-scrollbar -mx-[15px] px-[15px] sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 md:gap-6 sm:overflow-visible sm:pb-0'
+            : `grid grid-cols-1 ${cols} gap-5 md:gap-6`
+        }
+      >
         {items.map((it) => {
           const inner = (
             <>
@@ -89,7 +95,14 @@ const CardSection = ({ eyebrow, title, intro, items, cols }) => (
             </>
           );
           return (
-            <RevealItem key={it.key} className="h-full">
+            <RevealItem
+              key={it.key}
+              className={
+                mobileFlex
+                  ? 'h-full w-[82vw] max-w-[310px] min-w-[270px] shrink-0 snap-start sm:w-auto sm:max-w-none sm:min-w-0'
+                  : 'h-full'
+              }
+            >
               {it.href ? (
                 <Link href={it.href} className="home-card group">{inner}</Link>
               ) : (
@@ -98,6 +111,7 @@ const CardSection = ({ eyebrow, title, intro, items, cols }) => (
             </RevealItem>
           );
         })}
+        {mobileFlex && <div className="shrink-0 w-2 sm:hidden" aria-hidden="true" />}
       </RevealGroup>
     </div>
   </section>
@@ -150,6 +164,7 @@ const Home = ({ initialProjects, initialReviews, initialBlogs, initialSocialMedi
         title="A process built for speed without shortcuts."
         intro="Four focused phases, live preview links at every milestone, and a team that ships on schedule."
         cols="sm:grid-cols-2 lg:grid-cols-4"
+        mobileFlex={true}
         items={METHOD.map((m) => ({ key: m.step, num: m.step, tag: m.phase, title: m.title, desc: m.desc }))}
       />
 
