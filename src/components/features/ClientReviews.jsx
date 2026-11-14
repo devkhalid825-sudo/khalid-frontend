@@ -106,7 +106,7 @@ const LazyReviewSlide = ({ review, isMuted, onToggleMute }) => {
           <button
             onClick={(e) => {
               e.stopPropagation();
-              onToggleMute(`dt-${review.id}`);
+              onToggleMute(`dt-${review._uniqueKey}`);
             }}
             className="absolute bottom-2.5 right-2.5 z-20 w-8 h-8 rounded-full bg-black/60 backdrop-blur flex items-center justify-center hover:bg-black/80 transition-colors"
             aria-label={isMuted ? 'Unmute video' : 'Mute video'}
