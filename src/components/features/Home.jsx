@@ -166,12 +166,15 @@ const Home = ({ initialProjects, initialReviews, initialBlogs, initialSocialMedi
           <p className="text-gray-400 text-xs md:text-base max-w-xl mx-auto mb-5 md:mb-8 font-serif leading-[1.75]">
             Get a free sample render or ballpark estimate &mdash; no commitment required
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-sm sm:max-w-none mx-auto px-4 sm:px-0">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3.5 sm:gap-4 w-full max-w-[320px] sm:max-w-none mx-auto px-2 sm:px-0">
             <Link
               href="/contact"
-              className="w-full sm:w-auto inline-flex items-center justify-center text-center whitespace-nowrap bg-[#3558D4] hover:bg-[#2A48B8] text-white py-3.5 px-8 md:px-10 rounded-full text-sm md:text-base font-semibold transition-all duration-300 shadow-md sm:shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 transform hover:-translate-y-0.5 active:scale-[0.98]"
+              className="w-full sm:w-auto h-12 inline-flex items-center justify-center gap-2 text-center whitespace-nowrap bg-[#3558D4] hover:bg-[#2A48B8] text-white px-7 sm:px-9 rounded-full text-[13px] sm:text-sm font-semibold tracking-wide transition-all duration-300 shadow-lg shadow-[#4169E1]/25 hover:shadow-[#4169E1]/45 transform hover:-translate-y-0.5 active:scale-[0.98]"
             >
-              Book Project Consultation
+              <span>Book Project Consultation</span>
+              <svg className="w-3.5 h-3.5 translate-y-[0.5px]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+              </svg>
             </Link>
             <a
               data-track-id="home-hero-calendly"
@@ -181,9 +184,12 @@ const Home = ({ initialProjects, initialReviews, initialBlogs, initialSocialMedi
               href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center text-center whitespace-nowrap py-3.5 px-8 md:px-10 border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white rounded-full text-sm md:text-base font-semibold transition-all duration-300 backdrop-blur-sm transform hover:-translate-y-0.5 active:scale-[0.98]"
+              className="w-full sm:w-auto h-12 inline-flex items-center justify-center gap-2 text-center whitespace-nowrap px-7 sm:px-9 border border-white/20 hover:border-white/50 bg-white/[0.06] hover:bg-white/[0.12] text-zinc-100 hover:text-white rounded-full text-[13px] sm:text-sm font-semibold tracking-wide transition-all duration-300 backdrop-blur-md transform hover:-translate-y-0.5 active:scale-[0.98]"
             >
-              Schedule a Quick Call
+              <svg className="w-4 h-4 text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span>Schedule a Quick Call</span>
             </a>
           </div>
         </Reveal>
