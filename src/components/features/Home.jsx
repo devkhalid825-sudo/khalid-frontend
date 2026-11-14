@@ -109,8 +109,7 @@ const CardSection = ({ eyebrow, title, intro, items, cols, mobileFlex = false })
           </RevealGroup>
           {/* Right-edge swipe hint gradient — mobile only */}
           <div
-            className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:hidden"
-            style={{ background: 'linear-gradient(to left, #000 0%, transparent 100%)' }}
+            className="home-cards-fade pointer-events-none absolute inset-y-0 right-0 w-16 sm:hidden"
             aria-hidden="true"
           />
         </div>

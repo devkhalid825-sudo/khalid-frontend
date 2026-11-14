@@ -2759,6 +2759,14 @@ html.lenis, html.lenis body { height: auto; }
 /* ── Home card sections (Core Capabilities + How We Work) ── */
 .home-cards-section { --hc-line: rgba(255,255,255,0.08); --hc-card: #0b0b0d; --hc-accent: #4169E1; }
 html.light .home-cards-section { --hc-line: transparent; --hc-card: #ffffff; border-top: none !important; }
+/* Mobile light mode: visible card tiles (matches dark-mode look) */
+@media (max-width: 639px) {
+  html.light .home-cards-section { --hc-line: #e2e8f0; --hc-card: #f8fafc; }
+  html.light .home-cards-section .home-card { box-shadow: 0 8px 24px -16px rgba(15,23,42,0.25); }
+}
+/* Swipe-hint fade follows the theme */
+.home-cards-fade { background: linear-gradient(to left, #000 0%, transparent 100%); }
+html.light .home-cards-fade { background: linear-gradient(to left, #fff 0%, transparent 100%); }
 
 .home-cards-head {
   display: flex;
