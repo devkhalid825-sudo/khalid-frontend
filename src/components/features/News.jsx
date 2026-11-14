@@ -29,11 +29,13 @@ import modernVillaRaw from '../../assets/About-page/Nevegan.jpg';
 import furnitureRaw from '../../assets/ElipseImages/blogs/alnoor.webp';
 import volvoPaintRaw from '../../assets/About-page/volvo-s90-ue5-paint.webp';
 import golfCartRaw from '../../assets/About-page/golf-cart.webp';
+import golf2Raw from '../../assets/About-page/golf-2.png';
 import roohafzaRaw from '../../assets/About-page/roohafza.webp';
 import kumarRaw from '../../assets/About-page/kumar-hd.webp';
 
 const kumarImg = getImgSrc(kumarRaw);
 const golfCartImg = getImgSrc(golfCartRaw);
+const golf2Img = getImgSrc(golf2Raw);
 const roohafzaImg = getImgSrc(roohafzaRaw);
 const volvoPaintImg = getImgSrc(volvoPaintRaw);
 const modernVilla = getImgSrc(modernVillaRaw);
@@ -113,6 +115,15 @@ const News = ({ initialBlogs = null }) => {
   }, []);
 
   const staticPosts = [
+    {
+      id: 'golf-cart-3d-configurator-lsv-2026',
+      title: 'Golf Cart & LSV 3D Web Configurators: How Interactive Accessory Builders Drive 40% Higher Dealership Quoting Volume',
+      image: golf2Img,
+      date: 'NOVEMBER 14, 2026',
+      category: 'Powersports 3D Commerce',
+      readTime: '14 min read',
+      url: '/blog/golf-cart-3d-configurator-lsv',
+    },
     {
       id: 'virtual-tours-360-vs-ue5-2026',
       title: 'Interactive 3D Virtual Tours vs 360 Video for Luxury Real Estate: Closing High-Net-Worth Off-Plan Buyers',

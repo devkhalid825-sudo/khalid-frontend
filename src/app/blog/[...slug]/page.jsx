@@ -7,6 +7,7 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  'golf-cart-3d-configurator-lsv': dynamic(() => import('@/components/articles/GolfCart3dConfiguratorArticle')),
   'interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026': dynamic(() => import('@/components/articles/VirtualTours360VsUe5Article')),
   '3d-anamorphic-billboard-production': dynamic(() => import('@/components/articles/AnamorphicBillboardProductionArticle')),
   'custom-3d-configurator-vs-saas-platform-enterprise-2026': dynamic(() => import('@/components/articles/CustomConfiguratorVsSaasArticle')),
@@ -61,6 +62,22 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  'golf-cart-3d-configurator-lsv': {
+    title: 'Golf Cart & LSV 3D Web Configurators: Drive 40% Higher Dealership Quoting Volume (2026)',
+    description: 'How a PlayCanvas/WebGL golf cart 3D configurator with real-time component swapping, five chassis platforms and a dealer CPQ portal lifted dealer quoting volume by 40% — plus the WooCommerce to headless migration path.',
+    keywords: [
+      'golf cart 3d configurator',
+      'lsv 3d customizer',
+      'utility vehicle configurator webgl',
+      'aftermarket golf cart accessory builder',
+      'powersports 3d cpq software',
+      'dealer portal cpq',
+      'playcanvas configurator',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/golf-cart-3d-configurator-lsv`,
+    ogImage: `${SITE_URL}/assets/About-page/golf-cart.webp`,
+  },
   'interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026': {
     title: 'Interactive 3D Virtual Tours vs 360 Video for Luxury Real Estate (2026 Guide)',
     description: 'Why UE5 real-time walkthroughs close international off-plan buyers better than 360 video: live finish swaps, time-of-day lighting, VR, kiosk and Pixel Streaming, plus ROI vs a physical sales suite.',
@@ -605,6 +622,7 @@ export async function generateStaticParams() {
 const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 
 function staticArticleSchemas(slugStr, meta) {
+  const isGolfCart = slugStr === 'golf-cart-3d-configurator-lsv';
   const isVirtualTours360 = slugStr === 'interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026';
   const isAnamorphicProduction = slugStr === '3d-anamorphic-billboard-production';
   const isAnamorphicBillboard = !isAnamorphicProduction && (slugStr.includes('3d-anamorphic-billboard') || slugStr.includes('anamorphic-billboard'));
@@ -624,6 +642,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isGolfCart) return '2026-11-14';
     if (isVirtualTours360) return '2026-11-12';
     if (isAnamorphicProduction) return '2026-11-11';
     if (isCustomVsSaas) return '2026-11-10';
@@ -973,6 +992,35 @@ function staticArticleSchemas(slugStr, meta) {
         uploadDate: '2026-11-12',
         embedUrl: 'https://www.youtube.com/embed/rn0Lf782Cug',
       }),
+      authorSchema,
+    ];
+  }
+
+  // Must match the FAQ text rendered in GolfCart3dConfiguratorArticle.jsx.
+  if (isGolfCart) {
+    extraSchemas = [
+      buildFaqSchema([
+        {
+          q: 'How long does it take to build a golf cart 3D configurator from scratch?',
+          a: 'A production-ready configurator covering a single chassis platform with 8–12 component categories takes 10–14 weeks from signed brief to live deployment. A multi-platform build (3–5 chassis families) with dealer portal and CPQ integration typically runs 18–24 weeks. The largest time variable is the CAD-to-WebGL pipeline — sourcing, cleaning and validating 3D geometry for every configurable component. Brands with existing 3D CAD libraries compress this by 30–40%.',
+        },
+        {
+          q: 'What is the typical investment range for a powersports 3D CPQ configurator?',
+          a: 'Single-platform configurators (D2C retail only, no dealer portal) typically range from $28,000–$55,000. Multi-platform builds with full CPQ, dealer portal and ERP integration run $65,000–$120,000+. An ongoing retainer for catalogue updates adds $2,500–$6,000 per month depending on volume. Off-the-shelf configurator SaaS tools exist at lower entry points but offer limited 3D quality and no dealer portal customisation.',
+        },
+        {
+          q: 'Can the configurator work on mobile devices without a dedicated app?',
+          a: 'Yes — this is the core value of a WebGL web configurator over a native app. PlayCanvas-based configurators run in mobile Safari and Chrome without installation. Smooth 60fps on mid-range Android devices requires aggressive LOD management and compressed texture delivery, but it is achievable: the GC Mods configurator maintains 50–60fps on devices from 2021 onwards.',
+        },
+        {
+          q: 'How does the configurator handle new accessory launches after deployment?',
+          a: 'New components are added through a structured asset pipeline: 3D geometry processed to WebGL standards, compatibility rules defined in the JSON matrix, pricing entered in the CPQ engine, and the component published without a full application rebuild. In Elipse Studio\'s ongoing engagement model, standard component additions are completed within 3–4 business days of asset delivery.',
+        },
+        {
+          q: 'Does a 3D configurator replace the need for a product catalogue or dealer training?',
+          a: 'No — it complements both. The configurator handles the visual and pricing layer of the buying journey. It does not replace technical spec sheets (torque specs, fitment tables, warranty documentation) or dealer training on installation. The highest-performing deployments make the configurator the entry point of the buying journey, with links to detailed spec documentation for buyers who need engineering-level validation.',
+        },
+      ]),
       authorSchema,
     ];
   }

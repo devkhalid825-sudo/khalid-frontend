@@ -218,7 +218,7 @@ const Hero = () => {
               {/* Left Peeking Card (Soft Subtle Blur & Gentle Gradient) */}
               <div
                 onClick={handleDesktopPrev}
-                className="desktop-hero-side-card absolute left-[-2%] xl:left-[0%] 2xl:left-[0.5%] h-[90%] max-h-[760px] 2xl:max-h-[960px] aspect-[9/16] max-w-[260px] 2xl:max-w-[320px] bg-black rounded-[14px] sm:rounded-[18px] lg:rounded-[22px] overflow-hidden opacity-65 hover:opacity-95 transition-all duration-300 cursor-pointer shadow-2xl border border-white/20 pointer-events-auto group"
+                className="desktop-hero-side-card absolute left-[-2%] xl:left-[0%] 2xl:left-[0.5%] h-[90%] max-h-[760px] 2xl:max-h-[960px] aspect-[9/16] max-w-[260px] 2xl:max-w-[320px] bg-black rounded-[14px] sm:rounded-[18px] lg:rounded-[22px] overflow-hidden opacity-80 hover:opacity-100 transition-all duration-300 cursor-pointer shadow-2xl border border-white/20 pointer-events-auto group"
               >
                 <video
                   key={`prev-${prevDesktopSlide.video}`}
@@ -230,8 +230,8 @@ const Hero = () => {
                   playsInline
                 />
                 {/* Soft Light Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-r from-black/50 via-black/20 to-transparent pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/30 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-r from-black/20 via-black/8 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10 pointer-events-none" />
               </div>
 
               {/* Active Large Center Card (Responsive Proportion - No Arrow Collision on Small Screens) */}
@@ -256,7 +256,7 @@ const Hero = () => {
               {/* Right Peeking Card (Soft Subtle Blur & Gentle Gradient) */}
               <div
                 onClick={handleDesktopNext}
-                className="desktop-hero-side-card absolute right-[-2%] xl:right-[0%] 2xl:right-[0.5%] h-[90%] max-h-[760px] 2xl:max-h-[960px] aspect-[9/16] max-w-[260px] 2xl:max-w-[320px] bg-black rounded-[14px] sm:rounded-[18px] lg:rounded-[22px] overflow-hidden opacity-65 hover:opacity-95 transition-all duration-300 cursor-pointer shadow-2xl border border-white/20 pointer-events-auto group"
+                className="desktop-hero-side-card absolute right-[-2%] xl:right-[0%] 2xl:right-[0.5%] h-[90%] max-h-[760px] 2xl:max-h-[960px] aspect-[9/16] max-w-[260px] 2xl:max-w-[320px] bg-black rounded-[14px] sm:rounded-[18px] lg:rounded-[22px] overflow-hidden opacity-80 hover:opacity-100 transition-all duration-300 cursor-pointer shadow-2xl border border-white/20 pointer-events-auto group"
               >
                 <video
                   key={`next-${nextDesktopSlide.video}`}
@@ -268,8 +268,8 @@ const Hero = () => {
                   playsInline
                 />
                 {/* Soft Light Gradient Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-l from-black/50 via-black/20 to-transparent pointer-events-none" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-black/30 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-l from-black/20 via-black/8 to-transparent pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/10 pointer-events-none" />
               </div>
             </div>
           </div>

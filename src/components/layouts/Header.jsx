@@ -53,7 +53,7 @@ const HARDCODED_BLOG_SLUGS = new Set([
   'real-cost-bad-vr-training-simulations-2026',
 ]);
 
-const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = false, hideThemeToggle = false }) => {
+const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = false, hideThemeToggle = false, homeScroll = false }) => {
   const router = useRouter();
   const pathname = usePathname();
   const isBlogArticle = Boolean(pathname && pathname.startsWith('/blog/') && pathname !== '/blog');
@@ -135,7 +135,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
 
   useEffect(() => {
     const handleScroll = () => {
-      const isHomePage = pathname === '/';
+      const isHomePage = pathname === '/' || homeScroll;
       setIsScrolled(window.scrollY > 20);
 
       // On interior pages like /portfolio, keep full "ELIPSE" logo always visible; do not swap to compact icon
@@ -276,7 +276,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
   ];
 
   // On interior pages, attach when scrolled; on homepage, attach when showBrandIcon is active
-  const isAttached = pathname === '/' ? (showBrandIcon || exitAnim) : isScrolled;
+  const isAttached = (pathname === '/' || homeScroll) ?(showBrandIcon || exitAnim) : isScrolled;
   const isEffectiveLight = isMenuOpen ? false : ((hasDarkHero && !isAttached) ? false : isLightMode);
 
   const headerBgClass = isMenuOpen

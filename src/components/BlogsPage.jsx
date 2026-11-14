@@ -45,9 +45,11 @@ import roohafzaRaw from '../assets/About-page/roohafza.webp';
 import volvoRaw from '../assets/About-page/volvo-thumbnail.webp';
 import volvoUe5Raw from '../assets/About-page/volvo-s90-ue5-hero.webp';
 import golfCartRaw from '../assets/About-page/golf-cart.webp';
+import golf2Raw from '../assets/About-page/golf-2.png';
 import kumarRaw from '../assets/About-page/kumar-hd.webp';
 
 const golfCart = getImgSrc(golfCartRaw);
+const golf2 = getImgSrc(golf2Raw);
 const kumar = getImgSrc(kumarRaw);
 const volvoPaint = getImgSrc(volvoPaintRaw);
 const roohafza = getImgSrc(roohafzaRaw);
@@ -88,6 +90,15 @@ const staticImages = {
 };
 
 const staticPosts = [
+    {
+        id: 'static-golf-cart-3d-configurator-lsv-2026',
+        title: 'Golf Cart & LSV 3D Web Configurators: How Interactive Accessory Builders Drive 40% Higher Dealership Quoting Volume',
+        excerpt: 'The PlayCanvas/WebGL architecture behind the GC Mods / Eco Battery configurator: real-time component swapping, five chassis platforms, dual D2C and dealer CPQ pricing, and the WooCommerce-to-headless migration path.',
+        image: golf2,
+        date: 'NOVEMBER 14, 2026',
+        category: 'Powersports 3D Commerce',
+        url: '/blog/golf-cart-3d-configurator-lsv',
+    },
     {
         id: 'static-virtual-tours-360-vs-ue5-2026',
         title: 'Interactive 3D Virtual Tours vs 360 Video for Luxury Real Estate: Closing High-Net-Worth Off-Plan Buyers',
