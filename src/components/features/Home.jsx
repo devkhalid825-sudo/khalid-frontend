@@ -54,7 +54,7 @@ const METHOD = [
 // same container, header, card style, spacing and reveal animation.
 const CardSection = ({ eyebrow, title, intro, items, cols, mobileFlex = false }) => (
   <section className="home-cards-section bg-black py-14 md:py-20 overflow-hidden">
-    <div className="home-container">
+    <div className={mobileFlex ? 'home-container sm:overflow-visible relative' : 'home-container'}>
       <Reveal className="home-cards-head">
         <div>
           <p className="home-eyebrow">
@@ -68,51 +68,85 @@ const CardSection = ({ eyebrow, title, intro, items, cols, mobileFlex = false })
         {intro && <p className="home-cards-intro text-gray-400 font-serif leading-[1.75]">{intro}</p>}
       </Reveal>
 
-      <RevealGroup
-        className={
-          mobileFlex
-            ? 'flex flex-nowrap items-stretch overflow-x-auto pb-4 pt-1 gap-4 snap-x snap-mandatory no-scrollbar -mx-[15px] px-[15px] sm:mx-0 sm:px-0 sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 md:gap-6 sm:overflow-visible sm:pb-0'
-            : `grid grid-cols-1 ${cols} gap-5 md:gap-6`
-        }
-      >
-        {items.map((it) => {
-          const inner = (
-            <>
-              <div className="home-card-top">
-                <span className="home-card-num">{it.num}</span>
-                {it.tag && <span className="home-card-tag">{it.tag}</span>}
-              </div>
-              <h3 className="home-card-title text-white">{it.title}</h3>
-              <p className="home-card-desc text-gray-400 font-serif leading-[1.75]">{it.desc}</p>
-              {it.href && (
-                <span className="home-card-more">
-                  Explore
-                  <svg viewBox="0 0 16 16" width="13" height="13" fill="none" aria-hidden="true">
-                    <path d="M4 12L12 4M12 4H5.5M12 4V10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
-                  </svg>
-                </span>
-              )}
-            </>
-          );
-          return (
-            <RevealItem
-              key={it.key}
-              className={
-                mobileFlex
-                  ? 'h-full w-[82vw] max-w-[310px] min-w-[270px] shrink-0 snap-start sm:w-auto sm:max-w-none sm:min-w-0'
-                  : 'h-full'
-              }
-            >
-              {it.href ? (
-                <Link href={it.href} className="home-card group">{inner}</Link>
-              ) : (
-                <div className="home-card">{inner}</div>
-              )}
-            </RevealItem>
-          );
-        })}
-        {mobileFlex && <div className="shrink-0 w-2 sm:hidden" aria-hidden="true" />}
-      </RevealGroup>
+      {mobileFlex ? (
+        <div className="relative sm:contents">
+          <RevealGroup
+            className="flex flex-nowrap items-stretch overflow-x-auto pb-5 pt-1 gap-4 snap-x snap-mandatory no-scrollbar sm:grid sm:grid-cols-2 lg:grid-cols-4 sm:gap-5 md:gap-6 sm:overflow-visible sm:pb-0"
+          >
+            {items.map((it) => {
+              const inner = (
+                <>
+                  <div className="home-card-top">
+                    <span className="home-card-num">{it.num}</span>
+                    {it.tag && <span className="home-card-tag">{it.tag}</span>}
+                  </div>
+                  <h3 className="home-card-title text-white">{it.title}</h3>
+                  <p className="home-card-desc text-gray-400 font-serif leading-[1.75]">{it.desc}</p>
+                  {it.href && (
+                    <span className="home-card-more">
+                      Explore
+                      <svg viewBox="0 0 16 16" width="13" height="13" fill="none" aria-hidden="true">
+                        <path d="M4 12L12 4M12 4H5.5M12 4V10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  )}
+                </>
+              );
+              return (
+                <RevealItem
+                  key={it.key}
+                  className="h-full w-[80vw] max-w-[295px] min-w-[260px] shrink-0 snap-start sm:w-auto sm:max-w-none sm:min-w-0"
+                >
+                  {it.href ? (
+                    <Link href={it.href} className="home-card group">{inner}</Link>
+                  ) : (
+                    <div className="home-card">{inner}</div>
+                  )}
+                </RevealItem>
+              );
+            })}
+            <div className="shrink-0 w-3 sm:hidden" aria-hidden="true" />
+          </RevealGroup>
+          {/* Right-edge swipe hint gradient — mobile only */}
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 w-16 sm:hidden"
+            style={{ background: 'linear-gradient(to left, #000 0%, transparent 100%)' }}
+            aria-hidden="true"
+          />
+        </div>
+      ) : (
+        <RevealGroup className={`grid grid-cols-1 ${cols} gap-5 md:gap-6`}>
+          {items.map((it) => {
+            const inner = (
+              <>
+                <div className="home-card-top">
+                  <span className="home-card-num">{it.num}</span>
+                  {it.tag && <span className="home-card-tag">{it.tag}</span>}
+                </div>
+                <h3 className="home-card-title text-white">{it.title}</h3>
+                <p className="home-card-desc text-gray-400 font-serif leading-[1.75]">{it.desc}</p>
+                {it.href && (
+                  <span className="home-card-more">
+                    Explore
+                    <svg viewBox="0 0 16 16" width="13" height="13" fill="none" aria-hidden="true">
+                      <path d="M4 12L12 4M12 4H5.5M12 4V10.5" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </span>
+                )}
+              </>
+            );
+            return (
+              <RevealItem key={it.key} className="h-full">
+                {it.href ? (
+                  <Link href={it.href} className="home-card group">{inner}</Link>
+                ) : (
+                  <div className="home-card">{inner}</div>
+                )}
+              </RevealItem>
+            );
+          })}
+        </RevealGroup>
+      )}
     </div>
   </section>
 );
