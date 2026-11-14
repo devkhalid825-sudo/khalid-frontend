@@ -166,10 +166,10 @@ const Home = ({ initialProjects, initialReviews, initialBlogs, initialSocialMedi
           <p className="text-gray-400 text-xs md:text-base max-w-xl mx-auto mb-5 md:mb-8 font-serif leading-[1.75]">
             Get a free sample render or ballpark estimate &mdash; no commitment required
           </p>
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-xs sm:max-w-none mx-auto">
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-sm sm:max-w-none mx-auto px-4 sm:px-0">
             <Link
               href="/contact"
-              className="w-auto inline-flex items-center justify-center text-center whitespace-nowrap bg-[#3558D4] hover:bg-[#2A48B8] text-white h-10 sm:h-auto px-6 sm:px-8 sm:py-3.5 md:px-10 md:py-4 rounded-full text-[13px] sm:text-sm md:text-base font-semibold transition-all shadow-md sm:shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 transform hover:-translate-y-0.5"
+              className="w-full sm:w-auto inline-flex items-center justify-center text-center whitespace-nowrap bg-[#3558D4] hover:bg-[#2A48B8] text-white py-3.5 px-8 md:px-10 rounded-full text-sm md:text-base font-semibold transition-all duration-300 shadow-md sm:shadow-lg shadow-[#4169E1]/30 hover:shadow-[#4169E1]/50 transform hover:-translate-y-0.5 active:scale-[0.98]"
             >
               Book Project Consultation
             </Link>
@@ -181,7 +181,7 @@ const Home = ({ initialProjects, initialReviews, initialBlogs, initialSocialMedi
               href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-auto inline-flex items-center justify-center text-center whitespace-nowrap h-10 sm:h-auto px-6 sm:px-8 sm:py-3.5 md:px-10 md:py-4 border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white rounded-full text-[13px] sm:text-sm md:text-base font-semibold transition-all backdrop-blur-sm"
+              className="w-full sm:w-auto inline-flex items-center justify-center text-center whitespace-nowrap py-3.5 px-8 md:px-10 border border-white/20 hover:border-white/40 bg-white/5 hover:bg-white/10 text-white rounded-full text-sm md:text-base font-semibold transition-all duration-300 backdrop-blur-sm transform hover:-translate-y-0.5 active:scale-[0.98]"
             >
               Schedule a Quick Call
             </a>
