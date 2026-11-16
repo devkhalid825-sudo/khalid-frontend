@@ -30,12 +30,14 @@ import furnitureRaw from '../../assets/ElipseImages/blogs/alnoor.webp';
 import volvoPaintRaw from '../../assets/About-page/volvo-s90-ue5-paint.webp';
 import golfCartRaw from '../../assets/About-page/golf-cart.webp';
 import golf2Raw from '../../assets/About-page/golf-2.png';
+import configuratorCard2Raw from '../../assets/About-page/newkia.png';
 import roohafzaRaw from '../../assets/About-page/roohafza.webp';
 import kumarRaw from '../../assets/About-page/kumar-hd.webp';
 
 const kumarImg = getImgSrc(kumarRaw);
 const golfCartImg = getImgSrc(golfCartRaw);
 const golf2Img = getImgSrc(golf2Raw);
+const configuratorCard2 = getImgSrc(configuratorCard2Raw);
 const roohafzaImg = getImgSrc(roohafzaRaw);
 const volvoPaintImg = getImgSrc(volvoPaintRaw);
 const modernVilla = getImgSrc(modernVillaRaw);
@@ -115,6 +117,15 @@ const News = ({ initialBlogs = null }) => {
   }, []);
 
   const staticPosts = [
+    {
+      id: '3d-configurator-ip-ownership-saas-tco-2026',
+      title: '3D Configurator IP Ownership vs SaaS Licensing: The 2026 CTO Guide to 3-Year Total Cost of Ownership',
+      image: configuratorCard2,
+      date: 'NOVEMBER 16, 2026',
+      category: 'Enterprise 3D Configurators',
+      readTime: '12 min read',
+      url: '/blog/3d-configurator-ip-ownership-saas-tco',
+    },
     {
       id: 'golf-cart-3d-configurator-lsv-2026',
       title: 'Golf Cart & LSV 3D Web Configurators: How Interactive Accessory Builders Drive 40% Higher Dealership Quoting Volume',

@@ -51,7 +51,7 @@ const PRODUCT_VIZ_BUILDS = [
     desc: 'Dynamic 3D product commercial and fruit spread simulation highlighting fresh ingredients, appetizing jar textures, and vibrant breakfast lifestyle CGI.',
     image: ahmedJamSpreadImg,
     tech: 'Fluid Dynamics · Redshift · 3D VFX',
-    tags: ['Product Animation'],
+    tags: ['Product Animation', 'AI'],
     projectPath: '/project/ahmed-foods',
   },
   {
@@ -60,7 +60,7 @@ const PRODUCT_VIZ_BUILDS = [
     desc: 'Cinematic 3D commercial featuring photoreal ingredient dynamics, sizzling spices, steam simulation, and packaging CGI for Ahmed Foods Bombay Biryani recipe mix.',
     image: ahmedBiryaniImg,
     tech: 'Food CGI · Particle Dynamics · Redshift',
-    tags: ['Product Animation'],
+    tags: ['Product Animation', 'AI'],
     projectPath: '/project/ahmed-foods',
   },
   {
@@ -87,7 +87,7 @@ const PRODUCT_VIZ_BUILDS = [
     desc: 'Vibrant 3D commercial animation showcasing dynamic fruit jelly splashes, translucent material physics, and appetizing packaging aesthetics.',
     image: ahmedFoodsImg,
     tech: 'Fluid Dynamics · Houdini · Redshift',
-    tags: ['Product Animation'],
+    tags: ['Product Animation', 'AI'],
     projectPath: '/project/ahmed-foods',
   },
   {

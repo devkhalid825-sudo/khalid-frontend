@@ -98,8 +98,30 @@ return (
                 {/* Top fade so the header stays readable over the video */}
                 <div className="absolute inset-x-0 top-0 h-40 pointer-events-none" style={{ background: 'linear-gradient(180deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0) 100%)' }} />
                 <Header />
-                {/* Visually hidden H1 keeps the page heading for SEO/screen readers */}
-                <h1 className="sr-only">Tailored solutions for every industry</h1>
+                {/* Bottom fade so the headline stays readable over the video */}
+                <div className="absolute inset-x-0 bottom-0 h-[70%] pointer-events-none" style={{ background: 'linear-gradient(0deg, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.55) 50%, rgba(0,0,0,0) 100%)' }} />
+                <div className="relative z-10 mt-auto max-w-[900px]">
+                    <h1 className="text-white font-bold tracking-tight leading-[1.05] text-[clamp(2.5rem,6vw,5.5rem)] mb-6">
+                        Tailored solutions for every industry<span className="text-[#4169E1]">.</span>
+                    </h1>
+                    <p className="text-white/70 text-base md:text-lg font-light leading-relaxed max-w-[720px] mb-8">
+                        Photoreal visualization, immersive experiences, and interactive platforms — purpose-built for each industry we work with. From architectural renders that sell unbuilt properties to VR training systems that reduce operational risk, we craft digital experiences tailored to your sector&apos;s unique challenges and audience expectations.
+                    </p>
+                    <div className="flex flex-wrap gap-3">
+                        <button
+                            data-track-destination="/contact" onClick={() => navigate('/contact')}
+                            className="bg-[#3558D4] hover:bg-[#2A48B8] text-white px-7 py-3.5 rounded-full text-sm font-semibold transition-all shadow-lg shadow-[#4169E1]/30"
+                        >
+                            Discuss Your Project
+                        </button>
+                        <button
+                            onClick={() => document.getElementById('industries-grid')?.scrollIntoView({ behavior: 'smooth' })}
+                            className="industries-hero-btn border border-white/20 hover:border-white/50 text-white px-7 py-3.5 rounded-full text-sm font-semibold transition-all"
+                        >
+                            Browse All
+                        </button>
+                    </div>
+                </div>
             </section>
 
             {/* ===== SEARCH + CTA ROW ===== */}

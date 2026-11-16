@@ -46,10 +46,12 @@ import volvoRaw from '../assets/About-page/volvo-thumbnail.webp';
 import volvoUe5Raw from '../assets/About-page/volvo-s90-ue5-hero.webp';
 import golfCartRaw from '../assets/About-page/golf-cart.webp';
 import golf2Raw from '../assets/About-page/golf-2.png';
+import configuratorTcoRaw from '../assets/About-page/newkia.png';
 import kumarRaw from '../assets/About-page/kumar-hd.webp';
 
 const golfCart = getImgSrc(golfCartRaw);
 const golf2 = getImgSrc(golf2Raw);
+const configuratorTco = getImgSrc(configuratorTcoRaw);
 const kumar = getImgSrc(kumarRaw);
 const volvoPaint = getImgSrc(volvoPaintRaw);
 const roohafza = getImgSrc(roohafzaRaw);
@@ -90,6 +92,15 @@ const staticImages = {
 };
 
 const staticPosts = [
+    {
+        id: 'static-3d-configurator-ip-ownership-saas-tco-2026',
+        title: '3D Configurator IP Ownership vs SaaS Licensing: The 2026 CTO Guide to 3-Year Total Cost of Ownership',
+        excerpt: 'A 36-month TCO model for custom WebGL builds vs SaaS 3D configurators: break-even timing, asset portability across AR, CGI and kiosks, real hosting costs, and the five contract clauses that protect your IP.',
+        image: configuratorTco,
+        date: 'NOVEMBER 16, 2026',
+        category: 'Enterprise 3D Configurators',
+        url: '/blog/3d-configurator-ip-ownership-saas-tco',
+    },
     {
         id: 'static-golf-cart-3d-configurator-lsv-2026',
         title: 'Golf Cart & LSV 3D Web Configurators: How Interactive Accessory Builders Drive 40% Higher Dealership Quoting Volume',

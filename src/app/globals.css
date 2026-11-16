@@ -1661,6 +1661,11 @@ html.light .blogs-hero-section [class*="from-black"] {
 
 /* Ensure white blog cards inside featured swiper on blogs hero stay white with dark text */
 html.light .blogs-hero-section .bg-white,
+html.light .keep-dark-hero .industries-hero-btn {
+  color: #ffffff !important;
+  border-color: rgba(255, 255, 255, 0.35) !important;
+}
+
 html.light .keep-dark-hero .featured-swiper .bg-white {
   background-color: #ffffff !important;
   color: #1a1a1a !important;

@@ -7,6 +7,7 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  '3d-configurator-ip-ownership-saas-tco': dynamic(() => import('@/components/articles/ConfiguratorIpOwnershipTcoArticle')),
   'golf-cart-3d-configurator-lsv': dynamic(() => import('@/components/articles/GolfCart3dConfiguratorArticle')),
   'interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026': dynamic(() => import('@/components/articles/VirtualTours360VsUe5Article')),
   '3d-anamorphic-billboard-production': dynamic(() => import('@/components/articles/AnamorphicBillboardProductionArticle')),
@@ -62,6 +63,20 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  '3d-configurator-ip-ownership-saas-tco': {
+    title: '3D Configurator IP Ownership vs SaaS Licensing: 3-Year TCO Guide (2026)',
+    description: 'A CTO guide to 3D configurator IP ownership: a 36-month TCO model comparing custom WebGL builds with SaaS licensing, break-even timing, asset portability, hosting costs and a 5-clause procurement checklist.',
+    keywords: [
+      '3d configurator ip ownership',
+      'custom webgl vs saas tco',
+      '3d product configurator licensing cost',
+      'own source code 3d configurator',
+      'enterprise 3d customizer total cost',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/3d-configurator-ip-ownership-saas-tco`,
+    ogImage: `${SITE_URL}/assets/About-page/volvo-thumbnail.webp`,
+  },
   'golf-cart-3d-configurator-lsv': {
     title: 'Golf Cart & LSV 3D Web Configurators: Drive 40% Higher Dealership Quoting Volume (2026)',
     description: 'How a PlayCanvas/WebGL golf cart 3D configurator with real-time component swapping, five chassis platforms and a dealer CPQ portal lifted dealer quoting volume by 40% — plus the WooCommerce to headless migration path.',
@@ -622,6 +637,7 @@ export async function generateStaticParams() {
 const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 
 function staticArticleSchemas(slugStr, meta) {
+  const isIpOwnership = slugStr === '3d-configurator-ip-ownership-saas-tco';
   const isGolfCart = slugStr === 'golf-cart-3d-configurator-lsv';
   const isVirtualTours360 = slugStr === 'interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026';
   const isAnamorphicProduction = slugStr === '3d-anamorphic-billboard-production';
@@ -642,6 +658,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isIpOwnership) return '2026-11-16';
     if (isGolfCart) return '2026-11-14';
     if (isVirtualTours360) return '2026-11-12';
     if (isAnamorphicProduction) return '2026-11-11';
@@ -992,6 +1009,39 @@ function staticArticleSchemas(slugStr, meta) {
         uploadDate: '2026-11-12',
         embedUrl: 'https://www.youtube.com/embed/rn0Lf782Cug',
       }),
+      authorSchema,
+    ];
+  }
+
+  // Must match the FAQ text rendered in ConfiguratorIpOwnershipTcoArticle.jsx.
+  if (isIpOwnership) {
+    extraSchemas = [
+      buildFaqSchema([
+        {
+          q: 'Can a small brand justify the upfront cost of a custom WebGL configurator?',
+          a: 'It depends on two variables: monthly view volume and expected product lifecycle. A brand processing fewer than 30,000 product page views per month with a 12 to 18 month product cycle will likely see a better ROI from a SaaS platform in the near term. The custom build advantage accelerates at higher traffic volumes and longer time horizons. As a rule of thumb, if your 36-month SaaS projected cost exceeds $70,000, a custom build should be in your procurement analysis.',
+        },
+        {
+          q: 'What technology stack does Elipse Studio use for custom configurators?',
+          a: 'Elipse Studio builds on Three.js and PlayCanvas for browser-based WebGL deployments, and Unreal Engine 5 for high-fidelity desktop and kiosk applications. Stack selection is driven by performance requirements, target device matrix, and integration complexity. All stacks produce client-owned, standard-format output with no proprietary runtime dependency.',
+        },
+        {
+          q: 'How long does a custom configurator build take compared to SaaS onboarding?',
+          a: 'A well-scoped custom build typically requires 8 to 16 weeks from kick-off to production launch. SaaS platform onboarding is typically advertised as 2 to 4 weeks, though enterprise integrations commonly take 6 to 10 weeks once SSO, ERP, and PIM integration requirements are factored in. The timeline difference is real but narrower than vendor marketing suggests.',
+        },
+        {
+          q: 'Who owns the 3D models if we supply them?',
+          a: 'If you supply the 3D models, you own them — the agency adds no ownership claim over client-supplied assets. If the agency creates the models as part of the engagement, ownership should be explicitly assigned in the contract. Never assume ownership; confirm it in writing at the statement-of-work stage.',
+        },
+        {
+          q: 'What happens to our configurator if Elipse Studio stops operating?',
+          a: 'Because clients receive full source code and all 3D assets at project delivery, there is no operational dependency on Elipse Studio continuing as a business. Any qualified WebGL developer can maintain, extend, or redeploy the codebase. This is the structural advantage of IP ownership over SaaS subscription: your digital asset exists independently of any single vendor.',
+        },
+        {
+          q: 'Is SaaS ever the right choice for enterprise brands?',
+          a: 'Yes, in specific contexts: for rapid proof-of-concept validation before committing to a full build; for temporary campaign-specific deployments with a defined end date; or for product categories with extremely high SKU counts and frequent model updates where the SaaS platform\'s model management tooling provides genuine workflow efficiency. The key is modelling the full 36-month cost including escalation and overages before making the comparison.',
+        },
+      ]),
       authorSchema,
     ];
   }
