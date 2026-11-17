@@ -9,7 +9,7 @@ const schema = {
   '@type': 'CollectionPage',
   name: 'Elipse Studio Industries',
   description:
-    'Tailored 3D visualization, VR, AR, and interactive solutions for real estate, ecommerce, healthcare, manufacturing, and more.',
+    'Tailored 3D visualization, VR, AR, and interactive solutions for real estate, e-commerce, automotive, manufacturing, hospitality, and more.',
   url: `${SITE_URL}/industries`,
   mainEntity: {
     '@type': 'ItemList',
@@ -42,7 +42,7 @@ export function generateMetadata() {
   return buildMetadata({
     title: 'Industries We Serve',
     description:
-      'Explore tailored 3D visualization, AR/VR, and interactive digital solutions for real estate, automotive, e-commerce, and healthcare.',
+      'Explore tailored 3D visualization, AR/VR, and interactive digital solutions for real estate, automotive, e-commerce, manufacturing, and hospitality.',
     canonical: `${SITE_URL}/industries`,
   });
 }

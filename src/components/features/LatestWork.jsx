@@ -433,7 +433,7 @@ const BrowseHeader = ({ value, onChange, isLightMode }) => (
  * showcase: Work page opener — "Latest Work" heading and the first 6 projects only
  * (no filter, no button); the browse section follows it.
  */
-const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfolioPreview = false, browseLayout = false, showcase = false }) => {
+const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfolioPreview = false, browseLayout = false, showcase = false, paths = null }) => {
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const themeContext = useTheme();
@@ -483,7 +483,9 @@ const LatestWorkContent = ({ isLight = undefined, initialProjects = null, portfo
     setVisibleCount((prev) => prev + 6);
   };
 
-  const visibleProjects = projects.filter((project) => pathname !== project.path);
+  const visibleProjects = projects.filter(
+    (project) => pathname !== project.path && (!paths || paths.includes(project.path))
+  );
   const filteredProjects = visibleProjects.filter(
     (project) => activeTab === 'all' || categoryToPillars(project.category).has(activeTab)
   );

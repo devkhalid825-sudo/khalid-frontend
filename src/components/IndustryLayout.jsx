@@ -23,6 +23,7 @@ import { LuSofa, LuFactory, LuRuler } from "react-icons/lu";
 
 import Header from './layouts/Header';
 import LatestWork from "./features/LatestWork";
+import { industryLatestWork } from "../data/industriesData";
 import Footer from './layouts/Footer';
 import Contact from './features/Contact';
 
@@ -617,7 +618,7 @@ const IndustryLayout = ({
                 </div>
             </footer>
 
-            <LatestWork />
+            <LatestWork paths={industryLatestWork[slug] || null} />
             <div id="contact">
                 <Contact />
             </div>

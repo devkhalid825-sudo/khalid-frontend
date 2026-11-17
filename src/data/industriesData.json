@@ -47,7 +47,8 @@
     "technology": "We utilize Unreal Engine 5 with Lumen and Nanite for photorealistic real-time rendering, WebRTC cloud pixel streaming for zero-latency browser access, Meta Quest VR for immersive showroom sales, and 3ds Max/V-Ray for high-resolution print stills.",
     "featuredCaseStudies": [
       { "title": "Interactive Virtual Home", "link": "/project/virtual-reality-experience" },
-      { "title": "Zenith by Amber", "link": "/project/virtual-reality-experience" }
+      { "title": "Zenith by Amber", "link": "/project/zenith-by-amber" },
+      { "title": "ARY Gujranwala Luxury Villas", "link": "/project/ary-gujranwala-villas" }
     ],
     "faqs": [
       {
@@ -122,7 +123,8 @@
     "technology": "Revit, Rhino, 3ds Max, V-Ray, Corona, and Unreal Engine 5 with custom camera tracking and photogrammetry alignment tools.",
     "featuredCaseStudies": [
       { "title": "Interactive Virtual Home", "link": "/project/virtual-reality-experience" },
-      { "title": "Lahore Zoo", "link": "/project/lahore-zoo" }
+      { "title": "Khoj Resort", "link": "/project/khoj" },
+      { "title": "Zenith by Amber", "link": "/project/zenith-by-amber" }
     ],
     "faqs": [
       {
@@ -196,7 +198,8 @@
     "useCases": "Luxury residences, hospitality suites, restaurants, corporate headquarters, and custom kitchen and joinery manufacturing.",
     "technology": "Physically Based Rendering (PBR), 3ds Max, V-Ray, Unreal Engine 5, WebGL, and custom calibrated material swatch pipelines.",
     "featuredCaseStudies": [
-      { "title": "Interactive Virtual Home", "link": "/project/virtual-reality-experience" }
+      { "title": "Interactive Virtual Home", "link": "/project/virtual-reality-experience" },
+      { "title": "Khoj Resort", "link": "/project/khoj" }
     ],
     "faqs": [
       {
@@ -345,7 +348,8 @@
     "technology": "PlayCanvas, Three.js, WebGL, Draco compression, KTX2, Shopify Storefront API, and iOS Quick Look / Android Scene Viewer.",
     "featuredCaseStudies": [
       { "title": "Bean Trailer 3D Builder", "link": "/project/bean-trailer-3d-builder" },
-      { "title": "Ahmed Foods", "link": "/project/ahmed-foods" }
+      { "title": "Ahmed Foods", "link": "/project/ahmed-foods" },
+      { "title": "GC Mods Golf Cart Configurator", "link": "/project/Costa-cart" }
     ],
     "faqs": [
       {
@@ -494,8 +498,7 @@
     "useCases": "Modular sofas, sectional seating, ergonomic office desks, custom shelving systems, outdoor patio furniture, and commercial contract furniture.",
     "technology": "Three.js, WebGL, WebAR (USDZ / GLB), KTX2 compression, Snap-node physics logic, and automated Blender/V-Ray batch rendering.",
     "featuredCaseStudies": [
-      { "title": "Interactive Virtual Home", "link": "/project/virtual-reality-experience" },
-      { "title": "Bean Trailer", "link": "/project/bean-trailer-3d-builder" }
+      { "title": "Interactive Virtual Home", "link": "/project/virtual-reality-experience" }
     ],
     "faqs": [
       {
@@ -643,8 +646,7 @@
     "useCases": "Luxury resorts, boutique hotels, conference centres, wedding venues, branded private residences, and pre-opening hotel marketing.",
     "technology": "Unreal Engine 5, WebRTC cloud streaming, WebGL, 360 photography stitching, and 3ds Max/V-Ray architectural look-dev.",
     "featuredCaseStudies": [
-      { "title": "Interactive Virtual Home", "link": "/project/virtual-reality-experience" },
-      { "title": "Lahore Zoo", "link": "/project/lahore-zoo" }
+      { "title": "Khoj Resort", "link": "/project/khoj" }
     ],
     "faqs": [
       {

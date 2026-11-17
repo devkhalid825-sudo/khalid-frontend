@@ -40,7 +40,7 @@ const CONFIGURATOR_BUILDS = [
     desc: 'Interactive 3D overland trailer builder with modular galley kitchens, solar setups, exterior finishes, and real-time CRM synchronization.',
     image: 'https://api.elipsestudio.com/media/539',
     tech: 'Unreal Engine 5 · Pixel Streaming',
-    liveLink: 'https://legacy.elipsestudio.com/3D-Builder/builder',
+    liveLink: 'https://beantrailer.com/3D-Builder/',
     projectPath: '/project/bean-trailer-3d-builder',
     tags: ['Car', 'Automotive'],
   },
