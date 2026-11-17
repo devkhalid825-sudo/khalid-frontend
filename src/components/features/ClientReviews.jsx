@@ -10,8 +10,24 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
 import { useIsMobile } from '@/hooks/useIsMobile';
+import beanLogo from '@/assets/About-page/bean-logo.png';
+import khojLogo from '@/assets/images/brandslogo04.png';
+import omoreLogo from '@/assets/ElipseImages/logos/logo6_clean.webp';
+import aryLogo from '@/assets/ElipseImages/logos/logo7.webp';
+import searleLogo from '@/assets/images/brandslogo03.png';
+import tapalLogo from '@/assets/images/brandslogo01.png';
+import roohLogo from '@/assets/images/brandslogo02.webp';
+
+const VOICE_LOGOS = [
+  { img: beanLogo, name: 'Bean Trailer', white: true },
+  { img: khojLogo, name: 'Khoj Resorts', white: true },
+  { img: omoreLogo, name: 'Omoré' },
+  { img: aryLogo, name: 'ARY Laguna' },
+  { img: searleLogo, name: 'Searle Pharmaceuticals' },
+  { img: tapalLogo, name: 'Tapal Tea' },
+  { img: roohLogo, name: 'Rooh Afza' },
+];
 import MediaFacade from '../ui/MediaFacade';
-import BrandsMarquee from './BrandsMarquee';
 
 const getYouTubeEmbedUrl = (url, muted = true) => {
   if (!url) return null;
@@ -87,7 +103,7 @@ const StageSlide = ({ review, isActive, isMuted, onToggleMute }) => {
   };
 
   return (
-    <div className="voices-card-wrap"><div className="voice-card relative w-full aspect-[9/16] rounded-[26px] overflow-hidden bg-[#0f0f11] border border-white/10">
+    <div className="voice-card relative w-full aspect-[9/16] rounded-[22px] overflow-hidden bg-[#0f0f11]">
       {poster && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={poster} alt="" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
@@ -135,8 +151,7 @@ const StageSlide = ({ review, isActive, isMuted, onToggleMute }) => {
         </>
       )}
 
-      <div className="pointer-events-none absolute inset-0 rounded-[26px] shadow-[inset_0_0_50px_rgba(0,0,0,0.35)]" />
-    </div></div>
+    </div>
   );
 };
 
@@ -152,6 +167,9 @@ html.light .voices-section{--v-bg:#fff;--v-fg:#0b0d14;--v-head-mute:#85858b;--v-
 .voices-btn:active{transform:scale(.94)}
 .voices-pill{border:1px solid var(--v-line);background:var(--v-chip)}
 .voices-arrow{color:var(--v-fg) !important;background:transparent;transition:background .2s ease,transform .2s ease}
+.voices-nav{color:var(--v-fg) !important;border:1px solid var(--v-line);background:var(--v-chip);backdrop-filter:blur(8px);transition:background .2s ease,transform .2s ease}
+.voices-nav:hover{background:rgba(65,105,225,.25)}
+.voices-nav:active{transform:translateY(-50%) scale(.92)}
 .voices-arrow:hover{background:rgba(65,105,225,.18)}
 .voices-arrow:active{transform:scale(.92)}
 .voices-dot{background:var(--v-line)}
@@ -159,12 +177,9 @@ html.light .voices-section{--v-bg:#fff;--v-fg:#0b0d14;--v-head-mute:#85858b;--v-
 .voices-section .brands-marquee-section{padding-top:40px;padding-bottom:0;background:transparent !important}
 .voices-stage-mask{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%)}
 .voices-swiper{overflow:visible !important;padding:24px 0 28px}
-.voices-swiper .voice-slide{transition:transform .8s cubic-bezier(.22,1,.36,1),filter .8s ease,opacity .8s ease;transform:scale(.72);filter:blur(7px);opacity:.4;cursor:pointer}
-.voices-swiper .voice-slide.swiper-slide-prev,.voices-swiper .voice-slide.swiper-slide-next{transform:scale(.86);filter:blur(3.5px);opacity:.7}
+.voices-swiper .voice-slide{transition:transform .8s cubic-bezier(.22,1,.36,1),filter .8s ease,opacity .8s ease;transform:scale(.72);filter:blur(14px);opacity:.3;cursor:pointer}
+.voices-swiper .voice-slide.swiper-slide-prev,.voices-swiper .voice-slide.swiper-slide-next{transform:scale(.86);filter:blur(9px);opacity:.5}
 .voices-swiper .voice-slide.swiper-slide-active{transform:scale(1);filter:none;opacity:1;cursor:default;z-index:2}
-.voices-swiper .voice-slide.swiper-slide-active .voice-card{box-shadow:0 24px 50px -24px rgba(0,0,0,.6);border-color:var(--v-line)}
-.voices-card-wrap{border-radius:30px;padding:6px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.02));}
-html.light .voices-card-wrap{background:linear-gradient(160deg,rgba(11,13,20,.12),rgba(11,13,20,.02))}
 @keyframes voicesCaptionIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
 .voices-caption{animation:voicesCaptionIn .7s cubic-bezier(.22,1,.36,1) both}
 @media (prefers-reduced-motion:reduce){.voices-swiper .voice-slide{transition:none}.voices-caption{animation:none}}
@@ -186,6 +201,22 @@ const REVIEW_ONE_LINERS = {
   'tnt': 'The VR visualization quality was outstanding, bringing our complex design concepts to life on schedule.',
   'aviv': 'Our buyers can now explore spaces interactively in real-time, accelerating our sales cycle significantly.',
   'hyper': 'An incredible leap in our digital presence and interactive customer experience.',
+};
+
+// Static designations (placeholders - confirm each title with the client).
+const REVIEW_DESIGNATIONS = {
+  'maha chishty': 'Founder',
+  'tim barth': 'Founder',
+  'filippo medina': 'CEO',
+  'abel': 'Marketing Director',
+  'ahmad': 'Founder',
+  'aviv': 'Co-Founder',
+};
+
+const getDesignation = (r) => {
+  if (r.designation) return r.designation;
+  const name = (r.clientName || '').trim().toLowerCase();
+  return REVIEW_DESIGNATIONS[name] || '';
 };
 
 const getReviewQuote = (review) => {
@@ -214,6 +245,7 @@ const mapReviews = (data) =>
     projectName: r.projectName || '',
     projectLink: r.projectLink || '',
     quote: r.quote || getReviewQuote(r),
+    designation: getDesignation(r),
   }));
 
 const ClientReviews = ({ initialReviews = null }) => {
@@ -365,17 +397,23 @@ const ClientReviews = ({ initialReviews = null }) => {
     >
       <div className="w-full relative">
         <style dangerouslySetInnerHTML={{ __html: VOICES_CSS }} />
-        <div className="home-container relative flex flex-col items-center text-center">
+        <div className="home-container relative flex flex-col items-center text-center mb-6 md:mb-10">
           <h2 className="voices-fg text-[30px] sm:text-4xl md:text-5xl lg:text-[54px] font-semibold tracking-[-0.03em] leading-[1.1] [text-wrap:balance]">
-            Voices<span className="text-[#4169E1]">.</span>{' '}
-            <span className="voices-fg">From ambitious leaders.</span>
+            Proof<span className="text-[#4169E1]">.</span>{' '}
+            <span className="voices-sub">From teams shipping in 3D.</span>
           </h2>
-          <p className="voices-sub mt-10 text-sm md:text-[17px] max-w-[640px] leading-none [text-wrap:balance]">
-            Real words from the founders and brand leaders we build with.
-          </p>
+          {(() => {
+            const logo = VOICE_LOGOS[activeIdx % VOICE_LOGOS.length];
+            return (
+              <img
+                key={logo.name}
+                src={typeof logo.img === 'string' ? logo.img : logo.img?.src}
+                alt={`${logo.name} logo`}
+                className={`voices-caption mt-8 h-12 md:h-16 w-auto max-w-[200px] object-contain ${logo.white ? 'brand-logo-white' : ''}`}
+              />
+            );
+          })()}
         </div>
-
-        <BrandsMarquee />
 
         {/* Mobile Swiper: ONLY rendered on mobile viewports (<768px). Prevents desktop duplicate nodes */}
         {isMobile !== false && (
@@ -405,10 +443,9 @@ const ClientReviews = ({ initialReviews = null }) => {
                 return (
                   <SwiperSlide key={review.id} className="!w-full py-3 sm:py-4">
                     <div
-                      className="w-full bg-[#323235] rounded-[20px] sm:rounded-[24px] flex flex-col p-3 sm:p-4 ring-[4px] sm:ring-[6px] ring-[#2b2b2d] relative"
-                      style={{ boxShadow: 'rgba(0,0,0,0.3) 0px 10px 30px -5px' }}
+                      className="w-full flex flex-col relative"
                     >
-                      <div className="w-full h-[280px] xs:h-[320px] sm:h-[360px] rounded-[14px] sm:rounded-[16px] overflow-hidden border border-white/5 relative">
+                      <div className="w-full h-[280px] xs:h-[320px] sm:h-[360px] rounded-[20px] overflow-hidden relative bg-[#0f0f11]">
                         {review.video ? (
                           <MediaFacade
                             videoUrl={review.video}
@@ -450,9 +487,15 @@ const ClientReviews = ({ initialReviews = null }) => {
                       </div>
 
                       {/* Client Info & 1-Liner Quote on Mobile */}
-                      <div className="flex flex-col px-1 pt-3 pb-1">
-                        <div className="flex items-center gap-2 text-white/70 text-xs mb-1">
-                          <span className="font-medium text-white">{review.clientName}</span>
+                      <div className="flex flex-col px-1 pt-4 pb-1">
+                        <div className="flex items-center gap-2 voices-sub text-xs mb-1">
+                          <span className="font-medium voices-fg">{review.clientName}</span>
+                          {review.designation && (
+                            <>
+                              <span className="w-1 h-1 bg-[#3558D4] rounded-full"></span>
+                              <span className="text-[#6f8fff]">{review.designation}</span>
+                            </>
+                          )}
                           {review.company && (
                             <>
                               <span className="w-1 h-1 bg-[#3558D4] rounded-full"></span>
@@ -460,11 +503,11 @@ const ClientReviews = ({ initialReviews = null }) => {
                             </>
                           )}
                         </div>
-                        <h3 className="text-white text-sm sm:text-base font-semibold tracking-[-0.02em] leading-tight font-heading">
+                        <h3 className="voices-fg text-sm sm:text-base font-semibold tracking-[-0.02em] leading-tight font-heading">
                           {review.projectName || review.clientName}
                         </h3>
                         {review.quote && (
-                          <p className="text-zinc-300 text-xs sm:text-sm mt-1.5 leading-[1.75] line-clamp-2 italic font-serif">
+                          <p className="voices-sub text-xs sm:text-sm mt-1.5 leading-[1.75] line-clamp-2 italic font-serif">
                             &ldquo;{review.quote}&rdquo;
                           </p>
                         )}
@@ -505,6 +548,21 @@ const ClientReviews = ({ initialReviews = null }) => {
         {/* Desktop: centered autoplay video, blurred neighbours either side */}
         {isMobile !== true && (
           <div className="max-md:!hidden relative">
+            <div className="relative">
+            <button
+              onClick={() => marqueeSwiperRef.current?.slidePrev()}
+              className="voices-nav absolute left-[3%] top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full flex items-center justify-center"
+              aria-label="Previous review"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="15 18 9 12 15 6" /></svg>
+            </button>
+            <button
+              onClick={() => marqueeSwiperRef.current?.slideNext()}
+              className="voices-nav absolute right-[3%] top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full flex items-center justify-center"
+              aria-label="Next review"
+            >
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="9 18 15 12 9 6" /></svg>
+            </button>
             <div className="voices-stage-mask">
             <Swiper
               onSwiper={(swiper) => {
@@ -539,6 +597,7 @@ const ClientReviews = ({ initialReviews = null }) => {
               ))}
             </Swiper>
             </div>
+            </div>
 
             {/* Active review details */}
             {(() => {
@@ -547,47 +606,22 @@ const ClientReviews = ({ initialReviews = null }) => {
               return (
                 <div key={current._uniqueKey} className="voices-caption home-container relative z-20 flex flex-col items-center text-center gap-7 max-w-[860px] mx-auto">
                   {current.quote && (
-                    <p className="voices-fg text-xl lg:text-[26px] leading-[1.4] font-serif italic [text-wrap:balance]">
+                    <p className="voices-fg text-base lg:text-[19px] leading-[1.6] font-serif italic max-w-[620px] [text-wrap:balance]">
                       &ldquo;{current.quote}&rdquo;
                     </p>
                   )}
-                  <span className="voices-fg text-[15px] leading-none font-semibold tracking-[-0.01em]">{current.clientName}</span>
-                  <span className="voices-sub text-[12px] leading-none uppercase tracking-[0.14em]">
-                    {current.company}{current.company && current.projectName ? '  ·  ' : ''}{current.projectName}
-                  </span>
+                  <div className="flex flex-col items-center gap-2.5">
+                    <span className="voices-fg text-[16px] leading-none font-semibold tracking-[-0.01em]">{current.clientName}</span>
+                    {current.designation && (
+                      <span className="text-[13px] leading-none font-medium text-[#4169E1]">{current.designation}</span>
+                    )}
+                    <span className="voices-sub text-[11px] leading-none uppercase tracking-[0.16em] opacity-80">
+                      {current.company}{current.company && current.projectName ? '  ·  ' : ''}{current.projectName}
+                    </span>
+                  </div>
                 </div>
               );
             })()}
-
-            {/* Controls */}
-            <div className="relative z-20 flex justify-center mt-7">
-              <div className="voices-pill inline-flex items-center gap-5 p-1.5 rounded-full">
-                <button
-                  onClick={() => marqueeSwiperRef.current?.slidePrev()}
-                  className="voices-arrow w-10 h-10 rounded-full flex items-center justify-center"
-                  aria-label="Previous review"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><polyline points="15 18 9 12 15 6" /></svg>
-                </button>
-                <div className="flex items-center gap-2" role="tablist" aria-label="Choose review">
-                  {reviews.map((r, i) => (
-                    <button
-                      key={r.id}
-                      onClick={() => marqueeSwiperRef.current?.slideToLoop(i)}
-                      aria-label={`Show review from ${r.clientName}`}
-                      className={`h-1.5 rounded-full transition-all duration-500 ${activeIdx % reviews.length === i ? 'w-7 bg-[#4169E1]' : 'voices-dot w-1.5'}`}
-                    />
-                  ))}
-                </div>
-                <button
-                  onClick={() => marqueeSwiperRef.current?.slideNext()}
-                  className="voices-arrow w-10 h-10 rounded-full flex items-center justify-center"
-                  aria-label="Next review"
-                >
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><polyline points="9 18 15 12 9 6" /></svg>
-                </button>
-              </div>
-            </div>
           </div>
         )}
       </div>
