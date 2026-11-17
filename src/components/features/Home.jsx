@@ -6,7 +6,6 @@ import HeroCTA from './HeroCTA';
 import LatestWork from './LatestWork';
 import ClientReviews from './ClientReviews';
 import Solutions from './Solutions';
-import BrandsMarquee from './BrandsMarquee';
 import SocialMediaSection from './SocialMediaSection';
 import News from './News';
 import HomeFaq from './HomeFaq';
@@ -189,7 +188,6 @@ const Home = ({ initialProjects, initialReviews, initialBlogs, initialSocialMedi
       <div className="hidden md:block">
         <Solutions />
       </div>
-      <Reveal y={30}><BrandsMarquee /></Reveal>
 
       {/* ── Bilal Directive: 4-Step Method ── */}
       <CardSection

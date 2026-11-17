@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
-import { FreeMode, Pagination } from 'swiper/modules';
+import { Pagination } from 'swiper/modules';
 import { apiCall } from '@/utils/api';
 
 import 'swiper/css';
@@ -10,8 +10,8 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
 import { useIsMobile } from '@/hooks/useIsMobile';
-import { useInView } from '@/hooks/useInView';
 import MediaFacade from '../ui/MediaFacade';
+import BrandsMarquee from './BrandsMarquee';
 
 const getYouTubeEmbedUrl = (url, muted = true) => {
   if (!url) return null;
@@ -25,19 +25,37 @@ const getYouTubeEmbedUrl = (url, muted = true) => {
   return null;
 };
 
+const getYouTubeId = (url) => {
+  if (!url) return null;
+  const m = url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/);
+  return m ? m[1] : null;
+};
+
+const SoundIcon = ({ muted }) =>
+  muted ? (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <line x1="23" y1="9" x2="17" y2="15" />
+      <line x1="17" y1="9" x2="23" y2="15" />
+    </svg>
+  ) : (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07" />
+    </svg>
+  );
+
 /**
- * LazyReviewSlide
- *
- * Per-slide lazy-mount wrapper for the desktop marquee. The actual video/iframe
- * is only mounted when the slide enters the viewport (with a 300px horizontal
- * pre-load margin). This prevents 24 simultaneous decoder allocations.
+ * StageSlide: one card in the centered "voices" carousel.
+ * Only the active card mounts a real player (autoplay, muted); neighbours show a
+ * still poster that the carousel blurs and scales down via CSS.
  */
-const LazyReviewSlide = ({ review, isMuted, onToggleMute }) => {
-  const [ref, inView] = useInView({ rootMargin: '200px 300px 200px 300px' });
+const StageSlide = ({ review, isActive, isMuted, onToggleMute }) => {
   const videoRef = useRef(null);
   const [paused, setPaused] = useState(false);
+  const ytId = getYouTubeId(review.video);
+  const poster = ytId ? `https://i.ytimg.com/vi/${ytId}/hqdefault.jpg` : null;
 
-  // Drive the player ourselves (YouTube JS API for iframes, native API for <video>)
   const command = useCallback((func) => {
     const el = videoRef.current;
     if (!el) return;
@@ -53,14 +71,14 @@ const LazyReviewSlide = ({ review, isMuted, onToggleMute }) => {
   }, []);
 
   useEffect(() => {
-    command(isMuted ? 'mute' : 'unMute');
-  }, [isMuted, command]);
+    if (isActive) command(isMuted ? 'mute' : 'unMute');
+  }, [isMuted, isActive, command]);
 
-  // Player remounts (and autoplays) when the tile re-enters view — reset paused state
-  const [prevInView, setPrevInView] = useState(inView);
-  if (prevInView !== inView) {
-    setPrevInView(inView);
-    if (!inView) setPaused(false);
+  // Reset paused state when the card stops being the active one
+  const [prevActive, setPrevActive] = useState(isActive);
+  if (prevActive !== isActive) {
+    setPrevActive(isActive);
+    if (!isActive) setPaused(false);
   }
 
   const togglePlay = () => {
@@ -69,28 +87,31 @@ const LazyReviewSlide = ({ review, isMuted, onToggleMute }) => {
   };
 
   return (
-    <div
-      ref={ref}
-      className="w-full aspect-[3/4] rounded-[10px] overflow-hidden bg-[#141416] border border-white/10 shadow-[0_8px_30px_rgba(0,0,0,0.5)] relative transition-colors hover:border-white/25"
-    >
-      {inView && review.video ? (
-        <MediaFacade
-          videoUrl={review.video}
-          title={`${review.clientName} review`}
-          isActive={true}
-          autoPlay={true}
-          muted={true}
-          loop={true}
-          controls={false}
-          chromeless={true}
-          setRef={(el) => { videoRef.current = el; }}
-          className="w-full h-full"
-        />
-      ) : null}
+    <div className="voices-card-wrap"><div className="voice-card relative w-full aspect-[9/16] rounded-[26px] overflow-hidden bg-[#0f0f11] border border-white/10">
+      {poster && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={poster} alt="" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
+      )}
 
-      {review.video && (
+      {isActive && review.video && (
+        <div className="absolute inset-0">
+          <MediaFacade
+            videoUrl={review.video}
+            title={`${review.clientName} review`}
+            isActive={true}
+            autoPlay={true}
+            muted={true}
+            loop={true}
+            controls={false}
+            chromeless={true}
+            setRef={(el) => { videoRef.current = el; }}
+            className="w-full h-full"
+          />
+        </div>
+      )}
+
+      {isActive && review.video && (
         <>
-          {/* Click anywhere on the tile to play / pause */}
           <button
             type="button"
             onClick={togglePlay}
@@ -98,37 +119,56 @@ const LazyReviewSlide = ({ review, isMuted, onToggleMute }) => {
             aria-label={paused ? 'Play video' : 'Pause video'}
           >
             {paused && (
-              <span className="w-12 h-12 rounded-full bg-black/60 backdrop-blur flex items-center justify-center">
-                <svg className="w-5 h-5 fill-white ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
+              <span className="w-16 h-16 rounded-full bg-black/55 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                <svg className="w-6 h-6 fill-white ml-0.5" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
               </span>
             )}
           </button>
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onToggleMute(`dt-${review._uniqueKey}`);
-            }}
-            className="absolute bottom-2.5 right-2.5 z-20 w-8 h-8 rounded-full bg-black/60 backdrop-blur flex items-center justify-center hover:bg-black/80 transition-colors"
+            type="button"
+            onClick={(e) => { e.stopPropagation(); onToggleMute(); }}
+            className="absolute bottom-4 right-4 z-20 w-10 h-10 rounded-full bg-black/55 backdrop-blur-md border border-white/15 flex items-center justify-center text-white hover:bg-black/80 transition-colors"
             aria-label={isMuted ? 'Unmute video' : 'Mute video'}
           >
-            {isMuted ? (
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <line x1="23" y1="9" x2="17" y2="15"></line>
-                <line x1="17" y1="9" x2="23" y2="15"></line>
-              </svg>
-            ) : (
-              <svg viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-              </svg>
-            )}
+            <SoundIcon muted={isMuted} />
           </button>
         </>
       )}
-    </div>
+
+      <div className="pointer-events-none absolute inset-0 rounded-[26px] shadow-[inset_0_0_50px_rgba(0,0,0,0.35)]" />
+    </div></div>
   );
 };
+
+const VOICES_CSS = `
+.voices-section{--v-bg:#000;--v-fg:#fff;--v-head-mute:#85858b;--v-sub:#b0b0b5;--v-line:rgba(255,255,255,.14);--v-chip:rgba(255,255,255,.05);--v-glow:rgba(53,88,212,.2);background:var(--v-bg) !important}
+html.light .voices-section{--v-bg:#fff;--v-fg:#0b0d14;--v-head-mute:#85858b;--v-sub:#55555c;--v-line:rgba(11,13,20,.14);--v-chip:rgba(11,13,20,.04);--v-glow:rgba(53,88,212,.12)}
+.voices-fg{color:var(--v-fg) !important}
+.voices-mute{color:var(--v-head-mute) !important}
+.voices-sub{color:var(--v-sub) !important}
+.voices-chip{border:1px solid var(--v-line);background:var(--v-chip);color:var(--v-sub) !important}
+.voices-btn{border:1px solid var(--v-line);background:var(--v-chip);color:var(--v-fg) !important;transition:transform .2s ease,border-color .2s ease,background .2s ease}
+.voices-btn:hover{border-color:rgba(65,105,225,.7);background:rgba(65,105,225,.12)}
+.voices-btn:active{transform:scale(.94)}
+.voices-pill{border:1px solid var(--v-line);background:var(--v-chip)}
+.voices-arrow{color:var(--v-fg) !important;background:transparent;transition:background .2s ease,transform .2s ease}
+.voices-arrow:hover{background:rgba(65,105,225,.18)}
+.voices-arrow:active{transform:scale(.92)}
+.voices-dot{background:var(--v-line)}
+.voices-dot:hover{background:rgba(65,105,225,.5)}
+.voices-section .brands-marquee-section{padding-top:40px;padding-bottom:0;background:transparent !important}
+.voices-stage-mask{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%)}
+.voices-swiper{overflow:visible !important;padding:24px 0 28px}
+.voices-swiper .voice-slide{transition:transform .8s cubic-bezier(.22,1,.36,1),filter .8s ease,opacity .8s ease;transform:scale(.72);filter:blur(7px);opacity:.4;cursor:pointer}
+.voices-swiper .voice-slide.swiper-slide-prev,.voices-swiper .voice-slide.swiper-slide-next{transform:scale(.86);filter:blur(3.5px);opacity:.7}
+.voices-swiper .voice-slide.swiper-slide-active{transform:scale(1);filter:none;opacity:1;cursor:default;z-index:2}
+.voices-swiper .voice-slide.swiper-slide-active .voice-card{box-shadow:0 24px 50px -24px rgba(0,0,0,.6);border-color:var(--v-line)}
+.voices-card-wrap{border-radius:30px;padding:6px;background:linear-gradient(160deg,rgba(255,255,255,.14),rgba(255,255,255,.02));}
+html.light .voices-card-wrap{background:linear-gradient(160deg,rgba(11,13,20,.12),rgba(11,13,20,.02))}
+@keyframes voicesCaptionIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.voices-caption{animation:voicesCaptionIn .7s cubic-bezier(.22,1,.36,1) both}
+@media (prefers-reduced-motion:reduce){.voices-swiper .voice-slide{transition:none}.voices-caption{animation:none}}
+`;
 
 const REVIEW_ONE_LINERS = {
   'tim barth': 'What I was looking for was a professional 3D partner — Elipse delivered an exceptional, smooth interactive virtual tour.',
@@ -180,6 +220,8 @@ const ClientReviews = ({ initialReviews = null }) => {
   const [reviews, setReviews] = useState(initialReviews ? mapReviews(initialReviews) : []);
   const [mutedStates, setMutedStates] = useState({});
   const [activeMobileIndex, setActiveMobileIndex] = useState(0);
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [stageMuted, setStageMuted] = useState(true);
   const isMobile = useIsMobile();
   const mobileSwiperRef = useRef(null);
   const marqueeSwiperRef = useRef(null);
@@ -319,34 +361,21 @@ const ClientReviews = ({ initialReviews = null }) => {
   return (
     <section
       ref={sectionRef}
-      className="w-full bg-black pt-3 sm:pt-6 md:pt-14 pb-8 md:pb-14 overflow-hidden flex flex-col justify-center relative"
+      className="voices-section w-full pt-10 sm:pt-12 md:pt-20 pb-10 md:pb-20 overflow-hidden flex flex-col justify-center relative"
     >
       <div className="w-full relative">
-        <div className="home-container flex justify-between items-center mb-6 md:mb-10">
-          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1] text-white">
-            Client Reviews
+        <style dangerouslySetInnerHTML={{ __html: VOICES_CSS }} />
+        <div className="home-container relative flex flex-col items-center text-center">
+          <h2 className="voices-fg text-[30px] sm:text-4xl md:text-5xl lg:text-[54px] font-semibold tracking-[-0.03em] leading-[1.1] [text-wrap:balance]">
+            Voices<span className="text-[#4169E1]">.</span>{' '}
+            <span className="voices-fg">From ambitious leaders.</span>
           </h2>
-          <div className="hidden md:flex items-center gap-3">
-            <button
-              onClick={() => marqueeSwiperRef.current?.slidePrev()}
-              className="w-11 h-11 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all active:scale-95"
-              aria-label="Previous review"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-            </button>
-            <button
-              onClick={() => marqueeSwiperRef.current?.slideNext()}
-              className="w-11 h-11 rounded-full border border-white/20 hover:border-white/50 bg-white/5 hover:bg-white/10 flex items-center justify-center text-white transition-all active:scale-95"
-              aria-label="Next review"
-            >
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-                <polyline points="9 18 15 12 9 6" />
-              </svg>
-            </button>
-          </div>
+          <p className="voices-sub mt-10 text-sm md:text-[17px] max-w-[640px] leading-none [text-wrap:balance]">
+            Real words from the founders and brand leaders we build with.
+          </p>
         </div>
+
+        <BrandsMarquee />
 
         {/* Mobile Swiper: ONLY rendered on mobile viewports (<768px). Prevents desktop duplicate nodes */}
         {isMobile !== false && (
@@ -473,53 +502,92 @@ const ClientReviews = ({ initialReviews = null }) => {
           </div>
         )}
 
-        {/* Desktop Swiper: Seamless infinite loop, no edge fade, no dimmed cards */}
+        {/* Desktop: centered autoplay video, blurred neighbours either side */}
         {isMobile !== true && (
-          <div className="max-md:!hidden home-container">
+          <div className="max-md:!hidden relative">
+            <div className="voices-stage-mask">
             <Swiper
               onSwiper={(swiper) => {
                 marqueeSwiperRef.current = swiper;
               }}
+              onSlideChange={(swiper) => {
+                setActiveIdx(swiper.realIndex);
+                setStageMuted(true);
+              }}
               modules={[]}
               loop={true}
-              loopAdditionalSlides={4}
-              centeredSlides={false}
-              speed={600}
-              slidesPerView={2}
-              spaceBetween={20}
-              breakpoints={{
-                640: { slidesPerView: 2, spaceBetween: 20 },
-                1024: { slidesPerView: 3, spaceBetween: 20 },
-                1280: { slidesPerView: 4, spaceBetween: 20 },
-              }}
+              centeredSlides={true}
+              slidesPerView="auto"
+              spaceBetween={28}
+              speed={800}
+              slideToClickedSlide={true}
               grabCursor={true}
               allowTouchMove={true}
-              className=""
+              className="voices-swiper"
             >
-              {loopedReviews.map((review) => {
-                const isDtMuted = getIsMuted(`dt-${review._uniqueKey}`);
-                return (
-                  <SwiperSlide key={review._uniqueKey}>
-                    <div className="group/card flex flex-col">
-                      <LazyReviewSlide
-                        review={review}
-                        isMuted={isDtMuted}
-                        onToggleMute={(key) => toggleMute(key, false)}
-                      />
-                      <div className="pt-4">
-                        <h3 className="text-white text-[15px] font-semibold tracking-[-0.02em] leading-snug font-heading">
-                          <span className="text-[#3558D4] mr-1 hidden group-hover/card:inline">/</span>
-                          {review.projectName || review.clientName}
-                        </h3>
-                        <p className="text-zinc-400 text-[13px] mt-1 font-serif leading-[1.75]">
-                          {review.clientName}{review.company ? ` · ${review.company}` : ''}
-                        </p>
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
+              {loopedReviews.map((review) => (
+                <SwiperSlide key={review._uniqueKey} className="voice-slide !w-[250px] lg:!w-[290px] xl:!w-[310px]">
+                  {({ isActive }) => (
+                    <StageSlide
+                      review={review}
+                      isActive={isActive}
+                      isMuted={stageMuted}
+                      onToggleMute={() => setStageMuted((m) => !m)}
+                    />
+                  )}
+                </SwiperSlide>
+              ))}
             </Swiper>
+            </div>
+
+            {/* Active review details */}
+            {(() => {
+              const current = loopedReviews[activeIdx] || loopedReviews[0];
+              if (!current) return null;
+              return (
+                <div key={current._uniqueKey} className="voices-caption home-container relative z-20 flex flex-col items-center text-center gap-7 max-w-[860px] mx-auto">
+                  {current.quote && (
+                    <p className="voices-fg text-xl lg:text-[26px] leading-[1.4] font-serif italic [text-wrap:balance]">
+                      &ldquo;{current.quote}&rdquo;
+                    </p>
+                  )}
+                  <span className="voices-fg text-[15px] leading-none font-semibold tracking-[-0.01em]">{current.clientName}</span>
+                  <span className="voices-sub text-[12px] leading-none uppercase tracking-[0.14em]">
+                    {current.company}{current.company && current.projectName ? '  ·  ' : ''}{current.projectName}
+                  </span>
+                </div>
+              );
+            })()}
+
+            {/* Controls */}
+            <div className="relative z-20 flex justify-center mt-7">
+              <div className="voices-pill inline-flex items-center gap-5 p-1.5 rounded-full">
+                <button
+                  onClick={() => marqueeSwiperRef.current?.slidePrev()}
+                  className="voices-arrow w-10 h-10 rounded-full flex items-center justify-center"
+                  aria-label="Previous review"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><polyline points="15 18 9 12 15 6" /></svg>
+                </button>
+                <div className="flex items-center gap-2" role="tablist" aria-label="Choose review">
+                  {reviews.map((r, i) => (
+                    <button
+                      key={r.id}
+                      onClick={() => marqueeSwiperRef.current?.slideToLoop(i)}
+                      aria-label={`Show review from ${r.clientName}`}
+                      className={`h-1.5 rounded-full transition-all duration-500 ${activeIdx % reviews.length === i ? 'w-7 bg-[#4169E1]' : 'voices-dot w-1.5'}`}
+                    />
+                  ))}
+                </div>
+                <button
+                  onClick={() => marqueeSwiperRef.current?.slideNext()}
+                  className="voices-arrow w-10 h-10 rounded-full flex items-center justify-center"
+                  aria-label="Next review"
+                >
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-[18px] h-[18px]"><polyline points="9 18 15 12 9 6" /></svg>
+                </button>
+              </div>
+            </div>
           </div>
         )}
       </div>
