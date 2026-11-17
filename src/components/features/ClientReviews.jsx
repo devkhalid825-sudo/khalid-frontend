@@ -176,7 +176,12 @@ html.light .voices-section{--v-bg:#fff;--v-fg:#0b0d14;--v-head-mute:#85858b;--v-
 .voices-dot:hover{background:rgba(65,105,225,.5)}
 .voices-section .brands-marquee-section{padding-top:40px;padding-bottom:0;background:transparent !important}
 .voices-stage-mask{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%)}
-.voices-swiper{overflow:visible !important;padding:24px 0 28px}
+.voices-logo-mask{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 82%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 82%,transparent 100%)}
+.voices-logo-row{position:relative;height:64px;--lw:130px;--step:154px}
+@media (min-width:768px){.voices-logo-row{height:84px;--lw:190px;--step:214px}}
+.voices-logo-item{position:absolute;left:50%;top:0;bottom:0;width:var(--lw);margin-left:calc(var(--lw) / -2);display:flex;align-items:center;justify-content:center;transform:translateX(calc(var(--r) * var(--step))) scale(.8);filter:blur(2.5px);opacity:.55;transition:transform .8s cubic-bezier(.22,1,.36,1),filter .8s ease,opacity .8s ease}
+.voices-logo-item[data-on="1"]{transform:translateX(0) scale(1.15);filter:none;opacity:1}
+.voices-swiper{overflow:visible !important;padding:28px 0}
 .voices-swiper .voice-slide{transition:transform .8s cubic-bezier(.22,1,.36,1),filter .8s ease,opacity .8s ease;transform:scale(.72);filter:blur(14px);opacity:.3;cursor:pointer}
 .voices-swiper .voice-slide.swiper-slide-prev,.voices-swiper .voice-slide.swiper-slide-next{transform:scale(.86);filter:blur(9px);opacity:.5}
 .voices-swiper .voice-slide.swiper-slide-active{transform:scale(1);filter:none;opacity:1;cursor:default;z-index:2}
@@ -259,6 +264,20 @@ const ClientReviews = ({ initialReviews = null }) => {
   const marqueeSwiperRef = useRef(null);
   const playerRefs = useRef({});
   const sectionRef = useRef(null);
+
+  const logoBase = VOICE_LOGOS.slice(0, Math.max(reviews.length, 2));
+  const logoCount = logoBase.length;
+
+  // Endless logo position: moves by the shortest step whenever the active video changes
+  const [logoPos, setLogoPos] = useState(0);
+  const [prevActiveIdx, setPrevActiveIdx] = useState(0);
+  if (prevActiveIdx !== activeIdx) {
+    setPrevActiveIdx(activeIdx);
+    let delta = (activeIdx % logoCount) - (prevActiveIdx % logoCount);
+    if (delta > logoCount / 2) delta -= logoCount;
+    if (delta < -logoCount / 2) delta += logoCount;
+    if (delta !== 0) setLogoPos((p) => p + delta);
+  }
 
   const setPlayerRef = useCallback(
     (id) => (el) => {
@@ -397,168 +416,42 @@ const ClientReviews = ({ initialReviews = null }) => {
     >
       <div className="w-full relative">
         <style dangerouslySetInnerHTML={{ __html: VOICES_CSS }} />
-        <div className="home-container relative flex flex-col items-center text-center mb-6 md:mb-10">
+        <div className="home-container relative flex flex-col items-center text-center mb-1">
           <h2 className="voices-fg text-[30px] sm:text-4xl md:text-5xl lg:text-[54px] font-semibold tracking-[-0.03em] leading-[1.1] [text-wrap:balance]">
             Proof<span className="text-[#4169E1]">.</span>{' '}
             <span className="voices-sub">From teams shipping in 3D.</span>
           </h2>
-          {(() => {
-            const logo = VOICE_LOGOS[activeIdx % VOICE_LOGOS.length];
-            return (
-              <img
-                key={logo.name}
-                src={typeof logo.img === 'string' ? logo.img : logo.img?.src}
-                alt={`${logo.name} logo`}
-                className={`voices-caption mt-8 h-12 md:h-16 w-auto max-w-[200px] object-contain ${logo.white ? 'brand-logo-white' : ''}`}
-              />
-            );
-          })()}
+          <div className="voices-logo-mask voices-logo-row mt-8 w-full max-w-[1200px] pointer-events-none select-none" aria-hidden="true">
+            {[-4, -3, -2, -1, 0, 1, 2, 3, 4].map((r) => {
+              const abs = logoPos + r;
+              const logo = logoBase[((abs % logoCount) + logoCount) % logoCount];
+              return (
+                <div key={abs} className="voices-logo-item" data-on={r === 0 ? '1' : '0'} style={{ '--r': r }}>
+                  <img
+                    src={typeof logo.img === 'string' ? logo.img : logo.img?.src}
+                    alt={`${logo.name} logo`}
+                    className={`h-10 md:h-14 w-auto max-w-full object-contain ${logo.white ? 'brand-logo-white' : ''}`}
+                  />
+                </div>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Mobile Swiper: ONLY rendered on mobile viewports (<768px). Prevents desktop duplicate nodes */}
-        {isMobile !== false && (
-          <div className="relative md:hidden">
-            <Swiper
-              ref={mobileSwiperRef}
-              onSwiper={(swiper) => {
-                mobileSwiperRef.current = swiper;
-              }}
-              onSlideChange={(swiper) => {
-                setActiveMobileIndex(swiper.realIndex);
-              }}
-              modules={[Pagination]}
-              loop={reviews.length > 1}
-              speed={600}
-              slidesPerView={1}
-              spaceBetween={12}
-              grabCursor={true}
-              allowTouchMove={true}
-              pagination={{ clickable: true, el: '.mobile-review-pagination' }}
-              className="!px-[15px]"
-            >
-              {reviews.map((review, idx) => {
-                const isMuted = getIsMuted(review.id);
-                const isActive = activeMobileIndex === idx;
-
-                return (
-                  <SwiperSlide key={review.id} className="!w-full py-3 sm:py-4">
-                    <div
-                      className="w-full flex flex-col relative"
-                    >
-                      <div className="w-full h-[280px] xs:h-[320px] sm:h-[360px] rounded-[20px] overflow-hidden relative bg-[#0f0f11]">
-                        {review.video ? (
-                          <MediaFacade
-                            videoUrl={review.video}
-                            title={`${review.clientName} review`}
-                            isActive={isActive}
-                            autoPlay={isActive}
-                            muted={isMuted}
-                            loop={false}
-                            controls={true}
-                            onEnded={handleVideoEnded}
-                            setRef={setPlayerRef(review.id)}
-                            className="w-full h-full"
-                          />
-                        ) : null}
-
-                        {review.video && (
-                          <button
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              toggleMute(review.id, false);
-                            }}
-                            className="absolute bottom-3 right-3 z-20 w-8 sm:w-9 h-8 sm:h-9 rounded-full bg-black/70 backdrop-blur flex items-center justify-center hover:bg-black/90 transition-colors shadow-lg text-white"
-                            aria-label={isMuted ? 'Unmute video' : 'Mute video'}
-                          >
-                            {isMuted ? (
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                <line x1="23" y1="9" x2="17" y2="15"></line>
-                                <line x1="17" y1="9" x2="23" y2="15"></line>
-                              </svg>
-                            ) : (
-                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
-                                <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-                                <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-                              </svg>
-                            )}
-                          </button>
-                        )}
-                      </div>
-
-                      {/* Client Info & 1-Liner Quote on Mobile */}
-                      <div className="flex flex-col px-1 pt-4 pb-1">
-                        <div className="flex items-center gap-2 voices-sub text-xs mb-1">
-                          <span className="font-medium voices-fg">{review.clientName}</span>
-                          {review.designation && (
-                            <>
-                              <span className="w-1 h-1 bg-[#3558D4] rounded-full"></span>
-                              <span className="text-[#6f8fff]">{review.designation}</span>
-                            </>
-                          )}
-                          {review.company && (
-                            <>
-                              <span className="w-1 h-1 bg-[#3558D4] rounded-full"></span>
-                              <span>{review.company}</span>
-                            </>
-                          )}
-                        </div>
-                        <h3 className="voices-fg text-sm sm:text-base font-semibold tracking-[-0.02em] leading-tight font-heading">
-                          {review.projectName || review.clientName}
-                        </h3>
-                        {review.quote && (
-                          <p className="voices-sub text-xs sm:text-sm mt-1.5 leading-[1.75] line-clamp-2 italic font-serif">
-                            &ldquo;{review.quote}&rdquo;
-                          </p>
-                        )}
-                      </div>
-                    </div>
-                  </SwiperSlide>
-                );
-              })}
-            </Swiper>
-
-            {/* Bottom Controls with Left/Right Arrows and Pointer Dots */}
-            <div className="flex items-center justify-between mt-4 px-2 sm:px-4">
-              <button
-                onClick={() => mobileSwiperRef.current?.slidePrev()}
-                className="solutions-nav-btn w-10 h-10 rounded-full border border-zinc-800 bg-zinc-900/90 hover:bg-zinc-800 hover:border-zinc-700 flex items-center justify-center text-zinc-200 active:scale-95 transition-all shadow-sm cursor-pointer"
-                aria-label="Previous review"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-                  <polyline points="15 18 9 12 15 6" />
-                </svg>
-              </button>
-
-              <div className="mobile-review-pagination flex justify-center gap-2"></div>
-
-              <button
-                onClick={() => mobileSwiperRef.current?.slideNext()}
-                className="solutions-nav-btn w-10 h-10 rounded-full border border-zinc-800 bg-zinc-900/90 hover:bg-zinc-800 hover:border-zinc-700 flex items-center justify-center text-zinc-200 active:scale-95 transition-all shadow-sm cursor-pointer"
-                aria-label="Next review"
-              >
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="w-5 h-5">
-                  <polyline points="9 18 15 12 9 6" />
-                </svg>
-              </button>
-            </div>
-          </div>
-        )}
-
         {/* Desktop: centered autoplay video, blurred neighbours either side */}
-        {isMobile !== true && (
-          <div className="max-md:!hidden relative">
+        {(
+          <div className="relative">
             <div className="relative">
             <button
               onClick={() => marqueeSwiperRef.current?.slidePrev()}
-              className="voices-nav absolute left-[3%] top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full flex items-center justify-center"
+              className="voices-nav absolute left-2 md:left-[3%] top-1/2 -translate-y-1/2 z-30 w-9 h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center"
               aria-label="Previous review"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="15 18 9 12 15 6" /></svg>
             </button>
             <button
               onClick={() => marqueeSwiperRef.current?.slideNext()}
-              className="voices-nav absolute right-[3%] top-1/2 -translate-y-1/2 z-30 w-12 h-12 rounded-full flex items-center justify-center"
+              className="voices-nav absolute right-2 md:right-[3%] top-1/2 -translate-y-1/2 z-30 w-9 h-9 md:w-12 md:h-12 rounded-full flex items-center justify-center"
               aria-label="Next review"
             >
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="9 18 15 12 9 6" /></svg>
@@ -576,7 +469,7 @@ const ClientReviews = ({ initialReviews = null }) => {
               loop={true}
               centeredSlides={true}
               slidesPerView="auto"
-              spaceBetween={28}
+              spaceBetween={20}
               speed={800}
               slideToClickedSlide={true}
               grabCursor={true}
@@ -584,7 +477,7 @@ const ClientReviews = ({ initialReviews = null }) => {
               className="voices-swiper"
             >
               {loopedReviews.map((review) => (
-                <SwiperSlide key={review._uniqueKey} className="voice-slide !w-[250px] lg:!w-[290px] xl:!w-[310px]">
+                <SwiperSlide key={review._uniqueKey} className="voice-slide !w-[210px] sm:!w-[250px] lg:!w-[290px] xl:!w-[310px]">
                   {({ isActive }) => (
                     <StageSlide
                       review={review}
@@ -616,7 +509,7 @@ const ClientReviews = ({ initialReviews = null }) => {
                       <span className="text-[13px] leading-none font-medium text-[#4169E1]">{current.designation}</span>
                     )}
                     <span className="voices-sub text-[11px] leading-none uppercase tracking-[0.16em] opacity-80">
-                      {current.company}{current.company && current.projectName ? '  ·  ' : ''}{current.projectName}
+                      {current.company}
                     </span>
                   </div>
                 </div>
