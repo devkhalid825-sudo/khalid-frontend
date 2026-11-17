@@ -604,13 +604,13 @@ const ClientReviews = ({ initialReviews = null }) => {
               const current = loopedReviews[activeIdx] || loopedReviews[0];
               if (!current) return null;
               return (
-                <div key={current._uniqueKey} className="voices-caption home-container relative z-20 flex flex-col items-center text-center gap-7 max-w-[860px] mx-auto">
+                <div key={current._uniqueKey} className="voices-caption home-container relative z-20 flex flex-col items-center text-center gap-4 max-w-[860px] mx-auto">
                   {current.quote && (
                     <p className="voices-fg text-base lg:text-[19px] leading-[1.6] font-serif italic max-w-[620px] [text-wrap:balance]">
                       &ldquo;{current.quote}&rdquo;
                     </p>
                   )}
-                  <div className="flex flex-col items-center gap-2.5">
+                  <div className="flex flex-col items-center gap-4">
                     <span className="voices-fg text-[16px] leading-none font-semibold tracking-[-0.01em]">{current.clientName}</span>
                     {current.designation && (
                       <span className="text-[13px] leading-none font-medium text-[#4169E1]">{current.designation}</span>
