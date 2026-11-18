@@ -29,6 +29,7 @@ import modernVillaRaw from '../../assets/About-page/Nevegan.jpg';
 import furnitureRaw from '../../assets/ElipseImages/blogs/alnoor.webp';
 import volvoPaintRaw from '../../assets/About-page/volvo-s90-ue5-paint.webp';
 import golfCartRaw from '../../assets/About-page/golf-cart.webp';
+import bean4Raw from '../../assets/About-page/bean-4.png';
 import golf2Raw from '../../assets/About-page/golf-2.png';
 import configuratorCard2Raw from '../../assets/About-page/newkia.png';
 import roohafzaRaw from '../../assets/About-page/roohafza.webp';
@@ -36,6 +37,7 @@ import kumarRaw from '../../assets/About-page/kumar-hd.webp';
 
 const kumarImg = getImgSrc(kumarRaw);
 const golfCartImg = getImgSrc(golfCartRaw);
+const bean4Img = getImgSrc(bean4Raw);
 const golf2Img = getImgSrc(golf2Raw);
 const configuratorCard2 = getImgSrc(configuratorCard2Raw);
 const roohafzaImg = getImgSrc(roohafzaRaw);
@@ -117,6 +119,15 @@ const News = ({ initialBlogs = null }) => {
   }, []);
 
   const staticPosts = [
+    {
+      id: 'unreal-engine-pixel-streaming-vs-standalone-build-2026',
+      title: 'Unreal Engine 5 Cloud Pixel Streaming vs Standalone Offline Builds: Choosing the Right Delivery Model for Trade Shows & Enterprise Sales',
+      image: bean4Img,
+      date: 'NOVEMBER 18, 2026',
+      category: 'Unreal Engine 5 Deployment',
+      readTime: '13 min read',
+      url: '/blog/unreal-engine-pixel-streaming-vs-standalone-build',
+    },
     {
       id: '3d-configurator-ip-ownership-saas-tco-2026',
       title: '3D Configurator IP Ownership vs SaaS Licensing: The 2026 CTO Guide to 3-Year Total Cost of Ownership',

@@ -7,6 +7,7 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  'unreal-engine-pixel-streaming-vs-standalone-build': dynamic(() => import('@/components/articles/UE5PixelStreamingVsStandaloneArticle')),
   '3d-configurator-ip-ownership-saas-tco': dynamic(() => import('@/components/articles/ConfiguratorIpOwnershipTcoArticle')),
   'golf-cart-3d-configurator-lsv': dynamic(() => import('@/components/articles/GolfCart3dConfiguratorArticle')),
   'interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026': dynamic(() => import('@/components/articles/VirtualTours360VsUe5Article')),
@@ -63,6 +64,20 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  'unreal-engine-pixel-streaming-vs-standalone-build': {
+    title: 'Unreal Engine Pixel Streaming vs Standalone Build: Trade Show & Enterprise Delivery Guide (2026)',
+    description: 'Cloud pixel streaming or standalone .exe / Mac builds for UE5? Venue Wi-Fi limits, air-gapped and training use cases, cloud GPU vs hardware break-even, and the one-codebase hybrid model — with French Bee, Bean Trailer and Volvo S90.',
+    keywords: [
+      'unreal engine pixel streaming vs standalone build',
+      'trade show 3d configurator offline',
+      'enterprise vr desktop app windows mac',
+      'webrtc cloud 3d vs local exe',
+      'unreal engine 5 deployment models',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/unreal-engine-pixel-streaming-vs-standalone-build`,
+    ogImage: `${SITE_URL}/assets/About-page/volvo-s90-ue5-hero.webp`,
+  },
   '3d-configurator-ip-ownership-saas-tco': {
     title: '3D Configurator IP Ownership vs SaaS Licensing: 3-Year TCO Guide (2026)',
     description: 'A CTO guide to 3D configurator IP ownership: a 36-month TCO model comparing custom WebGL builds with SaaS licensing, break-even timing, asset portability, hosting costs and a 5-clause procurement checklist.',
@@ -637,6 +652,7 @@ export async function generateStaticParams() {
 const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 
 function staticArticleSchemas(slugStr, meta) {
+  const isPixelVsStandalone = slugStr === 'unreal-engine-pixel-streaming-vs-standalone-build';
   const isIpOwnership = slugStr === '3d-configurator-ip-ownership-saas-tco';
   const isGolfCart = slugStr === 'golf-cart-3d-configurator-lsv';
   const isVirtualTours360 = slugStr === 'interactive-3d-virtual-tours-vs-360-video-luxury-real-estate-2026';
@@ -658,6 +674,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isPixelVsStandalone) return '2026-11-18';
     if (isIpOwnership) return '2026-11-16';
     if (isGolfCart) return '2026-11-14';
     if (isVirtualTours360) return '2026-11-12';
@@ -1009,6 +1026,35 @@ function staticArticleSchemas(slugStr, meta) {
         uploadDate: '2026-11-12',
         embedUrl: 'https://www.youtube.com/embed/rn0Lf782Cug',
       }),
+      authorSchema,
+    ];
+  }
+
+  // Must match the FAQ text rendered in UE5PixelStreamingVsStandaloneArticle.jsx.
+  if (isPixelVsStandalone) {
+    extraSchemas = [
+      buildFaqSchema([
+        {
+          q: 'Can we start with a standalone build and add pixel streaming later?',
+          a: 'Yes — with one important caveat. If the standalone build was developed with an input abstraction layer, adding pixel streaming is primarily a server-side infrastructure task, not a codebase rewrite. If input handling was built for native UE5 only, retrofitting the WebSocket input layer requires Blueprint or C++ work — usually 2 to 5 days depending on complexity. If there is any chance you will want multi-target deployment later, build the input abstraction from day one.',
+        },
+        {
+          q: 'What is the minimum connection quality for a reliable pixel streaming demo?',
+          a: 'For 1080p at 30fps: 8 Mbps sustained, under 80ms round-trip and under 1% packet loss. For 4K at 60fps: 20 Mbps sustained, under 50ms and under 0.3% packet loss. These numbers need to hold for the whole session, not just on average — spikes above 150ms or packet loss above 2% produce visible artefacts. Verify the connection with a WebRTC diagnostic tool before any enterprise client demo.',
+        },
+        {
+          q: 'How large are standalone UE5 builds and how do we get them to the trade show?',
+          a: 'A typical UE5 standalone build for a product configurator with high-resolution textures runs between 8GB and 25GB. For trade shows, ship a pre-configured NVMe SSD with the workstation: installation takes under 5 minutes and cold boot to interactive is 15 to 45 seconds. For multi-workstation deployments at one venue, a local LAN file server works. Cloud download of files this size is unreliable, even on a good event network.',
+        },
+        {
+          q: 'Does UE5 pixel streaming support multiple people watching the same session?',
+          a: 'Standard pixel streaming is single-user per GPU instance. Multi-viewer sessions, where additional participants watch the same stream while one person has interactive control, are supported through the Pixel Streaming Infrastructure multi-viewer mode. This is the standard pattern for enterprise procurement reviews: stakeholders join to watch while the account executive drives, and control can be handed to any participant.',
+        },
+        {
+          q: 'What GPU do we need in a trade show workstation for 4K UE5 at 60fps?',
+          a: 'The practical minimum is an NVIDIA RTX 4080. The RTX 4090 gives 25 to 40% headroom above the target framerate, which matters when the system runs 8 to 10 hours continuously under varying thermal conditions. AMD\'s RX 7900 XTX is comparable on Nanite; Lumen hardware ray tracing is better optimised for NVIDIA on UE5.2 and later. On Apple Silicon (M3 Max or M4 Pro) expect solid 1440p with software Lumen, at reduced quality compared with the RTX hardware path.',
+        },
+      ]),
       authorSchema,
     ];
   }

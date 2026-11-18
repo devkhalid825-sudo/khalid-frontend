@@ -10,24 +10,29 @@ import 'swiper/css/free-mode';
 import 'swiper/css/pagination';
 
 import { useIsMobile } from '@/hooks/useIsMobile';
-import beanLogo from '@/assets/About-page/bean-logo.png';
-import khojLogo from '@/assets/images/brandslogo04.png';
-import omoreLogo from '@/assets/ElipseImages/logos/logo6_clean.webp';
-import aryLogo from '@/assets/ElipseImages/logos/logo7.webp';
-import searleLogo from '@/assets/images/brandslogo03.png';
-import tapalLogo from '@/assets/images/brandslogo01.png';
-import roohLogo from '@/assets/images/brandslogo02.webp';
-
-const VOICE_LOGOS = [
-  { img: beanLogo, name: 'Bean Trailer', white: true },
-  { img: khojLogo, name: 'Khoj Resorts', white: true },
-  { img: omoreLogo, name: 'Omoré' },
-  { img: aryLogo, name: 'ARY Laguna' },
-  { img: searleLogo, name: 'Searle Pharmaceuticals' },
-  { img: tapalLogo, name: 'Tapal Tea' },
-  { img: roohLogo, name: 'Rooh Afza' },
-];
+import mahaLogo from '@/assets/clientlogo/Maha Chishty Designs.png';
+import virtualImmoLogo from '@/assets/clientlogo/Virtual immo_White.png';
+import hyperLogo from '@/assets/clientlogo/Hyper realestate_White.png';
+import abelLogo from '@/assets/clientlogo/Abel.png';
+import tntLogo from '@/assets/clientlogo/TNT.png';
+import innovisionLogo from '@/assets/clientlogo/Innovision_White.png';
 import MediaFacade from '../ui/MediaFacade';
+
+// Client logo shown above each review card. `white: true` = white artwork that the
+// site turns black in light mode (brand-logo-white); coloured logos are left as-is.
+const CLIENT_LOGOS = [
+  { test: /maha|chishty/, img: mahaLogo, name: 'Maha Chishty Designs', white: true },
+  { test: /barth|virtual immo/, img: virtualImmoLogo, name: 'Virtual Immo', white: true },
+  { test: /filippo|medina|hyper/, img: hyperLogo, name: 'Hyper Realestate', white: true },
+  { test: /abel|alasso|cm marketing|cap configurator/, img: abelLogo, name: 'Abel', white: true },
+  { test: /\btnt\b|ahmad|ahmed/, img: tntLogo, name: 'TNT Design', white: true },
+  { test: /innovision|aviv/, img: innovisionLogo, name: 'Innovision', white: true },
+];
+
+const getClientLogo = (r) => {
+  const text = `${r.clientName || ''} ${r.company || ''} ${r.projectName || ''}`.toLowerCase();
+  return CLIENT_LOGOS.find((l) => l.test.test(text)) || null;
+};
 
 const getYouTubeEmbedUrl = (url, muted = true) => {
   if (!url) return null;
@@ -176,11 +181,6 @@ html.light .voices-section{--v-bg:#fff;--v-fg:#0b0d14;--v-head-mute:#85858b;--v-
 .voices-dot:hover{background:rgba(65,105,225,.5)}
 .voices-section .brands-marquee-section{padding-top:40px;padding-bottom:0;background:transparent !important}
 .voices-stage-mask{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 20%,#000 80%,transparent 100%)}
-.voices-logo-mask{-webkit-mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 82%,transparent 100%);mask-image:linear-gradient(90deg,transparent 0,#000 18%,#000 82%,transparent 100%)}
-.voices-logo-row{position:relative;height:64px;--lw:130px;--step:154px}
-@media (min-width:768px){.voices-logo-row{height:84px;--lw:190px;--step:214px}}
-.voices-logo-item{position:absolute;left:50%;top:0;bottom:0;width:var(--lw);margin-left:calc(var(--lw) / -2);display:flex;align-items:center;justify-content:center;transform:translateX(calc(var(--r) * var(--step))) scale(.8);filter:blur(2.5px);opacity:.55;transition:transform .8s cubic-bezier(.22,1,.36,1),filter .8s ease,opacity .8s ease}
-.voices-logo-item[data-on="1"]{transform:translateX(0) scale(1.15);filter:none;opacity:1}
 .voices-swiper{overflow:visible !important;padding:28px 0}
 .voices-swiper .voice-slide{transition:transform .8s cubic-bezier(.22,1,.36,1),filter .8s ease,opacity .8s ease;transform:scale(.72);filter:blur(14px);opacity:.3;cursor:pointer}
 .voices-swiper .voice-slide.swiper-slide-prev,.voices-swiper .voice-slide.swiper-slide-next{transform:scale(.86);filter:blur(9px);opacity:.5}
@@ -264,20 +264,6 @@ const ClientReviews = ({ initialReviews = null }) => {
   const marqueeSwiperRef = useRef(null);
   const playerRefs = useRef({});
   const sectionRef = useRef(null);
-
-  const logoBase = VOICE_LOGOS.slice(0, Math.max(reviews.length, 2));
-  const logoCount = logoBase.length;
-
-  // Endless logo position: moves by the shortest step whenever the active video changes
-  const [logoPos, setLogoPos] = useState(0);
-  const [prevActiveIdx, setPrevActiveIdx] = useState(0);
-  if (prevActiveIdx !== activeIdx) {
-    setPrevActiveIdx(activeIdx);
-    let delta = (activeIdx % logoCount) - (prevActiveIdx % logoCount);
-    if (delta > logoCount / 2) delta -= logoCount;
-    if (delta < -logoCount / 2) delta += logoCount;
-    if (delta !== 0) setLogoPos((p) => p + delta);
-  }
 
   const setPlayerRef = useCallback(
     (id) => (el) => {
@@ -421,21 +407,6 @@ const ClientReviews = ({ initialReviews = null }) => {
             Proof<span className="text-[#4169E1]">.</span>{' '}
             <span className="voices-sub">From teams shipping in 3D.</span>
           </h2>
-          <div className="voices-logo-mask voices-logo-row mt-8 w-full max-w-[1200px] pointer-events-none select-none" aria-hidden="true">
-            {[-4, -3, -2, -1, 0, 1, 2, 3, 4].map((r) => {
-              const abs = logoPos + r;
-              const logo = logoBase[((abs % logoCount) + logoCount) % logoCount];
-              return (
-                <div key={abs} className="voices-logo-item" data-on={r === 0 ? '1' : '0'} style={{ '--r': r }}>
-                  <img
-                    src={typeof logo.img === 'string' ? logo.img : logo.img?.src}
-                    alt={`${logo.name} logo`}
-                    className={`h-10 md:h-14 w-auto max-w-full object-contain ${logo.white ? 'brand-logo-white' : ''}`}
-                  />
-                </div>
-              );
-            })}
-          </div>
         </div>
 
         {/* Desktop: centered autoplay video, blurred neighbours either side */}
@@ -478,14 +449,29 @@ const ClientReviews = ({ initialReviews = null }) => {
             >
               {loopedReviews.map((review) => (
                 <SwiperSlide key={review._uniqueKey} className="voice-slide !w-[210px] sm:!w-[250px] lg:!w-[290px] xl:!w-[310px]">
-                  {({ isActive }) => (
-                    <StageSlide
-                      review={review}
-                      isActive={isActive}
-                      isMuted={stageMuted}
-                      onToggleMute={() => setStageMuted((m) => !m)}
-                    />
-                  )}
+                  {({ isActive }) => {
+                    const logo = getClientLogo(review);
+                    return (
+                      <div className="flex flex-col items-center">
+                        {/* Fixed-height logo slot keeps every card aligned, with or without a logo */}
+                        <div className="h-16 md:h-24 mb-3 flex items-center justify-center pointer-events-none select-none">
+                          {logo && (
+                            <img
+                              src={typeof logo.img === 'string' ? logo.img : logo.img?.src}
+                              alt={`${logo.name} logo`}
+                              className={`max-h-full max-w-[190px] md:max-w-[260px] w-auto object-contain ${logo.white ? 'brand-logo-white' : ''}`}
+                            />
+                          )}
+                        </div>
+                        <StageSlide
+                          review={review}
+                          isActive={isActive}
+                          isMuted={stageMuted}
+                          onToggleMute={() => setStageMuted((m) => !m)}
+                        />
+                      </div>
+                    );
+                  }}
                 </SwiperSlide>
               ))}
             </Swiper>

@@ -45,11 +45,13 @@ import roohafzaRaw from '../assets/About-page/roohafza.webp';
 import volvoRaw from '../assets/About-page/volvo-thumbnail.webp';
 import volvoUe5Raw from '../assets/About-page/volvo-s90-ue5-hero.webp';
 import golfCartRaw from '../assets/About-page/golf-cart.webp';
+import bean4Raw from '../assets/About-page/bean-4.png';
 import golf2Raw from '../assets/About-page/golf-2.png';
 import configuratorTcoRaw from '../assets/About-page/newkia.png';
 import kumarRaw from '../assets/About-page/kumar-hd.webp';
 
 const golfCart = getImgSrc(golfCartRaw);
+const bean4 = getImgSrc(bean4Raw);
 const golf2 = getImgSrc(golf2Raw);
 const configuratorTco = getImgSrc(configuratorTcoRaw);
 const kumar = getImgSrc(kumarRaw);
@@ -92,6 +94,15 @@ const staticImages = {
 };
 
 const staticPosts = [
+    {
+        id: 'static-unreal-engine-pixel-streaming-vs-standalone-build-2026',
+        title: 'Unreal Engine 5 Cloud Pixel Streaming vs Standalone Offline Builds: Choosing the Right Delivery Model for Trade Shows & Enterprise Sales',
+        excerpt: 'Why venue Wi-Fi breaks pixel streaming, when .exe and Mac builds win, cloud GPU vs hardware break-even, and the one-codebase hybrid model — with French Bee, Bean Trailer and Volvo S90 deployments.',
+        image: bean4,
+        date: 'NOVEMBER 18, 2026',
+        category: 'Unreal Engine 5 Deployment',
+        url: '/blog/unreal-engine-pixel-streaming-vs-standalone-build',
+    },
     {
         id: 'static-3d-configurator-ip-ownership-saas-tco-2026',
         title: '3D Configurator IP Ownership vs SaaS Licensing: The 2026 CTO Guide to 3-Year Total Cost of Ownership',
