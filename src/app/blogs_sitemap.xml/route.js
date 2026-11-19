@@ -3,6 +3,7 @@ import { apiCall, SITE_URL } from '@/utils/api';
 export const dynamic = 'force-dynamic';
 
 const staticBlogSlugs = [
+  'campervan-3d-configurator',
   'unreal-engine-pixel-streaming-vs-standalone-build',
   '3d-configurator-ip-ownership-saas-tco',
   'golf-cart-3d-configurator-lsv',

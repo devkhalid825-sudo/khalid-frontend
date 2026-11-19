@@ -6,6 +6,7 @@ import ProjectPage from '@/components/ProjectPage';
 import { projectList, caseStudyEntries } from '@/components/projects/projectData';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
 import { getProjectValueProposition } from '@/constants/projectValueProps';
+import { getProjectSeoOverride } from '@/constants/projectSeoOverrides';
 import { cleanProjectTitle, projectMetaTitle, projectMetaDescription } from '@/seo/projectMeta';
 
 export const revalidate = 10; // 10s fast cache for fresh updates
@@ -112,6 +113,15 @@ function apiProjectSchemas(slug, data) {
   };
 
   const schemas = [breadcrumb];
+  const seoOverride = getProjectSeoOverride(slug);
+
+  // Enrich the default CreativeWork for projects with SEO overrides (e.g. KIA).
+  if (seoOverride?.creativeWork) {
+    const { creatorUrl, ...cw } = seoOverride.creativeWork;
+    Object.assign(defaultSchema, cw, {
+      creator: { '@type': 'Organization', name: 'Elipse Studio', ...(creatorUrl ? { url: creatorUrl } : {}) },
+    });
+  }
 
   // Custom Schema support
   let customParsed = null;
@@ -132,7 +142,9 @@ function apiProjectSchemas(slug, data) {
   }
 
   // Auto FAQ schema
-  const faqItems = metaSec.faqItems || data.faqItems;
+  // (CMS items win; otherwise fall back to the override shown on the page.)
+  const cmsFaq = metaSec.faqItems || data.faqItems;
+  const faqItems = Array.isArray(cmsFaq) && cmsFaq.length > 0 ? cmsFaq : seoOverride?.faqItems;
   if (Array.isArray(faqItems) && faqItems.length > 0) {
     const faqSchema = buildFaqSchema(faqItems);
     if (faqSchema) schemas.push(faqSchema);

@@ -8,6 +8,7 @@ import { OverviewSection, ResultsSection, ProcessSection, GallerySection } from 
 import { projectList, caseStudyEntries } from "./projects/projectData";
 import { apiCall, getYoutubeEmbed, BACKEND_ORIGIN, toCdnUrl } from "../utils/api";
 import { getProjectValueProposition } from "@/constants/projectValueProps";
+import { getProjectSeoOverride } from "@/constants/projectSeoOverrides";
 import { stripHtml } from "@/utils/formatTitle";
 
 const allProjects = [...projectList, ...caseStudyEntries];
@@ -171,6 +172,11 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
 
   const heroAspectRatio = sections[0]?.heroAspectRatio || data.heroAspectRatio || 'video';
   const tickerWords = sections[0]?.tickerWords || data.tickerWords || '';
+  // CMS FAQ wins; projects with an SEO override (e.g. KIA) fall back to it so the
+  // visible Q&A always matches the FAQPage JSON-LD emitted by the server page.
+  const seoOverride = getProjectSeoOverride(data.slug || data.path);
+  const rawFaq = sections[0]?.faqItems !== undefined ? sections[0].faqItems : data.faqItems;
+  const cmsFaqItems = Array.isArray(safeJson(rawFaq, [])) ? safeJson(rawFaq, []).filter((i) => i && (i.q || i.a)) : [];
   const subtitle = sections[0]?.subtitle || data.subtitle || data.metaDescription || getProjectValueProposition({ ...data, slug: data.slug || data.path });
 
   return (
@@ -218,8 +224,9 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
       creditsToolsLabel={sections[0]?.creditsToolsLabel !== undefined ? sections[0].creditsToolsLabel : data.creditsToolsLabel}
       creditsTools={sections[0]?.creditsTools !== undefined ? sections[0].creditsTools : data.creditsTools}
       creditsAgency={sections[0]?.creditsAgency !== undefined ? sections[0].creditsAgency : data.creditsAgency}
-      faqHeading={sections[0]?.faqHeading !== undefined ? sections[0].faqHeading : data.faqHeading}
-      faqItems={sections[0]?.faqItems !== undefined ? sections[0].faqItems : data.faqItems}
+      faqHeading={cmsFaqItems.length > 0 ? (sections[0]?.faqHeading !== undefined ? sections[0].faqHeading : data.faqHeading) : (seoOverride?.faqHeading || (sections[0]?.faqHeading !== undefined ? sections[0].faqHeading : data.faqHeading))}
+      faqItems={cmsFaqItems.length > 0 ? cmsFaqItems : (seoOverride?.faqItems || cmsFaqItems)}
+      imageAltBase={seoOverride?.imageAltBase}
       targetKeywords={sections[0]?.targetKeywords !== undefined ? sections[0].targetKeywords : (data.targetKeywords || data.metaKeywords)}
       calloutEyebrow={sections[0]?.calloutEyebrow !== undefined ? sections[0].calloutEyebrow : data.calloutEyebrow}
       calloutHeadline={sections[0]?.calloutHeadline !== undefined ? sections[0].calloutHeadline : data.calloutHeadline}

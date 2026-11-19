@@ -46,12 +46,14 @@ import volvoRaw from '../assets/About-page/volvo-thumbnail.webp';
 import volvoUe5Raw from '../assets/About-page/volvo-s90-ue5-hero.webp';
 import golfCartRaw from '../assets/About-page/golf-cart.webp';
 import bean4Raw from '../assets/About-page/bean-4.png';
+import beanTrailorRaw from '../assets/About-page/bean-trailor.png';
 import golf2Raw from '../assets/About-page/golf-2.png';
 import configuratorTcoRaw from '../assets/About-page/newkia.png';
 import kumarRaw from '../assets/About-page/kumar-hd.webp';
 
 const golfCart = getImgSrc(golfCartRaw);
 const bean4 = getImgSrc(bean4Raw);
+const beanTrailor = getImgSrc(beanTrailorRaw);
 const golf2 = getImgSrc(golf2Raw);
 const configuratorTco = getImgSrc(configuratorTcoRaw);
 const kumar = getImgSrc(kumarRaw);
@@ -94,6 +96,15 @@ const staticImages = {
 };
 
 const staticPosts = [
+    {
+        id: 'static-campervan-3d-configurator-2026',
+        title: '3D Campervan & Overland Interior Configurators: Parametric Layout Builders, Modular Bundles & 3D Asset Scoping',
+        excerpt: 'How van upfitters deploy real-time 3D interior configurators: zone-based layout logic, collision detection, modular electrical bundles, CAD-to-WebGL asset scoping, CRM build-sheet handoff and an 8-week Phase 1 launch plan.',
+        image: beanTrailor,
+        date: 'NOVEMBER 19, 2026',
+        category: 'Vehicle 3D Configurators',
+        url: '/blog/campervan-3d-configurator',
+    },
     {
         id: 'static-unreal-engine-pixel-streaming-vs-standalone-build-2026',
         title: 'Unreal Engine 5 Cloud Pixel Streaming vs Standalone Offline Builds: Choosing the Right Delivery Model for Trade Shows & Enterprise Sales',

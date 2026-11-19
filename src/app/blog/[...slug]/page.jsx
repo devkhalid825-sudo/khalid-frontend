@@ -7,6 +7,7 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  'campervan-3d-configurator': dynamic(() => import('@/components/articles/CampervanInteriorConfiguratorArticle')),
   'unreal-engine-pixel-streaming-vs-standalone-build': dynamic(() => import('@/components/articles/UE5PixelStreamingVsStandaloneArticle')),
   '3d-configurator-ip-ownership-saas-tco': dynamic(() => import('@/components/articles/ConfiguratorIpOwnershipTcoArticle')),
   'golf-cart-3d-configurator-lsv': dynamic(() => import('@/components/articles/GolfCart3dConfiguratorArticle')),
@@ -64,6 +65,22 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  'campervan-3d-configurator': {
+    title: '3D Campervan & Overland Interior Configurators: Layout Builders, Modular Bundles & Asset Scoping (2026 Guide)',
+    description: 'How custom van upfitters and overland vehicle builders can deploy real-time 3D interior configurators with collision-free layout logic, modular electrical bundles, and CRM build-sheet handoff. Full 2026 technical and commercial guide.',
+    keywords: [
+      'campervan 3d configurator',
+      'sprinter van interior 3d builder',
+      'overland vehicle customizer webgl',
+      'modular van layout visualizer',
+      'van interior configurator',
+      '3d van build tool',
+      'interactive van floor plan',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/campervan-3d-configurator`,
+    ogImage: `${SITE_URL}/assets/About-page/bean-trailor.png`,
+  },
   'unreal-engine-pixel-streaming-vs-standalone-build': {
     title: 'Unreal Engine Pixel Streaming vs Standalone Build: Trade Show & Enterprise Delivery Guide (2026)',
     description: 'Cloud pixel streaming or standalone .exe / Mac builds for UE5? Venue Wi-Fi limits, air-gapped and training use cases, cloud GPU vs hardware break-even, and the one-codebase hybrid model — with French Bee, Bean Trailer and Volvo S90.',
@@ -652,6 +669,7 @@ export async function generateStaticParams() {
 const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 
 function staticArticleSchemas(slugStr, meta) {
+  const isCampervan = slugStr === 'campervan-3d-configurator';
   const isPixelVsStandalone = slugStr === 'unreal-engine-pixel-streaming-vs-standalone-build';
   const isIpOwnership = slugStr === '3d-configurator-ip-ownership-saas-tco';
   const isGolfCart = slugStr === 'golf-cart-3d-configurator-lsv';
@@ -674,6 +692,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isCampervan) return '2026-11-19';
     if (isPixelVsStandalone) return '2026-11-18';
     if (isIpOwnership) return '2026-11-16';
     if (isGolfCart) return '2026-11-14';

@@ -107,6 +107,7 @@ const AhmedFoodLayout = ({
   creditsAgency,
   faqHeading,
   faqItems = [],
+  imageAltBase = '',
   targetKeywords = '',
   calloutEyebrow,
   calloutHeadline,
@@ -222,7 +223,7 @@ const AhmedFoodLayout = ({
                 >
                   <img
                     src={resolveImageUrl(block.image)}
-                    alt={block.heading || `Story block ${i + 1}`}
+                    alt={block.heading || (imageAltBase ? `${imageAltBase} — detail ${i + 1}` : `Story block ${i + 1}`)}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                     loading="lazy"
                   />
@@ -277,7 +278,9 @@ const AhmedFoodLayout = ({
           : index < 12
             ? `Ahmed Foods Crystal Jelly 3D Packaging Animation - Shot ${index + 1}`
             : `Ahmed Foods Bombay Biryani CGI Commercial Visual - Detail ${index + 1}`)
-        : `${cleanTitle} 3D Commercial Render - Frame ${index + 1}`;
+        : imageAltBase
+          ? `${imageAltBase} — view ${index + 1}`
+          : `${cleanTitle} 3D Commercial Render - Frame ${index + 1}`;
 
       return (
         <div
@@ -346,7 +349,9 @@ const AhmedFoodLayout = ({
       const src = resolveImageUrl(rawSrc);
       const altText = isAhmedFood
         ? `Ahmed Foods 3D CGI Commercial Production Still - Shot ${index + 1}`
-        : `${cleanTitle} Production Still Render - Shot ${index + 1}`;
+        : imageAltBase
+          ? `${imageAltBase} — render ${index + 1}`
+          : `${cleanTitle} Production Still Render - Shot ${index + 1}`;
 
       return (
         <div

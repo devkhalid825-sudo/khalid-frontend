@@ -30,6 +30,7 @@ import furnitureRaw from '../../assets/ElipseImages/blogs/alnoor.webp';
 import volvoPaintRaw from '../../assets/About-page/volvo-s90-ue5-paint.webp';
 import golfCartRaw from '../../assets/About-page/golf-cart.webp';
 import bean4Raw from '../../assets/About-page/bean-4.png';
+import beanTrailorRaw from '../../assets/About-page/bean-trailor.png';
 import golf2Raw from '../../assets/About-page/golf-2.png';
 import configuratorCard2Raw from '../../assets/About-page/newkia.png';
 import roohafzaRaw from '../../assets/About-page/roohafza.webp';
@@ -38,6 +39,7 @@ import kumarRaw from '../../assets/About-page/kumar-hd.webp';
 const kumarImg = getImgSrc(kumarRaw);
 const golfCartImg = getImgSrc(golfCartRaw);
 const bean4Img = getImgSrc(bean4Raw);
+const beanTrailorImg = getImgSrc(beanTrailorRaw);
 const golf2Img = getImgSrc(golf2Raw);
 const configuratorCard2 = getImgSrc(configuratorCard2Raw);
 const roohafzaImg = getImgSrc(roohafzaRaw);
@@ -119,6 +121,15 @@ const News = ({ initialBlogs = null }) => {
   }, []);
 
   const staticPosts = [
+    {
+      id: 'campervan-3d-configurator-2026',
+      title: '3D Campervan & Overland Interior Configurators: Parametric Layout Builders, Modular Bundles & 3D Asset Scoping',
+      image: marineImg,
+      date: 'NOVEMBER 19, 2026',
+      category: 'Vehicle 3D Configurators',
+      readTime: '11 min read',
+      url: '/blog/campervan-3d-configurator',
+    },
     {
       id: 'unreal-engine-pixel-streaming-vs-standalone-build-2026',
       title: 'Unreal Engine 5 Cloud Pixel Streaming vs Standalone Offline Builds: Choosing the Right Delivery Model for Trade Shows & Enterprise Sales',

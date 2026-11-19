@@ -99,7 +99,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="relative site-main-footer bg-[#223A9F] border-t border-white/10 text-white pt-12 md:pt-20 pb-12 md:pb-16 font-sans overflow-hidden transition-colors duration-300">
+    <footer className="relative site-main-footer bg-[#223A9F] border-t border-white/10 text-white pt-12 md:pt-20 pb-28 md:pb-16 font-sans overflow-hidden transition-colors duration-300">
       <style dangerouslySetInnerHTML={{ __html: `
         /* Enforce identical clean sans-serif typography across ALL footer text (no serif bleed) */
         .site-main-footer,
@@ -389,13 +389,13 @@ const Footer = () => {
 
         <div className="border-t border-white/10 mt-8 mb-8 w-full footer-divider"></div>
 
-        <div className="text-center text-[11px] md:text-[13px] text-white/60 tracking-[0.2em] md:tracking-[0.3em] font-light uppercase flex flex-wrap items-center justify-center gap-x-4 md:gap-x-6 gap-y-2 footer-copyright">
+        <div className="text-center text-[10px] md:text-[13px] text-white/60 tracking-[0.12em] md:tracking-[0.3em] font-light uppercase flex flex-row flex-wrap items-center justify-center gap-x-3 md:gap-x-6 gap-y-2 footer-copyright">
           <span>© Elipse Studio. All rights reserved.</span>
-          <span aria-hidden="true">·</span>
+          <span aria-hidden="true" className="hidden sm:inline">·</span>
           <Link href="/privacy-policy" className="hover:text-white transition-colors">Privacy Policy</Link>
-          <span aria-hidden="true">·</span>
+          <span aria-hidden="true" className="hidden sm:inline">·</span>
           <Link href="/terms-and-conditions" className="hover:text-white transition-colors">Terms of Service</Link>
-          <span aria-hidden="true">·</span>
+          <span aria-hidden="true" className="hidden sm:inline">·</span>
           <button
             type="button"
             onClick={() => window.dispatchEvent(new Event('elipse:open-cookie-settings'))}
