@@ -15,12 +15,12 @@ import MediaFacade from '../ui/MediaFacade';
 // Client logo shown above each review card. `white: true` = white artwork that the
 // site turns black in light mode (brand-logo-white); coloured logos are left as-is.
 const CLIENT_LOGOS = [
-  { test: /maha|chishty/, img: mahaLogo, name: 'Maha Chishty Designs', white: true, scale: 1 },
+  { test: /maha|chishty/, img: mahaLogo, name: 'Maha Chishty Designs', white: true, scale: 1.32 },
   { test: /barth|virtual immo/, img: virtualImmoLogo, name: 'Virtual Immo', white: true, scale: 1 },
-  { test: /filippo|medina|hyper/, img: hyperLogo, name: 'Hyper Realestate', white: true, scale: 1.25 },
+  { test: /filippo|medina|hyper/, img: hyperLogo, name: 'Hyper Realestate', white: true, scale: 1 },
   { test: /abel|alasso|cm marketing|cap configurator/, img: abelLogo, name: 'Abel', white: true, scale: 1 },
   { test: /\btnt\b|ahmad|ahmed/, img: tntLogo, name: 'TNT Design', white: true, scale: 1 },
-  { test: /innovision|aviv/, img: innovisionLogo, name: 'Innovision', white: true, scale: 1.2 },
+  { test: /innovision|aviv/, img: innovisionLogo, name: 'Innovision', white: true, scale: 0.96 },
 ];
 
 const getClientLogo = (r) => {
@@ -102,15 +102,15 @@ const StageSlide = ({ review, isActive, isMuted, onToggleMute }) => {
   };
 
   return (
-    <div className="voice-card relative w-full aspect-[2/3] rounded-[18px] md:rounded-[22px] overflow-hidden bg-[#0f0f11]">
+    <div className="voice-card relative w-full aspect-[9/16] rounded-[18px] md:rounded-[22px] overflow-hidden bg-[#0f0f11]">
       {poster && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={poster} alt="" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
       )}
 
-      {/* 9:16 short fills the 2:3 card width; the overflow is cropped top and bottom */}
+      {/* 9:16 short fills the 9:16 card exactly */}
       {isActive && review.video && (
-        <div className="absolute left-0 w-full" style={{ height: '118.5%', top: '-9.25%' }}>
+        <div className="absolute inset-0 w-full h-full">
           <MediaFacade
             videoUrl={review.video}
             title={`${review.clientName} review`}
@@ -181,6 +181,15 @@ html.light .voices-thumb{border-color:rgba(11,13,20,.4)}
 .voices-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .voices-thumb[data-on="0"]{border-color:transparent;filter:blur(2px) brightness(.9)}
 .voices-thumb[data-on="0"]:hover{filter:blur(0.5px) brightness(1)}
+.voices-stage{--w:230px;--step:240px;position:relative;width:100%;height:calc(var(--w)*16/9 + 80px)}
+@media (min-width:768px){.voices-stage{--w:310px;--step:335px}}
+.voices-slide{position:absolute;left:50%;top:0;width:var(--w);margin-left:calc(var(--w)/-2);display:flex;flex-direction:column;align-items:center;transform-origin:center center;transform:translateX(calc(var(--o)*var(--step))) scale(calc(1 - var(--abs)*.13));transition:transform .6s cubic-bezier(.22,1,.36,1),filter .6s ease,opacity .6s ease;z-index:calc(10 - var(--abs))}
+.voices-slide[data-on="0"]{filter:blur(6px) brightness(.75);cursor:pointer}
+.voices-slide[data-hide="1"]{opacity:0;pointer-events:none}
+.voices-slide-logo{height:43px;width:79px;margin-bottom:14px;display:flex;align-items:center;justify-content:center}
+@media (min-width:768px){.voices-slide-logo{height:54px;width:99px;margin-bottom:18px}}
+.voices-arrow{position:absolute;top:50%;z-index:30;width:44px;height:44px;border-radius:9999px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transform:translateY(-50%);transition:background .2s ease}
+.voices-arrow:hover{background:rgba(65,105,225,.85)}
 @keyframes voicesCardIn{from{opacity:0;transform:translateY(22px) scale(.93)}to{opacity:1;transform:none}}
 @keyframes voicesTextIn{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:none}}
 .voices-card-in{animation:voicesCardIn .65s cubic-bezier(.22,1,.36,1) both}
@@ -257,7 +266,6 @@ const ClientReviews = ({ initialReviews = null }) => {
   const [activeIdx, setActiveIdx] = useState(0);
   const [muted, setMuted] = useState(true);
   const sectionRef = useRef(null);
-  const thumbsRef = useRef(null);
   const count = reviews.length;
 
   const goTo = useCallback(
@@ -306,118 +314,76 @@ const ClientReviews = ({ initialReviews = null }) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // Keep the active thumbnail in view when there are more than fit in the row.
-  useEffect(() => {
-    const row = thumbsRef.current;
-    const el = row?.children?.[activeIdx];
-    if (row && el) row.scrollTo({ left: el.offsetLeft - row.clientWidth / 2 + el.clientWidth / 2, behavior: 'smooth' });
-  }, [activeIdx]);
-
   if (count === 0) return null;
 
   const current = reviews[activeIdx] || reviews[0];
-  const logo = getClientLogo(current);
-  const animKey = current.id ?? activeIdx;
-
-  const clientRow = (
-    <div className="flex items-center justify-between gap-4 w-full max-w-[580px]">
-      <div className="flex items-center gap-4 sm:gap-4.5 min-w-0">
-        <div className="voices-circle w-[62px] h-[62px] lg:w-[70px] lg:h-[70px] rounded-full shrink-0 p-2.5 sm:p-3">
-          {logo ? (
-            <img
-              src={typeof logo.img === 'string' ? logo.img : logo.img?.src}
-              alt={`${logo.name} logo`}
-              style={logo.scale ? { transform: `scale(${logo.scale})` } : undefined}
-              className={`w-full h-full object-contain filter drop-shadow-[0_2px_8px_rgba(0,0,0,0.6)] ${logo.white ? 'brand-logo-white drop-shadow-[0_1px_5px_rgba(255,255,255,0.3)]' : ''}`}
-            />
-          ) : (
-            <span className="voices-fg text-base lg:text-lg font-semibold">{(current.clientName || '?').charAt(0)}</span>
-          )}
-        </div>
-        <div className="min-w-0">
-          <div className="voices-fg text-[15px] sm:text-[16px] lg:text-[18px] font-semibold leading-tight truncate">{current.clientName}</div>
-          <div className="voices-sub text-[12px] sm:text-[13px] lg:text-[14px] uppercase tracking-[0.08em] opacity-80 truncate mt-1">
-            {current.company || current.designation}
-          </div>
-        </div>
-      </div>
-      <div className="flex items-center gap-3 shrink-0">
-        <button type="button" onClick={() => goTo(activeIdx - 1)} className="voices-btn w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center cursor-pointer" aria-label="Previous review">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-4.5 h-4.5 lg:w-5 lg:h-5"><polyline points="15 18 9 12 15 6" /></svg>
-        </button>
-        <button type="button" onClick={() => goTo(activeIdx + 1)} className="voices-btn-primary w-11 h-11 lg:w-12 lg:h-12 rounded-full flex items-center justify-center cursor-pointer" aria-label="Next review">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-4.5 h-4.5 lg:w-5 lg:h-5"><polyline points="9 18 15 12 9 6" /></svg>
-        </button>
-      </div>
-    </div>
-  );
-
-  const thumbs = (
-    <div ref={thumbsRef} className="voices-thumbs w-full">
-      {reviews.map((r, i) => {
-        const id = getYouTubeId(r.video);
-        const poster = id ? `https://i.ytimg.com/vi/${id}/hqdefault.jpg` : null;
-        return (
-          <button
-            type="button"
-            key={r.id ?? i}
-            onClick={() => goTo(i)}
-            data-on={i === activeIdx ? '1' : '0'}
-            className="voices-thumb"
-            aria-label={`Play review from ${r.clientName}`}
-            aria-current={i === activeIdx}
-          >
-            {poster && (
-              // eslint-disable-next-line @next/next/no-img-element
-              <img src={poster} alt="" loading="lazy" decoding="async" />
-            )}
-          </button>
-        );
-      })}
-    </div>
-  );
+  const half = Math.floor(count / 2);
 
   return (
     <section
       ref={sectionRef}
-      className="voices-section w-full pt-14 sm:pt-18 md:pt-28 lg:pt-36 pb-16 md:pb-28 lg:pb-36 overflow-hidden relative"
+      className="voices-section w-full pt-14 sm:pt-18 md:pt-24 lg:pt-28 pb-16 md:pb-24 lg:pb-28 overflow-hidden relative"
     >
       <style dangerouslySetInnerHTML={{ __html: VOICES_CSS }} />
       <div className="home-container relative flex flex-col items-center">
-        <h2 className="voices-fg text-center text-[32px] sm:text-4xl md:text-[46px] lg:text-[54px] xl:text-[58px] font-semibold tracking-[-0.025em] leading-[1.12] [text-wrap:balance] mb-12 md:mb-18 lg:mb-24">
+        <h2 className="voices-fg text-center text-[32px] sm:text-4xl md:text-[46px] lg:text-[54px] xl:text-[58px] font-semibold tracking-[-0.025em] leading-[1.12] [text-wrap:balance] mb-10 md:mb-14">
           Proof<span className="text-[#4169E1]">.</span>{' '}
           <span className="voices-sub">From teams shipping in 3D.</span>
         </h2>
+      </div>
 
-        <div className="w-full max-w-[1100px] lg:max-w-[1200px] xl:max-w-[1280px] grid grid-cols-1 md:grid-cols-[360px_minmax(0,1fr)] lg:grid-cols-[400px_minmax(0,1fr)] xl:grid-cols-[430px_minmax(0,1fr)] gap-8 md:gap-14 lg:gap-18 xl:gap-24 items-center justify-items-center md:justify-items-stretch">
-          {/* Video card: re-mounts on change so it animates in */}
-          <div
-            key={`card-${animKey}`}
-            className="voices-card-in w-full max-w-[360px] sm:max-w-[400px] md:max-w-none rounded-[22px] md:rounded-[28px] border-[1.5px] border-white/90 overflow-hidden shadow-[0_24px_60px_rgba(0,0,0,0.6)]"
-          >
-            <StageSlide review={current} isActive={true} isMuted={muted} onToggleMute={() => setMuted((m) => !m)} />
-          </div>
-
-          <div className="w-full max-w-[360px] sm:max-w-[400px] md:max-w-none flex flex-col gap-6 md:gap-0">
-            {/* Headline and quote: desktop only, as in the design */}
-            <div key={`text-${animKey}`} className="voices-text-in hidden md:block">
-              <span className="text-[#3b72ff] text-[58px] lg:text-[72px] leading-none block mb-0 select-none" style={{ fontFamily: "Georgia,'Times New Roman',serif", fontWeight: 700 }} aria-hidden="true">&ldquo;</span>
-              <p className="voices-fg text-[30px] sm:text-[34px] lg:text-[40px] xl:text-[44px] font-semibold italic leading-[1.22] tracking-[-0.015em] mb-6 -mt-2" style={{ fontFamily: "'Inter','DM Sans','Helvetica Neue',Arial,sans-serif", fontWeight: 600 }}>
-                I just wanted to recommend about a{' '}
-                <span className="voices-highlight"><span>ELIPSE STUDIO</span></span>
-              </p>
-              {current.quote && (
-                <p className="voices-sub text-[19px] sm:text-[21px] lg:text-[23px] italic leading-[1.65] max-w-[580px]" style={{ fontFamily: "'Inter','DM Sans','Helvetica Neue',Arial,sans-serif", fontWeight: 400 }}>
-                  {current.quote}
-                </p>
-              )}
-              <hr className="voices-rule border-t mt-6 lg:mt-8 w-full max-w-[500px]" />
+      {/* Centered carousel: active card in the middle, neighbours blurred and scaled down */}
+      <div className="voices-stage">
+        {reviews.map((r, i) => {
+          let o = (((i - activeIdx) % count) + count) % count;
+          if (o > half) o -= count;
+          const abs = Math.abs(o);
+          const active = o === 0;
+          const logo = getClientLogo(r);
+          return (
+            <div
+              key={r.id ?? i}
+              className="voices-slide"
+              data-on={active ? '1' : '0'}
+              data-hide={abs > 2 ? '1' : '0'}
+              style={{ '--o': o, '--abs': abs }}
+              onClick={() => { if (!active) goTo(i); }}
+              aria-hidden={!active}
+            >
+              <div className="voices-slide-logo">
+                {logo && (
+                  <img
+                    src={typeof logo.img === 'string' ? logo.img : logo.img?.src}
+                    alt={`${logo.name} logo`}
+                    style={logo.scale ? { transform: `scale(${logo.scale})` } : undefined}
+                    className={`w-full h-full object-contain ${logo.white ? 'brand-logo-white' : ''}`}
+                  />
+                )}
+              </div>
+              <div className={`w-full rounded-[18px] md:rounded-[22px] overflow-hidden ${active ? 'shadow-[0_24px_60px_rgba(0,0,0,0.6)]' : 'pointer-events-none'}`}>
+                <StageSlide review={r} isActive={active} isMuted={muted} onToggleMute={() => setMuted((m) => !m)} />
+              </div>
             </div>
+          );
+        })}
 
-            <div key={`row-${animKey}`} className="voices-text-in md:mt-7 lg:mt-9">{clientRow}</div>
-            <div className="md:mt-8 lg:mt-9 w-full max-w-[580px]">{thumbs}</div>
-          </div>
-        </div>
+        <button type="button" onClick={() => goTo(activeIdx - 1)} className="voices-arrow left-2 md:left-4" aria-label="Previous review">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="15 18 9 12 15 6" /></svg>
+        </button>
+        <button type="button" onClick={() => goTo(activeIdx + 1)} className="voices-arrow right-2 md:right-4" aria-label="Next review">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="9 18 15 12 9 6" /></svg>
+        </button>
+      </div>
+
+      {/* Quote */}
+      <div key={`quote-${current.id ?? activeIdx}`} className="voices-text-in home-container flex flex-col items-center text-center mt-8 md:mt-10">
+        {current.quote && (
+          <p className="voices-fg italic text-[20px] sm:text-[22px] md:text-[26px] leading-[1.4] max-w-[760px]" style={{ fontFamily: "'Lora',Georgia,'Times New Roman',serif" }}>
+            &ldquo;{current.quote}&rdquo;
+          </p>
+        )}
+        <div className="voices-fg text-[15px] md:text-[16px] font-semibold mt-5">{current.clientName}</div>
+        <div className="voices-sub text-[12px] md:text-[13px] uppercase tracking-[0.08em] mt-1">{current.company || current.designation}</div>
       </div>
     </section>
   );
