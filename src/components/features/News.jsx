@@ -122,6 +122,15 @@ const News = ({ initialBlogs = null }) => {
 
   const staticPosts = [
     {
+      id: 'enterprise-3d-configurator-usa-uk-australia-2026',
+      title: 'Interactive 3D Configurators for US, UK & Australian Enterprise Brands: WebGL vs Unreal Engine 5 Architecture, Latency & ROI',
+      image: volvoPaintImg,
+      date: 'NOVEMBER 20, 2026',
+      category: 'Enterprise 3D Configurators',
+      readTime: '14 min read',
+      url: '/blog/enterprise-3d-configurator-usa-uk-australia-2026',
+    },
+    {
       id: 'campervan-3d-configurator-2026',
       title: '3D Campervan & Overland Interior Configurators: Parametric Layout Builders, Modular Bundles & 3D Asset Scoping',
       image: marineImg,
