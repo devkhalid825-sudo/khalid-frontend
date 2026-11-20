@@ -6,7 +6,7 @@ import { apiCall } from '@/utils/api';
 
 import mahaLogo from '@/assets/clientlogo/Maha Chishty Designs.png';
 import virtualImmoLogo from '@/assets/clientlogo/Virtual immo_White.png';
-import hyperLogo from '@/assets/clientlogo/Hyper realestate.png';
+import hyperLogo from '@/assets/clientlogo/Hyper realestate_White.png';
 import abelLogo from '@/assets/clientlogo/Abel.png';
 import tntLogo from '@/assets/clientlogo/TNT.png';
 import innovisionLogo from '@/assets/clientlogo/Innovision_White.png';
