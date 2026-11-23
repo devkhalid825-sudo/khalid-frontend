@@ -122,6 +122,15 @@ const News = ({ initialBlogs = null }) => {
 
   const staticPosts = [
     {
+      id: 'boat-yacht-3d-configurator-marine-2026',
+      title: 'Interactive 3D Boat, Yacht & Marine Configurators: Hull Finishes, Cabin Layouts & Dealer Quoting',
+      image: marineImg,
+      date: 'NOVEMBER 23, 2026',
+      category: 'Marine 3D Configurators',
+      readTime: '12 min read',
+      url: '/blog/boat-yacht-3d-configurator-marine-2026',
+    },
+    {
       id: 'enterprise-3d-configurator-usa-uk-australia-2026',
       title: 'Interactive 3D Configurators for US, UK & Australian Enterprise Brands: WebGL vs Unreal Engine 5 Architecture, Latency & ROI',
       image: volvoPaintImg,

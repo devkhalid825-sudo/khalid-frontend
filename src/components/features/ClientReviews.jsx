@@ -184,10 +184,13 @@ html.light .voices-thumb{border-color:rgba(11,13,20,.4)}
 .voices-stage{--w:230px;--step:240px;position:relative;width:100%;height:calc(var(--w)*16/9 + 80px)}
 @media (min-width:768px){.voices-stage{--w:310px;--step:335px}}
 .voices-slide{position:absolute;left:50%;top:0;width:var(--w);margin-left:calc(var(--w)/-2);display:flex;flex-direction:column;align-items:center;transform-origin:center center;transform:translateX(calc(var(--o)*var(--step))) scale(calc(1 - var(--abs)*.13));transition:transform .6s cubic-bezier(.22,1,.36,1),filter .6s ease,opacity .6s ease;z-index:calc(10 - var(--abs))}
-.voices-slide[data-on="0"]{filter:blur(6px) brightness(.75);cursor:pointer}
+.voices-slide[data-on="0"]{filter:blur(9px) brightness(.7);opacity:calc(1 - var(--abs)*.5);cursor:pointer}
 .voices-slide[data-hide="1"]{opacity:0;pointer-events:none}
 .voices-slide-logo{height:43px;width:79px;margin-bottom:14px;display:flex;align-items:center;justify-content:center}
 @media (min-width:768px){.voices-slide-logo{height:54px;width:99px;margin-bottom:18px}}
+.voices-fade{position:absolute;top:-10px;bottom:-10px;width:calc(50% - var(--w)/2 - 8px);z-index:20;pointer-events:none;opacity:.97}
+.voices-fade-l{left:0;background:linear-gradient(to right,var(--v-bg) 0%,var(--v-bg) 62%,transparent 100%)}
+.voices-fade-r{right:0;background:linear-gradient(to left,var(--v-bg) 0%,var(--v-bg) 62%,transparent 100%)}
 .voices-arrow{position:absolute;top:50%;z-index:30;width:44px;height:44px;border-radius:9999px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transform:translateY(-50%);transition:background .2s ease}
 .voices-arrow:hover{background:rgba(65,105,225,.85)}
 @keyframes voicesCardIn{from{opacity:0;transform:translateY(22px) scale(.93)}to{opacity:1;transform:none}}
@@ -366,6 +369,10 @@ const ClientReviews = ({ initialReviews = null }) => {
             </div>
           );
         })}
+
+        {/* Side gradients: fade the neighbouring cards so focus stays on the centre video */}
+        <div className="voices-fade voices-fade-l" aria-hidden="true" />
+        <div className="voices-fade voices-fade-r" aria-hidden="true" />
 
         <button type="button" onClick={() => goTo(activeIdx - 1)} className="voices-arrow left-2 md:left-4" aria-label="Previous review">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><polyline points="15 18 9 12 15 6" /></svg>

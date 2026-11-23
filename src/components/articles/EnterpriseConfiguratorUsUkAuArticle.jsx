@@ -427,8 +427,8 @@ const EnterpriseConfiguratorUsUkAuArticle = () => {
                 </div>
                 <Frame
                   src={imgFour}
-                  cap="A bespoke build is an owned software asset, not a subscription"
-                  alt="Bean Trailer custom 3D builder, delivered with full source code ownership"
+                  cap="Pursuit 288 boat configurator — a bespoke build is an owned software asset, not a subscription"
+                  alt="Pursuit 288 centre console boat 3D configurator landing screen by Elipse Studio"
                 />
               </div>
 

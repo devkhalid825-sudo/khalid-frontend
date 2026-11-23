@@ -97,6 +97,15 @@ const staticImages = {
 
 const staticPosts = [
     {
+        id: 'static-boat-yacht-3d-configurator-marine-2026',
+        title: 'Interactive 3D Boat, Yacht & Marine Configurators: Hull Finishes, Cabin Layouts & Dealer Quoting',
+        excerpt: 'WebGL vs Unreal Engine 5 for marine OEMs and dealers: gelcoat and teak shaders, HubSpot dealer quoting, PDF build sheets and a 6–10 week rollout from CAD files to a live configurator.',
+        image: marine,
+        date: 'NOVEMBER 23, 2026',
+        category: 'Marine 3D Configurators',
+        url: '/blog/boat-yacht-3d-configurator-marine-2026',
+    },
+    {
         id: 'static-enterprise-3d-configurator-usa-uk-australia-2026',
         title: 'Interactive 3D Configurators for US, UK & Australian Enterprise Brands: WebGL vs Unreal Engine 5 Architecture, Latency & ROI',
         excerpt: 'PlayCanvas WebGL vs UE5 Pixel Streaming for enterprise buyers: latency and infrastructure cost, Shopify Plus / HubSpot / SAP integration, a 36-month custom vs SaaS TCO model and an 8-week sprint plan.',

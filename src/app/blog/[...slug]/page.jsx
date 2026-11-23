@@ -7,6 +7,7 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  'boat-yacht-3d-configurator-marine-2026': dynamic(() => import('@/components/articles/BoatYachtMarineConfiguratorArticle')),
   'enterprise-3d-configurator-usa-uk-australia-2026': dynamic(() => import('@/components/articles/EnterpriseConfiguratorUsUkAuArticle')),
   'campervan-3d-configurator': dynamic(() => import('@/components/articles/CampervanInteriorConfiguratorArticle')),
   'unreal-engine-pixel-streaming-vs-standalone-build': dynamic(() => import('@/components/articles/UE5PixelStreamingVsStandaloneArticle')),
@@ -66,6 +67,23 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  'boat-yacht-3d-configurator-marine-2026': {
+    title: 'Interactive 3D Boat, Yacht & Marine Configurators: Hull Finishes, Cabin Layouts & Dealer Quoting (2026 Guide)',
+    description: 'PlayCanvas WebGL vs Unreal Engine 5 Pixel Streaming for marine OEMs, custom builders and dealerships: gelcoat and teak shaders, HubSpot dealer quoting, PDF build sheets and a 6–10 week rollout from CAD to live configurator.',
+    keywords: [
+      'boat 3d configurator',
+      'yacht 3d visualizer webgl',
+      'marine product configurator',
+      'custom boat builder 3d',
+      'boat hull color configurator online',
+      'gelcoat color configurator',
+      'unreal engine 5 yacht configurator',
+      'boat dealer quoting tool 3d',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/boat-yacht-3d-configurator-marine-2026`,
+    ogImage: `${SITE_URL}/assets/About-page/marine.webp`,
+  },
   'enterprise-3d-configurator-usa-uk-australia-2026': {
     title: 'Interactive 3D Configurators for US, UK & Australian Enterprise Brands: WebGL vs Unreal Engine 5, Latency & ROI (2026 Guide)',
     description: 'PlayCanvas WebGL vs Unreal Engine 5 Pixel Streaming for enterprise buyers in the US, UK and Australia: latency, infrastructure cost, Shopify Plus / HubSpot / SAP integration, a 36-month custom vs SaaS TCO model and an 8-week sprint plan.',
@@ -687,6 +705,7 @@ export async function generateStaticParams() {
 const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 
 function staticArticleSchemas(slugStr, meta) {
+  const isMarineBoat = slugStr === 'boat-yacht-3d-configurator-marine-2026';
   const isEnterpriseUsUkAu = slugStr === 'enterprise-3d-configurator-usa-uk-australia-2026';
   const isCampervan = slugStr === 'campervan-3d-configurator';
   const isPixelVsStandalone = slugStr === 'unreal-engine-pixel-streaming-vs-standalone-build';
@@ -711,6 +730,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isMarineBoat) return '2026-11-23';
     if (isEnterpriseUsUkAu) return '2026-11-20';
     if (isCampervan) return '2026-11-19';
     if (isPixelVsStandalone) return '2026-11-18';
