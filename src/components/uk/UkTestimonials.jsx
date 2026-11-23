@@ -3,11 +3,11 @@
 import Link from 'next/link';
 
 const items = [
-  { video: 'https://www.youtube.com/embed/ozZJOOLcD5s', name: 'Abel CM', role: 'Marketing Director', quote: 'Working with Elipse was a game-changer for our marketing.' },
-  { video: 'https://www.youtube.com/embed/M1_HPIbSsLc', name: 'Ahmed', role: 'Product Manager', quote: 'The configurator completely streamlined our sales.' },
-  { video: 'https://www.youtube.com/embed/s-ZyXQ1xJGU', name: 'Aviv', role: 'Sales Lead', quote: 'Our buyers can now visualize everything in real-time.' },
-  { video: 'https://www.youtube.com/embed/AbTynqlzI_Y', name: 'Hyper', role: 'Creative Director', quote: 'An incredible leap in our digital presence.' },
-  { video: 'https://www.youtube.com/embed/dkL3Ouz-0Vo', name: 'Tim Barth', role: 'Marketing Lead', quote: 'The 3D realism is simply unmatched.' },
+  { video: 'https://www.youtube.com/embed/ozZJOOLcD5s', name: 'Abel CM', role: 'Creative Director', quote: 'Bilal was instrumental to the success of our 3D platform. The process was completely transparent.' },
+  { video: 'https://www.youtube.com/embed/M1_HPIbSsLc', name: 'Ahmed', role: 'Founder', quote: 'They deliver renders almost identical to reality and are remarkably cooperative with revisions.' },
+  { video: 'https://www.youtube.com/embed/s-ZyXQ1xJGU', name: 'Aviv', role: 'Co-Founder', quote: 'A great company with extreme performance that delivers exceptional, high-quality VR and renders.' },
+  { video: 'https://www.youtube.com/embed/AbTynqlzI_Y', name: 'Hyper', role: 'Shareholder', quote: 'Thanks to the Meta Quest 3 application developed by Elipse, users can tour architectural projects from home.' },
+  { video: 'https://www.youtube.com/embed/dkL3Ouz-0Vo', name: 'Tim Barth', role: 'Founder', quote: 'The professionalism, implementation speed, and visual appeal Elipse delivers in Unreal Engine is rarely matched.' },
 ];
 
 const UkTestimonials = () => (

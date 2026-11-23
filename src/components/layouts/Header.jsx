@@ -337,7 +337,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
                 alt="Elipse Studio Icon"
                 width="48"
                 height="48"
-                className={`h-[16px] sm:h-[19px] md:h-[21px] lg:h-[23px] w-auto object-contain col-start-1 row-start-1 header-brand-icon transition-transform duration-300 hover:scale-110 ${
+                className={`h-7 sm:h-8 md:h-9 lg:h-10 w-auto object-contain col-start-1 row-start-1 header-brand-icon transition-transform duration-300 hover:scale-110 ${
                   showBrandIcon && !isMenuOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
                 }`}
               />

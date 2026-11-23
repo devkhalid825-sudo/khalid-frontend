@@ -7,7 +7,6 @@ import { apiCall } from '@/utils/api';
 import mahaLogo from '@/assets/clientlogo/Maha Chishty Designs.png';
 import virtualImmoLogo from '@/assets/clientlogo/Virtual immo_White.png';
 import hyperLogo from '@/assets/clientlogo/Hyper realestate_White.png';
-import abelLogo from '@/assets/clientlogo/Abel.png';
 import tntLogo from '@/assets/clientlogo/TNT.png';
 import innovisionLogo from '@/assets/clientlogo/Innovision_White.png';
 import MediaFacade from '../ui/MediaFacade';
@@ -17,10 +16,10 @@ import MediaFacade from '../ui/MediaFacade';
 const CLIENT_LOGOS = [
   { test: /maha|chishty/, img: mahaLogo, name: 'Maha Chishty Designs', white: true, scale: 1.32 },
   { test: /barth|virtual immo/, img: virtualImmoLogo, name: 'Virtual Immo', white: true, scale: 1 },
-  { test: /filippo|medina|hyper/, img: hyperLogo, name: 'Hyper Realestate', white: true, scale: 1 },
-  { test: /abel|alasso|cm marketing|cap configurator/, img: abelLogo, name: 'Abel', white: true, scale: 1 },
+  { test: /filippo|medina|hyper/, img: hyperLogo, name: 'Hyper Real Estate', white: true, scale: 1 },
+  { test: /abel|alasso|alazo|cm|student\s*life|cap configurator/, text: 'CM', name: 'CM' },
   { test: /\btnt\b|ahmad|ahmed/, img: tntLogo, name: 'TNT Design', white: true, scale: 1 },
-  { test: /innovision|aviv/, img: innovisionLogo, name: 'Innovision', white: true, scale: 0.96 },
+  { test: /innovision|aviv/, img: innovisionLogo, name: 'AVIV Innovation', white: true, scale: 0.96 },
 ];
 
 const getClientLogo = (r) => {
@@ -201,29 +200,39 @@ html.light .voices-thumb{border-color:rgba(11,13,20,.4)}
 `;
 
 const REVIEW_ONE_LINERS = {
-  'tim barth': 'What I was looking for was a professional 3D partner — Elipse delivered an exceptional, smooth interactive virtual tour.',
-  'barth': 'What I was looking for was a professional 3D partner — Elipse delivered an exceptional, smooth interactive virtual tour.',
-  'virtual immo': 'What I was looking for was a professional 3D partner — Elipse delivered an exceptional, smooth interactive virtual tour.',
-  'filippo': 'The VR application allows our clients to experience and explore real estate in full 3D before construction.',
-  'medina': 'The VR application allows our clients to experience and explore real estate in full 3D before construction.',
-  'hyperreal': 'The VR application allows our clients to experience and explore real estate in full 3D before construction.',
-  'abel': 'The 3D configurator completely transformed how our customers customize and purchase products online.',
-  'alasso': 'The 3D configurator completely transformed how our customers customize and purchase products online.',
-  'cm marketing': 'The 3D configurator completely transformed how our customers customize and purchase products online.',
-  'cap configurator': 'The 3D configurator completely transformed how our customers customize and purchase products online.',
-  'ahmad': 'The VR visualization quality was outstanding, bringing our complex design concepts to life on schedule.',
-  'ahmed': 'The VR visualization quality was outstanding, bringing our complex design concepts to life on schedule.',
-  'tnt': 'The VR visualization quality was outstanding, bringing our complex design concepts to life on schedule.',
-  'aviv': 'Our buyers can now explore spaces interactively in real-time, accelerating our sales cycle significantly.',
-  'hyper': 'An incredible leap in our digital presence and interactive customer experience.',
+  'tim barth': 'The professionalism of the work, speed of implementation, and visual appeal Elipse delivers in Unreal Engine projects is rarely matched. I wholeheartedly recommend putting your trust in them.',
+  'barth': 'The professionalism of the work, speed of implementation, and visual appeal Elipse delivers in Unreal Engine projects is rarely matched. I wholeheartedly recommend putting your trust in them.',
+  'virtual immo': 'The professionalism of the work, speed of implementation, and visual appeal Elipse delivers in Unreal Engine projects is rarely matched. I wholeheartedly recommend putting your trust in them.',
+  'filippo': 'Thanks to the Meta Quest 3 application developed by Elipse, our users can tour architectural projects from home. I strongly recommend them for their competence, innovation, and problem-solving skills.',
+  'medina': 'Thanks to the Meta Quest 3 application developed by Elipse, our users can tour architectural projects from home. I strongly recommend them for their competence, innovation, and problem-solving skills.',
+  'hyperreal': 'Thanks to the Meta Quest 3 application developed by Elipse, our users can tour architectural projects from home. I strongly recommend them for their competence, innovation, and problem-solving skills.',
+  'abel': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'alasso': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'alazo': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'cm marketing': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'cm': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'student life': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'studentlife': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'cap configurator': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'ahmad': 'They deliver renders almost identical to reality, turnaround is very fast, and they are remarkably cooperative with revisions. If you are looking for luxury design, work with Elipse.',
+  'ahmed': 'They deliver renders almost identical to reality, turnaround is very fast, and they are remarkably cooperative with revisions. If you are looking for luxury design, work with Elipse.',
+  'tnt': 'They deliver renders almost identical to reality, turnaround is very fast, and they are remarkably cooperative with revisions. If you are looking for luxury design, work with Elipse.',
+  'aviv': 'A great company with extreme performance that delivers exceptional, high-quality VR and renders. We have worked together over the past year and are super happy with the results.',
+  'innovision': 'A great company with extreme performance that delivers exceptional, high-quality VR and renders. We have worked together over the past year and are super happy with the results.',
+  'maha chishty': 'I have worked with Elipse for 7 years and could not recommend them enough. The team is very sharp in picking up concepts, deeply talented, and their results are consistently amazing.',
+  'chishty': 'I have worked with Elipse for 7 years and could not recommend them enough. The team is very sharp in picking up concepts, deeply talented, and their results are consistently amazing.',
+  'hyper': 'Thanks to the Meta Quest 3 application developed by Elipse, our users can tour architectural projects from home. I strongly recommend them for their competence, innovation, and problem-solving skills.',
 };
 
 // Static designations (placeholders - confirm each title with the client).
 const REVIEW_DESIGNATIONS = {
   'maha chishty': 'Founder',
   'tim barth': 'Founder',
-  'filippo medina': 'CEO',
-  'abel': 'Marketing Director',
+  'filippo medina': 'Shareholder',
+  'filippo': 'Shareholder',
+  'abel': 'Creative Director',
+  'abel alazo': 'Creative Director',
+  'cm marketing': 'Creative Director',
   'ahmad': 'Founder',
   'aviv': 'Co-Founder',
 };
@@ -355,12 +364,18 @@ const ClientReviews = ({ initialReviews = null }) => {
             >
               <div className="voices-slide-logo">
                 {logo && (
-                  <img
-                    src={typeof logo.img === 'string' ? logo.img : logo.img?.src}
-                    alt={`${logo.name} logo`}
-                    style={logo.scale ? { transform: `scale(${logo.scale})` } : undefined}
-                    className={`w-full h-full object-contain ${logo.white ? 'brand-logo-white' : ''}`}
-                  />
+                  logo.text ? (
+                    <span className="voices-fg font-bold text-2xl md:text-3xl tracking-wider select-none leading-none">
+                      {logo.text}
+                    </span>
+                  ) : logo.img ? (
+                    <img
+                      src={typeof logo.img === 'string' ? logo.img : logo.img?.src}
+                      alt={`${logo.name} logo`}
+                      style={logo.scale ? { transform: `scale(${logo.scale})` } : undefined}
+                      className={`w-full h-full object-contain ${logo.white ? 'brand-logo-white' : ''}`}
+                    />
+                  ) : null
                 )}
               </div>
               <div className={`w-full rounded-[18px] md:rounded-[22px] overflow-hidden ${active ? 'shadow-[0_24px_60px_rgba(0,0,0,0.6)]' : 'pointer-events-none'}`}>
