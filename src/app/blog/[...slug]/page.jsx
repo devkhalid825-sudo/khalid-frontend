@@ -7,6 +7,9 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  'industrial-equipment-hardware-3d-configurator-2026': dynamic(() => import('@/components/articles/IndustrialEquipmentConfiguratorArticle')),
+  'industrial-equipment-3d-configurator': dynamic(() => import('@/components/articles/IndustrialEquipmentConfiguratorArticle')),
+  'industrial-hardware-3d-configurator': dynamic(() => import('@/components/articles/IndustrialEquipmentConfiguratorArticle')),
   'boat-yacht-3d-configurator-marine-2026': dynamic(() => import('@/components/articles/BoatYachtMarineConfiguratorArticle')),
   'enterprise-3d-configurator-usa-uk-australia-2026': dynamic(() => import('@/components/articles/EnterpriseConfiguratorUsUkAuArticle')),
   'campervan-3d-configurator': dynamic(() => import('@/components/articles/CampervanInteriorConfiguratorArticle')),
@@ -67,6 +70,53 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  'industrial-equipment-hardware-3d-configurator-2026': {
+    title: 'Industrial Equipment & Hardware 3D Configurators: Exploded CAD Views, Technical Specs & Field Sales ROI (2026 Guide)',
+    description: 'How B2B machinery and heavy equipment manufacturers replace costly physical demo units with exploded CAD views, SolidWorks-to-WebGL optimisation, offline PWA field tools, and HubSpot/Salesforce CPQ integration.',
+    keywords: [
+      'industrial equipment 3d configurator',
+      'exploded cad view webgl',
+      'b2b machinery 3d visualizer',
+      'field sales 3d product demo',
+      'solidworks step to webgl',
+      'industrial product configurator offline',
+      'exploded view animation webgl',
+      'b2b equipment configurator hubspot',
+      'technical spec sheet 3d configurator',
+      'playcanvas industrial configurator',
+      'unreal engine 5 industrial visualization',
+      'cad optimization webgl pipeline',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/industrial-equipment-hardware-3d-configurator-2026`,
+    ogImage: `${SITE_URL}/assets/ElipseImages/projects/Streeing-1.webp`,
+  },
+  'industrial-equipment-3d-configurator': {
+    title: 'Industrial Equipment & Hardware 3D Configurators: Exploded CAD Views, Technical Specs & Field Sales ROI (2026 Guide)',
+    description: 'How B2B machinery and heavy equipment manufacturers replace costly physical demo units with exploded CAD views, SolidWorks-to-WebGL optimisation, offline PWA field tools, and HubSpot/Salesforce CPQ integration.',
+    keywords: [
+      'industrial equipment 3d configurator',
+      'exploded cad view webgl',
+      'b2b machinery 3d visualizer',
+      'field sales 3d product demo',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/industrial-equipment-hardware-3d-configurator-2026`,
+    ogImage: `${SITE_URL}/assets/ElipseImages/projects/Streeing-1.webp`,
+  },
+  'industrial-hardware-3d-configurator': {
+    title: 'Industrial Equipment & Hardware 3D Configurators: Exploded CAD Views, Technical Specs & Field Sales ROI (2026 Guide)',
+    description: 'How B2B machinery and heavy equipment manufacturers replace costly physical demo units with exploded CAD views, SolidWorks-to-WebGL optimisation, offline PWA field tools, and HubSpot/Salesforce CPQ integration.',
+    keywords: [
+      'industrial equipment 3d configurator',
+      'exploded cad view webgl',
+      'b2b machinery 3d visualizer',
+      'field sales 3d product demo',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/industrial-equipment-hardware-3d-configurator-2026`,
+    ogImage: `${SITE_URL}/assets/ElipseImages/projects/Streeing-1.webp`,
+  },
   'boat-yacht-3d-configurator-marine-2026': {
     title: 'Interactive 3D Boat, Yacht & Marine Configurators: Hull Finishes, Cabin Layouts & Dealer Quoting (2026 Guide)',
     description: 'PlayCanvas WebGL vs Unreal Engine 5 Pixel Streaming for marine OEMs, custom builders and dealerships: gelcoat and teak shaders, HubSpot dealer quoting, PDF build sheets and a 6–10 week rollout from CAD to live configurator.',
@@ -705,6 +755,7 @@ export async function generateStaticParams() {
 const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 
 function staticArticleSchemas(slugStr, meta) {
+  const isIndustrial = slugStr.includes('industrial-equipment') || slugStr.includes('industrial-hardware');
   const isMarineBoat = slugStr === 'boat-yacht-3d-configurator-marine-2026';
   const isEnterpriseUsUkAu = slugStr === 'enterprise-3d-configurator-usa-uk-australia-2026';
   const isCampervan = slugStr === 'campervan-3d-configurator';
@@ -730,6 +781,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isIndustrial) return '2026-11-24';
     if (isMarineBoat) return '2026-11-23';
     if (isEnterpriseUsUkAu) return '2026-11-20';
     if (isCampervan) return '2026-11-19';
@@ -1042,6 +1094,34 @@ function staticArticleSchemas(slugStr, meta) {
     },
   ]);
 
+  if (isIndustrial) {
+    extraSchemas = [
+      buildFaqSchema([
+        {
+          q: 'How does an exploded CAD view 3D configurator replace physical trade show demo units?',
+          a: 'Physical demo units cost $9,800–$52,800 per show to crate, freight, and insure, cannot operate safely in exhibition halls, and hide internal assemblies. An interactive WebGL configurator lets procurement engineers separate major assemblies, inspect internal cutaways down to seal stacks, verify 0.1mm tolerances, and generate instant technical spec sheets without a 400kg machine leaving the warehouse.',
+        },
+        {
+          q: 'Can SolidWorks or STEP engineering files run directly in a web browser?',
+          a: 'No. Raw CAD files typically generate 2M to 20M polygons, which immediately crash mobile and desktop WebGL viewports. Elipse Studio uses a 5-stage retopology and optimization pipeline (STEP geometry analysis, retopology, normal baking, 3-tier LODs, and Draco compression) to reduce 500MB assemblies down to sub-5MB GLB files while preserving 0.1mm dimensional accuracy.',
+        },
+        {
+          q: 'How does the configurator operate offline during trade shows or at remote client sites?',
+          a: 'The configurator is built as a Progressive Web Application (PWA). Service Workers cache the entire 3D application, asset library, and pricing logic locally on the sales representative\'s iPad or laptop. It generates technical spec sheets on-device using client-side jsPDF in under 2 seconds and queues CRM lead submissions to sync automatically once an internet connection is restored.',
+        },
+        {
+          q: 'How does configuration data integrate with enterprise CRM and CPQ systems?',
+          a: 'Completed 3D sessions serialize directly into structured JSON payloads. For HubSpot, the Forms API enriches company records, opens deals, and schedules rep follow-ups within 4 hours. For Salesforce, option codes map to Product2 records and CPQ bundle rules for 1-click quote generation. For SAP and Dynamics ERP, middleware REST APIs trigger multi-level BOM explosions for manufacturing resource planning.',
+        },
+        {
+          q: 'What is the implementation timeline from raw CAD to a field-ready configurator?',
+          a: 'A production deployment follows a structured 8-week phased framework: Phase 0 discovery and CAD audit, Phase 1 retopology and 0.1mm verification, Phase 2 PlayCanvas scene setup with 3-level exploded views, Phase 3 offline PWA and jsPDF templates, Phase 4 CRM/CPQ integration, Phase 5 UAT and sales rep training, and Phase 6 production CDN deployment and MDM rollout.',
+        },
+      ]),
+      authorSchema,
+    ];
+  }
+
   if (isAnamorphicBillboard) extraSchemas = [anamorphicBillboardFaq, authorSchema];
   if (isCommercialCgi) extraSchemas = [commercialCgiFaq, authorSchema];
   if (isSpatialCommerce) extraSchemas = [spatialCommerceFaq, authorSchema];
@@ -1229,6 +1309,7 @@ function apiArticleSchemas(slugStr, data) {
 // slug so every alias URL gets the same title. Only the <title>/og:title
 // change: slugs, H1s and the Article schema headline stay as they are.
 const SEO_TITLE_OVERRIDES = {
+  'industrial-equipment-hardware-3d-configurator-2026': 'Industrial Equipment 3D Configurators: Exploded CAD & ROI Guide (2026)',
   'custom-3d-configurator-vs-saas-platform-enterprise-2026': 'Custom 3D Configurator vs SaaS: Why Enterprise Brands Switch (2026)',
   'unreal-engine-5-cloud-pixel-streaming-automotive-configurators-2026': 'Unreal Engine 5 Pixel Streaming for Automotive Configurators: 2026 Guide',
   'enterprise-3d-configurator-development-webgl-threejs-playcanvas-vs-pixel-streaming-2026': 'WebGL vs Unreal Pixel Streaming: Enterprise 3D Decision Guide 2026',

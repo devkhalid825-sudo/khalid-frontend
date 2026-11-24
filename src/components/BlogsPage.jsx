@@ -97,6 +97,15 @@ const staticImages = {
 
 const staticPosts = [
     {
+        id: 'static-industrial-equipment-hardware-3d-configurator-2026',
+        title: 'Industrial Equipment & Hardware 3D Configurators: Exploded CAD Views, Technical Specs & Field Sales ROI',
+        excerpt: 'How B2B machinery and heavy equipment manufacturers replace $92K–$298K demo shipping costs with PlayCanvas WebGL exploded CAD views, sub-5MB STEP optimisation, offline trade show PWAs and automated HubSpot/Salesforce CPQ spec sheets.',
+        image: steeringImg,
+        date: 'NOVEMBER 24, 2026',
+        category: 'Industrial 3D Configurators',
+        url: '/blog/industrial-equipment-hardware-3d-configurator-2026',
+    },
+    {
         id: 'static-boat-yacht-3d-configurator-marine-2026',
         title: 'Interactive 3D Boat, Yacht & Marine Configurators: Hull Finishes, Cabin Layouts & Dealer Quoting',
         excerpt: 'WebGL vs Unreal Engine 5 for marine OEMs and dealers: gelcoat and teak shaders, HubSpot dealer quoting, PDF build sheets and a 6–10 week rollout from CAD files to a live configurator.',
