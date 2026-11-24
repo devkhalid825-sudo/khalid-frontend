@@ -17,7 +17,7 @@ const CLIENT_LOGOS = [
   { test: /maha|chishty/, img: mahaLogo, name: 'Maha Chishty Designs', white: true, scale: 1.32 },
   { test: /barth|virtual immo/, img: virtualImmoLogo, name: 'Virtual Immo', white: true, scale: 1 },
   { test: /filippo|medina|hyper/, img: hyperLogo, name: 'Hyper Real Estate', white: true, scale: 1 },
-  { test: /abel|alasso|alazo|cm|student\s*life|cap configurator/, text: 'CM', name: 'CM' },
+  { test: /abel|alasso|alazo|cm|student\s*life|cap configurator/, text: 'CM MARKETING', name: 'CM MARKETING' },
   { test: /\btnt\b|ahmad|ahmed/, img: tntLogo, name: 'TNT Design', white: true, scale: 1 },
   { test: /innovision|aviv/, img: innovisionLogo, name: 'AVIV Innovation', white: true, scale: 0.96 },
 ];
@@ -101,7 +101,7 @@ const StageSlide = ({ review, isActive, isMuted, onToggleMute }) => {
   };
 
   return (
-    <div className="voice-card relative w-full aspect-[9/16] rounded-[18px] md:rounded-[22px] overflow-hidden bg-[#0f0f11]">
+    <div className="voice-card relative w-full aspect-[9/16] rounded-[18px] md:rounded-[22px] overflow-hidden bg-[#0f0f11]" style={{ isolation: 'isolate' }}>
       {poster && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={poster} alt="" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
@@ -185,13 +185,23 @@ html.light .voices-thumb{border-color:rgba(11,13,20,.4)}
 .voices-slide{position:absolute;left:50%;top:0;width:var(--w);margin-left:calc(var(--w)/-2);display:flex;flex-direction:column;align-items:center;transform-origin:center center;transform:translateX(calc(var(--o)*var(--step))) scale(calc(1 - var(--abs)*.13));transition:transform .6s cubic-bezier(.22,1,.36,1),filter .6s ease,opacity .6s ease;z-index:calc(10 - var(--abs))}
 .voices-slide[data-on="0"]{filter:blur(9px) brightness(.7);opacity:calc(1 - var(--abs)*.5);cursor:pointer}
 .voices-slide[data-hide="1"]{opacity:0;pointer-events:none}
-.voices-slide-logo{height:43px;width:79px;margin-bottom:14px;display:flex;align-items:center;justify-content:center}
-@media (min-width:768px){.voices-slide-logo{height:54px;width:99px;margin-bottom:18px}}
+.voices-slide-logo{height:43px;width:auto;min-width:79px;max-width:220px;margin-bottom:14px;display:flex;align-items:center;justify-content:center}
+@media (min-width:768px){.voices-slide-logo{height:54px;min-width:99px;margin-bottom:18px}}
 .voices-fade{position:absolute;top:-10px;bottom:-10px;width:calc(50% - var(--w)/2 - 8px);z-index:20;pointer-events:none;opacity:.97}
 .voices-fade-l{left:0;background:linear-gradient(to right,var(--v-bg) 0%,var(--v-bg) 62%,transparent 100%)}
 .voices-fade-r{right:0;background:linear-gradient(to left,var(--v-bg) 0%,var(--v-bg) 62%,transparent 100%)}
 .voices-arrow{position:absolute;top:50%;z-index:30;width:44px;height:44px;border-radius:9999px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transform:translateY(-50%);transition:background .2s ease}
 .voices-arrow:hover{background:rgba(65,105,225,.85)}
+html.light .voices-arrow{background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.15);color:#0b0d14;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+html.light .voices-arrow:hover{background:#4169E1;color:#fff;border-color:#4169E1}
+.voices-card-shadow{box-shadow:0 24px 60px rgba(0,0,0,.6)}
+html.light .voices-card-shadow{box-shadow:0 10px 30px -4px rgba(0,0,0,.08),0 4px 12px -2px rgba(0,0,0,.04) !important}
+html.light .voice-card{background:transparent !important}
+@media (max-width:767px){
+  .voices-slide[data-on="0"]{opacity:0 !important;visibility:hidden !important;pointer-events:none !important}
+  .voices-fade{display:none !important}
+}
+html.light .voices-slide[data-on="0"]{filter:blur(9px) brightness(.92)}
 @keyframes voicesCardIn{from{opacity:0;transform:translateY(22px) scale(.93)}to{opacity:1;transform:none}}
 @keyframes voicesTextIn{from{opacity:0;transform:translateX(22px)}to{opacity:1;transform:none}}
 .voices-card-in{animation:voicesCardIn .65s cubic-bezier(.22,1,.36,1) both}
@@ -206,14 +216,14 @@ const REVIEW_ONE_LINERS = {
   'filippo': 'Thanks to the Meta Quest 3 application developed by Elipse, our users can tour architectural projects from home. I strongly recommend them for their competence, innovation, and problem-solving skills.',
   'medina': 'Thanks to the Meta Quest 3 application developed by Elipse, our users can tour architectural projects from home. I strongly recommend them for their competence, innovation, and problem-solving skills.',
   'hyperreal': 'Thanks to the Meta Quest 3 application developed by Elipse, our users can tour architectural projects from home. I strongly recommend them for their competence, innovation, and problem-solving skills.',
-  'abel': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
-  'alasso': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
-  'alazo': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
-  'cm marketing': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
-  'cm': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
-  'student life': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
-  'studentlife': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
-  'cap configurator': 'Bilal was instrumental to the success of our 3D interactive platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'abel': 'Bilal was instrumental to the success of our 3D platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'alasso': 'Bilal was instrumental to the success of our 3D platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'alazo': 'Bilal was instrumental to the success of our 3D platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'cm marketing': 'Bilal was instrumental to the success of our 3D platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'cm': 'Bilal was instrumental to the success of our 3D platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'student life': 'Bilal was instrumental to the success of our 3D platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'studentlife': 'Bilal was instrumental to the success of our 3D platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
+  'cap configurator': 'Bilal was instrumental to the success of our 3D platform, keeping a clear overview throughout. The process was completely transparent—a fantastic developer partner for your projects.',
   'ahmad': 'They deliver renders almost identical to reality, turnaround is very fast, and they are remarkably cooperative with revisions. If you are looking for luxury design, work with Elipse.',
   'ahmed': 'They deliver renders almost identical to reality, turnaround is very fast, and they are remarkably cooperative with revisions. If you are looking for luxury design, work with Elipse.',
   'tnt': 'They deliver renders almost identical to reality, turnaround is very fast, and they are remarkably cooperative with revisions. If you are looking for luxury design, work with Elipse.',
@@ -261,16 +271,19 @@ const getReviewQuote = (review) => {
 };
 
 const mapReviews = (data) =>
-  data.map((r) => ({
-    id: r.id,
-    video: r.video,
-    clientName: r.clientName,
-    company: r.company || '',
-    projectName: r.projectName || '',
-    projectLink: r.projectLink || '',
-    quote: r.quote || getReviewQuote(r),
-    designation: getDesignation(r),
-  }));
+  data.map((r) => {
+    const isCm = (r.clientName || '').toLowerCase().includes('abel') || (r.company || '').toLowerCase().includes('cm');
+    return {
+      id: r.id,
+      video: r.video,
+      clientName: isCm ? 'Abel' : r.clientName,
+      company: isCm ? 'CM MARKETING' : (r.company || ''),
+      projectName: r.projectName || '',
+      projectLink: r.projectLink || '',
+      quote: r.quote || getReviewQuote(r),
+      designation: getDesignation(r),
+    };
+  });
 
 
 const ClientReviews = ({ initialReviews = null }) => {
@@ -365,7 +378,7 @@ const ClientReviews = ({ initialReviews = null }) => {
               <div className="voices-slide-logo">
                 {logo && (
                   logo.text ? (
-                    <span className="voices-fg font-bold text-2xl md:text-3xl tracking-wider select-none leading-none">
+                    <span className="voices-fg font-bold text-lg sm:text-xl md:text-2xl tracking-wide select-none leading-none whitespace-nowrap px-1">
                       {logo.text}
                     </span>
                   ) : logo.img ? (
@@ -378,7 +391,7 @@ const ClientReviews = ({ initialReviews = null }) => {
                   ) : null
                 )}
               </div>
-              <div className={`w-full rounded-[18px] md:rounded-[22px] overflow-hidden ${active ? 'shadow-[0_24px_60px_rgba(0,0,0,0.6)]' : 'pointer-events-none'}`}>
+              <div className={`w-full rounded-[18px] md:rounded-[22px] overflow-hidden ${active ? 'voices-card-shadow' : 'pointer-events-none'}`} style={{ isolation: 'isolate' }}>
                 <StageSlide review={r} isActive={active} isMuted={muted} onToggleMute={() => setMuted((m) => !m)} />
               </div>
             </div>
@@ -398,14 +411,17 @@ const ClientReviews = ({ initialReviews = null }) => {
       </div>
 
       {/* Quote */}
-      <div key={`quote-${current.id ?? activeIdx}`} className="voices-text-in home-container flex flex-col items-center text-center mt-8 md:mt-10">
+      <div key={`quote-${current.id ?? activeIdx}`} className="voices-text-in home-container flex flex-col items-center text-center mt-6 sm:mt-8 md:mt-10 px-4">
         {current.quote && (
-          <p className="voices-fg italic text-[20px] sm:text-[22px] md:text-[26px] leading-[1.4] max-w-[760px]" style={{ fontFamily: "'Lora',Georgia,'Times New Roman',serif" }}>
+          <p
+            className="voices-fg italic text-[15.5px] sm:text-[18px] md:text-[22px] lg:text-[25px] leading-[1.55] sm:leading-[1.5] md:leading-[1.45] max-w-[760px] [text-wrap:balance]"
+            style={{ fontFamily: "'Lora',Georgia,'Times New Roman',serif" }}
+          >
             &ldquo;{current.quote}&rdquo;
           </p>
         )}
-        <div className="voices-fg text-[15px] md:text-[16px] font-semibold mt-5">{current.clientName}</div>
-        <div className="voices-sub text-[12px] md:text-[13px] uppercase tracking-[0.08em] mt-1">{current.company || current.designation}</div>
+        <div className="voices-fg text-[14px] sm:text-[15px] md:text-[16px] font-semibold mt-3.5 sm:mt-4 md:mt-5">{current.clientName}</div>
+        <div className="voices-sub text-[11px] sm:text-[12px] md:text-[13px] uppercase tracking-[0.08em] mt-1">{current.company || current.designation}</div>
       </div>
     </section>
   );

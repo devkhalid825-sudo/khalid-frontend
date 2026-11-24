@@ -3,7 +3,7 @@
 import Link from 'next/link';
 
 const items = [
-  { video: 'https://www.youtube.com/embed/ozZJOOLcD5s', name: 'Abel CM', role: 'Creative Director', quote: 'Bilal was instrumental to the success of our 3D platform. The process was completely transparent.' },
+  { video: 'https://www.youtube.com/embed/ozZJOOLcD5s', name: 'Abel', role: 'CM MARKETING', quote: 'Bilal was instrumental to the success of our 3D platform. The process was completely transparent.' },
   { video: 'https://www.youtube.com/embed/M1_HPIbSsLc', name: 'Ahmed', role: 'Founder', quote: 'They deliver renders almost identical to reality and are remarkably cooperative with revisions.' },
   { video: 'https://www.youtube.com/embed/s-ZyXQ1xJGU', name: 'Aviv', role: 'Co-Founder', quote: 'A great company with extreme performance that delivers exceptional, high-quality VR and renders.' },
   { video: 'https://www.youtube.com/embed/AbTynqlzI_Y', name: 'Hyper', role: 'Shareholder', quote: 'Thanks to the Meta Quest 3 application developed by Elipse, users can tour architectural projects from home.' },

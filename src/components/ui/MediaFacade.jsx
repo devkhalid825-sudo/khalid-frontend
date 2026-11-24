@@ -119,7 +119,7 @@ export default function MediaFacade({
             ref={setRef}
             src={embedSrc}
             title={title}
-            className={`w-full h-full border-0 ${chromeless ? 'pointer-events-none' : ''}`}
+            className={`w-full h-full border-0 ${chromeless ? 'pointer-events-none scale-[1.025]' : ''}`}
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             loading="lazy"
@@ -140,7 +140,7 @@ export default function MediaFacade({
           loop={loop}
           playsInline
           onEnded={onEnded}
-          className={`w-full h-full ${chromeless ? "object-contain" : "object-cover"} bg-black`}
+          className={`w-full h-full ${chromeless ? "object-cover scale-[1.01]" : "object-cover"} bg-transparent`}
         />
       </div>
     );
