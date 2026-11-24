@@ -166,13 +166,13 @@ const deliveryComparisonRows = [
 ];
 
 const rolloutBlueprintRows = [
-  { phase: 'Phase 0', time: 'Week 1', deliverables: 'Discovery, CAD audit (STEP/IGES), polygon estimation, option matrix & offline PWA target spec', sign: 'Scope & CAD audit sign-off' },
-  { phase: 'Phase 1', time: 'Weeks 1–3', deliverables: 'STEP import, retopology, LODs, PBR machined metal shaders, 0.1mm dimensional verification', sign: '3D asset & dimensional approval' },
-  { phase: 'Phase 2', time: 'Weeks 3–4', deliverables: 'PlayCanvas scene, 3-level exploded view, cutaway section geometry, live dimensional callouts', sign: 'Exploded view & cutaway UX' },
-  { phase: 'Phase 3', time: 'Weeks 4–5', deliverables: 'Offline PWA Service Worker, client-side jsPDF spec sheet, cached pricing & queued CRM sync', sign: 'Offline UAT on field devices' },
-  { phase: 'Phase 4', time: 'Weeks 5–6', deliverables: 'HubSpot / Salesforce CPQ integration, BOM export mapping, ERP lead-time API & automated workflows', sign: 'CRM & spec sheet approval' },
-  { phase: 'Phase 5', time: 'Weeks 6–7', deliverables: 'Branded UI shell, tablet/laptop layout, cross-browser QA, client UAT & field rep training', sign: 'UAT acceptance sign-off' },
-  { phase: 'Phase 6', time: 'Week 8', deliverables: 'Production deployment, CDN distribution, MDM device rollout, monitoring & asset handoff', sign: 'Go-live & field approval' },
+  { phase: 'Phase 0', time: 'Week 1', deliverables: 'CAD audit (STEP/IGES), polygon estimation, option matrix & offline PWA spec', sign: 'Scope & CAD sign-off' },
+  { phase: 'Phase 1', time: 'Weeks 1–3', deliverables: 'Retopology, LODs, PBR machined metal shaders, 0.1mm dimensional verification', sign: '3D asset approval' },
+  { phase: 'Phase 2', time: 'Weeks 3–4', deliverables: 'PlayCanvas scene, 3-level exploded view, cutaway geometry, live callouts', sign: 'Exploded view UX' },
+  { phase: 'Phase 3', time: 'Weeks 4–5', deliverables: 'Offline PWA Service Worker, client-side PDF spec sheet, queued CRM sync', sign: 'Offline field UAT' },
+  { phase: 'Phase 4', time: 'Weeks 5–6', deliverables: 'HubSpot / Salesforce CPQ integration, BOM export & ERP lead-time API', sign: 'CRM & spec approval' },
+  { phase: 'Phase 5', time: 'Weeks 6–7', deliverables: 'Branded UI shell, tablet/laptop layout, cross-device QA & sales training', sign: 'UAT acceptance' },
+  { phase: 'Phase 6', time: 'Week 8', deliverables: 'Production deployment, CDN distribution, MDM rollout & asset handoff', sign: 'Go-live approval' },
 ];
 
 const IndustrialEquipmentConfiguratorArticle = () => {
@@ -290,16 +290,16 @@ const IndustrialEquipmentConfiguratorArticle = () => {
           <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-6 sm:gap-10 items-start">
             <div className="md:pt-2">
               <div className="italic text-[#2563EB] text-sm sm:text-base mb-2 font-serif">
-                Executive Briefing · For B2B Machinery, Heavy Equipment &amp; Technical Hardware Manufacturers
+                Executive Briefing · B2B Machinery &amp; Technical Hardware
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 leading-tight mb-4">
-                Tens of Millions Spent Flying Demo Units That Cannot Show Internal Mechanics
+                Replacing Costly Demo Shipping with Interactive Exploded CAD Views
               </h2>
-              <p className="text-base sm:text-lg text-zinc-700 leading-relaxed font-sans mb-4">
-                Every year, B2B machinery and industrial equipment manufacturers spend tens of millions of dollars shipping physical demo units to trade shows, regional expos, and client sites — only to arrive with static equipment that cannot demonstrate internal valve sequences, cannot run legally in convention halls, and must be crated back at equal cost.
+              <p className="text-base sm:text-lg text-zinc-700 leading-relaxed font-sans mb-3">
+                Industrial manufacturers spend tens of millions shipping heavy demo units that cannot show internal mechanics, cannot run in convention halls, and add massive freight costs.
               </p>
               <p className="text-xs sm:text-sm md:text-base text-zinc-600 leading-relaxed font-sans">
-                Interactive 3D configurators with real-time exploded views, cutaway cross-sections, and offline PWA capability are replacing heavy demo fleets across the United States, United Kingdom, and Australia. A sales engineer with an iPad can explode a hydraulic manifold down to its O-ring seals, verify 0.1mm tolerances, and generate a signed spec sheet and CRM deal before leaving the room.
+                Interactive 3D configurators with real-time exploded views, cutaway cross-sections, and offline PWA capability allow sales engineers to demonstrate complex assemblies, verify 0.1mm tolerances, and generate CRM quotes on an iPad.
               </p>
             </div>
             <div className="bg-zinc-50 border border-zinc-200 p-3 sm:p-5 rounded-2xl relative shadow-sm">
@@ -330,25 +330,25 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                   The Trade Show &amp; Field Sales Shipping Problem
                 </h3>
                 <p className="text-zinc-700 font-sans text-xs sm:text-sm md:text-base leading-relaxed">
-                  Physical equipment demonstration has been the cornerstone of industrial sales for generations. But shipping 400kg–2,000kg test rigs across domestic corridors and international borders has become the least scalable cost in the commercial budget.
+                  Shipping 400kg–2,000kg physical demo units across trade shows and regional client visits is the most expensive, least scalable bottleneck in industrial sales.
                 </p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 items-start mb-8">
                 <div>
-                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-3">1.1 The True Cost of a Physical Demo Unit</h4>
+                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-3">1.1 The True Cost of Physical Demo Units</h4>
                   <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed mb-4">
-                    The direct line-item freight is only a fraction of the structural loss. A representative industrial equipment shipping model across 8 annual events reveals the severe drain on capital:
+                    Direct freight is only a fraction of the total drain. Across 8 annual expos, expenses compound rapidly:
                   </p>
                   <div className="space-y-2.5 text-xs sm:text-sm">
-                    <Check title="Crating & Packaging">$800–$3,600 per show in specialised transit crates and shock-mounting.</Check>
-                    <Check title="Floor Drayage & Rigging">Union hall rigging and handling charges consistently exceed overland freight.</Check>
-                    <Check title="Capital Depreciation">15–25% annual value write-down on demo units that cannot be sold as new.</Check>
+                    <Check title="Crating & Packaging">$800–$3,600 per show in shock-mounted flight cases.</Check>
+                    <Check title="Rigging & Drayage">Convention hall union handling often exceeds overland transport.</Check>
+                    <Check title="Fleet Depreciation">15–25% annual value write-down on units that cannot be sold as new.</Check>
                   </div>
                 </div>
                 <Frame
                   src={imgOne}
-                  cap="Interactive 3D configurator demonstrating internal mechanical subassemblies and live option switching"
+                  cap="Interactive 3D configurator showing internal subassemblies and real-time component swaps"
                   alt="3D mechanical component configurator with parts selection sidebar"
                 />
               </div>
@@ -366,20 +366,20 @@ const IndustrialEquipmentConfiguratorArticle = () => {
               />
 
               <Delivers label="Hidden Opportunity Cost">
-                Demo units away from production or inventory cannot be quoted to in-stock buyers while in transit or on exhibition floors. For a $150,000 CNC demonstrator or hydraulic rig, this revenue lockup often equals or exceeds the direct shipping spend.
+                Demo units in transit or on exhibition floors cannot be quoted to in-stock buyers, locking up hundreds of thousands of dollars in revenue.
               </Delivers>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mt-8 pt-6 border-t border-zinc-100">
                 <div>
-                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">1.2 The Field Sales Logistics Failure</h4>
+                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">1.2 Field Sales Logistics Barrier</h4>
                   <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed">
-                    A sales representative covering the US Midwest, UK Midlands, or Queensland mining sector cannot carry heavy machinery in their car. Printed brochures and PDFs cannot communicate internal fluid channels or dimensional clearances, extending sales cycles by 4 to 12 weeks.
+                    Sales reps cannot transport full-scale equipment. Static brochures and PDFs fail to show internal fluid dynamics, stretching deals by 4 to 12 weeks.
                   </p>
                 </div>
                 <div>
-                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">1.3 The Capex Committee Visualisation Gap</h4>
+                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">1.3 Capex Visualisation Gap</h4>
                   <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed">
-                    Purchases over $25,000 require committee sign-off including non-technical finance and operations directors. Interactive 3D links allow committee members to inspect the equipment at their own pace prior to approval meetings, eliminating renegotiation cycles.
+                    Capital purchases require approval from non-technical executives. Shareable 3D links let committee members explore machinery at their own pace.
                   </p>
                 </div>
               </div>
@@ -395,20 +395,20 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                     Interactive Exploded Views &amp; Internal Cutaways
                   </h3>
                   <p className="text-zinc-700 font-sans text-xs sm:text-sm md:text-base leading-relaxed mb-4">
-                    The capability that distinguishes an industrial 3D configurator from a standard marketing viewer is the exploded-view and internal cutaway engine. It allows engineers to inspect internal assemblies that are physically impossible to view on a fully assembled machine.
+                    Exploded views and internal cutaways allow procurement engineers to inspect mechanisms physically inaccessible on assembled units.
                   </p>
 
-                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">Three-Level Exploded Hierarchy (PlayCanvas WebGL):</h4>
-                  <div className="space-y-2.5 text-xs sm:text-sm mb-6">
-                    <Check title="Level 1 — Major Assembly Separation">Motor, gearbox, manifold block, and control housing separate to show external interfaces and mountings (procurement overview).</Check>
-                    <Check title="Level 2 — Subassembly Detail">Internal valves, rotor shafts, bearing housings, and seal stacks animate to exploded vectors (engineering review).</Check>
-                    <Check title="Level 3 — Component-Level Isolation">Individual components can be orbited in isolation with 0.1mm dimensional callouts and part numbers (maintenance and spare parts planning).</Check>
+                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">Three-Level Exploded Hierarchy (WebGL):</h4>
+                  <div className="space-y-2 text-xs sm:text-sm mb-5">
+                    <Check title="Level 1 — Major Assemblies">Motor, gearbox, and manifold separate to show external interfaces.</Check>
+                    <Check title="Level 2 — Subassembly Detail">Internal valves, rotor shafts, and seal stacks animate to exploded vectors.</Check>
+                    <Check title="Level 3 — Component Isolation">Single parts orbit in isolation with part numbers and 0.1mm callouts.</Check>
                   </div>
 
                   <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">Internal Cutaway Engineering:</h4>
-                  <div className="space-y-2.5 text-xs sm:text-sm">
-                    <Check title="Clipping Plane Shader">Dynamic interactive slider slicing through cylinders, pumps, and housings in real time without reloading meshes.</Check>
-                    <Check title="Pre-Modelled Section Geometry">Complex cross-drilled hydraulic galleries and volute channels rendered with millimetre-accurate internal wall thickness.</Check>
+                  <div className="space-y-2 text-xs sm:text-sm">
+                    <Check title="Clipping Plane Shaders">Interactive sliders slice through housings in real time without reloading meshes.</Check>
+                    <Check title="Section Geometry">Internal fluid channels and volutes render with millimetre-accurate wall thickness.</Check>
                   </div>
                 </div>
 
@@ -418,8 +418,8 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                     cap="High-precision engineering 3D asset with real-time materials and cross-section analysis"
                     alt="Precision engineering hardware assembly rendered in WebGL"
                   />
-                  <Delivers label="Unreal Engine 5 for Capital Equipment">
-                    For multi-million-dollar automated production lines, industrial presses, and mining turbines, Unreal Engine 5 with Lumen ray tracing and Nanite geometry delivers unmatched photographic fidelity for dealer presentation suites and boardroom capex reviews.
+                  <Delivers label="Unreal Engine 5 for Capital Machinery">
+                    For multi-million-dollar automated lines and heavy turbines, UE5 with Lumen ray tracing delivers photographic fidelity for boardroom capex presentations.
                   </Delivers>
                 </div>
               </div>
@@ -431,10 +431,10 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                 <EntryNumber n="03" />
                 <Pill>SolidWorks &amp; STEP Pipeline</Pill>
                 <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-zinc-900 leading-tight mb-3">
-                  SolidWorks &amp; STEP CAD Optimisation: 500MB to Sub-5MB
+                  SolidWorks &amp; STEP Optimisation: 500MB to Sub-5MB
                 </h3>
                 <p className="text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed">
-                  Engineering CAD files from SolidWorks, CATIA, Inventor, and Siemens NX are precision manufacturing tools, not real-time assets. A 500MB STEP file contains tens of millions of mathematical triangles that crash mobile browsers within seconds.
+                  Raw CAD files from SolidWorks, Inventor, or Siemens NX contain millions of mathematical surfaces that crash web browsers. Our pipeline reduces payloads by 98% while maintaining engineering accuracy.
                 </p>
               </div>
 
@@ -453,13 +453,13 @@ const IndustrialEquipmentConfiguratorArticle = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mt-8 items-start">
                 <div>
-                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-3">The 5-Stage Optimisation Pipeline:</h4>
-                  <div className="space-y-3 text-xs sm:text-sm">
-                    <Check title="Stage 1 — STEP Import & Geometry Audit">Automated analysis removes invisible internal geometry and instances identical bolts, brackets, and seals.</Check>
-                    <Check title="Stage 2 — Quad/Tri Retopology">Visible structural components retopologised to 15,000–50,000 polygons; internal parts reduced to 500–2,000 polygons.</Check>
-                    <Check title="Stage 3 — UV Unwrapping & Normal Baking">Micro-bevels, chamfers, and threaded fastener details baked directly into normal maps rather than raw geometry.</Check>
-                    <Check title="Stage 4 — Automated 3-Tier LODs">LOD0 (under 2m), LOD1 (2–10m at 50% reduction), and LOD2 (distant view at 85% reduction) switch seamlessly.</Check>
-                    <Check title="Stage 5 — Draco Compression & Brotli">Google Draco geometry compression shrinks asset payloads by 60–85%, loaded over high-speed CDNs.</Check>
+                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-3">5-Stage Optimisation Pipeline:</h4>
+                  <div className="space-y-2.5 text-xs sm:text-sm">
+                    <Check title="1. Geometry Audit">Removes hidden internal faces and instances duplicate fasteners.</Check>
+                    <Check title="2. Retopology">Converts heavy NURBS into lightweight, clean quad/tri meshes.</Check>
+                    <Check title="3. Normal Baking">Bakes micro-bevels and thread textures into normal maps.</Check>
+                    <Check title="4. 3-Tier LODs">Smoothly shifts polygon density based on camera distance.</Check>
+                    <Check title="5. Draco Compression">Shrinks final GLB payloads for sub-3-second mobile loading.</Check>
                   </div>
                 </div>
 
@@ -470,7 +470,7 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                     alt="Configurator UI showing interactive technical specifications and component switching"
                   />
                   <Delivers label="0.1mm Dimensional Accuracy Guarantee">
-                    Elipse Studio runs automated geometric bounding checks against the source STEP files. All mounting centres, shaft diameters, and overall envelopes match engineering prints within 0.1mm tolerance.
+                    Automated bounding checks ensure all mounting centres, shaft diameters, and envelope dimensions match source STEP files within 0.1mm.
                   </Delivers>
                 </div>
               </div>
@@ -485,7 +485,7 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                   Offline Trade Show Mode vs Cloud Pixel Streaming
                 </h3>
                 <p className="text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed">
-                  Convention centre Wi-Fi is notoriously congested and unreliable. A cloud-dependent configurator that requires 15 Mbps to stream from an AWS GPU will freeze during high-stakes trade show presentations or inside shielded manufacturing basements.
+                  Convention centre Wi-Fi is congested and unpredictable. Field configurators must operate flawlessly offline without relying on external cloud video feeds.
                 </p>
               </div>
 
@@ -503,18 +503,18 @@ const IndustrialEquipmentConfiguratorArticle = () => {
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mt-8 items-start">
                 <div>
-                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">PlayCanvas Progressive Web Application (PWA):</h4>
-                  <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed mb-4">
-                    Installed once onto field iPads or Windows laptops via Service Workers. Subsequent launches run 100% locally from device SSD memory — enabling instant exploded views and cutaway interaction even at remote mine sites with zero cellular coverage.
+                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">Offline PWA (Recommended for Field Sales):</h4>
+                  <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed mb-3">
+                    Installs onto iPads or laptops via Service Workers, running locally from device SSD memory with instant response even in remote mine sites.
                   </p>
-                  <Check title="Client-Side PDF Generation">Using jsPDF, technical spec sheets compile on-device in under 2 seconds without requiring an external server round-trip.</Check>
+                  <Check title="Client-Side Spec PDFs">jsPDF generates technical data sheets locally in under 2 seconds.</Check>
                 </div>
                 <div>
                   <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">Local Workstation Pixel Streaming:</h4>
-                  <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed mb-4">
-                    For high-end trade show booths, an NVIDIA RTX 4080 laptop hidden under the counter powers a 4K direct HDMI stream with ray-traced Lumen lighting — eliminating cloud streaming fees and venue network risks entirely.
+                  <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed mb-3">
+                    For booth kiosks, an under-counter RTX workstation drives 4K displays directly over HDMI with ray tracing and zero internet dependency.
                   </p>
-                  <Check title="Zero Wi-Fi Dependency">Touchscreen kiosks connect over local Ethernet or direct video cables for zero-latency 60fps interaction.</Check>
+                  <Check title="Zero Latency">Direct hardware output guarantees smooth 60fps interaction on touchscreens.</Check>
                 </div>
               </div>
             </article>
@@ -526,19 +526,19 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                   <EntryNumber n="05" />
                   <Pill>CRM &amp; CPQ Workflows</Pill>
                   <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-zinc-900 leading-tight mb-3">
-                    CRM &amp; Technical Spec Sheet Export: Configuration to Quote
+                    CRM &amp; Technical Spec Export: Configuration to Quote
                   </h3>
                   <p className="text-zinc-700 font-sans text-xs sm:text-sm md:text-base leading-relaxed mb-4">
-                    The true enterprise value of a 3D configurator is captured downstream. An engineer who spends 20 minutes customising an industrial machine produces an exact, validated Bill of Materials (BOM) ready for instant commercial processing.
+                    Every configuration outputs a verified Bill of Materials (BOM), eliminating manual quote estimation and specification errors.
                   </p>
 
-                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">5-Page Standardised Spec Sheet PDF:</h4>
-                  <div className="space-y-2 text-xs sm:text-sm text-zinc-600 mb-6">
-                    <p><strong>Page 1:</strong> Equipment 3D isometric render, model SKU, and session timestamp.</p>
-                    <p><strong>Page 2:</strong> Operational envelope: flow rate, pressure, RPM, voltage, and weight.</p>
-                    <p><strong>Page 3:</strong> Line-item component BOM with exact manufacturer part numbers and lead times.</p>
-                    <p><strong>Page 4:</strong> Compliance &amp; certifications (ISO 9001, ATEX Zone 1/2, CE, UL/CSA, AS).</p>
-                    <p><strong>Page 5:</strong> Mechanical hookups, flange standards, and electrical schematics.</p>
+                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">Automated 5-Page Spec Sheet:</h4>
+                  <div className="space-y-1.5 text-xs sm:text-sm text-zinc-600 mb-5">
+                    <p><strong>1. Isometric Render:</strong> Visual configuration snapshot with model SKU.</p>
+                    <p><strong>2. Operational Envelope:</strong> Flow rates, pressures, RPM, voltage, and footprint.</p>
+                    <p><strong>3. Component BOM:</strong> Line-item part numbers, options, and lead times.</p>
+                    <p><strong>4. Certifications:</strong> ISO 9001, ATEX Zone 1/2, CE, UL/CSA standards.</p>
+                    <p><strong>5. Hookup Schematics:</strong> Flange specs, porting dimensions, and wiring data.</p>
                   </div>
                 </div>
 
@@ -548,10 +548,10 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                     cap="High-fidelity 3D industrial machinery asset with accurate material definition and assembly structure"
                     alt="Industrial hardware machine model rendered in real-time"
                   />
-                  <div className="space-y-3 mt-5 bg-zinc-50 p-5 border border-zinc-200 text-xs sm:text-sm">
-                    <Check title="HubSpot Integration">Automatically matches company domains, enriches deals with configured BOM arrays, and schedules regional rep follow-up tasks within 4 business hours.</Check>
-                    <Check title="Salesforce CPQ">Maps option IDs directly to Salesforce Product2 records, bundle rules, and automated opportunity line items with zero manual data entry.</Check>
-                    <Check title="SAP &amp; Dynamics ERP">Middleware REST API explodes customer selections into dependent BOM positions for manufacturing resource planning (MRP).</Check>
+                  <div className="space-y-2.5 mt-5 bg-zinc-50 p-4 border border-zinc-200 text-xs sm:text-sm">
+                    <Check title="HubSpot CRM">Auto-creates enriched deals with configured BOM arrays and triggers sales alerts.</Check>
+                    <Check title="Salesforce CPQ">Maps option IDs directly into Product2 line items with zero manual entry.</Check>
+                    <Check title="ERP Systems">REST APIs sync customer selections directly into SAP or Microsoft Dynamics MRP.</Check>
                   </div>
                 </div>
               </div>
@@ -566,7 +566,7 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                   8-Week Phased Rollout: Raw CAD to Field Deployment
                 </h3>
                 <p className="text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed">
-                  Industrial configurator projects succeed through disciplined technical stage-gates. Elipse Studio follows a structured 8-week sprint cycle ensuring engineering accuracy, CRM sign-off, and sales team enablement before public launch.
+                  A disciplined stage-gate process ensures dimensional accuracy, CRM synchronization, and field team readiness before public launch.
                 </p>
               </div>
 
@@ -582,15 +582,15 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                 rows={rolloutBlueprintRows}
               />
 
-              <div className="mt-8 bg-zinc-50 border border-zinc-200 p-6 rounded-none max-w-4xl">
-                <h4 className="font-bold text-sm sm:text-base text-zinc-900 uppercase tracking-wider mb-3">
-                  Industrial Scope Risks Handled in Phase 0:
+              <div className="mt-8 bg-zinc-50 border border-zinc-200 p-5 rounded-none max-w-4xl">
+                <h4 className="font-bold text-xs sm:text-sm text-zinc-900 uppercase tracking-wider mb-3">
+                  Scope Risks Handled in Phase 0:
                 </h4>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs sm:text-sm text-zinc-600">
-                  <p><strong>Non-Manifold Geometry:</strong> Zero-thickness walls and inverted normals from parametric CAD tools are audited and cleaned in Phase 0.</p>
-                  <p><strong>Export-Controlled CAD (ITAR/EAR):</strong> Simplified visual-equivalent meshes protect proprietary internal geometry while preserving outer dimensions.</p>
-                  <p><strong>Engineering Change Orders (ECO):</strong> Modular component meshes allow engineering updates without re-authoring the full assembly.</p>
-                  <p><strong>Hazardous Area (ATEX) Devices:</strong> PWA builds tested specifically on intrinsically safe certified tablets for refinery and mining sites.</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs text-zinc-600">
+                  <p><strong>Non-Manifold Geometry:</strong> Zero-thickness walls and inverted normals are identified and repaired early.</p>
+                  <p><strong>Export-Controlled CAD:</strong> Visual-equivalent meshes protect proprietary internal secrets.</p>
+                  <p><strong>Change Orders (ECO):</strong> Modular component architecture allows updates without full assembly rebuilds.</p>
+                  <p><strong>Hazardous (ATEX) Devices:</strong> PWA tested on certified intrinsically safe tablets for field environments.</p>
                 </div>
               </div>
             </article>
@@ -603,15 +603,15 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                 <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-zinc-900 leading-tight mb-3">
                   Conclusion: Retiring the Demo Unit, Equipping the Field
                 </h3>
-                <p className="text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed mb-4">
-                  The manufacturer that arrives at a trade show with a lightweight laptop and a fully offline-capable 3D configurator is not making a compromise — they are making a competitive statement. They can demonstrate internal mechanics that a static demo unit cannot show, generate a custom technical spec sheet on the spot, and submit a qualified lead straight into Salesforce or HubSpot.
+                <p className="text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed mb-3">
+                  Equipping field sales with offline 3D configurators eliminates $92,000–$298,000 in annual demo shipping, shortens sales cycles by 3 to 5 weeks, and proves internal engineering value on the spot.
                 </p>
                 <p className="text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed">
-                  Eliminating demo unit shipping across 8 shows saves $92,000–$298,000 annually, accelerates the sales cycle by 3 to 5 weeks, and equips regional representatives with engineering-grade visual collateral. Explore our{' '}
+                  Explore our{' '}
                   <Link href="/services/3d-product-configurators" className="underline font-semibold text-zinc-900 hover:text-[#2563EB]">
                     3D Product Configurator Services
                   </Link>{' '}
-                  or review our{' '}
+                  or view our{' '}
                   <Link href="/portfolio" className="underline font-semibold text-zinc-900 hover:text-[#2563EB]">
                     recent interactive 3D deployments
                   </Link>.
