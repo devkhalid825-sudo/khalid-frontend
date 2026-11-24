@@ -461,6 +461,9 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                     <Check title="4. 3-Tier LODs">Smoothly shifts polygon density based on camera distance.</Check>
                     <Check title="5. Draco Compression">Shrinks final GLB payloads for sub-3-second mobile loading.</Check>
                   </div>
+                  <Delivers label="0.1mm Dimensional Accuracy Guarantee">
+                    Automated bounding checks ensure all mounting centres, shaft diameters, and envelope dimensions match source STEP files within 0.1mm.
+                  </Delivers>
                 </div>
 
                 <div>
@@ -469,9 +472,6 @@ const IndustrialEquipmentConfiguratorArticle = () => {
                     cap="Interactive UI overlay demonstrating real-time part swaps, dimensional tolerances, and spec checks"
                     alt="Configurator UI showing interactive technical specifications and component switching"
                   />
-                  <Delivers label="0.1mm Dimensional Accuracy Guarantee">
-                    Automated bounding checks ensure all mounting centres, shaft diameters, and envelope dimensions match source STEP files within 0.1mm.
-                  </Delivers>
                 </div>
               </div>
             </article>
