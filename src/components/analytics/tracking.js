@@ -463,7 +463,7 @@ export function bookingIdFromMessage(data) {
 /* ---------------------------------------------------------------- forms */
 
 /** One standard event for every successful lead form. */
-export function trackFormSubmission(formType, formEl) {
+export function trackFormSubmission(formType, formEl, extraData = {}) {
   if (typeof window === 'undefined') return;
   push({
     event: 'form_submission',
@@ -472,6 +472,7 @@ export function trackFormSubmission(formType, formEl) {
     form_location: formEl ? getButtonLocation(formEl) : 'body',
     page_name: getPageName(),
     page_path: window.location.pathname,
+    ...extraData,
   });
 }
 

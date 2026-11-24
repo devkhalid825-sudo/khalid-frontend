@@ -50,7 +50,9 @@ import beanTrailorRaw from '../assets/About-page/bean-trailor.png';
 import golf2Raw from '../assets/About-page/golf-2.png';
 import configuratorTcoRaw from '../assets/About-page/newkia.png';
 import kumarRaw from '../assets/About-page/kumar-hd.webp';
+import configuratorBlogsRaw from '../assets/About-page/configurator-blogs.png';
 
+const configuratorBlogs = getImgSrc(configuratorBlogsRaw);
 const golfCart = getImgSrc(golfCartRaw);
 const bean4 = getImgSrc(bean4Raw);
 const beanTrailor = getImgSrc(beanTrailorRaw);
@@ -92,7 +94,7 @@ const volvoUe5 = getImgSrc(volvoUe5Raw);
 const staticImages = {
     elephantImg, configuratorHero, arThumbnail, hero, hero4, techBg, volveImg,
     questImg, mainHeroImage, animationMainImg, furnitureImg, edu1, vrHero,
-    articleImg1, articleImg2, steeringImg, vfxImg, ahmedFoodImg, rendering, kia, marine, timBarth, volvo
+    articleImg1, articleImg2, steeringImg, vfxImg, ahmedFoodImg, rendering, kia, marine, timBarth, volvo, configuratorBlogs
 };
 
 const staticPosts = [
@@ -100,7 +102,7 @@ const staticPosts = [
         id: 'static-industrial-equipment-hardware-3d-configurator-2026',
         title: 'Industrial Equipment & Hardware 3D Configurators: Exploded CAD Views, Technical Specs & Field Sales ROI',
         excerpt: 'How B2B machinery and heavy equipment manufacturers replace $92K–$298K demo shipping costs with PlayCanvas WebGL exploded CAD views, sub-5MB STEP optimisation, offline trade show PWAs and automated HubSpot/Salesforce CPQ spec sheets.',
-        image: steeringImg,
+        image: configuratorBlogs,
         date: 'NOVEMBER 24, 2026',
         category: 'Industrial 3D Configurators',
         url: '/blog/industrial-equipment-hardware-3d-configurator-2026',

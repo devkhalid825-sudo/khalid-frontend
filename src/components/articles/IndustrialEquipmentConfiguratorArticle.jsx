@@ -92,7 +92,7 @@ const Pill = ({ children }) => (
 );
 
 const Stat = ({ v, l, s }) => (
-  <div className="bg-neutral-50 border border-neutral-300 rounded-none p-4 text-center sm:text-left shadow-sm">
+  <div className="bg-neutral-50 border border-neutral-300 rounded-none p-4 text-center shadow-sm flex flex-col items-center justify-center">
     <div className="text-2xl sm:text-3xl font-extrabold text-black">{v}</div>
     <p className="text-[11px] sm:text-xs uppercase font-bold text-neutral-700 mt-1">{l}</p>
     {s && <p className="text-[10px] sm:text-[11px] text-neutral-500 mt-1">{s}</p>}
@@ -287,7 +287,7 @@ const IndustrialEquipmentConfiguratorArticle = () => {
 
         {/* ══════ EXECUTIVE BRIEFING ══════ */}
         <section className="py-6 sm:py-8 md:py-10">
-          <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-6 sm:gap-10 items-start">
+          <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-6 sm:gap-10 items-center">
             <div className="md:pt-2">
               <div className="italic text-[#2563EB] text-sm sm:text-base mb-2 font-serif">
                 Executive Briefing · B2B Machinery &amp; Technical Hardware
@@ -323,21 +323,19 @@ const IndustrialEquipmentConfiguratorArticle = () => {
 
             {/* ENTRY 01 */}
             <article className="py-10 sm:py-14 border-b border-zinc-200">
-              <div className="max-w-3xl mb-6">
-                <EntryNumber n="01" />
-                <Pill>Field Sales &amp; Trade Show Logistics</Pill>
-                <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-zinc-900 leading-tight mb-3">
-                  The Trade Show &amp; Field Sales Shipping Problem
-                </h3>
-                <p className="text-zinc-700 font-sans text-xs sm:text-sm md:text-base leading-relaxed">
-                  Shipping 400kg–2,000kg physical demo units across trade shows and regional client visits is the most expensive, least scalable bottleneck in industrial sales.
-                </p>
-              </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 items-start mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 items-center mb-8">
                 <div>
-                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-3">1.1 The True Cost of Physical Demo Units</h4>
-                  <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed mb-4">
+                  <EntryNumber n="01" />
+                  <Pill>Field Sales &amp; Trade Show Logistics</Pill>
+                  <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-zinc-900 leading-tight mb-3">
+                    The Trade Show &amp; Field Sales Shipping Problem
+                  </h3>
+                  <p className="text-zinc-700 font-sans text-xs sm:text-sm md:text-base leading-relaxed mb-5">
+                    Shipping 400kg–2,000kg physical demo units across trade shows and regional client visits is the most expensive, least scalable bottleneck in industrial sales.
+                  </p>
+
+                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">1.1 The True Cost of Physical Demo Units</h4>
+                  <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed mb-3">
                     Direct freight is only a fraction of the total drain. Across 8 annual expos, expenses compound rapidly:
                   </p>
                   <div className="space-y-2.5 text-xs sm:text-sm">

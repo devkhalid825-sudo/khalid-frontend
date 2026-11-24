@@ -35,7 +35,9 @@ import golf2Raw from '../../assets/About-page/golf-2.png';
 import configuratorCard2Raw from '../../assets/About-page/newkia.png';
 import roohafzaRaw from '../../assets/About-page/roohafza.webp';
 import kumarRaw from '../../assets/About-page/kumar-hd.webp';
+import configuratorBlogsRaw from '../../assets/About-page/configurator-blogs.png';
 
+const configuratorBlogsImg = getImgSrc(configuratorBlogsRaw);
 const kumarImg = getImgSrc(kumarRaw);
 const golfCartImg = getImgSrc(golfCartRaw);
 const bean4Img = getImgSrc(bean4Raw);
@@ -121,6 +123,15 @@ const News = ({ initialBlogs = null }) => {
   }, []);
 
   const staticPosts = [
+    {
+      id: 'industrial-equipment-hardware-3d-configurator-2026',
+      title: 'Industrial Equipment & Hardware 3D Configurators: Exploded CAD Views, Technical Specs & Field Sales ROI',
+      image: configuratorBlogsImg,
+      date: 'NOVEMBER 24, 2026',
+      category: 'Industrial 3D Configurators',
+      readTime: '14 min read',
+      url: '/blog/industrial-equipment-hardware-3d-configurator-2026',
+    },
     {
       id: 'boat-yacht-3d-configurator-marine-2026',
       title: 'Interactive 3D Boat, Yacht & Marine Configurators: Hull Finishes, Cabin Layouts & Dealer Quoting',

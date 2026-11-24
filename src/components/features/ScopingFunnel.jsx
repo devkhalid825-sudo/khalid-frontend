@@ -10,6 +10,14 @@ import { trackFormSubmission } from '@/components/analytics/tracking';
 
 const CALENDLY_URL = 'https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting';
 
+/**
+ * @typedef {'configurator' | 'archviz' | 'cgi'} ScopeId
+ * @typedef {{ id: ScopeId, title: string, desc: string }} ScopeOption
+ * @typedef {{ id: string, title: string, desc?: string }} StageOption
+ * @typedef {{ heading: string, subheading: string, options: StageOption[] }} StageConfig
+ */
+
+/** @type {ScopeOption[]} */
 const SCOPES = [
   {
     id: 'configurator',
@@ -28,22 +36,77 @@ const SCOPES = [
   },
 ];
 
-const STAGES = [
-  {
-    id: 'cad-ready',
-    title: 'I have CAD / 3D engineering models ready',
-    desc: 'SolidWorks, STEP, Rhino, Revit, or FBX assets ready for optimization.',
+/** @type {Record<ScopeId, StageConfig>} */
+const STAGE_CONFIG_BY_SCOPE = {
+  configurator: {
+    heading: 'What is your asset and platform readiness?',
+    subheading: 'This helps us gauge optimization scope and real-time delivery architecture.',
+    options: [
+      {
+        id: 'cad-3d-ready',
+        title: 'CAD or 3D Models Ready (SolidWorks, STEP, FBX)',
+        desc: 'Existing CAD assemblies or 3D meshes ready for retopology, materials, and configurator logic.',
+      },
+      {
+        id: 'physical-or-2d-specs',
+        title: 'Physical Product or 2D Specs Only',
+        desc: 'Need accurate 3D modeling built from scratch using reference photos, dimensions, or drawings.',
+      },
+      {
+        id: 'webgl-vs-pixel-streaming',
+        title: 'Comparing WebGL vs Pixel Streaming',
+        desc: 'Evaluating browser-native PlayCanvas/Three.js performance versus UE5 cloud GPU streaming.',
+      },
+    ],
   },
-  {
-    id: 'blueprints',
-    title: 'I have design specs & 2D blueprints',
-    desc: 'Need 3D assets modeled from scratch based on architectural drawings or references.',
+  archviz: {
+    heading: 'Where is your development in the pipeline?',
+    subheading: 'This helps us scope 3D environment preparation, lighting, and interactive deployment.',
+    options: [
+      {
+        id: 'bim-cad-ready',
+        title: 'BIM or CAD Models Ready (Revit, SketchUp, 3ds Max)',
+        desc: 'Existing architectural geometry ready for real-time lighting, material swaps, and VR/web tours.',
+      },
+      {
+        id: '2d-floorplans-masterplan',
+        title: '2D Floorplans & Masterplan Only',
+        desc: 'Need full 3D building, interior, and site modeling created from architectural drawings or PDFs.',
+      },
+      {
+        id: 'upgrading-static-renders',
+        title: 'Upgrading Static Renders to Interactive',
+        desc: 'Turning existing marketing visuals or offline scenes into real-time walkable experiences.',
+      },
+    ],
   },
-  {
-    id: 'exploring',
-    title: 'Exploring feasibility & budget brackets',
-    desc: 'Planning an upcoming launch and evaluating technical architecture and ROI.',
+  cgi: {
+    heading: 'What stage is your campaign in?',
+    subheading: 'This helps us align creative pre-production, simulation complexity, and delivery dates.',
+    options: [
+      {
+        id: 'cad-packaging-ready',
+        title: 'Product CAD or Packaging Ready with Brief',
+        desc: 'Source product files and campaign direction ready for look-dev, animation, and final rendering.',
+      },
+      {
+        id: 'concept-storyboard-modeling',
+        title: 'Need Concept, Storyboard & 3D Modeling',
+        desc: 'Looking for end-to-end creative direction, storyboarding, hero asset creation, and CGI film.',
+      },
+      {
+        id: 'billboard-specs-turnaround',
+        title: 'Scoping Billboard Specs & Turnaround',
+        desc: 'Mapping LED screen resolution, forced-perspective sweet spot, media schedule, and budget.',
+      },
+    ],
   },
+};
+
+const CONTACT_FIELDS = [
+  { name: 'user_email', label: 'Work Email', type: 'email', placeholder: 'name@company.com', autoComplete: 'email', required: true },
+  { name: 'user_name', label: 'Your Name', type: 'text', placeholder: 'Your full name', autoComplete: 'name', required: true },
+  { name: 'user_company', label: 'Company or Brand Name (Optional)', type: 'text', placeholder: 'Acme Motors / Apex Developments', autoComplete: 'organization', required: false },
 ];
 
 const OptionList = ({ options, value, onChange, name, t }) => (
@@ -62,7 +125,9 @@ const OptionList = ({ options, value, onChange, name, t }) => (
         >
           <span>
             <span className={`block text-sm md:text-base font-semibold font-sans ${t.title}`}>{opt.title}</span>
-            <span className={`block mt-1 text-xs md:text-sm font-serif leading-relaxed ${t.muted}`}>{opt.desc}</span>
+            {opt.desc && (
+              <span className={`block mt-1 text-xs md:text-sm font-serif leading-relaxed ${t.muted}`}>{opt.desc}</span>
+            )}
           </span>
           <span
             aria-hidden="true"
@@ -95,13 +160,16 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
 
   const [step, setStep] = useState(1);
   const [scope, setScope] = useState(SCOPES[0].id);
-  const [stage, setStage] = useState(STAGES[0].id);
+  const [stage, setStage] = useState('');
+  const [stageError, setStageError] = useState('');
   const [formData, setFormData] = useState(EMPTY_FORM);
   const [recaptchaToken, setRecaptchaToken] = useState('');
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [status, setStatus] = useState(null); // null | 'success' | 'error'
   const [errorMessage, setErrorMessage] = useState('');
+
+  const activeStageConfig = STAGE_CONFIG_BY_SCOPE[scope] || STAGE_CONFIG_BY_SCOPE.configurator;
 
   // Dark styles by default; day mode is handled in globals.css via html.light + the sf-* marker classes,
   // so the funnel follows the same theme switch as the rest of the site.
@@ -117,6 +185,28 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
     nextBtn: 'sf-next bg-[#3558D4] text-white hover:bg-[#2A48B8]',
   };
 
+  const handleScopeChange = (nextScope) => {
+    if (nextScope !== scope) {
+      setScope(nextScope);
+      setStage('');
+      setStageError('');
+    }
+  };
+
+  const handleStageChange = (nextStage) => {
+    setStage(nextStage);
+    if (stageError) setStageError('');
+  };
+
+  const handleContinueToEstimate = () => {
+    if (!stage) {
+      setStageError('Please select an option above to continue.');
+      return;
+    }
+    setStageError('');
+    setStep(3);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -125,7 +215,8 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
 
   const validate = () => {
     const next = {};
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.user_email)) next.user_email = 'Please enter a valid work email';
+    const email = formData.user_email.trim();
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) next.user_email = 'Please enter a valid work email';
     if (formData.user_name.trim().length < 2) next.user_name = 'Name must be at least 2 characters';
     if (!recaptchaToken) next.recaptcha = 'Please tick the reCAPTCHA checkbox to confirm you are human';
     setErrors(next);
@@ -148,11 +239,29 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
     if (!validate()) return;
 
     const scopeLabel = SCOPES.find((s) => s.id === scope)?.title || '';
-    const stageLabel = STAGES.find((s) => s.id === stage)?.title || '';
+    const stageLabel = activeStageConfig.options.find((opt) => opt.id === stage)?.title || '';
+    const trimmedEmail = formData.user_email.trim();
+    const trimmedName = formData.user_name.trim();
+    const trimmedCompany = formData.user_company.trim();
+
     const payload = {
-      ...formData,
+      user_email: trimmedEmail,
+      user_name: trimmedName,
+      user_company: trimmedCompany,
+      website_hp: formData.website_hp,
       interest: scopeLabel,
-      message: `Scoping funnel request.\nScope: ${scopeLabel}\nProject stage: ${stageLabel}\nPage: ${typeof window !== 'undefined' ? window.location.pathname : ''}`,
+      service: scopeLabel,
+      stage: stageLabel,
+      stage_question: activeStageConfig.heading,
+      message: [
+        'Scoping funnel request.',
+        `Service: ${scopeLabel}`,
+        `Stage (${activeStageConfig.heading}): ${stageLabel}`,
+        trimmedCompany ? `Company: ${trimmedCompany}` : '',
+        `Page: ${typeof window !== 'undefined' ? window.location.pathname : ''}`,
+      ]
+        .filter(Boolean)
+        .join('\n'),
       recaptchaToken,
     };
 
@@ -161,7 +270,12 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
       const { data, status: code } = await apiCall('/contact/contact', 'POST', payload);
       if (code === 200) {
         setStatus('success');
-        trackFormSubmission(formId, formRef.current);
+        trackFormSubmission(formId, formRef.current, {
+          service: scopeLabel,
+          stage: stageLabel,
+          stage_question: activeStageConfig.heading,
+          has_company: Boolean(trimmedCompany),
+        });
         setFormData(EMPTY_FORM);
         setErrors({});
         resetCaptcha();
@@ -189,7 +303,9 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
     setStatus(null);
     setStep(1);
     setScope(SCOPES[0].id);
-    setStage(STAGES[0].id);
+    setStage('');
+    setStageError('');
+    setErrors({});
   };
 
   return (
@@ -236,7 +352,7 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
                   <div>
                     <h3 className={`text-lg md:text-2xl font-semibold ${t.title}`}>What are you looking to build?</h3>
                     <p className={`mt-1.5 mb-5 text-sm font-serif ${t.muted}`}>Select your primary 3D or visual requirement (1 tap to proceed).</p>
-                    <OptionList options={SCOPES} value={scope} onChange={setScope} name="scope" t={t} />
+                    <OptionList options={SCOPES} value={scope} onChange={handleScopeChange} name="scope" t={t} />
                     <button type="button" onClick={() => setStep(2)} className={`mt-6 w-full rounded-xl py-3.5 text-sm md:text-base font-semibold transition-colors cursor-pointer ${t.nextBtn}`}>
                       Continue to Project Stage ↗
                     </button>
@@ -245,10 +361,16 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
 
                 {step === 2 && (
                   <div>
-                    <h3 className={`text-lg md:text-2xl font-semibold ${t.title}`}>Where are you in the pipeline?</h3>
-                    <p className={`mt-1.5 mb-5 text-sm font-serif ${t.muted}`}>This helps us gauge turnaround time and engineering scope.</p>
-                    <OptionList options={STAGES} value={stage} onChange={setStage} name="stage" t={t} />
-                    <button type="button" onClick={() => setStep(3)} className={`mt-6 w-full rounded-xl py-3.5 text-sm md:text-base font-semibold transition-colors cursor-pointer ${t.nextBtn}`}>
+                    <h3 className={`text-lg md:text-2xl font-semibold ${t.title}`}>{activeStageConfig.heading}</h3>
+                    <p className={`mt-1.5 mb-5 text-sm font-serif ${t.muted}`}>{activeStageConfig.subheading}</p>
+                    <OptionList options={activeStageConfig.options} value={stage} onChange={handleStageChange} name="stage" t={t} />
+                    {stageError && <p className="text-red-400 text-xs mt-3">{stageError}</p>}
+                    <button
+                      type="button"
+                      disabled={!stage}
+                      onClick={handleContinueToEstimate}
+                      className={`mt-6 w-full rounded-xl py-3.5 text-sm md:text-base font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer ${t.nextBtn}`}
+                    >
                       Continue to Final Step ↗
                     </button>
                     <button type="button" onClick={() => setStep(1)} className={`mt-4 w-full text-center text-sm font-semibold cursor-pointer ${t.back}`}>
@@ -262,11 +384,7 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
                     <h3 className={`text-lg md:text-2xl font-semibold ${t.title}`}>Where should we send your estimate?</h3>
                     <p className={`mt-1.5 mb-5 text-sm font-serif ${t.muted}`}>We will send an itemized feasibility summary and build timeline within 24 hours.</p>
 
-                    {[
-                      { name: 'user_email', label: 'Work Email', type: 'email', placeholder: 'name@company.com', autoComplete: 'email' },
-                      { name: 'user_name', label: 'Your Name', type: 'text', placeholder: 'Your full name', autoComplete: 'name' },
-                      { name: 'user_company', label: 'Company or Brand Name (Optional)', type: 'text', placeholder: 'Acme Motors / Apex Developments', autoComplete: 'organization' },
-                    ].map((f) => (
+                    {CONTACT_FIELDS.map((f) => (
                       <div key={f.name} className="mb-4">
                         <label htmlFor={`${formId}-${f.name}`} className={`block mb-1.5 text-[11px] md:text-xs font-semibold uppercase tracking-[0.12em] ${t.muted}`}>
                           {f.label}
@@ -275,6 +393,9 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
                           id={`${formId}-${f.name}`}
                           name={f.name}
                           type={f.type}
+                          required={f.required}
+                          aria-required={f.required ? 'true' : undefined}
+                          aria-invalid={errors[f.name] ? 'true' : 'false'}
                           value={formData[f.name]}
                           onChange={handleChange}
                           placeholder={f.placeholder}
@@ -311,7 +432,11 @@ const ScopingFunnel = ({ formId = 'scoping_funnel', heading = 'Move forward.', s
                       data-track-cta={`${formId}-submit`}
                       className="w-full rounded-xl py-3.5 bg-[#3558D4] hover:bg-[#2A48B8] text-white text-sm md:text-base font-semibold transition-colors disabled:opacity-50 cursor-pointer"
                     >
-                      {isSubmitting ? 'Sending…' : 'Get Build Feasibility & Pricing Estimate ↗'}
+                      {isLocked
+                        ? `Locked · Wait ${formattedTime}`
+                        : isSubmitting
+                        ? 'Sending…'
+                        : 'Get Build Feasibility & Pricing Estimate'}
                     </button>
                     <button type="button" onClick={() => setStep(2)} className={`mt-4 w-full text-center text-sm font-semibold cursor-pointer ${t.back}`}>
                       ← Back to Stage
