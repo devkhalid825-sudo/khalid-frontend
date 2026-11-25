@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UsVirtualShowroomsPage from '@/components/us/UsVirtualShowroomsPage';
 
 const meta = {
   title: 'Virtual Showrooms & Digital Twins Services in the USA',
   description: 'Browser-accessible 3D showrooms and digital twins for US manufacturers, developers, and retail brands, delivered from Elipse Studio Illinois.',
   keywords: 'virtual showroom usa, digital twin illinois, 3d showroom development usa, browser 3d showroom usa',
-  ogImage: `${SITE_URL}/assets/services/og-virtual-showrooms.jpg`,
+  ogImage: getServiceOgImage('virtual-showrooms-digital-twins'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/us/services/virtual-showrooms`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('us', 'virtual-showrooms-digital-twins'),
   });
 }
 

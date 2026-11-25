@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UsInteractiveWebExperiencesPage from '@/components/us/UsInteractiveWebExperiencesPage';
 
 const meta = {
   title: 'Interactive Web Experiences Services in the USA',
   description: 'WebGL-powered 3D landing pages, scroll-driven storytelling, and immersive microsites for US digital campaigns, delivered from Elipse Studio Illinois.',
   keywords: 'interactive web experiences usa, webgl development illinois, 3d landing page usa, three.js development usa, unreal pixel streaming usa',
-  ogImage: `${SITE_URL}/assets/services/og-interactive-web-experiences.jpg`,
+  ogImage: getServiceOgImage('interactive-web-experiences'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/us/services/interactive-web-experiences`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('us', 'interactive-web-experiences'),
   });
 }
 

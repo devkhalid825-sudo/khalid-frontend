@@ -1,13 +1,15 @@
 import { SITE_URL } from '@/utils/api';
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UKAnimationPage from '@/components/uk/UkAnimationPage';
 
 const meta = {
   title: '3D Animation Services in the UK',
   description: 'Cinematic 3D animation and motion graphics services for UK brands and enterprises. Architectural walkthroughs, product animation, explainer videos, and character work from Elipse Studio.',
   keywords: '3d animation services uk, 3d animation company uk, motion graphics uk, product animation uk, architectural animation uk, explainer video uk, 3d animation london',
-  ogImage: `${SITE_URL}/assets/services/og-3d-animation.jpg`,
+  ogImage: getServiceOgImage('3d-animation'),
   schemaType: 'Service',
 };
 
@@ -47,6 +49,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/uk/services/3d-animation-services`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('uk', '3d-animation'),
   });
 }
 

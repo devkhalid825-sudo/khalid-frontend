@@ -17,8 +17,12 @@ const WIDTH = 1200;
 const HEIGHT = 630;
 const MAX_BYTES = 300 * 1024;
 const QUALITIES = [82, 72, 62, 52];
-const PUBLIC_ASSETS = path.join(process.cwd(), 'public', 'assets');
+const PUBLIC_ASSETS = path.join(/*turbopackIgnore: true*/ process.cwd(), 'public', 'assets');
+const SRC_ASSETS = path.join(/*turbopackIgnore: true*/ process.cwd(), 'src', 'assets');
+const ASSET_ROOTS = [PUBLIC_ASSETS, SRC_ASSETS];
+const LOGO_FALLBACK_FILE = path.join(PUBLIC_ASSETS, 'logo-og.png');
 const ASSET_EXT = /\.(webp|png|jpe?g|avif|gif)$/i;
+const FALLBACK_CACHE_HEADER = 'public, max-age=300, stale-while-revalidate=600';
 
 const CACHE_HEADER = 'public, max-age=86400, s-maxage=604800, stale-while-revalidate=604800';
 
@@ -29,31 +33,63 @@ const MEMO_LIMIT = 60;
 /** Maps the request path to the original image. Returns null for anything not allowed. */
 function resolveSource(segments) {
   if (!Array.isArray(segments) || segments.length < 2) return null;
-  const [kind, ...rest] = segments;
+  const decoded = [];
+  for (const seg of segments) {
+    try {
+      decoded.push(decodeURIComponent(seg));
+    } catch {
+      return null;
+    }
+  }
+  const [kind, ...rest] = decoded;
 
   if (kind === 'media' && rest.length === 1) {
     const id = rest[0].replace(/\.jpe?g$/i, '');
     if (!/^\d{1,9}$/.test(id)) return null;
-    return { type: 'remote', url: `${BACKEND_ORIGIN}/media/${id}`, fallback: `${SITE_URL}/media/${id}` };
+    return { type: 'remote', url: `${BACKEND_ORIGIN}/media/${id}`, key: `media:${id}` };
   }
 
   if (kind === 'assets') {
     const rel = rest.join('/').replace(/\.jpe?g$/i, '');
     if (!ASSET_EXT.test(rel)) return null;
-    const file = path.normalize(path.join(PUBLIC_ASSETS, rel));
-    // Block path traversal: the file must stay inside public/assets.
-    if (!file.startsWith(PUBLIC_ASSETS + path.sep)) return null;
-    return { type: 'file', file, fallback: `${SITE_URL}/assets/${rel}` };
+    const files = [];
+    for (const rootDir of ASSET_ROOTS) {
+      const file = path.normalize(path.join(rootDir, rel));
+      // Block path traversal: each candidate must stay inside its asset root.
+      if (!file.startsWith(rootDir + path.sep)) return null;
+      files.push(file);
+    }
+    return { type: 'file', files, key: `assets:${rel}` };
   }
 
   return null;
 }
 
 async function loadSource(src) {
-  if (src.type === 'file') return readFile(src.file);
+  if (src.type === 'file') {
+    let lastErr;
+    for (const file of src.files) {
+      try {
+        return await readFile(file);
+      } catch (err) {
+        lastErr = err;
+      }
+    }
+    throw lastErr || new Error('asset not found');
+  }
   const res = await fetch(src.url, { signal: AbortSignal.timeout(15000) });
   if (!res.ok) throw new Error(`source ${res.status}`);
   return Buffer.from(await res.arrayBuffer());
+}
+
+async function getFallbackPreview() {
+  const fallbackKey = '__logo_og_fallback__';
+  let jpeg = memo.get(fallbackKey);
+  if (!jpeg) {
+    jpeg = await toPreviewJpeg(await readFile(LOGO_FALLBACK_FILE));
+    memo.set(fallbackKey, jpeg);
+  }
+  return jpeg;
 }
 
 async function toPreviewJpeg(input) {
@@ -78,7 +114,7 @@ export async function GET(request, context) {
   const src = resolveSource(await getParams(context));
   if (!src) return new Response('Not found', { status: 404 });
 
-  const key = src.type === 'file' ? src.file : src.url;
+  const key = src.key;
   try {
     let jpeg = memo.get(key);
     if (!jpeg) {
@@ -94,9 +130,22 @@ export async function GET(request, context) {
       },
     });
   } catch (err) {
-    console.error('[og-image] conversion failed:', key, err?.message);
-    // Still give scrapers an image: the original file.
-    return Response.redirect(src.fallback, 302);
+    console.error('[og-image] conversion failed, serving logo fallback:', key, err?.message);
+    try {
+      const fallbackJpeg = await getFallbackPreview();
+      return new Response(fallbackJpeg, {
+        status: 200,
+        headers: {
+          'Content-Type': 'image/jpeg',
+          'Content-Length': String(fallbackJpeg.length),
+          'Cache-Control': FALLBACK_CACHE_HEADER,
+          'X-OG-Fallback': 'logo-og',
+        },
+      });
+    } catch (fallbackErr) {
+      console.error('[og-image] fallback failed:', fallbackErr?.message);
+      return new Response('Not found', { status: 404 });
+    }
   }
 }
 

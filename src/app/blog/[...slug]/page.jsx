@@ -7,6 +7,7 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  'mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026': dynamic(() => import('@/components/articles/MrVrTrainingEnergyArticle')),
   'industrial-equipment-hardware-3d-configurator-2026': dynamic(() => import('@/components/articles/IndustrialEquipmentConfiguratorArticle')),
   'industrial-equipment-3d-configurator': dynamic(() => import('@/components/articles/IndustrialEquipmentConfiguratorArticle')),
   'industrial-hardware-3d-configurator': dynamic(() => import('@/components/articles/IndustrialEquipmentConfiguratorArticle')),
@@ -70,6 +71,22 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  'mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026': {
+    title: 'Mixed Reality Passthrough & Multi-User VR Training for Trade & Energy Workforce Upskilling (2026 Enterprise Guide) | Elipse Studio',
+    description: 'How Meta Quest 3 mixed reality passthrough and multi-user Unreal Engine 5 labs train energy and trade workers on LOTO, switchgear and turbine procedures, including air-gapped deployment, xAPI/SCORM integration and 5-year ROI.',
+    keywords: [
+      'vr training energy utilities',
+      'mixed reality passthrough training',
+      'meta quest 3 enterprise training',
+      'multi-user vr training unreal engine 5',
+      'lockout tagout vr simulation',
+      'air-gapped vr training deployment',
+      'vr safety training roi',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026`,
+    ogImage: `${SITE_URL}/assets/ElipseImages/blogs/blogs-Ar.webp`,
+  },
   'industrial-equipment-hardware-3d-configurator-2026': {
     title: 'Industrial Equipment & Hardware 3D Configurators: Exploded CAD Views, Technical Specs & Field Sales ROI (2026 Guide)',
     description: 'How B2B machinery and heavy equipment manufacturers replace costly physical demo units with exploded CAD views, SolidWorks-to-WebGL optimisation, offline PWA field tools, and HubSpot/Salesforce CPQ integration.',
@@ -664,7 +681,7 @@ const staticArticleMetadata = {
   },
   'webgl-vs-unreal-engine-3d-configurator': {
     title: 'WebGL vs Unreal Engine 3D Configurator: Full Comparison',
-    description: 'Compare WebGL and Unreal Engine 3D configurators. Discover graphics quality, pixel streaming costs, e-commerce integration, and the best choice for your business.',
+    description: 'Compare WebGL and Unreal Engine 3D configurators across graphics fidelity, pixel streaming costs, load speed, and e-commerce checkout integration.',
     keywords: [
       'WebGL 3D configurator',
       'Unreal Engine 3D configurator',
@@ -756,6 +773,7 @@ const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 
 function staticArticleSchemas(slugStr, meta) {
   const isIndustrial = slugStr.includes('industrial-equipment') || slugStr.includes('industrial-hardware');
+  const isMrTraining = slugStr === 'mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026';
   const isMarineBoat = slugStr === 'boat-yacht-3d-configurator-marine-2026';
   const isEnterpriseUsUkAu = slugStr === 'enterprise-3d-configurator-usa-uk-australia-2026';
   const isCampervan = slugStr === 'campervan-3d-configurator';
@@ -781,6 +799,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isMrTraining) return '2026-11-25';
     if (isIndustrial) return '2026-11-24';
     if (isMarineBoat) return '2026-11-23';
     if (isEnterpriseUsUkAu) return '2026-11-20';
@@ -1122,6 +1141,34 @@ function staticArticleSchemas(slugStr, meta) {
     ];
   }
 
+  if (isMrTraining) {
+    extraSchemas = [
+      buildFaqSchema([
+        {
+          q: 'Why is passive video training ineffective for high-risk hands-on trades?',
+          a: 'Video creates a transfer gap: trainees recall a procedure in the context they learned it, but performance drops when the panel manufacturer, noise level or time pressure changes. Video also gives one camera angle, no consequence feedback when a wrong feeder is isolated, and no branching when conditions change. Immersive simulation encodes the decisions and muscle memory in the context the work happens.',
+        },
+        {
+          q: 'When should I choose Meta Quest 3 mixed reality passthrough over full VR?',
+          a: 'Choose MR passthrough when a physical anchor exists, such as a switchboard panel, a real meter, a confined-entry prop or a one-line diagram, so trainees build muscle memory on real hardware geometry with a digital overlay. Choose full VR when no safe physical prop is possible, such as energised equipment isolation, gas turbine internals, evacuation drills or wind turbine nacelle diagnosis.',
+        },
+        {
+          q: 'How many trainees can run in one multi-user VR session with a single instructor?',
+          a: 'Unreal Engine 5 replication has been tested stable up to 16 concurrent users. We recommend 12 trainees, 2 instructors and 2 observer slots. The instructor uses a 2D God View dashboard, a Ghost Observer VR mode and Spotlight Intervention, and each trainee needs roughly 800 Kbps up and 1.2 Mbps down on Wi-Fi 6.',
+        },
+        {
+          q: 'Can VR training be deployed on an air-gapped refinery or utility campus?',
+          a: 'Yes. Applications are packaged as a signed Android APK for Quest 3 with all assets embedded, sideloaded over USB-C, and run with no internet. Session logs are stored locally as JSON and pulled by a sync utility, with xAPI to an on-premise LRS or batch SCORM 1.2 export for the LMS. Licence validation uses a hardware-bound token, so no cloud check-in is needed.',
+        },
+        {
+          q: 'What is the five-year cost of VR training compared with a physical training rig?',
+          a: 'Five-year total cost of ownership is typically $145K–$320K for VR simulation against $820K–$1.98M for physical rigs, a saving of about 79%. Savings come from lower maintenance, lower instructor cost per cohort and no trainee travel. The strongest CFO framing compares VR against the cost of one preventable arc-flash incident, which averages $1.4M in a US utility.',
+        },
+      ]),
+      authorSchema,
+    ];
+  }
+
   if (isAnamorphicBillboard) extraSchemas = [anamorphicBillboardFaq, authorSchema];
   if (isCommercialCgi) extraSchemas = [commercialCgiFaq, authorSchema];
   if (isSpatialCommerce) extraSchemas = [spatialCommerceFaq, authorSchema];
@@ -1322,6 +1369,7 @@ const SEO_TITLE_OVERRIDES = {
   'ai-powered-3d-product-visualization-workflow-ecommerce-2026': 'AI 3D Product Visualization Workflow for E-Commerce Brands 2026',
   'real-time-archviz-vr-luxury-real-estate-presales-2026': 'Real-Time ArchViz & Spatial VR: How Developers Presell Off-Plan Properties (2026)',
   'spatial-commerce-b2b-luxury-retail-2026-benchmark': 'Spatial Commerce for B2B & Luxury Retail: 2026 Conversion Benchmark Report',
+  'webgl-vs-unreal-engine-3d-configurator': 'WebGL vs Unreal Engine 3D Configurator',
 };
 
 function seoTitleFor(canonicalUrl, fallback) {

@@ -3,6 +3,8 @@ import { SITE_URL } from '@/utils/api';
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema, buildVideoObjectSchema } from '@/lib/seo';
 import { SERVICE_FAQS } from '@/seo/serviceFaqs';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { SERVICE_OG_IMAGES, getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import dynamic from 'next/dynamic';
 
 const servicePages = {
@@ -35,14 +37,14 @@ const serviceMeta = {
     serviceType: 'Architectural Visualization',
     description: 'Unreal Engine 5 architectural visualization, real-time VR walkthroughs, and spatial AR for property developers. Presell off-plan projects 6–12 months early.',
     keywords: 'architectural visualization services, 3d architectural rendering, photoreal visualization, arch viz, architectural rendering company, 3d rendering services',
-    ogImage: `${SITE_URL}/assets/services/og-architectural-visualization.jpg`,
+    ogImage: SERVICE_OG_IMAGES['architectural-visualization'],
     schemaType: 'Service',
   },
   'real-time-archviz-spatial-vr-ar': {
     title: 'Real-Time ArchViz & Spatial VR/AR',
     description: 'Unreal Engine 5 virtual walkthroughs, immersive VR sales galleries, digital twins, and WebAR architectural visualization built specifically for property developers, architects, and luxury real estate pre-sales.',
     keywords: 'archviz, spatial vr, ar development, architectural visualization, unreal engine 5, vr walkthrough',
-    ogImage: `${SITE_URL}/assets/services/og-architectural-visualization.jpg`,
+    ogImage: SERVICE_OG_IMAGES['architectural-visualization'],
     schemaType: 'Service',
   },
   '3d-product-visualization': {
@@ -53,7 +55,7 @@ const serviceMeta = {
     serviceType: 'CGI & 3D Product Visualization',
     description: 'High-end 3D product rendering, commercial CGI, and anamorphic billboard content for CPG and FMCG brands. Cut production turnaround by 70%. Get a quote.',
     keywords: '3d product visualization, 3d product rendering, product visualization services, e-commerce 3d rendering, photorealistic product rendering',
-    ogImage: `${SITE_URL}/assets/services/og-3d-product-visualization.jpg`,
+    ogImage: SERVICE_OG_IMAGES['3d-product-visualization'],
     schemaType: 'Service',
     video: {
       name: 'Ahmed Foods Crystal Jelly 3D Commercial Animation — Elipse Studio',
@@ -67,7 +69,7 @@ const serviceMeta = {
     title: 'Cinematic 3D Product & Commercial Visuals',
     description: 'Photorealistic 3D product rendering, CGI commercials, and cinematic animations for brands, luxury DTC products, and enterprise campaigns.',
     keywords: '3d product visualization, cinematic 3d, cgi commercials, 3d product animation',
-    ogImage: `${SITE_URL}/assets/services/og-3d-product-visualization.jpg`,
+    ogImage: SERVICE_OG_IMAGES['3d-product-visualization'],
     schemaType: 'Service',
     video: {
       name: 'Ahmed Foods Crystal Jelly 3D Commercial Animation — Elipse Studio',
@@ -83,7 +85,7 @@ const serviceMeta = {
     serviceType: '3D Product Configurator Development',
     description: 'Real-time WebGL 3D configurators for Shopify, enterprise CPQ, and e-commerce. PBR rendering, AR output, cart integration. Get a free technical scoping call.',
     keywords: 'custom 3d product configurator development, webgl 3d product configurator, shopify 3d configurator development, 3d configurator shopify plus, interactive product configurator, real-time product customizer',
-    ogImage: `${SITE_URL}/assets/services/og-3d-product-configurators.jpg`,
+    ogImage: SERVICE_OG_IMAGES['3d-product-configurators'],
     // A service page, not a product for sale: Product without offers/reviews
     // is flagged as invalid in Search Console.
     schemaType: 'Service',
@@ -92,21 +94,21 @@ const serviceMeta = {
     title: 'Interactive 3D Web & Product Configurators',
     description: 'Real-time WebGL, PlayCanvas, Three.js, and Unreal Engine interactive tools for automotive, luxury goods, and high-ticket eCommerce brands.',
     keywords: 'interactive 3d configurator, 3d product configurator, webgl configurator, playcanvas 3d',
-    ogImage: `${SITE_URL}/assets/services/og-3d-product-configurators.jpg`,
+    ogImage: SERVICE_OG_IMAGES['3d-product-configurators'],
     schemaType: 'Service',
   },
   'interactive-web-experiences': {
     title: 'Interactive Web Experiences',
     description: 'Immersive WebGL experiences and interactive 3D web applications designed to engage users and elevate global brand campaigns.',
     keywords: 'interactive web experiences, webgl experiences, 3d web development, interactive campaigns, browser-based 3d',
-    ogImage: `${SITE_URL}/assets/services/og-interactive-web-experiences.jpg`,
+    ogImage: SERVICE_OG_IMAGES['interactive-web-experiences'],
     schemaType: 'Service',
   },
   'vr-development': {
     title: 'VR Development Services',
     description: 'Custom VR development for enterprise training, simulation, and sales on Meta Quest 3, Apple Vision Pro, and Unreal Engine 5.',
     keywords: 'vr development, virtual reality development, vr app development, meta quest development, unreal engine vr',
-    ogImage: `${SITE_URL}/assets/services/og-vr-development.jpg`,
+    ogImage: SERVICE_OG_IMAGES['vr-development'],
     schemaType: 'Service',
     video: {
       name: 'VR Development Services — Elipse Studio',
@@ -120,84 +122,86 @@ const serviceMeta = {
     title: 'AR Development Services',
     description: 'Enterprise augmented reality development using ARKit, ARCore, and WebAR for retail, real estate, and marketing campaigns.',
     keywords: 'ar development, augmented reality development, ar app development, arkit, arcore, webar',
-    ogImage: `${SITE_URL}/assets/services/og-ar-development.jpg`,
+    ogImage: SERVICE_OG_IMAGES['ar-development'],
     schemaType: 'Service',
   },
   '3d-animation': {
     title: '3D Animation & Product CGI Studio',
     description: 'Elipse Studio is a commercial 3D animation studio — product CGI, industrial machinery, architectural fly-throughs, and VFX for global brands.',
     keywords: '3d animation, motion graphics, 3d animation services, explainer videos, architectural walkthrough, product animation',
-    ogImage: `${SITE_URL}/assets/services/og-3d-animation.jpg`,
+    ogImage: SERVICE_OG_IMAGES['3d-animation'],
     schemaType: 'Service',
   },
   'product-animation': {
-    title: '3D Animation Studio for Brands & Manufacturers | Elipse Studio',
-    description: 'Elipse Studio is a commercial 3D animation studio — product CGI, industrial machinery, architectural fly-throughs, and VFX for global brands.',
+    title: '3D Product Animation Services',
+    seoTitle: '3D Product Animation Services for Brands',
+    serviceType: '3D Product Animation',
+    description: 'CAD-accurate 3D product animation services for launches, e-commerce, and marketing. Hero films, 360° spins, and exploded views. Start a project.',
     keywords: '3d product animation, product animation services, product video animation, exploded view animation, 360 product animation, e-commerce product video',
-    ogImage: `${SITE_URL}/assets/services/og-3d-animation.jpg`,
+    ogImage: SERVICE_OG_IMAGES['3d-animation'],
     schemaType: 'Service',
   },
   'vfx-virtual-production': {
     title: 'VFX & Virtual Production',
     description: 'High-end visual effects and virtual production services for films, broadcast, and brand commercials with LED wall workflows.',
     keywords: 'vfx services, virtual production, cg visual effects, vfx studio, led wall production, compositing',
-    ogImage: `${SITE_URL}/assets/services/og-vfx-virtual-production.jpg`,
+    ogImage: SERVICE_OG_IMAGES['vfx-virtual-production'],
     schemaType: 'Service',
   },
   'virtual-showrooms-digital-twins': {
     title: 'Virtual Showrooms & Digital Twins',
     description: 'Immersive 3D virtual showrooms and digital twin experiences built with Unreal Engine 5 and WebGL for global enterprises.',
     keywords: 'virtual showroom, digital twins, 3d virtual showroom, virtual reality showroom, digital twin development',
-    ogImage: `${SITE_URL}/assets/services/og-virtual-showrooms-digital-twins.jpg`,
+    ogImage: SERVICE_OG_IMAGES['virtual-showrooms-digital-twins'],
     schemaType: 'Service',
   },
   'custom-software-development': {
     title: 'Custom Software Development',
     description: 'Scalable enterprise software development, cloud-native web apps, SaaS platforms, and API integrations for modern businesses.',
     keywords: 'custom software development, enterprise software, saas development, web application development, cloud-native',
-    ogImage: `${SITE_URL}/assets/services/og-custom-software-development.jpg`,
+    ogImage: SERVICE_OG_IMAGES['custom-software-development'],
     schemaType: 'Service',
   },
   'website-development': {
     title: 'Website Development Services',
     description: 'High-performance Next.js website development with mobile-first design, fast load times, and Core Web Vitals optimization.',
     keywords: 'website development, next.js development, jamstack, seo website, responsive web design, wordpress development',
-    ogImage: `${SITE_URL}/assets/services/og-website-development.jpg`,
+    ogImage: SERVICE_OG_IMAGES['website-development'],
     schemaType: 'Service',
   },
   'mobile-app-development': {
     title: 'Mobile App Development',
     description: 'Native and cross-platform mobile app development for iOS and Android built with React Native, Flutter, and modern stacks.',
     keywords: 'mobile app development, ios app development, android app development, react native, flutter development',
-    ogImage: `${SITE_URL}/assets/services/og-mobile-app-development.jpg`,
+    ogImage: SERVICE_OG_IMAGES['mobile-app-development'],
     schemaType: 'Service',
   },
   'ui-ux-design-web-and-mobile-apps': {
     title: 'UI/UX Design for Web & Mobile Apps',
     description: 'UI/UX design for web apps, mobile apps, and enterprise platforms — user research, wireframes, high-fidelity UI, design systems, and prototypes that convert.',
     keywords: 'ui ux design, ui/ux design agency, web app design, mobile app design, design system, product design, ux research, figma design',
-    ogImage: `${SITE_URL}/assets/services/og-ui-ux-design-web-and-mobile-apps.jpg`,
+    ogImage: SERVICE_OG_IMAGES['ui-ux-design-web-and-mobile-apps'],
     schemaType: 'Service',
   },
   'creative-services': {
     title: 'Creative Services & Design',
     description: 'Full-service creative design agency specializing in brand identity, UI/UX design, motion graphics, and visual content.',
     keywords: 'creative services, brand identity design, ui/ux design, motion graphics, video production, graphic design',
-    ogImage: `${SITE_URL}/assets/services/og-creative-services.jpg`,
+    ogImage: SERVICE_OG_IMAGES['creative-services'],
     schemaType: 'Service',
   },
   'enterprise-solutions': {
     title: 'Enterprise Digital Solutions',
     description: 'Enterprise digital transformation, cloud architecture, and immersive 3D technology solutions for organizations worldwide.',
     keywords: 'enterprise solutions, enterprise software, cloud computing, erp systems, cybersecurity, it consulting',
-    ogImage: `${SITE_URL}/assets/services/og-enterprise-solutions.jpg`,
+    ogImage: SERVICE_OG_IMAGES['enterprise-solutions'],
     schemaType: 'Service',
   },
   marketing: {
     title: 'Immersive Marketing Solutions',
     description: 'Data-driven marketing solutions, interactive 3D campaigns, and digital strategies that drive brand engagement and growth.',
     keywords: 'digital marketing, seo services, sem, social media marketing, content marketing, email marketing',
-    ogImage: `${SITE_URL}/assets/services/og-marketing.jpg`,
+    ogImage: SERVICE_OG_IMAGES.marketing,
     schemaType: 'Service',
   },
 };
@@ -246,7 +250,8 @@ export async function generateMetadata({ params }) {
     description: meta.description,
     canonical: `${SITE_URL}/services/${slug}`,
     keywords: meta.keywords,
-    ogImage: meta.ogImage,
+    ogImage: getServiceOgImage(slug),
+    ...getRegionalSeoOptions('global', slug),
   });
 }
 

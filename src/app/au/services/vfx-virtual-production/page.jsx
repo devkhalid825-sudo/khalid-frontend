@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import AuVfxVirtualProductionPage from '@/components/au/AuVfxVirtualProductionPage';
 
 const meta = {
   title: 'VFX & Virtual Production Services in Australia',
   description: 'Visual effects and virtual production for Australian brand campaigns, TV commercials, and digital content. CGI integration, LED volume production, and broadcast-grade compositing from Elipse Studio.',
   keywords: 'vfx services australia, virtual production australia, led volume australia, cgi integration sydney, broadcast vfx australia, virtual production studio australia',
-  ogImage: `${SITE_URL}/assets/services/og-vfx-virtual-production.jpg`,
+  ogImage: getServiceOgImage('vfx-virtual-production'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/au/services/vfx-virtual-production`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('au', 'vfx-virtual-production'),
   });
 }
 

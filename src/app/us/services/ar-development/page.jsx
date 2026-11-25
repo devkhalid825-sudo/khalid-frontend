@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UsArDevelopmentPage from '@/components/us/UsArDevelopmentPage';
 
 const meta = {
   title: 'Augmented Reality (AR) Development Services in the USA',
   description: 'WebAR and app-based AR development for US brands — virtual try-on, in-room product placement, and QR-triggered marketing. 8th Wall, ARKit, and ARCore from Elipse Studio Illinois.',
   keywords: 'ar development usa, augmented reality development illinois, webar development usa, virtual try-on ar, arkit arcore development usa',
-  ogImage: `${SITE_URL}/assets/services/og-ar-development.jpg`,
+  ogImage: getServiceOgImage('ar-development'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/us/services/ar-development`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('us', 'ar-development'),
   });
 }
 

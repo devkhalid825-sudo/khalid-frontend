@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UKProductVisualisationPage from '@/components/uk/UkProductVisualisationPage';
 
 const meta = {
   title: '3D Product Visualisation Services in the UK',
   description: 'Photorealistic 3D product visualisation services for UK e-commerce brands, manufacturers, and DTC companies. Hero renders, 360-degree views, lifestyle shots, and exploded assemblies from Elipse Studio.',
   keywords: '3d product visualisation uk, 3d product rendering uk, product visualisation services uk, e-commerce 3d rendering uk, photorealistic product rendering, 3d product viz london',
-  ogImage: `${SITE_URL}/assets/services/og-3d-product-visualization.jpg`,
+  ogImage: getServiceOgImage('3d-product-visualization'),
   schemaType: 'Service',
 };
 
@@ -47,6 +49,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/uk/services/3d-product-visualisation`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('uk', '3d-product-visualization'),
   });
 }
 

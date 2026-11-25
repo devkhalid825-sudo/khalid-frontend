@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import AuVirtualRealityDevelopmentPage from '@/components/au/AuVirtualRealityDevelopmentPage';
 
 const meta = {
   title: 'VR Development Australia | Virtual Reality Studio',
   description: 'Custom VR development for Australian brands — training simulations, property walkthroughs & product demos. Meta Quest & WebVR. Sydney & Melbourne. AUD pricing. Free estimate.',
   keywords: 'vr development australia, virtual reality development sydney, vr training australia, meta quest development australia, vr app development australia',
-  ogImage: `${SITE_URL}/assets/services/og-vr-development.jpg`,
+  ogImage: getServiceOgImage('vr-development'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/au/services/virtual-reality-development`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('au', 'vr-development'),
   });
 }
 

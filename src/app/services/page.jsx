@@ -2,6 +2,8 @@ import ServicesPage from '@/components/ServicesPage';
 import { buildMetadata } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { HUB_OG_IMAGES } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 
 const schema = {
       '@context': 'https://schema.org',
@@ -49,6 +51,8 @@ export function generateMetadata() {
     description:
       'Explore 3D rendering, walkthrough animation, interactive configurators, and AR/VR development services from Elipse Studio worldwide.',
     canonical: `${SITE_URL}/services`,
+    ogImage: HUB_OG_IMAGES.services,
+    ...getRegionalSeoOptions('global', 'services-hub'),
   });
 }
 

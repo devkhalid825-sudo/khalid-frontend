@@ -51,6 +51,28 @@ server.set("trust proxy", 1);
 server.use(morgan("combined"));
 server.use(compression());
 
+// Legacy WordPress spam URLs: answer 410 Gone here, before the route cache,
+// Next.js and the legacy fallback. Only numeric /products/{id} is matched.
+const GONE_PATH = /^[/](?:ctg|sf|mbr|ja)(?:[/]|$)|^[/]products[/][0-9]+[/]?$/;
+
+// Volvo: one 301 straight to the live project page, with or without a slash.
+const VOLVO_PATH = /^[/]volvo-configurator[/]?$/;
+
+server.use((req, res, next) => {
+  if (GONE_PATH.test(req.path)) {
+    res.set({ "X-Robots-Tag": "noindex", "Cache-Control": "no-store" });
+    return res.status(410).type("text/plain").send("410 Gone");
+  }
+
+  if (VOLVO_PATH.test(req.path)) {
+    const q = req.originalUrl.indexOf("?");
+    const search = q === -1 ? "" : req.originalUrl.slice(q);
+    return res.redirect(301, "https://elipsestudio.com/project/volvo-configurator" + search);
+  }
+
+  next();
+});
+
 const nextTarget = `http://127.0.0.1:${NEXT_PORT}`;
 const legacyTarget = (process.env.LEGACY_URL || "https://legacy.elipsestudio.com").replace(/\/$/, '');
 

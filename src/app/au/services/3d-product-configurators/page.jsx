@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import AuProductConfiguratorsPage from '@/components/au/AuProductConfiguratorsPage';
 
 const meta = {
   title: '3D Product Configurator Australia | Shopify & WooCommerce',
   description: 'Custom 3D product configurators for Australian e-commerce brands — Shopify & WooCommerce native. Real-time WebGL. No app download. AUD + GST checkout. Free estimate.',
   keywords: '3d product configurator australia, web configurator australia, shopify 3d configurator, real-time product configurator australia, interactive 3d configurator sydney, woocommerce 3d configurator',
-  ogImage: `${SITE_URL}/assets/services/og-3d-product-configurators.jpg`,
+  ogImage: getServiceOgImage('3d-product-configurators'),
   schemaType: 'Product',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/au/services/3d-product-configurators`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('au', '3d-product-configurators'),
   });
 }
 

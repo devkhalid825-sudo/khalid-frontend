@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import AuArchitecturalVisualisationPage from '@/components/au/AuArchitecturalVisualisationPage';
 
 const meta = {
   title: 'Architectural Visualisation Services Australia | 3D Renders & Walkthroughs',
   description: 'Photoreal architectural visualisation for Australian property developers and architects — 3D renders, walkthroughs & VR tours. Sydney, Melbourne, Brisbane. AUD pricing. Free estimate.',
   keywords: 'architectural visualisation australia, cgi renders australia, 3d architectural rendering australia, planning application visuals australia, property visualisation sydney, arch viz australia',
-  ogImage: `${SITE_URL}/assets/services/og-architectural-visualization.jpg`,
+  ogImage: getServiceOgImage('architectural-visualization'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/au/services/architectural-visualisation`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('au', 'architectural-visualization'),
   });
 }
 

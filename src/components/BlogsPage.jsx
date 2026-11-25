@@ -51,6 +51,7 @@ import golf2Raw from '../assets/About-page/golf-2.png';
 import configuratorTcoRaw from '../assets/About-page/newkia.png';
 import kumarRaw from '../assets/About-page/kumar-hd.webp';
 import configuratorBlogsRaw from '../assets/About-page/configurator-blogs.png';
+import mrTrainingCardRaw from '../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223450.jpg';
 
 const configuratorBlogs = getImgSrc(configuratorBlogsRaw);
 const golfCart = getImgSrc(golfCartRaw);
@@ -68,6 +69,7 @@ const highTicket = getImgSrc(highTicketRaw);
 const shark = getImgSrc(sharkRaw);
 const rendering = getImgSrc(renderingRaw);
 const marine = getImgSrc(marineRaw);
+const mrTrainingCard = getImgSrc(mrTrainingCardRaw);
 const timBarth = getImgSrc(timBarthRaw);
 const leapCard = getImgSrc(leapCardRaw);
 const steeringImg = getImgSrc(steeringImgRaw);
@@ -98,6 +100,15 @@ const staticImages = {
 };
 
 const staticPosts = [
+    {
+        id: 'static-mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026',
+        title: 'Mixed Reality Passthrough & Multi-User VR Training for Trade & Energy Workforce Upskilling',
+        excerpt: 'How Meta Quest 3 passthrough and multi-user Unreal Engine 5 labs train utility and trade teams on LOTO and switchgear procedures, run 10 trainees with one instructor, deploy air-gapped and prove ROI to a CFO.',
+        image: mrTrainingCard,
+        date: 'NOVEMBER 25, 2026',
+        category: 'VR & MR Training',
+        url: '/blog/mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026',
+    },
     {
         id: 'static-industrial-equipment-hardware-3d-configurator-2026',
         title: 'Industrial Equipment & Hardware 3D Configurators: Exploded CAD Views, Technical Specs & Field Sales ROI',

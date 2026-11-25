@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UkVfxVirtualProductionPage from '@/components/uk/UkVfxVirtualProductionPage';
 
 const meta = {
   title: 'VFX & Virtual Production Services in the UK',
   description: 'Visual effects and virtual production for UK brand campaigns, TV commercials, and digital content. CGI integration, LED volume production, and broadcast-grade compositing from Elipse Studio.',
   keywords: 'vfx services uk, virtual production uk, led volume uk, cgi integration london, broadcast vfx uk, virtual production studio uk',
-  ogImage: `${SITE_URL}/assets/services/og-vfx-virtual-production.jpg`,
+  ogImage: getServiceOgImage('vfx-virtual-production'),
   schemaType: 'Service',
 };
 
@@ -47,6 +49,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/uk/services/vfx-virtual-production`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('uk', 'vfx-virtual-production'),
   });
 }
 

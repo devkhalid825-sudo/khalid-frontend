@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import Link from 'next/link';
 import { apiCall } from '@/utils/api';
 
 
@@ -350,11 +351,24 @@ const ClientReviews = ({ initialReviews = null }) => {
       className="voices-section w-full pt-14 sm:pt-18 md:pt-24 lg:pt-28 pb-16 md:pb-24 lg:pb-28 overflow-hidden relative"
     >
       <style dangerouslySetInnerHTML={{ __html: VOICES_CSS }} />
-      <div className="home-container relative flex flex-col items-center">
-        <h2 className="voices-fg text-center text-[32px] sm:text-4xl md:text-[46px] lg:text-[54px] xl:text-[58px] font-semibold tracking-[-0.025em] leading-[1.12] [text-wrap:balance] mb-10 md:mb-14">
-          Proof<span className="text-[#4169E1]">.</span>{' '}
-          <span className="voices-sub">From teams shipping in 3D.</span>
-        </h2>
+      <div className="home-container relative flex justify-between items-center gap-2 mb-6 md:mb-10">
+        <div className="text-left">
+          <div className="flex items-center gap-2.5 mb-2.5 md:mb-3.5">
+            <span className="h-[2px] w-6 md:w-8 rounded-full bg-[#4169E1]" aria-hidden="true" />
+            <span className="!font-sans text-xs md:text-sm font-bold uppercase tracking-[0.2em] !text-[#4169E1] not-italic">
+              Proof
+            </span>
+          </div>
+          <h2 className="voices-fg text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1]">
+            From teams shipping in 3D<span className="text-[#4169E1]">.</span>
+          </h2>
+        </div>
+        <Link
+          href="/portfolio"
+          className="rounded-full text-[11px] md:text-base bg-[#3558D4] hover:bg-[#2A48B8] !text-white font-bold py-1.5 px-4 md:py-2 md:px-8 shadow-sm hover:scale-105 transition flex items-center justify-center whitespace-nowrap flex-shrink-0"
+        >
+          View Work
+        </Link>
       </div>
 
       {/* Centered carousel: active card in the middle, neighbours blurred and scaled down */}

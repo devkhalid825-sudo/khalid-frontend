@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UsVfxVirtualProductionPage from '@/components/us/UsVfxVirtualProductionPage';
 
 const meta = {
   title: 'VFX & Virtual Production Services in the USA',
   description: 'CGI integration, environment replacement, and real-time LED volume production support for US brand campaigns and commercials, delivered from Elipse Studio Illinois.',
   keywords: 'vfx services usa, virtual production illinois, led volume production usa, cgi integration usa, broadcast vfx usa',
-  ogImage: `${SITE_URL}/assets/services/og-vfx-virtual-production.jpg`,
+  ogImage: getServiceOgImage('vfx-virtual-production'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/us/services/vfx-virtual-production`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('us', 'vfx-virtual-production'),
   });
 }
 

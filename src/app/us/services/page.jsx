@@ -2,6 +2,8 @@ import UsServicesPage from '@/components/us/UsServicesPage';
 import { buildMetadata, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { HUB_OG_IMAGES } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 
 const faqs = [
   { q: 'What services does Elipse Studio offer US brands?', a: 'Elipse Studio USA delivers every immersive capability from one Illinois-based team: 3D product configurators, VR development, AR development, architectural visualization, 3D product visualization, 3D animation, motion graphics, VFX and virtual production, virtual showrooms and digital twins, and interactive web experiences. All services are quoted in transparent USD pricing with CT account management from our Illinois office.' },
@@ -58,6 +60,8 @@ export function generateMetadata() {
     description:
       "Elipse Studio is the USA's immersive studio for 3D product configurators, AR, VR, architectural visualization, 3D animation, motion graphics, VFX, virtual showrooms, and interactive web experiences — from one Illinois team.",
     canonical: `${SITE_URL}/us/services`,
+    ogImage: HUB_OG_IMAGES.services,
+    ...getRegionalSeoOptions('us', 'services-hub'),
   });
 }
 

@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UkVirtualRealityDevelopmentPage from '@/components/uk/UkVirtualRealityDevelopmentPage';
 
 const meta = {
   title: 'Virtual Reality (VR) Development Services in the UK',
   description: 'Custom VR development for UK enterprise training, product demos, property walkthroughs, and virtual showrooms. Meta Quest, PC VR, and WebVR from Elipse Studio London.',
   keywords: 'vr development uk, virtual reality development london, vr training uk, meta quest development uk, vr app development uk',
-  ogImage: `${SITE_URL}/assets/services/og-vr-development.jpg`,
+  ogImage: getServiceOgImage('vr-development'),
   schemaType: 'Service',
 };
 
@@ -47,6 +49,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/uk/services/virtual-reality-development`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('uk', 'vr-development'),
   });
 }
 

@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UkArchitecturalVisualisationPage from '@/components/uk/UkArchitecturalVisualisationPage';
 
 const meta = {
   title: 'Architectural Visualisation Services in the UK',
   description: 'Photorealistic architectural visualisation for UK property developers, architects, and construction firms. Exterior renders, interior CGI, walkthrough animation, and planning application visuals from Elipse Studio.',
   keywords: 'architectural visualisation uk, cgi renders uk, 3d architectural rendering uk, planning application visuals uk, property visualisation london, arch viz uk',
-  ogImage: `${SITE_URL}/assets/services/og-architectural-visualization.jpg`,
+  ogImage: getServiceOgImage('architectural-visualization'),
   schemaType: 'Service',
 };
 
@@ -47,6 +49,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/uk/services/architectural-visualisation`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('uk', 'architectural-visualization'),
   });
 }
 

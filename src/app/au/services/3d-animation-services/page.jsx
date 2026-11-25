@@ -1,13 +1,15 @@
 import { SITE_URL } from '@/utils/api';
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import AUAnimationPage from '@/components/au/AuAnimationPage';
 
 const meta = {
   title: '3D Animation Services Australia | Product & Brand Animation',
   description: 'Cinematic 3D animation services for Australian brands — product animation, motion graphics, brand films & architectural walkthroughs. Sydney & Melbourne. AUD pricing. Free estimate.',
   keywords: '3d animation services australia, 3d animation company australia, motion graphics australia, product animation australia, architectural animation australia, 3d animation sydney',
-  ogImage: `${SITE_URL}/assets/services/og-3d-animation.jpg`,
+  ogImage: getServiceOgImage('3d-animation'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/au/services/3d-animation-services`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('au', '3d-animation'),
   });
 }
 

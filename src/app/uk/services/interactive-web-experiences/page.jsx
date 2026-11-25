@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UkInteractiveWebExperiencesPage from '@/components/uk/UkInteractiveWebExperiencesPage';
 
 const meta = {
   title: 'Interactive Web Experiences Services in the UK',
   description: 'WebGL-powered interactive experiences, 3D landing pages, and immersive brand microsites for UK digital campaigns. GSAP, Three.js, and Unreal Pixel Streaming — from Elipse Studio London.',
   keywords: 'interactive web experiences uk, webgl development uk, 3d website uk, immersive microsite uk, three.js developer uk, pixel streaming uk',
-  ogImage: `${SITE_URL}/assets/services/og-interactive-web-experiences.jpg`,
+  ogImage: getServiceOgImage('interactive-web-experiences'),
   schemaType: 'Service',
 };
 
@@ -47,6 +49,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/uk/services/interactive-web-experiences`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('uk', 'interactive-web-experiences'),
   });
 }
 

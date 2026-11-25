@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UsProductVisualizationPage from '@/components/us/UsProductVisualizationPage';
 
 const meta = {
   title: '3D Product Visualization Services in the USA',
   description: 'Photoreal 3D product renders and 360° views for US brands — replace photography with a single CAD-accurate 3D model. Delivered from Elipse Studio Illinois.',
   keywords: '3d product visualization usa, 3d product rendering illinois, photoreal product renders usa, 360 product view usa',
-  ogImage: `${SITE_URL}/assets/services/og-3d-product-visualization.jpg`,
+  ogImage: getServiceOgImage('3d-product-visualization'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/us/services/3d-product-visualization`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('us', '3d-product-visualization'),
   });
 }
 

@@ -120,6 +120,27 @@ const wildcardRedirects = [
   { source: "/blogs/:slug*", destination: "/blog/:slug*", permanent: true },
 ];
 
+// Explicit HTTP 301 permanent redirects for legacy / missing service & blog URLs.
+const permanent301Redirects: Array<[string, string]> = [
+  ["/services/unreal-engine-development", "/services/3d-product-configurators"],
+  [
+    "/blog/automotive-configurator-how-interactive-3d-car-experiences-improve-the-buying-journey",
+    "/blog/automotive-configurator-interactive-3d-car-buying-journey",
+  ],
+  [
+    "/blog/web-ar-for-ecommerce-how-browser-based-ar-turns-product-pages-into-try-before-you-buy-experiences",
+    "/blog/how-browser-based-arturns-product-pages-into-try-before-you-buy-experiences",
+  ],
+  [
+    "/blog/virtual-showroom-guide-uk",
+    "/blog/what-is-a-virtual-showroom-a-simple-guide-for-uk-businesses",
+  ],
+  [
+    "/blog/product-configurator-examples-2026",
+    "/blog/3d-product-configurators-complete-guide-2026",
+  ],
+];
+
 const oldWordPressRedirects = [
   ["/services/webdevelopment", "/services/website-development"],
   ["/services/webdevelopment/", "/services/website-development"],
@@ -186,11 +207,21 @@ const nextConfig: NextConfig = {
         source: "/:path*",
         headers: securityHeaders,
       },
+      {
+        // Keep font files out of search results. Font extensions only: the same
+        // folder also serves bundled images, which must stay indexable.
+        source: "/_next/static/media/:file(.*[.](?:woff|woff2|ttf))",
+        headers: [{ key: "X-Robots-Tag", value: "noindex, nofollow" }],
+      },
     ];
   },
 
   async redirects() {
     return [
+      ...permanent301Redirects.flatMap(([source, destination]) => [
+        { source, destination, statusCode: 301 },
+        { source: `${source}/`, destination, statusCode: 301 },
+      ]),
       ...wildcardRedirects,
       ...redirects.map(([source, destination]) => ({
         source,

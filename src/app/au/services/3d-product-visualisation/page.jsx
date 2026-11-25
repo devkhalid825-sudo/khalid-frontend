@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import AUProductVisualisationPage from '@/components/au/AuProductVisualisationPage';
 
 const meta = {
   title: '3D Rendering Studio Australia | Product Visualisation',
   description: 'Photoreal 3D product renders for Australian brands — every colour, material & finish from one CAD model. Transactional buyers. No photoshoot. Free sample render. AUD pricing.',
   keywords: '3d product visualisation australia, 3d product rendering australia, product visualisation services australia, e-commerce 3d rendering australia, photorealistic product rendering, 3d rendering studio sydney',
-  ogImage: `${SITE_URL}/assets/services/og-3d-product-visualization.jpg`,
+  ogImage: getServiceOgImage('3d-product-visualization'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/au/services/3d-product-visualisation`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('au', '3d-product-visualization'),
   });
 }
 

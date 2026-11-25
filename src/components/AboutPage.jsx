@@ -103,8 +103,8 @@ const teamData = [
   },
   {
     name: 'Syed Maaz Ali',
-    role: 'Co-Founder & Technical Director',
-    credential: 'Unreal Engine 5, WebRTC & Real-Time Architecture',
+    role: 'COO & Co-Founder',
+    credential: 'Technology Strategy & Operational Excellence',
     linkedin: '',
     img: maazImg,
     imgStyle: { objectPosition: 'center 68%' },

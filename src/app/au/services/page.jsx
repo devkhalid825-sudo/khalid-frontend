@@ -2,6 +2,8 @@ import AUServicesPage from '@/components/au/AuServicesPage';
 import { buildMetadata, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { HUB_OG_IMAGES } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 
 const faqs = [
   { q: 'What services does Elipse Studio offer Australian brands?', a: 'Elipse Studio Australia delivers every immersive capability from one Sydney and Melbourne-based team: 3D product configurators, VR development, architectural visualisation, 3D product visualisation, 3D animation, VFX and virtual production, virtual showrooms and digital twins, and interactive web experiences. All services are available with AUD pricing (GST included) and AEST account management.' },
@@ -56,6 +58,8 @@ export function generateMetadata() {
     description:
       "Elipse Studio is Australia's immersive studio for 3D product configurators, AR, VR, architectural visualisation, 3D animation, VFX, virtual showrooms, and interactive web experiences — from one Sydney and Melbourne team.",
     canonical: `${SITE_URL}/au/services`,
+    ogImage: HUB_OG_IMAGES.services,
+    ...getRegionalSeoOptions('au', 'services-hub'),
   });
 }
 

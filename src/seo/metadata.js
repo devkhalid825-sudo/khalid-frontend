@@ -1,7 +1,9 @@
+import fs from 'node:fs';
+import path from 'node:path';
 import { SITE_URL } from '@/utils/api';
 
 export const SITE_NAME = 'Elipse Studio';
-export const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/actuallogo.webp`;
+export const DEFAULT_OG_IMAGE = `${SITE_URL}/assets/logo-og.png`;
 export const TWITTER_SITE = '@ElipseStudio';
 export const TWITTER_CREATOR = '@ElipseStudio';
 
@@ -10,6 +12,44 @@ export const TWITTER_CREATOR = '@ElipseStudio';
  * serves a 1200x630 JPEG under 300 KB. Only our own backend media and public /assets
  * images are converted; any other URL is returned unchanged.
  */
+function assetExistsOnServer(relPath) {
+  let cleanRel = relPath;
+  try {
+    cleanRel = decodeURIComponent(relPath);
+  } catch {
+    return false;
+  }
+  const publicDir = path.join(/*turbopackIgnore: true*/ process.cwd(), 'public', 'assets');
+  const srcDir = path.join(/*turbopackIgnore: true*/ process.cwd(), 'src', 'assets');
+  if (!fs.existsSync(publicDir)) return true;
+  for (const rootDir of [publicDir, srcDir]) {
+    const resolved = path.normalize(path.join(rootDir, cleanRel));
+    if (resolved.startsWith(rootDir + path.sep) && fs.existsSync(resolved)) {
+      return true;
+    }
+  }
+  return false;
+}
+
+export function ensureValidOgImage(imageUrl) {
+  const site = SITE_URL.replace(/\/+$/, '');
+  if (typeof imageUrl !== 'string' || !imageUrl.trim()) {
+    return DEFAULT_OG_IMAGE;
+  }
+  const normalized = imageUrl.startsWith('/') ? `${site}${imageUrl}` : imageUrl;
+  if (!normalized.startsWith(`${site}/`)) {
+    return normalized;
+  }
+  const pathOnly = normalized.slice(site.length).split(/[?#]/)[0];
+  if (pathOnly.startsWith('/assets/')) {
+    const rel = pathOnly.slice('/assets/'.length);
+    if (!/\.(webp|png|jpe?g|avif|gif)$/i.test(rel) || !assetExistsOnServer(rel)) {
+      return DEFAULT_OG_IMAGE;
+    }
+  }
+  return normalized;
+}
+
 export function toSocialPreview(imageUrl) {
   const site = SITE_URL.replace(/\/+$/, '');
   if (typeof imageUrl !== 'string' || !imageUrl.startsWith(`${site}/`)) {
@@ -19,7 +59,7 @@ export function toSocialPreview(imageUrl) {
   const media = pathOnly.match(/^\/media\/(\d{1,9})$/);
   if (media) return { url: `${site}/og-image/media/${media[1]}.jpg`, converted: true };
   if (/^\/assets\/[^?#]+\.(webp|png|jpe?g|avif|gif)$/i.test(pathOnly)) {
-    return { url: `${site}/og-image${pathOnly}.jpg`, converted: true };
+    return { url: `${site}/og-image${encodeURI(pathOnly)}.jpg`, converted: true };
   }
   return { url: imageUrl, converted: false };
 }
@@ -35,8 +75,10 @@ export function buildMetadata({
   title,
   description,
   canonical,
+  languages,
   ogImage = DEFAULT_OG_IMAGE,
   ogImageAlt,
+  ogLocale = 'en_US',
   noIndex = false,
   type = 'website',
   keywords,
@@ -67,6 +109,7 @@ export function buildMetadata({
   } else {
     sanitizedOgImage = DEFAULT_OG_IMAGE;
   }
+  sanitizedOgImage = ensureValidOgImage(sanitizedOgImage);
   const previewImage = toSocialPreview(sanitizedOgImage);
 
   const metadata = {
@@ -99,6 +142,7 @@ export function buildMetadata({
         }),
     alternates: {
       canonical: url,
+      ...(languages ? { languages } : {}),
     },
     openGraph: {
       title: fullTitle,
@@ -115,7 +159,7 @@ export function buildMetadata({
           ...(ogImageAlt ? { alt: ogImageAlt } : {}),
         },
       ],
-      locale: 'en_US',
+      locale: ogLocale,
     },
     twitter: {
       card: 'summary_large_image',

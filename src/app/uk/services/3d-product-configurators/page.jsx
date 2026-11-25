@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UkProductConfiguratorsPage from '@/components/uk/UkProductConfiguratorsPage';
 
 const meta = {
   title: '3D Product Configurator Services in the UK',
   description: 'Real-time WebGL 3D product configurators for UK ecommerce brands on Shopify, WooCommerce, and Magento. CAD-accurate PBR renders, no app download, GBP + VAT integration — from Elipse Studio.',
   keywords: '3d product configurator uk, web configurator uk, shopify 3d configurator, real-time product configurator uk, interactive 3d configurator london, woocommerce 3d configurator',
-  ogImage: `${SITE_URL}/assets/services/og-3d-product-configurators.jpg`,
+  ogImage: getServiceOgImage('3d-product-configurators'),
   schemaType: 'Product',
 };
 
@@ -47,6 +49,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/uk/services/3d-product-configurators`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('uk', '3d-product-configurators'),
   });
 }
 

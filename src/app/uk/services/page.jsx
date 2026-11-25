@@ -2,6 +2,8 @@ import UKServicesPage from '@/components/uk/UkServicesPage';
 import { buildMetadata, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { HUB_OG_IMAGES } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 
 const faqs = [
   { q: 'What services does Elipse Studio offer UK brands?', a: 'Elipse Studio UK delivers every immersive capability from one London-based team: 3D product configurators, VR development, architectural visualisation, 3D product visualisation, 3D animation, VFX and virtual production, virtual showrooms and digital twins, and interactive web experiences. All services are available with UK VAT-inclusive quoting and GMT account management from our London office.' },
@@ -56,6 +58,8 @@ export function generateMetadata() {
     description:
       "Elipse Studio is the UK's immersive studio for 3D product configurators, AR, VR, architectural visualisation, 3D animation, VFX, virtual showrooms, and interactive web experiences — from one London team.",
     canonical: `${SITE_URL}/uk/services`,
+    ogImage: HUB_OG_IMAGES.services,
+    ...getRegionalSeoOptions('uk', 'services-hub'),
   });
 }
 

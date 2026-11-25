@@ -36,6 +36,7 @@ import configuratorCard2Raw from '../../assets/About-page/newkia.png';
 import roohafzaRaw from '../../assets/About-page/roohafza.webp';
 import kumarRaw from '../../assets/About-page/kumar-hd.webp';
 import configuratorBlogsRaw from '../../assets/About-page/configurator-blogs.png';
+import mrTrainingCardRaw from '../../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223450.jpg';
 
 const configuratorBlogsImg = getImgSrc(configuratorBlogsRaw);
 const kumarImg = getImgSrc(kumarRaw);
@@ -63,6 +64,7 @@ const spatialCommerceImg = getImgSrc(spatialCommerceRaw);
 const highTicketImg = getImgSrc(highTicketRaw);
 const shark = getImgSrc(sharkRaw);
 const marineImg = getImgSrc(marineRaw);
+const mrTrainingCard = getImgSrc(mrTrainingCardRaw);
 const timBarth = getImgSrc(timBarthRaw);
 
 const getImageSrc = (image) => {
@@ -123,6 +125,15 @@ const News = ({ initialBlogs = null }) => {
   }, []);
 
   const staticPosts = [
+    {
+      id: 'mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026',
+      title: 'Mixed Reality Passthrough & Multi-User VR Training for Trade & Energy Workforce Upskilling',
+      image: mrTrainingCard,
+      date: 'NOVEMBER 25, 2026',
+      category: 'VR & MR Training',
+      readTime: '15 min read',
+      url: '/blog/mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026',
+    },
     {
       id: 'industrial-equipment-hardware-3d-configurator-2026',
       title: 'Industrial Equipment & Hardware 3D Configurators: Exploded CAD Views, Technical Specs & Field Sales ROI',

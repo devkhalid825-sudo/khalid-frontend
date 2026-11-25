@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UsMotionGraphicsPage from '@/components/us/UsMotionGraphicsPage';
 
 const meta = {
   title: 'Motion Graphics Services in the USA',
   description: '2D/3D motion graphics, kinetic typography, animated explainers, and social ad creative for US brands — After Effects + Cinema 4D pipeline from Elipse Studio Illinois.',
   keywords: 'motion graphics services usa, motion design illinois, kinetic typography usa, social media ad creative usa, animated explainer video usa',
-  ogImage: `${SITE_URL}/assets/services/og-motion-graphics.jpg`,
+  ogImage: getServiceOgImage('creative-services'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/us/services/motion-graphics-services`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('us'),
   });
 }
 

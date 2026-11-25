@@ -30,7 +30,7 @@ const schema = {
       numberOfEmployees: { '@type': 'QuantitativeValue', minValue: 30 },
       founders: [
         { '@type': 'Person', name: 'Bilal Lania', jobTitle: 'CEO & Co-Founder' },
-        { '@type': 'Person', name: 'Syed Maaz Ali', jobTitle: 'Co-Founder & Technical Director' },
+        { '@type': 'Person', name: 'Syed Maaz Ali', jobTitle: 'COO & Co-Founder' },
         { '@type': 'Person', name: 'Asad Khan', jobTitle: 'Co-Founder & Head of CG' },
       ],
       address: [

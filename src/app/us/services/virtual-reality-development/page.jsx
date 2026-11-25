@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UsVirtualRealityDevelopmentPage from '@/components/us/UsVirtualRealityDevelopmentPage';
 
 const meta = {
   title: 'Virtual Reality (VR) Development Services in the USA',
   description: 'Custom VR development for US enterprise training, product demos, property walkthroughs, and virtual showrooms. Meta Quest, PC VR, and WebVR from Elipse Studio Illinois.',
   keywords: 'vr development usa, virtual reality development illinois, vr training usa, meta quest development usa, vr app development usa',
-  ogImage: `${SITE_URL}/assets/services/og-vr-development.jpg`,
+  ogImage: getServiceOgImage('vr-development'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/us/services/virtual-reality-development`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('us', 'vr-development'),
   });
 }
 

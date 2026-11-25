@@ -4,6 +4,7 @@ import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
 import { buildFaqSchema } from '@/lib/seo';
 import { CAPABILITIES_FAQS } from '@/seo/pageFaqs';
+import { HUB_OG_IMAGES } from '@/seo/serviceOgImages';
 
 const schema = {
   '@context': 'https://schema.org',
@@ -97,7 +98,7 @@ export function generateMetadata() {
     description:
       "Explore Elipse Studio's real-time 3D engineering capabilities: CAD optimization, WebGL and Unreal Engine 5 Pixel Streaming, Shopify Plus and HubSpot CPQ integrations, VR, and commercial CGI.",
     canonical: `${SITE_URL}/capabilities`,
-    ogImage: `${SITE_URL}/assets/actuallogo.webp`,
+    ogImage: HUB_OG_IMAGES.capabilities,
     ogImageAlt: 'Elipse Studio — 3D Engineering, CAD-to-WebGL & Real-Time Tech Capabilities',
   });
 }

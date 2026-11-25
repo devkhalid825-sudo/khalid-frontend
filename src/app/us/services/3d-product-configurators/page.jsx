@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UsProductConfiguratorsPage from '@/components/us/UsProductConfiguratorsPage';
 
 const meta = {
   title: '3D Product Configurator Development Services in the USA',
   description: 'Real-time WebGL 3D product configurators for US ecommerce brands. Shopify and WooCommerce native, USD pricing, CAD-accurate PBR renders from Elipse Studio Illinois.',
   keywords: '3d product configurator usa, 3d configurator development illinois, shopify 3d configurator usa, webgl configurator usa, real-time product configurator',
-  ogImage: `${SITE_URL}/assets/services/og-3d-configurators.jpg`,
+  ogImage: getServiceOgImage('3d-product-configurators'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/us/services/3d-product-configurators`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('us', '3d-product-configurators'),
   });
 }
 

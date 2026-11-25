@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UsArchitecturalVisualizationPage from '@/components/us/UsArchitecturalVisualizationPage';
 
 const meta = {
   title: 'Architectural Visualization Services in the USA',
   description: 'Photoreal exterior and interior CGI, walkthroughs, and entitlement visuals for US property developers and architects. Delivered from Elipse Studio Illinois.',
   keywords: 'architectural visualization usa, arch vis illinois, 3d rendering for developers usa, entitlement visuals usa, architectural cgi usa',
-  ogImage: `${SITE_URL}/assets/services/og-architectural-visualization.jpg`,
+  ogImage: getServiceOgImage('architectural-visualization'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/us/services/architectural-visualization`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('us', 'architectural-visualization'),
   });
 }
 

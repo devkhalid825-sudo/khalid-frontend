@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import UsAnimationPage from '@/components/us/UsAnimationPage';
 
 const meta = {
   title: '3D Animation Services in the USA',
   description: 'Cinematic 3D product animation, brand films, and character animation for US brands — broadcast quality from Elipse Studio Illinois.',
   keywords: '3d animation services usa, product animation illinois, character animation usa, 3d brand film usa',
-  ogImage: `${SITE_URL}/assets/services/og-3d-animation.jpg`,
+  ogImage: getServiceOgImage('3d-animation'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/us/services/3d-animation-services`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('us', '3d-animation'),
   });
 }
 

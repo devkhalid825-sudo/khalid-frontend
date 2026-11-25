@@ -1,13 +1,15 @@
 import { buildMetadata, buildBreadcrumbSchema, buildFaqSchema } from '@/lib/seo';
 import { SITE_URL } from '@/utils/api';
 import { MultiJsonLd } from '@/components/seo/JsonLd';
+import { getServiceOgImage } from '@/seo/serviceOgImages';
+import { getRegionalSeoOptions } from '@/seo/hreflang';
 import AuVirtualShowroomsPage from '@/components/au/AuVirtualShowroomsPage';
 
 const meta = {
   title: 'Virtual Showroom & Digital Twin Services in Australia',
   description: 'Interactive 3D virtual showrooms and digital twins for Australian manufacturers, property developers, and retail brands. Browser-accessible, 24/7 immersive environments from Elipse Studio.',
   keywords: 'virtual showroom australia, digital twin australia, 3d virtual showroom sydney, online showroom development australia, digital twin development australia',
-  ogImage: `${SITE_URL}/assets/services/og-virtual-showrooms-digital-twins.jpg`,
+  ogImage: getServiceOgImage('virtual-showrooms-digital-twins'),
   schemaType: 'Service',
 };
 
@@ -43,6 +45,7 @@ export function generateMetadata() {
     canonical: `${SITE_URL}/au/services/virtual-showrooms`,
     keywords: meta.keywords,
     ogImage: meta.ogImage,
+    ...getRegionalSeoOptions('au', 'virtual-showrooms-digital-twins'),
   });
 }
 
