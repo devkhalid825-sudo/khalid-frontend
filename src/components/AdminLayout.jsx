@@ -24,6 +24,7 @@ const navItems = [
   { to: '/admin/dashboard/projects', label: 'Projects', icon: FiBriefcase },
   { to: '/admin/dashboard/case-studies', label: 'Case Studies', icon: FiFileText },
   { to: '/admin/dashboard/reviews', label: 'Reviews', icon: FiPhone },
+  { to: '/admin/dashboard/clients', label: 'Clients', icon: FiBriefcase },
   { to: '/admin/dashboard/social', label: 'Social Media', icon: FiEdit3 },
   { divider: 'System' },
   { to: '/admin/dashboard/settings', label: 'Settings', icon: FiSettings },

@@ -65,13 +65,13 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
 
   const shouldHideThemeToggle = hideThemeToggle || isHardcodedArticleRoute;
   const { isLight } = useTheme();
-  const isPageLightHero = (pathname === '/portfolio' || pathname === '/blog') ? isLight : (lightHero || isBlogArticle);
+  const isPageLightHero = (pathname === '/portfolio' || pathname === '/blog' || pathname === '/clients') ? isLight : (lightHero || isBlogArticle);
   const [mounted, setMounted] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   // lightHero=true means this page has a light background hero — treat it as light from the start
   const [isLightSection, setIsLightSection] = useState(isPageLightHero);
-  const [hasDarkHero, setHasDarkHero] = useState(isBlogArticle ? false : ((pathname === '/portfolio' || pathname === '/blog') ? !isLight : darkHero));
+  const [hasDarkHero, setHasDarkHero] = useState(isBlogArticle ? false : ((pathname === '/portfolio' || pathname === '/blog' || pathname === '/clients') ? !isLight : darkHero));
   // isLightMode: true if global theme is light, OR if page is a light blog article / light hero, OR over a light section on pages without a permanent dark hero
   const isLightMode = isBlogArticle
     ? true
@@ -93,7 +93,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
 
   useEffect(() => {
     setMounted(true);
-    if (pathname === '/portfolio' || pathname === '/blog') {
+    if (pathname === '/portfolio' || pathname === '/blog' || pathname === '/clients') {
       setHasDarkHero(!isLight);
     } else if (!isBlogArticle && (darkHero || document.querySelector('.keep-dark-hero, .portfolio-hero-section, .case-studies-hero-section, .blogs-hero-section'))) {
       setHasDarkHero(true);
@@ -264,6 +264,7 @@ const Header = ({ isBelowVideoMobile = false, darkHero = false, lightHero = fals
     { name: 'Services', href: '/services', hasSubmenu: true },
     { name: 'Work', href: '/portfolio' },
     { name: 'Industries', href: '/industries' },
+    { name: 'Clients', href: '/clients' },
     { name: 'Blogs', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ];

@@ -51,6 +51,7 @@ import golf2Raw from '../assets/About-page/golf-2.png';
 import configuratorTcoRaw from '../assets/About-page/newkia.png';
 import kumarRaw from '../assets/About-page/kumar-hd.webp';
 import configuratorBlogsRaw from '../assets/About-page/configurator-blogs.png';
+import matterportCardRaw from '../assets/About-page/nevegan-hd.webp';
 import mrTrainingCardRaw from '../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223450.jpg';
 
 const configuratorBlogs = getImgSrc(configuratorBlogsRaw);
@@ -70,6 +71,7 @@ const shark = getImgSrc(sharkRaw);
 const rendering = getImgSrc(renderingRaw);
 const marine = getImgSrc(marineRaw);
 const mrTrainingCard = getImgSrc(mrTrainingCardRaw);
+const matterportCard = getImgSrc(matterportCardRaw);
 const timBarth = getImgSrc(timBarthRaw);
 const leapCard = getImgSrc(leapCardRaw);
 const steeringImg = getImgSrc(steeringImgRaw);
@@ -100,6 +102,15 @@ const staticImages = {
 };
 
 const staticPosts = [
+    {
+        id: 'static-unreal-engine-virtual-tour-vs-matterport-off-plan-real-estate-2026',
+        title: 'Interactive 3D Virtual Tours vs Matterport for Luxury Real Estate & Off-Plan Pre-Sales',
+        excerpt: 'Why Matterport cannot sell what does not exist yet, and how Unreal Engine 5 real-time walkthroughs, Meta Quest home delivery and PAK streaming shorten buyer decision cycles for off-plan developers.',
+        image: matterportCard,
+        date: 'NOVEMBER 26, 2026',
+        category: 'Real Estate & ArchViz',
+        url: '/blog/unreal-engine-virtual-tour-vs-matterport-off-plan-real-estate-2026',
+    },
     {
         id: 'static-mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026',
         title: 'Mixed Reality Passthrough & Multi-User VR Training for Trade & Energy Workforce Upskilling',

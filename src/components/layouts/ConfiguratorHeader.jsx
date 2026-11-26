@@ -107,6 +107,7 @@ const ConfiguratorHeader = () => {
     { name: 'Services', href: '/services', hasSubmenu: true },
     { name: 'Work', href: '/portfolio' },
     { name: 'Industries', href: '/industries' },
+    { name: 'Clients', href: '/clients' },
     { name: 'Blogs', href: '/blog' },
     { name: 'Contact', href: '/contact' },
   ];

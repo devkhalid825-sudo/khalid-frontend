@@ -283,6 +283,8 @@ const mapReviews = (data) =>
       projectLink: r.projectLink || '',
       quote: r.quote || getReviewQuote(r),
       designation: getDesignation(r),
+      logo: r.logo || '',
+      logoWhite: !!r.logoWhite,
     };
   });
 
@@ -353,14 +355,10 @@ const ClientReviews = ({ initialReviews = null }) => {
       <style dangerouslySetInnerHTML={{ __html: VOICES_CSS }} />
       <div className="home-container relative flex justify-between items-center gap-2 mb-6 md:mb-10">
         <div className="text-left">
-          <div className="flex items-center gap-2.5 mb-2.5 md:mb-3.5">
-            <span className="h-[2px] w-6 md:w-8 rounded-full bg-[#4169E1]" aria-hidden="true" />
-            <span className="!font-sans text-xs md:text-sm font-bold uppercase tracking-[0.2em] !text-[#4169E1] not-italic">
-              Proof
-            </span>
-          </div>
-          <h2 className="voices-fg text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1]">
-            From teams shipping in 3D<span className="text-[#4169E1]">.</span>
+          <h2 className="text-2xl md:text-4xl lg:text-[44px] font-semibold tracking-[-0.02em] leading-[1.1]">
+            <span className="voices-fg">Proof</span>
+            <span className="text-[#4169E1]">.</span>{' '}
+            <span className="voices-sub">From teams shipping in 3D.</span>
           </h2>
         </div>
         <Link
@@ -378,7 +376,10 @@ const ClientReviews = ({ initialReviews = null }) => {
           if (o > half) o -= count;
           const abs = Math.abs(o);
           const active = o === 0;
-          const logo = getClientLogo(r);
+          // Dashboard-uploaded logo wins; otherwise fall back to the legacy hardcoded match.
+          const logo = r.logo
+            ? { img: r.logo, name: r.company || r.clientName, white: r.logoWhite }
+            : getClientLogo(r);
           return (
             <div
               key={r.id ?? i}

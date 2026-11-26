@@ -3125,3 +3125,47 @@ html.dark footer.site-main-footer {
     transform: scale(1);
   }
 }
+
+/* ==========================================================================
+   /clients page: Hero overlay cards & CTA banner stay high-contrast in both modes
+   ========================================================================== */
+.clients-hero-card {
+  box-shadow: 0 18px 40px -16px rgba(0, 0, 0, 0.75);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.clients-hero-card:hover {
+  box-shadow: 0 22px 44px -14px rgba(65, 105, 225, 0.3);
+}
+html.light .clients-hero-card {
+  box-shadow: 0 16px 36px -16px rgba(15, 23, 42, 0.24) !important;
+  border-color: rgba(15, 23, 42, 0.08) !important;
+}
+html.light .clients-hero-card:hover {
+  box-shadow: 0 22px 44px -14px rgba(53, 88, 212, 0.28) !important;
+}
+.clients-hero-card .clients-hero-label,
+html.light .clients-hero-card .clients-hero-label {
+  color: rgba(255, 255, 255, 0.88) !important;
+  font-family: var(--font-poppins), system-ui, sans-serif !important;
+}
+.clients-hero-card .clients-hero-cta,
+.clients-hero-card .clients-hero-cta svg,
+html.light .clients-hero-card .clients-hero-cta,
+html.light .clients-hero-card .clients-hero-cta svg {
+  color: #ffffff !important;
+  stroke: #ffffff !important;
+  font-family: var(--font-poppins), system-ui, sans-serif !important;
+}
+.clients-cta-banner h2,
+html.light .clients-cta-banner h2 {
+  color: #ffffff !important;
+}
+.clients-cta-banner p,
+html.light .clients-cta-banner p {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+.clients-cta-banner a,
+html.light .clients-cta-banner a {
+  color: #223A9F !important;
+}
+

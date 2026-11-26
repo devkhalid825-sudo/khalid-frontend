@@ -7,6 +7,7 @@ import { MultiJsonLd } from '@/components/seo/JsonLd';
 import dynamic from 'next/dynamic';
 
 const staticArticles = {
+  'unreal-engine-virtual-tour-vs-matterport-off-plan-real-estate-2026': dynamic(() => import('@/components/articles/MatterportVsUe5OffPlanArticle')),
   'mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026': dynamic(() => import('@/components/articles/MrVrTrainingEnergyArticle')),
   'industrial-equipment-hardware-3d-configurator-2026': dynamic(() => import('@/components/articles/IndustrialEquipmentConfiguratorArticle')),
   'industrial-equipment-3d-configurator': dynamic(() => import('@/components/articles/IndustrialEquipmentConfiguratorArticle')),
@@ -71,6 +72,21 @@ const staticArticles = {
 };
 
 const staticArticleMetadata = {
+  'unreal-engine-virtual-tour-vs-matterport-off-plan-real-estate-2026': {
+    title: 'Interactive 3D Virtual Tours vs Matterport for Luxury Real Estate & Off-Plan Pre-Sales (2026 Comparison Guide) | Elipse Studio',
+    description: 'Unreal Engine 5 real-time walkthroughs vs Matterport 360 scans: which technology sells off-plan penthouses and masterplanned communities before groundbreaking? Covers 6DOF, material swapping, Meta Quest home delivery and PAK streaming.',
+    keywords: [
+      'unreal engine virtual tour vs matterport',
+      'off plan real estate 3d walkthrough',
+      'interactive archviz vr',
+      'luxury property 3d pre sales',
+      'meta quest real estate home delivery',
+      'real-time archviz off-plan',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/unreal-engine-virtual-tour-vs-matterport-off-plan-real-estate-2026`,
+    ogImage: `${SITE_URL}/assets/About-page/nevegan-hd.webp`,
+  },
   'mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026': {
     title: 'Mixed Reality Passthrough & Multi-User VR Training for Trade & Energy Workforce Upskilling (2026 Enterprise Guide) | Elipse Studio',
     description: 'How Meta Quest 3 mixed reality passthrough and multi-user Unreal Engine 5 labs train energy and trade workers on LOTO, switchgear and turbine procedures, including air-gapped deployment, xAPI/SCORM integration and 5-year ROI.',
@@ -774,6 +790,7 @@ const slugFromParams = (slug) => (Array.isArray(slug) ? slug.join('/') : slug);
 function staticArticleSchemas(slugStr, meta) {
   const isIndustrial = slugStr.includes('industrial-equipment') || slugStr.includes('industrial-hardware');
   const isMrTraining = slugStr === 'mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026';
+  const isMatterportOffPlan = slugStr === 'unreal-engine-virtual-tour-vs-matterport-off-plan-real-estate-2026';
   const isMarineBoat = slugStr === 'boat-yacht-3d-configurator-marine-2026';
   const isEnterpriseUsUkAu = slugStr === 'enterprise-3d-configurator-usa-uk-australia-2026';
   const isCampervan = slugStr === 'campervan-3d-configurator';
@@ -799,6 +816,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (isMatterportOffPlan) return '2026-11-26';
     if (isMrTraining) return '2026-11-25';
     if (isIndustrial) return '2026-11-24';
     if (isMarineBoat) return '2026-11-23';
@@ -1135,6 +1153,34 @@ function staticArticleSchemas(slugStr, meta) {
         {
           q: 'What is the implementation timeline from raw CAD to a field-ready configurator?',
           a: 'A production deployment follows a structured 8-week phased framework: Phase 0 discovery and CAD audit, Phase 1 retopology and 0.1mm verification, Phase 2 PlayCanvas scene setup with 3-level exploded views, Phase 3 offline PWA and jsPDF templates, Phase 4 CRM/CPQ integration, Phase 5 UAT and sales rep training, and Phase 6 production CDN deployment and MDM rollout.',
+        },
+      ]),
+      authorSchema,
+    ];
+  }
+
+  if (isMatterportOffPlan) {
+    extraSchemas = [
+      buildFaqSchema([
+        {
+          q: 'Can Matterport be used to sell an off-plan property before it is built?',
+          a: 'No. Matterport scans a completed, furnished physical space, so there is nothing to scan before construction. A show flat covers only one unit type, locks the finishes that were scanned, and needs a full re-scan when specifications change. An Unreal Engine 5 walkthrough is built from architectural drawings and can show every unit before groundbreaking.',
+        },
+        {
+          q: 'How is an Unreal Engine 5 walkthrough different from a Matterport 360 tour?',
+          a: 'Matterport uses camera-node hopping between fixed points with lighting frozen at scan time. A UE5 walkthrough gives true 6DOF movement, a dynamic time-of-day slider, real-time material and furniture swapping, native Meta Quest 3 support, all units in one application, and accurate future views from any floor.',
+        },
+        {
+          q: 'How do international buyers view a UE5 property tour remotely?',
+          a: 'Elipse Studio combines a browser-based interactive sales gallery for discovery with a Meta Quest 3 home delivery programme. A standalone headset pre-loaded with the buyer\'s unit and specification is shipped to their home, and the sales agent joins the same session remotely from a Windows PC.',
+        },
+        {
+          q: 'What is PAK streaming and why does it matter for off-plan sales?',
+          a: 'PAK streaming lets the Unreal Engine application receive small modular updates, typically under 500 MB, instead of a full 8–15 GB reinstall. New finishes, unit types and plan amendments reach every buyer and agent within minutes, so all markets always show the current specification.',
+        },
+        {
+          q: 'When is Matterport still the right tool?',
+          a: 'Matterport is an excellent scan-to-tour pipeline for completed buildings, resale listings, documentation, and completed show flats where buyers can visit in person. For off-plan sales to remote international buyers with evolving specifications, a UE5 real-time environment is the better fit.',
         },
       ]),
       authorSchema,

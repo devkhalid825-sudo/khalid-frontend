@@ -44,7 +44,7 @@ const ReviewDashboard = () => {
   const [seeding, setSeeding] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [editing, setEditing] = useState(null);
-  const [form, setForm] = useState({ clientName: '', company: '', projectName: '', projectLink: '', video: '' });
+  const [form, setForm] = useState({ clientName: '', company: '', projectName: '', projectLink: '', video: '', logo: '', logoWhite: false, quote: '', designation: '' });
   const [saving, setSaving] = useState(false);
   const [msg, setMsg] = useState('');
   const token = getAdminToken();
@@ -98,7 +98,7 @@ const ReviewDashboard = () => {
       fetchReviews();
       setShowForm(false);
       setEditing(null);
-      setForm({ clientName: '', company: '', projectName: '', projectLink: '', video: '' });
+      setForm({ clientName: '', company: '', projectName: '', projectLink: '', video: '', logo: '', logoWhite: false, quote: '', designation: '' });
     } catch { showMsg('Error saving review'); }
     setSaving(false);
   };
@@ -112,13 +112,13 @@ const ReviewDashboard = () => {
 
   const handleEdit = (review) => {
     setEditing(review);
-    setForm({ clientName: review.clientName, company: review.company || '', projectName: review.projectName || '', projectLink: review.projectLink || '', video: review.video || '' });
+    setForm({ clientName: review.clientName, company: review.company || '', projectName: review.projectName || '', projectLink: review.projectLink || '', video: review.video || '', logo: review.logo || '', logoWhite: !!review.logoWhite, quote: review.quote || '', designation: review.designation || '' });
     setShowForm(true);
   };
 
   const openNewForm = () => {
     setEditing(null);
-    setForm({ clientName: '', company: '', projectName: '', projectLink: '', video: '' });
+    setForm({ clientName: '', company: '', projectName: '', projectLink: '', video: '', logo: '', logoWhite: false, quote: '', designation: '' });
     setShowForm(true);
   };
 
@@ -151,6 +151,24 @@ const ReviewDashboard = () => {
       const data = await res.json();
       if (data.url) setForm(prev => ({ ...prev, video: data.url }));
     } catch { showMsg('Upload failed'); }
+  };
+
+  const handleLogoUpload = async (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const fd = new FormData();
+    fd.append('image', file);
+    try {
+      const res = await fetch(`${API_BASE_URL}/upload?type=reviews`, {
+        method: 'POST',
+        headers: { Authorization: `Bearer ${token}` },
+        body: fd,
+      });
+      const data = await res.json();
+      if (data.url) setForm(prev => ({ ...prev, logo: data.url }));
+      else showMsg('Logo upload failed');
+    } catch { showMsg('Logo upload failed'); }
+    e.target.value = '';
   };
 
   return (
@@ -236,6 +254,35 @@ const ReviewDashboard = () => {
                     </span>
                   )}
                 </div>
+              </div>
+              <div>
+                <label className="block text-[#0D0D0D]/60 text-[8px] uppercase tracking-widest mb-2 font-bold">Client Logo</label>
+                <div className="flex flex-wrap items-center gap-3">
+                  {form.logo && (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img src={form.logo} alt="Logo preview" className={`h-12 max-w-[160px] object-contain rounded-lg p-2 ${form.logoWhite ? 'bg-[#0D0D0D]' : 'bg-[#0D0D0D]/10'}`} />
+                  )}
+                  <label className="cursor-pointer inline-flex items-center gap-2 bg-[#0D0D0D]/10 hover:bg-[#0D0D0D]/20 text-[#0D0D0D]/60 text-[11px] px-4 py-2 rounded-xl transition font-bold uppercase tracking-wider">
+                    {form.logo ? 'Change Logo' : 'Upload Logo'}
+                    <input type="file" accept="image/*" onChange={handleLogoUpload} className="hidden" />
+                  </label>
+                  {form.logo && (
+                    <button type="button" onClick={() => setForm({ ...form, logo: '', logoWhite: false })} className="text-red-500 hover:text-red-700 text-[10px] font-bold uppercase tracking-wider">Remove</button>
+                  )}
+                </div>
+                <label className="mt-2 flex items-center gap-2 text-[#0D0D0D]/60 text-[10px] font-bold uppercase tracking-wider cursor-pointer">
+                  <input type="checkbox" checked={form.logoWhite} onChange={e => setForm({ ...form, logoWhite: e.target.checked })} />
+                  White logo (turns black in light mode)
+                </label>
+                <p className="text-[#0D0D0D]/40 text-[7px] uppercase tracking-widest mt-1.5 font-bold">Shown above the video. If empty, the client/company name is shown instead.</p>
+              </div>
+              <div>
+                <label className="block text-[#0D0D0D]/60 text-[8px] uppercase tracking-widest mb-2 font-bold">Review Text</label>
+                <textarea rows={3} value={form.quote} onChange={e => setForm({ ...form, quote: e.target.value })} className="w-full bg-[#0D0D0D]/10 text-[#0D0D0D] px-4 py-3 rounded-xl border border-[#0D0D0D]/20 focus:outline-none focus:border-[#4169E1] transition-all text-sm" placeholder="What the client said about working with Elipse" />
+              </div>
+              <div>
+                <label className="block text-[#0D0D0D]/60 text-[8px] uppercase tracking-widest mb-2 font-bold">Designation</label>
+                <input type="text" value={form.designation} onChange={e => setForm({ ...form, designation: e.target.value })} className="w-full bg-[#0D0D0D]/10 text-[#0D0D0D] px-4 py-3 rounded-xl border border-[#0D0D0D]/20 focus:outline-none focus:border-[#4169E1] transition-all text-sm" placeholder="e.g. Founder, Creative Director" />
               </div>
               <div className="flex gap-3 pt-4 border-t border-[#0D0D0D]/20">
                 <button type="button" onClick={() => setShowForm(false)} className="flex-1 border border-[#0D0D0D]/20 text-[#0D0D0D]/40 font-black py-3.5 rounded-xl hover:bg-[#0D0D0D]/10 transition-all text-[8px] uppercase tracking-[0.2em]">Cancel</button>
