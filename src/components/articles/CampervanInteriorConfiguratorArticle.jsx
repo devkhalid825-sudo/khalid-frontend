@@ -17,9 +17,9 @@ import { getImgSrc } from '../../utils/api';
 
 // Configurator showcase images.
 import _heroImg from '../../assets/About-page/marine.webp';
-import _imgTwo from '../../assets/About-page/newkia.png';
+import _imgTwo from '../../assets/About-page/newkia.webp';
 import _imgThree from '../../assets/ElipseImages/projects/BOAT-CONFIG-OPT.webp';
-import _imgFour from '../../assets/About-page/golf-1.png';
+import _imgFour from '../../assets/About-page/golf-1.webp';
 
 const heroImg = getImgSrc(_heroImg);
 const imgTwo = getImgSrc(_imgTwo);

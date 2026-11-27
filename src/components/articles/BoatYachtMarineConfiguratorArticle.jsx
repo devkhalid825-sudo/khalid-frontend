@@ -17,9 +17,9 @@ import { getImgSrc } from '../../utils/api';
 
 // Configurator showcase images.
 import _heroImg from '../../assets/About-page/marine.webp';
-import _imgOne from '../../assets/About-page/yacht (1).png';
-import _imgTwo from '../../assets/About-page/yacht (2).png';
-import _imgThree from '../../assets/About-page/yacht (3).png';
+import _imgOne from '../../assets/About-page/yacht (1).webp';
+import _imgTwo from '../../assets/About-page/yacht (2).webp';
+import _imgThree from '../../assets/About-page/yacht (3).webp';
 
 const heroImg = getImgSrc(_heroImg);
 const imgOne = getImgSrc(_imgOne);

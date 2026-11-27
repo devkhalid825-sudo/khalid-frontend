@@ -225,7 +225,7 @@ const staticArticleMetadata = {
       'Elipse Studio',
     ],
     canonical: `${SITE_URL}/blog/campervan-3d-configurator`,
-    ogImage: `${SITE_URL}/assets/About-page/bean-trailor.png`,
+    ogImage: `${SITE_URL}/assets/About-page/bean-trailor.webp`,
   },
   'unreal-engine-pixel-streaming-vs-standalone-build': {
     title: 'Unreal Engine Pixel Streaming vs Standalone Build: Trade Show & Enterprise Delivery Guide (2026)',
@@ -529,7 +529,7 @@ const staticArticleMetadata = {
       'Bilal Lania',
     ],
     canonical: `${SITE_URL}/blog/spatial-commerce-b2b-luxury-retail-2026-benchmark`,
-    ogImage: `${SITE_URL}/assets/About-page/high-ticket.png`,
+    ogImage: `${SITE_URL}/assets/About-page/high-ticket.webp`,
   },
   'spatial-commerce-2026-benchmark-report': {
     title: 'Spatial Commerce for High-Ticket B2B & Luxury Retail: 2026 Conversion & Return-Rate Benchmark Report | Elipse Studio',
@@ -541,7 +541,7 @@ const staticArticleMetadata = {
       'Elipse Studio',
     ],
     canonical: `${SITE_URL}/blog/spatial-commerce-b2b-luxury-retail-2026-benchmark`,
-    ogImage: `${SITE_URL}/assets/About-page/high-ticket.png`,
+    ogImage: `${SITE_URL}/assets/About-page/high-ticket.webp`,
   },
   'real-time-archviz-vr-luxury-real-estate-presales-2026': {
     title: 'Real-Time ArchViz & Spatial VR: How Luxury Real Estate Developers Presell Properties 6–12 Months Before Groundbreak | Elipse Studio',
@@ -556,7 +556,7 @@ const staticArticleMetadata = {
       'Bilal Lania',
     ],
     canonical: `${SITE_URL}/blog/real-time-archviz-vr-luxury-real-estate-presales-2026`,
-    ogImage: `${SITE_URL}/assets/About-page/Nevegan.jpg`,
+    ogImage: `${SITE_URL}/assets/About-page/Nevegan.webp`,
   },
   '3d-product-configurator-australia-2026': {
     title: '3D Product Configurators for Australian E-Commerce Brands (2026 Guide) | Elipse Studio',
@@ -571,7 +571,7 @@ const staticArticleMetadata = {
       'Bilal Lania',
     ],
     canonical: `${SITE_URL}/blog/3d-product-configurator-australia-2026`,
-    ogImage: `${SITE_URL}/assets/About-page/newkia.png`,
+    ogImage: `${SITE_URL}/assets/About-page/newkia.webp`,
   },
   'cad-to-webgl-enterprise-3d-optimization-pipeline-2026': {
     title: 'CAD to WebGL: How Enterprise Brands Convert Heavy Engineering Files into Sub-2MB Interactive 3D Web Experiences (2026 Guide) | Elipse Studio',

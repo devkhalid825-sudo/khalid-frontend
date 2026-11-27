@@ -10,9 +10,9 @@ import { FiArrowRight } from 'react-icons/fi';
 import 'swiper/css';
 import 'swiper/css/pagination';
 
-import kiaConfiguratorImg from '@/assets/About-page/kia-1.png';
-import zenithImg from '@/assets/About-page/virtual-tour.png';
-import cgiJellyImg from '@/assets/About-page/malka-reel.png';
+import kiaConfiguratorImg from '@/assets/About-page/kia-1.webp';
+import zenithImg from '@/assets/About-page/virtual-tour.webp';
+import cgiJellyImg from '@/assets/About-page/malka-reel.webp';
 
 const solutionsCards = [
   {

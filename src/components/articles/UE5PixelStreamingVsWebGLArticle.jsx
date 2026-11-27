@@ -20,9 +20,9 @@ import Footer from '../layouts/Footer';
 import { getImgSrc } from '../../utils/api';
 
 import _volvoHero from '../../assets/ElipseImages/hero/volve-configrator.webp';
-import _volvoUi from '../../assets/About-page/volvo-ui.png';
+import _volvoUi from '../../assets/About-page/volvo-ui.webp';
 import _jetour from '../../assets/About-page/Jetour.webp';
-import _kia from '../../assets/About-page/newkia.png';
+import _kia from '../../assets/About-page/newkia.webp';
 
 const volvoHero = getImgSrc(_volvoHero);
 const volvoUi = getImgSrc(_volvoUi);

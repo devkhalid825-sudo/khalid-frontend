@@ -24,7 +24,7 @@ import dogguoImgRaw from '../../assets/animation/DOGGUO.webp';
 import parcoImgRaw from '../../assets/animation/parcho.webp';
 import dhoopImgRaw from '../../assets/animation/motiongrapics copy.webp';
 import giordanoImgRaw from '../../assets/animation/Giordano.webp';
-import digixImgRaw from '../../assets/About-page/digix.png';
+import digixImgRaw from '../../assets/About-page/digix.webp';
 
 import { withCalendlyAttribution } from '@/components/analytics/tracking';
 const ahmedJamSpreadImg = getImgSrc(ahmedJamSpreadImgRaw);

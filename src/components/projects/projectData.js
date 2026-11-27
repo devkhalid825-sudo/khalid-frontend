@@ -105,7 +105,7 @@ export const projectList = [
       { label: 'Deliverables', value: 'Cinematic Brand Film · Motion Graphics' },
       { label: 'Description', value: 'A cinematic brand film tracing the shift from static billboards to dynamic digital signage.' }
     ],
-    heroImage: '/assets/About-page/digix.png',
+    heroImage: '/assets/About-page/digix.webp',
     nextProject: { path: '/project/gluco-kahani', name: 'Gluco Kahani' },
     sections: [
       {

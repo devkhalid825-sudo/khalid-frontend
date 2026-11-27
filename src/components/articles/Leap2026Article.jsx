@@ -26,7 +26,7 @@ import _mainPng from '../../assets/ElipseImages/personal/main.webp';
 import _configuratorPng from '../../assets/ElipseImages/personal/Configurator.webp';
 import _gaming from '../../assets/ElipseImages/personal/gaming.webp';
 import _football from '../../assets/ElipseImages/personal/football.webp';
-import _f1 from '../../assets/ElipseImages/personal/maaz-bhai-image.png';
+import _f1 from '../../assets/ElipseImages/personal/maaz-bhai-image.webp';
 import { getImgSrc } from '../../utils/api';
 
 const leapHero = getImgSrc(_leapHero);

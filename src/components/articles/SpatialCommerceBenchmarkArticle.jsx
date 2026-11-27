@@ -6,13 +6,13 @@ import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 import { getImgSrc } from '../../utils/api';
 
-import _kiaImg from '../../assets/About-page/newkia.png';
-import _spatialCommerceImg from '../../assets/About-page/spatial-commerce.png';
-import _villaImg from '../../assets/About-page/Nevegan.jpg';
+import _kiaImg from '../../assets/About-page/newkia.webp';
+import _spatialCommerceImg from '../../assets/About-page/spatial-commerce.webp';
+import _villaImg from '../../assets/About-page/Nevegan.webp';
 import _industrialImg from '../../assets/About-page/inverx.webp';
 import _seatImg from '../../assets/About-page/seat.webp';
-import _highTicketImg from '../../assets/About-page/high-ticket.png';
-import _luxararyImg from '../../assets/About-page/luxarary.png';
+import _highTicketImg from '../../assets/About-page/high-ticket.webp';
+import _luxararyImg from '../../assets/About-page/luxarary.webp';
 
 const kiaImg = getImgSrc(_kiaImg);
 const spatialCommerceImg = getImgSrc(_spatialCommerceImg);

@@ -28,7 +28,7 @@ import _volvoHero from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import _configuratorCard from '../../assets/ElipseImages/personal/Configurator.webp';
 import _technology from '../../assets/About-page/technology.webp';
 import _jetour from '../../assets/About-page/Jetour.webp';
-import _kia from '../../assets/About-page/newkia.png';
+import _kia from '../../assets/About-page/newkia.webp';
 import _shark from '../../assets/About-page/shark.webp';
 import _steering from '../../assets/ElipseImages/projects/Streeing-1.webp';
 import _leapPartner from '../../assets/ElipseImages/personal/leap-partner.webp';

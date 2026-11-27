@@ -23,11 +23,11 @@ import Footer from '../layouts/Footer';
 import { getImgSrc } from '../../utils/api';
 
 
-import _heroImg from '../../assets/About-page/Jelly_02.png';
+import _heroImg from '../../assets/About-page/Jelly_02.webp';
 import _malkaImg from '../../assets/Ahmed-food/jam&spread/09.webp';
-import _jamImg from '../../assets/About-page/Digital.png';
+import _jamImg from '../../assets/About-page/Digital.webp';
 import _biryaniImg from '../../assets/Ahmed-food/bombay-biryani/11.webp';
-import _renderingImg from '../../assets/About-page/Broken.png';
+import _renderingImg from '../../assets/About-page/Broken.webp';
 
 const heroImg = getImgSrc(_heroImg);
 const malkaImg = getImgSrc(_malkaImg);

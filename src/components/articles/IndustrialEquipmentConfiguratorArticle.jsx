@@ -17,10 +17,10 @@ import Footer from '../layouts/Footer';
 import { getImgSrc } from '../../utils/api';
 
 // Configurator & Industrial Equipment showcase images.
-import _heroImg from '../../assets/About-page/configurator-blogs.png';
+import _heroImg from '../../assets/About-page/configurator-blogs.webp';
 import _imgOne from '../../assets/ElipseImages/projects/Streeing-1.webp';
 import _imgTwo from '../../assets/About-page/technology.webp';
-import _imgThree from '../../assets/About-page/volvo-ui.png';
+import _imgThree from '../../assets/About-page/volvo-ui.webp';
 import _imgFour from '../../assets/About-page/shark.webp';
 
 const heroImg = getImgSrc(_heroImg);

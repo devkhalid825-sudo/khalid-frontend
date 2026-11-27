@@ -18,9 +18,9 @@ import { getImgSrc } from '../../utils/api';
 
 // Placeholder images (swap for GC Mods / Eco Battery project shots when ready).
 import _heroImg from '../../assets/About-page/golf-cart.webp';
-import _imgTwo from '../../assets/About-page/golf-1.png';
-import _imgThree from '../../assets/About-page/golf-2.png';
-import _imgFour from '../../assets/About-page/golf-3.png';
+import _imgTwo from '../../assets/About-page/golf-1.webp';
+import _imgThree from '../../assets/About-page/golf-2.webp';
+import _imgFour from '../../assets/About-page/golf-3.webp';
 
 const heroImg = getImgSrc(_heroImg);
 const imgTwo = getImgSrc(_imgTwo);

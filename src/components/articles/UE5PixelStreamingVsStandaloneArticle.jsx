@@ -19,9 +19,9 @@ import { getImgSrc } from '../../utils/api';
 
 // Only UE5 projects (Volvo S90, Bean Trailer) — both are Unreal Engine / pixel streaming builds.
 import _heroImg from '../../assets/About-page/volvo-s90-ue5-hero.webp';
-import _imgTwo from '../../assets/About-page/volvo-ui.png';
-import _imgThree from '../../assets/About-page/bean-4.png';
-import _imgFour from '../../assets/About-page/bean-5.png';
+import _imgTwo from '../../assets/About-page/volvo-ui.webp';
+import _imgThree from '../../assets/About-page/bean-4.webp';
+import _imgFour from '../../assets/About-page/bean-5.webp';
 
 const heroImg = getImgSrc(_heroImg);
 const imgTwo = getImgSrc(_imgTwo);

@@ -17,9 +17,9 @@ import { getImgSrc } from '../../utils/api';
 
 // Configurator showcase images.
 import _heroImg from '../../assets/About-page/volvo-s90-ue5-hero.webp';
-import _imgOne from '../../assets/About-page/golf-2.png';
-import _imgTwo from '../../assets/About-page/newkia.png';
-import _imgThree from '../../assets/About-page/bean-5.png';
+import _imgOne from '../../assets/About-page/golf-2.webp';
+import _imgTwo from '../../assets/About-page/newkia.webp';
+import _imgThree from '../../assets/About-page/bean-5.webp';
 import _imgFour from '../../assets/About-page/marine.webp';
 
 const heroImg = getImgSrc(_heroImg);

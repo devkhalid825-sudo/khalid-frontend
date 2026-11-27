@@ -21,7 +21,7 @@ import { getImgSrc } from '../../utils/api';
 
 import _zenith from '../../assets/About-page/zenith.webp';
 import _khoj from '../../assets/About-page/khoj.webp';
-import _nevegan from '../../assets/About-page/Nevegan.jpg';
+import _nevegan from '../../assets/About-page/Nevegan.webp';
 import _timBarth from '../../assets/About-page/tim-barth.webp';
 import _kumar from '../../assets/About-page/kumar.webp';
 

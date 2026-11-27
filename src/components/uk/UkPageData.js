@@ -79,7 +79,7 @@ export const GALLERY = {
     { src: '/uk-assets/golf-cart.webp', caption: 'Golf Cart Configurator', sub: 'Real-time · 10 finishes' },
     { src: '/uk-assets/van-configrator_11zon.jpg', caption: 'Roof Rack Configurator', sub: 'Real-time · Accessory builder' },
     { src: '/uk-assets/volve-configrator.webp', caption: 'Volvo S-90 Configurator', sub: 'Landing experience' },
-    { src: '/uk-assets/UI_01.png', caption: 'Camper Trailer Configurator', sub: 'Real-time · Step-by-step builder' },
+    { src: '/uk-assets/UI_01.webp', caption: 'Camper Trailer Configurator', sub: 'Real-time · Step-by-step builder' },
     { src: '/uk-assets/jetour (1).webp', caption: 'Off-Road SUV Render', sub: 'Real-time · Exterior showcase' },
     { src: '/uk-assets/ChatGPT Image Jun 17, 2026, 05_04_09 AM.png', caption: 'Steering Wheel Builder', sub: 'Interactive · Parts configurator' },
     { src: '/uk-assets/ChatGPT Image Jun 15, 2026, 06_00_01 PM.webp', caption: 'Accessory Product Render', sub: 'Photoreal · Add-on showcase' },

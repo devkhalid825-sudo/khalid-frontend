@@ -1,10 +1,10 @@
 'use client';
 
 import React from 'react';
-import brandsImg1 from '@/assets/images/brandslogo01.png';
+import brandsImg1 from '@/assets/images/brandslogo01.webp';
 import brandsImg2 from '@/assets/images/brandslogo02.webp';
-import brandsImg3 from '@/assets/images/brandslogo03.png';
-import brandsImg4 from '@/assets/images/brandslogo04.png';
+import brandsImg3 from '@/assets/images/brandslogo03.webp';
+import brandsImg4 from '@/assets/images/brandslogo04.webp';
 import brandsImg6 from '@/assets/ElipseImages/logos/logo6_clean.webp';
 import brandsImg7 from '@/assets/ElipseImages/logos/logo7.webp';
 import brandsImg8 from '@/assets/ElipseImages/logos/logo8.webp';

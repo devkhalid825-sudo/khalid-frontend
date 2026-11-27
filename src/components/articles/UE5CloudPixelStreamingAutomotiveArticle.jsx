@@ -23,11 +23,11 @@ import { getImgSrc } from '../../utils/api';
 
 // Placeholder images — swap later with final article visuals
 import _heroImg from '../../assets/About-page/volvo-thumbnail.webp';
-import _kiaImg from '../../assets/About-page/volvo (2).png';
+import _kiaImg from '../../assets/About-page/volvo (2).webp';
 import _bydImg from '../../assets/About-page/volvo (3).png';
-import _steeringImg from '../../assets/About-page/volvo (4).png';
-import _volvoUiImg from '../../assets/About-page/volvo (5).png';
-import _volvoImg from '../../assets/About-page/volvo (6).png';
+import _steeringImg from '../../assets/About-page/volvo (4).webp';
+import _volvoUiImg from '../../assets/About-page/volvo (5).webp';
+import _volvoImg from '../../assets/About-page/volvo (6).webp';
 
 const heroImg = getImgSrc(_heroImg);
 const kiaImg = getImgSrc(_kiaImg);

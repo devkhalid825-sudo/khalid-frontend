@@ -30,7 +30,7 @@ import _heroImg from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import _mainPng from '../../assets/ElipseImages/projects/Streeing-1.webp';
 import _volvoHero from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import _jetourImg from '../../assets/About-page/Jetour.webp';
-import _kiaImg from '../../assets/About-page/newkia.png';
+import _kiaImg from '../../assets/About-page/newkia.webp';
 import _sharkImg from '../../assets/About-page/shark.webp';
 
 const heroImg = getImgSrc(_heroImg);

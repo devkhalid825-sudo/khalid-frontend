@@ -9,7 +9,7 @@ import ClientReviews from './features/ClientReviews';
 import { useTheme } from './providers/ThemeProvider';
 import { getImgSrc } from '../utils/api';
 
-import heroShowcaseRaw from '../assets/About-page/spatial-commerce.png';
+import heroShowcaseRaw from '../assets/About-page/spatial-commerce.webp';
 
 const CALENDLY_URL = 'https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting';
 const FALLBACK_BLURB = 'Immersive 3D, VR and interactive work delivered by Elipse Studio.';

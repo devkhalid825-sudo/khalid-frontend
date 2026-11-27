@@ -16,11 +16,11 @@ import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 
 import _jetourImg from '../../assets/ElipseImages/blogs/jetour.webp';
-import _kiaImg from '../../assets/About-page/newkia.png';
+import _kiaImg from '../../assets/About-page/newkia.webp';
 import _ahmedFoodImg from '../../assets/Ahmed-food/jam&spread/15.webp';
 import _volveImg from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import _boatImg from '../../assets/About-page/marine.webp';
-import _thumbnailImg from '../../assets/About-page/thumbnial.png';
+import _thumbnailImg from '../../assets/About-page/thumbnial.webp';
 import { getImgSrc } from '../../utils/api';
 
 const jetourImg = getImgSrc(_jetourImg);

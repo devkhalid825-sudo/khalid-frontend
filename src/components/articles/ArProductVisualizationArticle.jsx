@@ -23,9 +23,9 @@ import { getImgSrc } from '../../utils/api';
 
 import _techBg from '../../assets/About-page/vertical.webp';
 import _arThumb from '../../assets/Ar/07.webp';
-import _mainAr from '../../assets/About-page/AR.png';
+import _mainAr from '../../assets/About-page/AR.webp';
 import _configHero from '../../assets/Ar/03.webp';
-import _volveImg from '../../assets/Ar/08.png';
+import _volveImg from '../../assets/Ar/08.webp';
 
 const techBg = getImgSrc(_techBg);
 const arThumb = getImgSrc(_arThumb);

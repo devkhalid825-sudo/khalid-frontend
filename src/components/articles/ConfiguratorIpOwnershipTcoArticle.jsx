@@ -16,10 +16,10 @@ import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 import { getImgSrc } from '../../utils/api';
 
-import _heroImg from '../../assets/About-page/newkia.png';
+import _heroImg from '../../assets/About-page/newkia.webp';
 import _imgTwo from '../../assets/About-page/golf-cart.webp';
 import _imgThree from '../../assets/About-page/shark.webp';
-import _imgFour from '../../assets/About-page/configurator-blogs.png';
+import _imgFour from '../../assets/About-page/configurator-blogs.webp';
 
 const heroImg = getImgSrc(_heroImg);
 const imgTwo = getImgSrc(_imgTwo);

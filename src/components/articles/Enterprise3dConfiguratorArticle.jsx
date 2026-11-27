@@ -30,12 +30,12 @@ import Footer from '../layouts/Footer';
 import { getImgSrc } from '../../utils/api';
 
 import _volvoHero from '../../assets/About-page/shark.webp';
-import _volvoUi from '../../assets/About-page/volvo-ui.png';
+import _volvoUi from '../../assets/About-page/volvo-ui.webp';
 import _jetour from '../../assets/About-page/Jetour.webp';
-import _kia from '../../assets/About-page/newkia.png';
+import _kia from '../../assets/About-page/newkia.webp';
 import _steeringImg from '../../assets/ElipseImages/projects/Streeing-1.webp';
-import _configuratorBlogs from '../../assets/About-page/configurator-blogs.png';
-import _hero from '../../assets/About-page/kia-1.png';
+import _configuratorBlogs from '../../assets/About-page/configurator-blogs.webp';
+import _hero from '../../assets/About-page/kia-1.webp';
 
 const volvoHero = getImgSrc(_volvoHero);
 const volvoUi = getImgSrc(_volvoUi);

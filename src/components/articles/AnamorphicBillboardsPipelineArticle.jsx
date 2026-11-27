@@ -30,7 +30,7 @@ import { getImgSrc } from '../../utils/api';
 
 import _roohafzaImg from '../../assets/About-page/roohafza.webp';
 import _unirealImg from '../../assets/About-page/anamorphicanimation.webp';
-import _roohafza2Img from '../../assets/About-page/roohafza-2.png';
+import _roohafza2Img from '../../assets/About-page/roohafza-2.webp';
 import _lahoreImg from '../../assets/About-page/lahore.webp';
 import _lahore2Img from '../../assets/About-page/lahore-2.webp';
 

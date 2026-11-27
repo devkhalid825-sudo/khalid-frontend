@@ -16,7 +16,7 @@ import Footer from '../layouts/Footer';
 import { getImgSrc } from '../../utils/api';
 
 // VR/MR-relevant images from the asset library — swap paths as needed.
-import _heroImg from '../../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223251.jpg'; // hero: VR hand-tracking menu
+import _heroImg from '../../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223251.webp'; // hero: VR hand-tracking menu
 import _imgOne from '../../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223315.jpg';
 import _imgTwo from '../../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223419.jpg';
 import _imgThree from '../../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223333.jpg';

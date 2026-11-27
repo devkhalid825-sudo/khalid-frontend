@@ -31,7 +31,7 @@ import _heroImg from '../../assets/About-page/roohafza.webp';
 import _briefImg from '../../assets/About-page/anamorphicanimation.webp';
 import _opticsImg from '../../assets/ElipseImages/projects/0.webp';
 import _pipelineImg from '../../assets/About-page/lahore-2.webp';
-import _playbackImg from '../../assets/About-page/roohafza-2.png';
+import _playbackImg from '../../assets/About-page/roohafza-2.webp';
 import _lahoreImg from '../../assets/About-page/lahore.webp';
 import _roohafzaImg from '../../assets/About-page/roohafza.webp';
 

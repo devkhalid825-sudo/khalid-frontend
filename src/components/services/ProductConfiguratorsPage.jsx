@@ -13,7 +13,7 @@ import volvoImgRaw from '../../assets/ElipseImages/hero/volve-configrator.webp';
 import inverexImgRaw from '../../assets/ElipseImages/projects/G-1.webp';
 import seatImgRaw from '../../assets/ElipseImages/projects/seat-2-1.webp';
 import sharkImgRaw from '../../assets/About-page/shark.webp';
-import kiaImgRaw from '../../assets/About-page/newkia.png';
+import kiaImgRaw from '../../assets/About-page/newkia.webp';
 import marineImgRaw from '../../assets/About-page/marine.webp';
 import inverxImgRaw from '../../assets/About-page/inverx.webp';
 import tshirtImgRaw from '../../assets/About-page/t-shirt.webp';
@@ -312,7 +312,7 @@ const CAR_CONFIGURATOR_COLORS = [
   { id: 'grey', name: 'Gravity Grey', hex: '#9CA0A5' },
 ];
 
-const KIA_FALLBACK_IMG = '/assets/About-page/newkia.png';
+const KIA_FALLBACK_IMG = '/assets/About-page/newkia.webp';
 const KIA_LIVE_CONFIGURATOR_URL = 'https://legacy.elipsestudio.com/Kia/';
 const SECONDARY_FALLBACK = '/assets/ElipseImages/hero/volve-configrator.webp';
 

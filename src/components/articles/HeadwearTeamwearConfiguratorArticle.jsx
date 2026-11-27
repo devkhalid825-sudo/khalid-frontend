@@ -10,10 +10,10 @@ import { getImgSrc } from '../../utils/api';
 // Real Student Life configurator screenshots only (no AI-generated mockups). Each image is used once.
 import _heroImg from '../../assets/About-page/cap-2.png'; // hero: cap trim, bands and stars
 import _introImg from '../../assets/web-app-ui/cloth.webp'; // intro: apparel configurator
-import _embroideryImg from '../../assets/About-page/cap-23.png'; // 01: raised gold embroidery
-import _shaderImg from '../../assets/About-page/cap-1.png'; // 02: embroidery options
-import _towelImg from '../../assets/About-page/towel.png'; // 03: Al Karam towel showroom (baked studio lighting)
-import _towel2Img from '../../assets/About-page/towel-2.png'; // 04: Al Karam towel showroom (day/night light mode, sizes)
+import _embroideryImg from '../../assets/About-page/cap-23.webp'; // 01: raised gold embroidery
+import _shaderImg from '../../assets/About-page/cap-1.webp'; // 02: embroidery options
+import _towelImg from '../../assets/About-page/towel.webp'; // 03: Al Karam towel showroom (baked studio lighting)
+import _towel2Img from '../../assets/About-page/towel-2.webp'; // 04: Al Karam towel showroom (day/night light mode, sizes)
 import _tshirtImg from '../../assets/About-page/t-shirt.png'; // 05: Student Life t-shirt back print
 import _caseImg from '../../assets/web-app-ui/cap.webp'; // 06: cap emblem and rosette
 

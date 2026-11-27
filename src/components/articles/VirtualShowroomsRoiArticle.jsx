@@ -33,7 +33,7 @@ import _housingImg from '../../assets/ElipseImages/projects/housing-8.webp';
 import _steeringImg from '../../assets/ElipseImages/projects/Streeing-1.webp';
 import _leapHero from '../../assets/ElipseImages/personal/leap-hero.webp';
 import _marineImg from '../../assets/About-page/marine.webp';
-import _tradeShowCostImg from '../../assets/About-page/The True Cost of Trade Shows.png';
+import _tradeShowCostImg from '../../assets/About-page/The True Cost of Trade Shows.webp';
 
 const heroImg = getImgSrc(_heroImg);
 const configuratorCard = getImgSrc(_configuratorCard);
