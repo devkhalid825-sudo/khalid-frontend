@@ -107,10 +107,19 @@ const SoundIcon = ({ muted }) =>
  * still poster that the carousel blurs and scales down via CSS.
  */
 const StageSlide = ({ review, isActive, isMuted, onToggleMute, wide = false }) => {
+  // wide = the video is HD. Only while it is the centred card does it open up to 16:9; neighbours stay reel size.
+  const expanded = wide && isActive;
   const videoRef = useRef(null);
   const [paused, setPaused] = useState(false);
+  // For HD cards wait until the open-up animation is done before loading the player.
+  const [ready, setReady] = useState(false);
+  useEffect(() => {
+    if (!isActive) return undefined;
+    const t = setTimeout(() => setReady(true), wide ? 560 : 0);
+    return () => clearTimeout(t);
+  }, [isActive, wide]);
   const ytId = getYouTubeId(review.video);
-  // mqdefault is a true 16:9 frame (no baked-in black bars) for HD cards.
+  // mqdefault is a true 16:9 frame (no baked-in black bars) for HD videos.
   const poster = ytId ? `https://i.ytimg.com/vi/${ytId}/${wide ? 'mqdefault' : 'hqdefault'}.jpg` : null;
 
   const command = useCallback((func) => {
@@ -135,7 +144,7 @@ const StageSlide = ({ review, isActive, isMuted, onToggleMute, wide = false }) =
   const [prevActive, setPrevActive] = useState(isActive);
   if (prevActive !== isActive) {
     setPrevActive(isActive);
-    if (!isActive) setPaused(false);
+    if (!isActive) { setPaused(false); setReady(false); }
   }
 
   const togglePlay = () => {
@@ -144,14 +153,14 @@ const StageSlide = ({ review, isActive, isMuted, onToggleMute, wide = false }) =
   };
 
   return (
-    <div className={`voice-card relative w-full ${wide ? 'aspect-video' : 'aspect-[9/16]'} rounded-[18px] md:rounded-[22px] overflow-hidden bg-[#0f0f11]`} style={{ isolation: 'isolate' }}>
+    <div className={`voice-card relative w-full ${expanded ? 'voice-card-wide' : 'voice-card-tall'} rounded-[18px] md:rounded-[22px] overflow-hidden bg-[#0f0f11]`} style={{ isolation: 'isolate' }}>
       {poster && (
         // eslint-disable-next-line @next/next/no-img-element
         <img src={poster} alt="" loading="lazy" decoding="async" className="absolute inset-0 w-full h-full object-cover" />
       )}
 
-      {/* The card matches the video shape (9:16 reel or 16:9 HD), so the player fills it with no black bars */}
-      {isActive && review.video && (
+      {/* 9:16 short fills the 9:16 card exactly */}
+      {isActive && ready && review.video && (
         <div className="absolute inset-0 w-full h-full">
           <MediaFacade
             videoUrl={review.video}
@@ -223,24 +232,28 @@ html.light .voices-thumb{border-color:rgba(11,13,20,.4)}
 .voices-thumb img{width:100%;height:100%;object-fit:cover;display:block}
 .voices-thumb[data-on="0"]{border-color:transparent;filter:blur(2px) brightness(.9)}
 .voices-thumb[data-on="0"]:hover{filter:blur(0.5px) brightness(1)}
-.voices-stage{--w:230px;--wl:min(calc(100vw - 32px),400px);--gap:20px;--aw:var(--w);position:relative;width:100%;height:calc(var(--w)*16/9 + 80px)}
-@media (min-width:768px){.voices-stage{--w:310px;--wl:min(calc(var(--w)*16/9*16/9*0.6),calc(100vw - 64px));--gap:28px}}
-.voices-slide{position:absolute;left:50%;top:0;height:100%;justify-content:center;width:var(--sw,var(--w));margin-left:calc(var(--sw,var(--w))/-2);display:flex;flex-direction:column;align-items:center;transform-origin:center center;transform:translateX(var(--x,0px)) scale(calc(1 - var(--abs)*.13));transition:transform .6s cubic-bezier(.22,1,.36,1),filter .6s ease,opacity .6s ease;z-index:calc(10 - var(--abs))}
+.voices-stage{--w:230px;--step:240px;--wl:min(calc(100vw - 32px),400px);--aw:var(--w);position:relative;width:100%;height:var(--sh,calc(var(--w)*16/9 + 80px))}
+@media (min-width:768px){.voices-stage{--w:310px;--step:335px;--wl:min(calc(var(--w)*16/9*16/9),calc(100vw - 96px))}}
+.voices-slide{position:absolute;left:50%;top:0;width:var(--sw,var(--w));margin-left:calc(var(--sw,var(--w))/-2);display:flex;flex-direction:column;align-items:center;transform-origin:center center;transform:translateX(var(--x,0px)) scale(calc(1 - var(--abs)*.13));transition:transform .6s cubic-bezier(.22,1,.36,1),width .6s cubic-bezier(.22,1,.36,1),margin-left .6s cubic-bezier(.22,1,.36,1),filter .6s ease,opacity .6s ease;z-index:calc(10 - var(--abs))}
 .voices-slide[data-on="0"]{filter:blur(9px) brightness(.7);opacity:calc(1 - var(--abs)*.5);cursor:pointer}
-.voices-slide[data-hide="1"]{opacity:0;pointer-events:none}
+.voices-slide[data-hide="1"]{opacity:0;pointer-events:none;transition:opacity .35s ease}
 .voices-slide-logo{height:43px;width:auto;min-width:79px;max-width:220px;margin-bottom:14px;display:flex;align-items:center;justify-content:center}
 @media (min-width:768px){.voices-slide-logo{height:54px;min-width:99px;margin-bottom:18px}}
-.voices-fade{position:absolute;top:-10px;bottom:-10px;width:calc(50% - var(--aw)/2 - 8px);z-index:20;pointer-events:none;opacity:.97}
+.voices-fade{position:absolute;top:-10px;bottom:-10px;width:calc(50% - var(--aw)/2 - 8px);z-index:20;pointer-events:none;opacity:.5}
 .voices-fade-l{left:0;background:linear-gradient(to right,var(--v-bg) 0%,var(--v-bg) 62%,transparent 100%)}
 .voices-fade-r{right:0;background:linear-gradient(to left,var(--v-bg) 0%,var(--v-bg) 62%,transparent 100%)}
 .voices-arrow{position:absolute;top:50%;z-index:30;width:44px;height:44px;border-radius:9999px;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.75);border:1px solid rgba(255,255,255,.25);color:#fff;cursor:pointer;transform:translateY(-50%);transition:background .2s ease}
 .voices-arrow:hover{background:rgba(65,105,225,.85)}
 html.light .voices-arrow{background:rgba(255,255,255,.9);border:1px solid rgba(0,0,0,.15);color:#0b0d14;box-shadow:0 4px 14px rgba(0,0,0,.08)}
 html.light .voices-arrow:hover{background:#4169E1;color:#fff;border-color:#4169E1}
+.voices-stage{--ch-tall:calc(var(--w)*16/9);--ch-wide:calc(var(--wl)*9/16);transition:height .6s cubic-bezier(.22,1,.36,1)}
+@media (min-width:768px){.voices-stage{--ch-wide:min(calc(var(--w)*16/9),calc(var(--wl)*9/16))}}
+.voice-card{height:var(--ch-tall);transition:height .6s cubic-bezier(.22,1,.36,1)}
+.voice-card-wide{height:var(--ch-wide);background:#000}
 .voices-card-shadow{box-shadow:0 24px 60px rgba(0,0,0,.6),0 0 0 1px rgba(255,255,255,.14)}
-.voice-card,.voices-card-clip{clip-path:inset(0 round 22px);-webkit-clip-path:inset(0 round 22px)}
-@media (max-width:767px){.voice-card,.voices-card-clip{clip-path:inset(0 round 18px);-webkit-clip-path:inset(0 round 18px)}}
-html.light .voices-card-shadow{box-shadow:0 10px 30px -4px rgba(0,0,0,.08),0 4px 12px -2px rgba(0,0,0,.04),0 0 0 1px rgba(11,13,20,.1) !important}
+.voice-card{clip-path:inset(0 round 22px);-webkit-clip-path:inset(0 round 22px)}
+@media (max-width:767px){.voice-card{clip-path:inset(0 round 18px);-webkit-clip-path:inset(0 round 18px)}}
+html.light .voices-card-shadow{box-shadow:0 10px 30px -4px rgba(0,0,0,.08),0 4px 12px -2px rgba(0,0,0,.04) !important}
 html.light .voice-card{background:transparent !important}
 @media (max-width:767px){
   .voices-slide[data-on="0"]{opacity:0 !important;visibility:hidden !important;pointer-events:none !important}
@@ -430,29 +443,23 @@ const ClientReviews = ({ initialReviews = null }) => {
       </div>
 
       {/* Centered carousel: active card in the middle, neighbours blurred and scaled down */}
-      <div className="voices-stage" style={{ '--aw': aspectOf(current) === 'wide' ? 'var(--wl)' : 'var(--w)' }}>
+      <div
+        className="voices-stage"
+        style={{
+          '--aw': aspectOf(current) === 'wide' ? 'var(--wl)' : 'var(--w)',
+          '--sh': aspectOf(current) === 'wide' ? 'calc(var(--ch-wide) + 80px)' : 'calc(var(--ch-tall) + 80px)',
+        }}
+      >
         {reviews.map((r, i) => {
           let o = (((i - activeIdx) % count) + count) % count;
           if (o > half) o -= count;
           const abs = Math.abs(o);
           const active = o === 0;
           const isWide = aspectOf(r) === 'wide';
-          // Horizontal offset from the centre card, built from each card's real width so HD
-          // (wide) and reel (tall) cards sit side by side without overlapping.
-          let x = '0px';
-          if (o !== 0) {
-            const dir = o > 0 ? 1 : -1;
-            let cw = 0;
-            let cwl = 0;
-            const add = (k, f) => {
-              const idx = (((activeIdx + k) % count) + count) % count;
-              if (aspectOf(reviews[idx]) === 'wide') cwl += f; else cw += f;
-            };
-            add(0, 0.5);
-            for (let k = 1; k < abs; k++) add(dir * k, 1);
-            add(o, 0.5);
-            x = `calc(${dir} * (${cw} * var(--w) + ${cwl} * var(--wl) + ${abs} * var(--gap)))`;
-          }
+          // Same spacing as before; when the centre card is an opened-up HD card, push the neighbours out by half the extra width.
+          const dir = o > 0 ? 1 : -1;
+          const extra = aspectOf(current) === 'wide' ? ' + 0.5 * (var(--wl) - var(--w))' : '';
+          const x = o === 0 ? '0px' : `calc(${dir} * (${abs} * var(--step)${extra}))`;
           // Dashboard-uploaded logo wins; otherwise fall back to the legacy hardcoded match.
           const logo = r.logo
             ? { img: r.logo, name: r.company || r.clientName, white: r.logoWhite }
@@ -463,7 +470,7 @@ const ClientReviews = ({ initialReviews = null }) => {
               className="voices-slide"
               data-on={active ? '1' : '0'}
               data-hide={abs > 2 ? '1' : '0'}
-              style={{ '--o': o, '--abs': abs, '--x': x, '--sw': isWide ? 'var(--wl)' : 'var(--w)' }}
+              style={{ '--o': o, '--abs': abs, '--x': x, '--sw': isWide && active ? 'var(--wl)' : 'var(--w)' }}
               onClick={() => { if (!active) goTo(i); }}
               aria-hidden={!active}
             >

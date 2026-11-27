@@ -382,7 +382,7 @@ const BrowseHeader = ({ value, onChange, isLightMode }) => (
     <div
       role="tablist"
       aria-label="Filter projects by category"
-      className="flex gap-2 sm:gap-3 overflow-x-auto md:flex-wrap pb-1 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+      className="flex gap-2 sm:gap-3 overflow-x-auto md:flex-wrap pt-2 pb-6 -mt-2 -mb-5 -mx-1 px-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
     >
       {PILLAR_TABS.map((t, i) => {
         const active = t.key === value;

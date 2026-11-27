@@ -37,6 +37,7 @@ import roohafzaRaw from '../../assets/About-page/roohafza.webp';
 import kumarRaw from '../../assets/About-page/kumar-hd.webp';
 import configuratorBlogsRaw from '../../assets/About-page/configurator-blogs.png';
 import matterportCardRaw from '../../assets/About-page/nevegan-hd.webp';
+import pakStreamingCardRaw from '../../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223251.jpg';
 import headwearCardRaw from '../../assets/web-app-ui/cap.webp';
 import mrTrainingCardRaw from '../../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223450.jpg';
 
@@ -68,6 +69,7 @@ const shark = getImgSrc(sharkRaw);
 const marineImg = getImgSrc(marineRaw);
 const mrTrainingCard = getImgSrc(mrTrainingCardRaw);
 const headwearCard = getImgSrc(headwearCardRaw);
+const pakStreamingCard = getImgSrc(pakStreamingCardRaw);
 const matterportCard = getImgSrc(matterportCardRaw);
 const timBarth = getImgSrc(timBarthRaw);
 
@@ -135,12 +137,21 @@ const News = ({ initialBlogs = null }) => {
 
   const staticPosts = [
     {
+      id: 'cross-platform-vr-architecture-runtime-pak-streaming-quest-3-2026',
+      title: 'Cross-Platform VR Architecture & Remote Client Walkthroughs: How Runtime PAK Streaming Solves Standalone Quest 3 Limits',
+      image: pakStreamingCard,
+      date: 'NOVEMBER 27, 2026',
+      category: 'VR & Real Estate',
+      readTime: '8 min read',
+      url: '/blog/cross-platform-vr-architecture-runtime-pak-streaming-quest-3-2026',
+    },
+    {
       id: 'custom-headwear-teamwear-3d-configurator-playcanvas-2026',
       title: '3D Configurators for Custom Apparel, Headwear & Teamwear: Embroidery Shaders, Glitter Finishes & Live Pricing',
       image: headwearCard,
       date: 'NOVEMBER 27, 2026',
       category: '3D Configurators',
-      readTime: '10 min read',
+      readTime: '6 min read',
       url: '/blog/custom-headwear-teamwear-3d-configurator-playcanvas-2026',
     },
     {

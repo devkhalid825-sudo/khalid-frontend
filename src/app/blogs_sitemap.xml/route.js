@@ -5,6 +5,7 @@ export const dynamic = 'force-dynamic';
 const staticBlogSlugs = [
   'unreal-engine-virtual-tour-vs-matterport-off-plan-real-estate-2026',
   'custom-headwear-teamwear-3d-configurator-playcanvas-2026',
+  'cross-platform-vr-architecture-runtime-pak-streaming-quest-3-2026',
   'mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026',
   'industrial-equipment-hardware-3d-configurator-2026',
   'boat-yacht-3d-configurator-marine-2026',

@@ -413,7 +413,8 @@ const AhmedFoodLayout = ({
   const renderClientReview = () => {
     const cr = clientReview || {};
     const videoRaw = typeof cr.video === 'string' ? cr.video.trim() : '';
-    const quote = typeof cr.quote === 'string' ? cr.quote.trim() : '';
+    // Strip quote marks typed into the dashboard so the curly quotes below are not doubled.
+    const quote = typeof cr.quote === 'string' ? cr.quote.trim().replace(/^["“”']+|["“”']+$/g, '').trim() : '';
     const name = typeof cr.name === 'string' ? cr.name.trim() : '';
     const role = typeof cr.role === 'string' ? cr.role.trim() : '';
     const logo = typeof cr.logo === 'string' ? cr.logo.trim() : '';
@@ -452,13 +453,14 @@ const AhmedFoodLayout = ({
 
     return (
       <section className={`px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t border-b overflow-hidden transition-colors duration-300 ${isLight ? 'bg-white border-neutral-200' : 'bg-[#0D0D0D] border-white/5'}`}>
-        <div className="w-full">
-          <p className={`text-xs sm:text-[14px] font-semibold tracking-[0.12em] uppercase mb-8 md:mb-12 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}`}>
-            Client review
-          </p>
-          <div className={`grid gap-8 lg:gap-14 items-center ${hasVideo && (quote || name || logo) ? (isShort ? 'lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)]' : 'lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]') : 'grid-cols-1 max-w-4xl'}`}>
+        {/* Reel (9:16) layout: heading + reel + quote share the same centred max-w-4xl column as the Credits card below */}
+        <div className={hasVideo && isShort && (quote || name || logo) ? 'w-full max-w-4xl mx-auto' : 'w-full'}>
+          <h2 className={`text-2xl sm:text-4xl lg:text-[44px] font-medium tracking-tight leading-tight mb-8 md:mb-12 ${hasVideo && isShort ? 'text-center md:text-left' : ''} ${isLight ? 'text-neutral-900' : 'text-[#F2F0EB]'}`}>
+            Client Review<span className={isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}>.</span>
+          </h2>
+          <div className={`grid items-center ${hasVideo && (quote || name || logo) ? (isShort ? 'gap-8 md:gap-12 lg:gap-16 md:grid-cols-[minmax(0,300px)_minmax(0,1fr)]' : 'gap-8 lg:gap-14 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]') : 'gap-8 grid-cols-1 max-w-4xl'}`}>
             {hasVideo && (
-              <div className={`relative w-full overflow-hidden rounded-2xl border shadow-lg ${isShort ? 'aspect-[9/16] max-w-[360px] mx-auto lg:mx-0' : 'aspect-video'} ${isLight ? 'border-neutral-200 bg-neutral-100' : 'border-white/10 bg-black'}`}>
+              <div className={`relative w-full overflow-hidden rounded-2xl border shadow-lg ${isShort ? 'aspect-[9/16] max-w-[300px] mx-auto md:mx-0' : 'aspect-video'} ${isLight ? 'border-neutral-200 bg-neutral-100' : 'border-white/10 bg-black'}`}>
                 {isYoutube ? (
                   <iframe
                     src={`https://www.youtube.com/embed/${embedUrl}?rel=0`}

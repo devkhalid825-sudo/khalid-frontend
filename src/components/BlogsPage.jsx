@@ -52,6 +52,7 @@ import configuratorTcoRaw from '../assets/About-page/newkia.png';
 import kumarRaw from '../assets/About-page/kumar-hd.webp';
 import configuratorBlogsRaw from '../assets/About-page/configurator-blogs.png';
 import matterportCardRaw from '../assets/About-page/nevegan-hd.webp';
+import pakStreamingCardRaw from '../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223251.jpg';
 import headwearCardRaw from '../assets/web-app-ui/cap.webp';
 import mrTrainingCardRaw from '../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223450.jpg';
 
@@ -73,6 +74,7 @@ const rendering = getImgSrc(renderingRaw);
 const marine = getImgSrc(marineRaw);
 const mrTrainingCard = getImgSrc(mrTrainingCardRaw);
 const headwearCard = getImgSrc(headwearCardRaw);
+const pakStreamingCard = getImgSrc(pakStreamingCardRaw);
 const matterportCard = getImgSrc(matterportCardRaw);
 const timBarth = getImgSrc(timBarthRaw);
 const leapCard = getImgSrc(leapCardRaw);
@@ -105,9 +107,18 @@ const staticImages = {
 
 const staticPosts = [
     {
+        id: 'static-cross-platform-vr-architecture-runtime-pak-streaming-quest-3-2026',
+        title: 'Cross-Platform VR Architecture & Remote Client Walkthroughs: How Runtime PAK Streaming Solves Standalone Quest 3 Limits',
+        excerpt: 'How a ~480 MB Unreal Engine 5.6 base shell and runtime PAK streaming put multi-property VR walkthroughs on Meta Quest 3, with Windows PC architects joining live, at 72 to 90 FPS.',
+        image: pakStreamingCard,
+        date: 'NOVEMBER 27, 2026',
+        category: 'VR & Real Estate',
+        url: '/blog/cross-platform-vr-architecture-runtime-pak-streaming-quest-3-2026',
+    },
+    {
         id: 'static-custom-headwear-teamwear-3d-configurator-playcanvas-2026',
         title: '3D Configurators for Custom Apparel, Headwear & Teamwear: Embroidery Shaders, Glitter Finishes & Live Pricing',
-        excerpt: 'How PlayCanvas WebGL configurators with PBR fabric and embroidery shaders, glitter finishes, dual desktop/mobile builds and live zone pricing replace flat 2D mockups for custom caps, teamwear and apparel.',
+        excerpt: 'How PlayCanvas WebGL, 3ds Max baked lighting and dual desktop/mobile builds replace slow 2D mockups with interactive 3D customization and live checkout pricing.',
         image: headwearCard,
         date: 'NOVEMBER 27, 2026',
         category: '3D Configurators',

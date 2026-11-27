@@ -62,6 +62,7 @@ const staticArticles = {
   'architectural-visualization-guide': dynamic(() => import('@/components/articles/ArchitecturalVisualization')),
   'apparel-configurator-fashion-brands-2026': dynamic(() => import('@/components/articles/ApparelConfiguratorArticle')),
   'custom-headwear-teamwear-3d-configurator-playcanvas-2026': dynamic(() => import('@/components/articles/HeadwearTeamwearConfiguratorArticle')),
+  'cross-platform-vr-architecture-runtime-pak-streaming-quest-3-2026': dynamic(() => import('@/components/articles/CrossPlatformVrPakStreamingArticle')),
   'why-product-photography-budget-3d-rendering-2026': dynamic(() => import('@/components/articles/WhyProductPhotographyBudgetArticle')),
   '3d-animation-services-uk-2026': dynamic(() => import('@/components/articles/UkAnimationServicesArticle')),
   'interactive-web-experiences-au-2026': dynamic(() => import('@/components/articles/AuInteractiveWebArticle')),
@@ -104,8 +105,8 @@ const staticArticleMetadata = {
     ogImage: `${SITE_URL}/assets/ElipseImages/blogs/blogs-Ar.webp`,
   },
   'custom-headwear-teamwear-3d-configurator-playcanvas-2026': {
-    title: '3D Configurators for Custom Apparel, Headwear & Teamwear: Embroidery Shaders, Glitter Finishes & Live Pricing (2026 Guide) | Elipse Studio',
-    description: 'How Elipse Studio builds PlayCanvas WebGL 3D configurators for custom caps, teamwear and apparel: PBR fabric and embroidery shaders, glitter finishes, dual desktop/mobile builds and live zone pricing that feeds checkout.',
+    title: '3D Configurators for Custom Apparel, Headwear & Teamwear | Elipse Studio',
+    description: 'How Elipse Studio builds PlayCanvas WebGL 3D apparel and cap configurators with 3ds Max baked lighting, metallic embroidery shaders, dual desktop/mobile builds, and live zone pricing.',
     keywords: [
       '3d apparel configurator webgl',
       'custom hat 3d builder playcanvas',
@@ -114,6 +115,19 @@ const staticArticleMetadata = {
       'Elipse Studio',
     ],
     canonical: `${SITE_URL}/blog/custom-headwear-teamwear-3d-configurator-playcanvas-2026`,
+    ogImage: `${SITE_URL}/assets/ElipseImages/blogs/blogs-Ar.webp`,
+  },
+  'cross-platform-vr-architecture-runtime-pak-streaming-quest-3-2026': {
+    title: 'Cross-Platform VR Architecture & Runtime PAK Streaming on Quest 3 | Elipse Studio',
+    description: 'How Elipse Studio ships a ~480 MB Unreal Engine 5.6 base shell to Meta Quest 3, streams property PAK files in under 5 minutes, and connects VR buyers with Windows PC architects at 72 to 90 FPS.',
+    keywords: [
+      'unreal engine 5 vr architecture',
+      'meta quest 3 runtime pak streaming',
+      'collaborative vr real estate walkthrough',
+      'enterprise vr archviz',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/cross-platform-vr-architecture-runtime-pak-streaming-quest-3-2026`,
     ogImage: `${SITE_URL}/assets/ElipseImages/blogs/blogs-Ar.webp`,
   },
   'industrial-equipment-hardware-3d-configurator-2026': {
@@ -783,10 +797,6 @@ const staticArticleMetadata = {
     title: 'Fashion Apparel Configurators',
     description: 'Discover how fashion brands use interactive 3D apparel configurators and digital customization tools to increase average order value.',
   },
-  'custom-headwear-teamwear-3d-configurator-playcanvas-2026': {
-    title: '3D Configurators for Custom Apparel, Headwear & Teamwear',
-    description: 'How PlayCanvas WebGL 3D configurators with embroidery shaders, glitter finishes and live zone pricing replace flat 2D mockups for custom caps, teamwear and apparel.',
-  },
 };
 
 const BLOG_SLUG_ALIASES = {
@@ -834,6 +844,7 @@ function staticArticleSchemas(slugStr, meta) {
 
   const getPublishedDate = () => {
     if (slugStr === 'custom-headwear-teamwear-3d-configurator-playcanvas-2026') return '2026-11-27';
+    if (slugStr === 'cross-platform-vr-architecture-runtime-pak-streaming-quest-3-2026') return '2026-11-27';
     if (isMatterportOffPlan) return '2026-11-26';
     if (isMrTraining) return '2026-11-25';
     if (isIndustrial) return '2026-11-24';
@@ -1228,6 +1239,30 @@ function staticArticleSchemas(slugStr, meta) {
           q: 'What is the five-year cost of VR training compared with a physical training rig?',
           a: 'In an illustrative 5-year scenario based on typical utility pilot scopes, VR simulation totals roughly $180,000–$355,000 against $470,000–$810,000 for a physical rig. This is a scoping benchmark, not a third-party study, and actual costs vary by scenario count, fleet size and LMS integration. For context, a single arc-flash burn injury can cost $10,000 to $15,000,000 according to Eaton and OSHA data.',
         },
+      ]),
+      authorSchema,
+    ];
+  }
+
+  if (slugStr === 'custom-headwear-teamwear-3d-configurator-playcanvas-2026') {
+    extraSchemas = [
+      buildFaqSchema([
+        { q: 'Can a PlayCanvas 3D apparel configurator show realistic embroidery, satin, and glitter in a mobile browser?', a: 'Yes. By combining baked ambient occlusion from Autodesk 3ds Max with PBR normal, roughness, and metalness maps in PlayCanvas, mobile browsers can render cotton, satin, velour, metallic thread, and glitter finishes smoothly without plugins.' },
+        { q: 'Why build separate desktop and mobile WebGL builds for a custom apparel configurator?', a: 'Mobile browsers have tighter GPU memory and cellular bandwidth limits than desktop computers. Using Draco geometry compression and Basis texture compression on a dedicated mobile tier keeps load times fast and frame rates smooth without sacrificing desktop detail.' },
+        { q: 'Does a PlayCanvas WebGL configurator require cloud GPU servers per user?', a: 'No. PlayCanvas runs client-side in the visitor’s browser, so you pay zero per-session cloud GPU streaming fees even during peak seasonal traffic spikes.' },
+        { q: 'Can custom 3D configurator selections pass directly into Shopify or custom checkouts?', a: 'Yes. Selected fabrics, custom embroidery text, zone upgrades, and sizing pass directly into Shopify Plus line-item properties, WooCommerce, or custom ERP/OMS order endpoints alongside live pricing.' },
+      ]),
+      authorSchema,
+    ];
+  }
+
+  if (slugStr === 'cross-platform-vr-architecture-runtime-pak-streaming-quest-3-2026') {
+    extraSchemas = [
+      buildFaqSchema([
+        { q: 'How does Elipse Studio stream large Unreal Engine 5 properties onto Meta Quest 3?', a: 'We ship a lightweight ~480 MB base application shell and stream individual property environments on demand from AWS S3 and CloudFront using a custom runtime PAK streaming system (UDLCManager and FPakPlatformFile).' },
+        { q: 'Can an architect join a Quest 3 VR walkthrough from a regular Windows PC?', a: 'Yes. Using Photon Cloud Realtime at 20Hz delta sync (under 5 KB/s), buyers explore in full 6DOF VR on Meta Quest 2, Pro, or 3 while architects join the same session from a Windows 64-bit PC with live viewport visibility and Agora spatial voice.' },
+        { q: 'How do you keep Unreal Engine 5 running at 72 to 90 FPS on standalone Quest 3?', a: 'Rather than pushing heavy desktop ray tracing onto mobile hardware, we use GPULightmass baked lighting and Mobile Forward Shading, maintaining steady 72 to 90 FPS native 6DOF performance on Meta Quest 3.' },
+        { q: 'How fast can a new unit or property be added to the VR platform?', a: 'New property environments go live in under 5 minutes by uploading platform-targeted PAK chunks and updating the CloudFront JSON manifest, avoiding 24 to 48 hour full re-cooks and app reinstalls.' },
       ]),
       authorSchema,
     ];
