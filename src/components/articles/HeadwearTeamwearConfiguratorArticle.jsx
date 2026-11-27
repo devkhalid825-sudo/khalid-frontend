@@ -7,20 +7,24 @@ import Header from '../layouts/Header';
 import Footer from '../layouts/Footer';
 import { getImgSrc } from '../../utils/api';
 
-// Apparel / headwear imagery. Each image is used exactly once in this article.
-import _heroImg from '../../assets/article-img/A (5) .webp'; // hero: hoodie configurator on phone
-import _tshirtImg from '../../assets/About-page/t-shirt.webp'; // 01: t-shirt styles
-import _blazerImg from '../../assets/article-img/A (3) .webp'; // 02: blazer configurator
-import _tailorImg from '../../assets/article-img/A (6) .webp'; // 03: in-store kiosk
-import _clothImg from '../../assets/web-app-ui/cloth.webp'; // 05: Student Life apparel configurator
-import _capImg from '../../assets/web-app-ui/cap.webp'; // 06: Student Life cap configurator
+// Real Student Life configurator screenshots only (no AI-generated mockups). Each image is used once.
+import _heroImg from '../../assets/About-page/cap-2.png'; // hero: cap trim, bands and stars
+import _introImg from '../../assets/web-app-ui/cloth.webp'; // intro: apparel configurator
+import _embroideryImg from '../../assets/About-page/cap-23.png'; // 01: raised gold embroidery
+import _shaderImg from '../../assets/About-page/cap-1.png'; // 02: embroidery options
+import _towelImg from '../../assets/About-page/towel.png'; // 03: Al Karam towel showroom (baked studio lighting)
+import _towel2Img from '../../assets/About-page/towel-2.png'; // 04: Al Karam towel showroom (day/night light mode, sizes)
+import _tshirtImg from '../../assets/About-page/t-shirt.png'; // 05: Student Life t-shirt back print
+import _caseImg from '../../assets/web-app-ui/cap.webp'; // 06: cap emblem and rosette
 
 const heroImg = getImgSrc(_heroImg);
+const introImg = getImgSrc(_introImg);
+const embroideryImg = getImgSrc(_embroideryImg);
+const shaderImg = getImgSrc(_shaderImg);
+const towelImg = getImgSrc(_towelImg);
+const towel2Img = getImgSrc(_towel2Img);
 const tshirtImg = getImgSrc(_tshirtImg);
-const blazerImg = getImgSrc(_blazerImg);
-const tailorImg = getImgSrc(_tailorImg);
-const clothImg = getImgSrc(_clothImg);
-const capImg = getImgSrc(_capImg);
+const caseImg = getImgSrc(_caseImg);
 
 const CALENDLY_URL = 'https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting';
 
@@ -53,7 +57,7 @@ const Frame = ({ src, cap, alt }) => (
         src={src}
         loading="lazy"
         decoding="async"
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        className="w-full h-full object-cover"
       />
     </figure>
     {cap && <p className="font-serif italic text-xs sm:text-sm text-zinc-500 text-center sm:text-left">{cap}</p>}
@@ -96,14 +100,31 @@ const P = ({ children, className = '' }) => (
   <p className={`text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed ${className}`}>{children}</p>
 );
 
-const EntryHead = ({ n, pill, title, children }) => (
-  <div className="mb-6">
+const EntryHead = ({ n, pill, title, children, center = false }) => (
+  <div className={`mb-6 ${center ? 'flex flex-col items-center text-center' : ''}`}>
     <EntryNumber n={n} />
     <Pill>{pill}</Pill>
     <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-zinc-900 leading-tight mb-3">{title}</h3>
     {children}
   </div>
 );
+
+const CONFIGURATORS = [
+  { href: '/project/cap-configurator', label: 'Student Life Cap Configurator' },
+  { href: '/project/t-shirt-configurator', label: 'T-Shirt Configurator' },
+  { href: '/project/towel-configurator', label: 'Towel Configurator' },
+  { href: '/project/deck-configurator', label: 'Deck Configurator' },
+  { href: '/project/seat-configurator', label: 'Seat Configurator' },
+  { href: '/project/fruit-configurator', label: 'Fruit Configurator' },
+  { href: '/project/kia-configurator', label: 'KIA Sportage Configurator' },
+  { href: '/project/volvo-configurator', label: 'Volvo S90 Configurator' },
+  { href: '/project/byd-shark-6-configurator', label: 'BYD Shark 6 Configurator' },
+  { href: '/project/inverex-configurator', label: 'EV Bike Configurator' },
+  { href: '/project/Costa-cart', label: 'Golf Cart Configurator' },
+  { href: '/project/yacht-configurator', label: 'Yacht Configurator' },
+  { href: '/project/steering-configurator', label: 'BMW Steering Wheel Configurator' },
+  { href: '/project/bean-trailer-3d-builder', label: 'Bean Trailer 3D Builder' },
+];
 
 const FAQS = [
   {
@@ -175,7 +196,7 @@ const HeadwearTeamwearConfiguratorArticle = () => {
               <div className="relative w-full aspect-video rounded-2xl sm:rounded-3xl overflow-hidden shadow-2xl border-2 sm:border-4 border-white bg-black z-10">
                 <img
                   src={heroImg}
-                  alt="Customer customizing a hoodie in a mobile 3D apparel configurator"
+                  alt="Student Life 3D cap configurator with trim, band and star options"
                   className="w-full h-full object-cover"
                   decoding="async"
                 />
@@ -225,7 +246,7 @@ const HeadwearTeamwearConfiguratorArticle = () => {
 
         {/* ══════ INTRO ══════ */}
         <section className="py-6 sm:py-8 md:py-10">
-          <div className="grid grid-cols-1 md:grid-cols-[1.1fr_0.9fr] gap-6 sm:gap-10 items-center">
+          <div className="grid grid-cols-1 md:grid-cols-[0.9fr_1.1fr] gap-6 sm:gap-10 items-center">
             <div className="md:pt-2">
               <div className="italic text-[#2563EB] text-sm sm:text-base mb-2 font-serif">Introduction</div>
               <p className="text-base sm:text-lg text-zinc-700 leading-relaxed font-sans mb-3">
@@ -238,7 +259,7 @@ const HeadwearTeamwearConfiguratorArticle = () => {
                 At Elipse Studio, we solve this with browser-native PlayCanvas WebGL configurators paired with Autodesk 3ds Max baked lighting. Buyers inspect every fabric, stitch, and metallic crest in real time and check out with exact pricing in the browser.
               </p>
             </div>
-            <Frame src={tshirtImg} cap="A flat mockup cannot show the difference between fabrics, finishes and construction" alt="Custom t-shirt styles in different fabrics and colors" />
+            <div className="md:order-first"><Frame src={introImg} cap="Student Life apparel configurator: color, size, back-print library and design upload" alt="Student Life 3D t-shirt configurator with size, color and design upload" /></div>
           </div>
         </section>
 
@@ -248,15 +269,20 @@ const HeadwearTeamwearConfiguratorArticle = () => {
 
             {/* 01 */}
             <article className="py-10 sm:py-14 border-b border-zinc-200">
-              <EntryHead n="01" pill="The Sales Problem" title="Why Flat 2D Mockups Stall Custom Apparel Orders">
-                <P className="max-w-3xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 items-start md:items-center">
+                <div>
+                  <EntryHead n="01" pill="The Sales Problem" title="Why Flat 2D Mockups Stall Custom Apparel Orders">
+                <P>
                   In traditional custom headwear and teamwear workflows, buyers pick colors from flat swatches and wait days for a designer to send back a Photoshop mockup. That creates three common bottlenecks:
                 </P>
               </EntryHead>
-              <div className="space-y-2.5 text-xs sm:text-sm max-w-3xl">
+                  <div className="space-y-2.5 text-xs sm:text-sm">
                 <Check title="Texture and Sheen Blindness">Flat 2D fills cannot show how light hits satin, velour, woven cotton, or shimmer glitter finishes as a buyer turns the product.</Check>
                 <Check title="Embroidery and Crest Uncertainty">Metallic gold thread, raised badges, and custom name stitching look flat in 2D, which makes buyers nervous about ordering for a full team or graduating class.</Check>
                 <Check title="Slow Manual Quoting">Every color tweak or zone change requires another email thread before the factory gets clean production specs.</Check>
+              </div>
+                </div>
+                <Frame src={embroideryImg} cap="Student Life cap configurator: raised gold thread embroidery with live thread color and name options" alt="Raised gold embroidery on a custom graduation cap in the Student Life 3D configurator" />
               </div>
             </article>
 
@@ -275,7 +301,7 @@ const HeadwearTeamwearConfiguratorArticle = () => {
                     <Check title="Glitter & Shimmer Finishes">Layering a subtle sparkle noise map over a reflective metallic base gives glitter bands realistic shimmer without heavy post-processing overhead.</Check>
                   </div>
                 </div>
-                <Frame src={blazerImg} cap="Fabric, finish and detail options switch live in the browser" alt="Desktop 3D blazer configurator with fabric options" />
+                <div className="md:order-first"><Frame src={shaderImg} cap="Student Life cap configurator: embroidery options, name text and thread colors with live 3D preview" alt="Student Life cap configurator embroidery options" /></div>
               </div>
             </article>
 
@@ -290,26 +316,35 @@ const HeadwearTeamwearConfiguratorArticle = () => {
                     <P>
                       Instead of forcing the browser to calculate complex shadows every frame, our 3D team sets up a studio lighting rig inside Autodesk 3ds Max, bakes ambient occlusion and indirect lighting into lightmaps, and connects them inside PlayCanvas. Buyers still get crisp brim shadows, natural seam depth, and studio reflections at zero runtime shadow cost.
                     </P>
+                    <P className="mt-4">
+                      See the same approach in our <Int href="/project/towel-configurator">towel configurator</Int> for Al Karam Towel Industries.
+                    </P>
                   </EntryHead>
                 </div>
-                <Frame src={tailorImg} cap="The same configurator scene runs on in-store kiosks, desktops and phones" alt="In-store 3D tailoring configurator kiosk" />
+                <Frame src={towelImg} cap="Al Karam Towel Industries product showroom: studio-lit scene with live color selection" alt="Al Karam Towel Industries 3D product showroom configurator" />
+                
               </div>
             </article>
 
             {/* 04 */}
             <article className="py-10 sm:py-14 border-b border-zinc-200">
-              <EntryHead n="04" pill="Performance" title="Dual Desktop & Mobile Builds for Peak Seasonal Traffic">
-                <P className="mb-4 max-w-3xl">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 items-start md:items-center">
+                <div>
+                  <EntryHead n="04" pill="Performance" title="Dual Desktop & Mobile Builds for Peak Seasonal Traffic">
+                <P className="mb-4">
                   Custom apparel and graduation headwear brands often hit massive seasonal spikes where most buyers browse on their phones. A heavy desktop WebGL scene that feels great on a laptop can stutter on mobile Safari or Android Chrome.
                 </P>
-                <P className="max-w-3xl">
+                <P>
                   To keep load times fast on both platforms, we separate desktop and mobile asset pipelines while keeping a single shared product catalog:
                 </P>
               </EntryHead>
-              <div className="space-y-2.5 text-xs sm:text-sm max-w-3xl">
+                  <div className="space-y-2.5 text-xs sm:text-sm">
                 <Check title="Desktop Web Build">High-resolution panel textures and crisp close-up inspection for buyers customizing on laptops and larger monitors.</Check>
                 <Check title="Dedicated Mobile Build">Reduced polygon budgets, <Ext href={LINKS.draco}>Draco mesh compression</Ext>, and <Ext href={LINKS.basis}>Basis Universal GPU texture compression</Ext> so smartphone shoppers get smooth 60 FPS interaction on cellular connections.</Check>
                 <Check title="Zero Cloud GPU Streaming Fees">Because PlayCanvas renders directly in the buyer&apos;s browser, 10 concurrent shoppers or 10,000 shoppers during peak season cost the exact same CDN bandwidth.</Check>
+              </div>
+                </div>
+                <div className="md:order-first"><Frame src={towel2Img} cap="Al Karam Towel Industries configurator: day and night light modes, colors, border design and sizes" alt="Al Karam Towel Industries 3D configurator with day and night light mode" /></div>
               </div>
             </article>
 
@@ -321,9 +356,13 @@ const HeadwearTeamwearConfiguratorArticle = () => {
                     <P>
                       A 3D configurator only pays off when it connects cleanly to pricing and fulfillment. In our builds, every material switch, embroidery line, and add-on accessory updates the live total immediately and passes structured SKU, sizing, and placement data straight into checkout (Shopify Plus, WooCommerce, headless Next.js, or custom ERPs).
                     </P>
+                    <P className="mt-4">
+                      Browse our <Int href="/project/t-shirt-configurator">t-shirt configurator</Int> and <Int href="/services/3d-product-configurators">3D product configurator services</Int>.
+                    </P>
                   </EntryHead>
                 </div>
-                <Frame src={clothImg} cap="Student Life apparel configurator: color, size, design upload and a one-click request" alt="Student Life 3D t-shirt configurator with size, color and design upload" />
+                <Frame src={tshirtImg} cap="Student Life apparel configurator: color, size, back-print library and design upload" alt="Student Life 3D t-shirt configurator with back print library" />
+                
               </div>
             </article>
 
@@ -346,7 +385,7 @@ const HeadwearTeamwearConfiguratorArticle = () => {
                     <Check title="Accessories & Exact Sizing">Velvet boxes, champagne glasses, pins, and exact head measurements tied directly into checkout.</Check>
                   </div>
                 </div>
-                <Frame src={capImg} cap="Student Life cap configurator: emblem, rosette color and flag selection" alt="Student Life 3D graduation cap configurator" />
+                <div className="md:order-first"><Frame src={caseImg} cap="Student Life cap configurator: emblem, rosette color and flag selection" alt="Student Life 3D graduation cap configurator" /></div>
               </div>
               <Delivers label="Customer Feedback">
                 Today, Student Life holds a 4.5 out of 5 TrustScore on <Ext href={LINKS.trustpilot}>Trustpilot</Ext>, with customers specifically praising how intuitive the cap designer is to use.
@@ -356,10 +395,30 @@ const HeadwearTeamwearConfiguratorArticle = () => {
               </P>
             </article>
 
+            {/* More configurators (internal links) */}
+            <article className="py-10 sm:py-14 border-b border-zinc-200">
+              <Pill>Our Work</Pill>
+              <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-zinc-900 leading-tight mb-5">More 3D Configurators We Have Built</h3>
+              <div className="flex flex-wrap gap-2.5 sm:gap-3">
+                {CONFIGURATORS.map((c) => (
+                  <Link
+                    key={c.href}
+                    href={c.href}
+                    className="px-4 py-2 rounded-full border border-zinc-300 bg-zinc-50 hover:bg-zinc-100 hover:border-zinc-400 text-xs sm:text-sm font-medium text-zinc-800 transition-colors"
+                  >
+                    {c.label}
+                  </Link>
+                ))}
+              </div>
+              <P className="mt-5">
+                Want the full range? See all <Int href="/services/3d-product-configurators">3D product configurator services</Int> or <Int href="/portfolio">browse our portfolio</Int>.
+              </P>
+            </article>
+
             {/* FAQ */}
             <article className="py-10 sm:py-14 border-b border-zinc-200">
-              <EntryHead n="07" pill="FAQ" title="Frequently Asked Questions" />
-              <div className="space-y-6 max-w-3xl">
+              <EntryHead n="07" pill="FAQ" title="Frequently Asked Questions" center />
+              <div className="space-y-8 max-w-3xl mx-auto text-center">
                 {FAQS.map((f) => (
                   <div key={f.q}>
                     <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-1.5">{f.q}</h4>

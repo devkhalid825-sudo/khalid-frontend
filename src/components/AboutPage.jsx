@@ -12,7 +12,7 @@ import { ABOUT_FAQS } from '@/seo/pageFaqs';
 
 import leapHeroRaw from '../assets/ElipseImages/personal/leap-hero.webp';
 import bilalImgRaw from '../assets/About-page/bilalbhaiimage.jpeg';
-import maazImgRaw from '../assets/About-page/maazbhaiimage.jpg';
+import maazImgRaw from '../assets/About-page/maaz-bhai-image.jpeg';
 import asadImgRaw from '../assets/About-page/Asadbhai.jpeg';
 import fahadImgRaw from '../assets/About-page/fahadbhaiimage.jpeg';
 

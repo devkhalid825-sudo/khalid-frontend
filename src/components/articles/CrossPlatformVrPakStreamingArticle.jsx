@@ -47,7 +47,7 @@ const Frame = ({ src, cap, alt }) => (
         src={src}
         loading="lazy"
         decoding="async"
-        className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+        className="w-full h-full object-cover"
       />
     </figure>
     {cap && <p className="font-serif italic text-xs sm:text-sm text-zinc-500 text-center sm:text-left">{cap}</p>}
@@ -99,8 +99,8 @@ const P = ({ children, className = '' }) => (
   <p className={`text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed ${className}`}>{children}</p>
 );
 
-const EntryHead = ({ n, pill, title, children }) => (
-  <div className="mb-6">
+const EntryHead = ({ n, pill, title, children, center = false }) => (
+  <div className={`mb-6 ${center ? 'flex flex-col items-center text-center' : ''}`}>
     <EntryNumber n={n} />
     <Pill>{pill}</Pill>
     <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-zinc-900 leading-tight mb-3">{title}</h3>
@@ -333,7 +333,7 @@ const CrossPlatformVrPakStreamingArticle = () => {
                     <Check title="Layer 2: On-Demand Property PAK Modules">Each property or unit type lives on AWS S3 and CloudFront as platform-targeted PAK chunks, organized through a Supabase property directory.</Check>
                   </div>
                 </div>
-                <Frame src={imgTwo} cap="The base shell opens into a lightweight virtual studio in seconds" alt="Hyper Real Estate in-headset menu and property selection" />
+                <div className="md:order-first"><Frame src={imgTwo} cap="The base shell opens into a lightweight virtual studio in seconds" alt="Hyper Real Estate in-headset menu and property selection" /></div>
               </div>
 
               <div className="mt-8 max-w-3xl">
@@ -382,7 +382,7 @@ const CrossPlatformVrPakStreamingArticle = () => {
                     <Check title="Crash-Free 3D Menus">Standard UE5 Widget Components can crash on Android VR when render targets resize or get destroyed during heavy PAK loading. On our platform, we avoid runtime widget destruction and use a two-stage safe web UI plus a raycast interaction fixer after every level transition so 3D menus stay responsive across room switches.</Check>
                   </div>
                 </div>
-                <Frame src={imgFour} cap="In-world menus stay responsive across room switches" alt="Hyper Real Estate in-world 3D menu on Android VR" />
+                <div className="md:order-first"><Frame src={imgFour} cap="In-world menus stay responsive across room switches" alt="Hyper Real Estate in-world 3D menu on Android VR" /></div>
               </div>
             </article>
 
@@ -441,8 +441,8 @@ const CrossPlatformVrPakStreamingArticle = () => {
 
             {/* FAQ */}
             <article className="py-10 sm:py-14 border-b border-zinc-200">
-              <EntryHead n="07" pill="FAQ" title="Frequently Asked Questions" />
-              <div className="space-y-6 max-w-3xl">
+              <EntryHead n="07" pill="FAQ" title="Frequently Asked Questions" center />
+              <div className="space-y-8 max-w-3xl mx-auto text-center">
                 {FAQS.map((f) => (
                   <div key={f.q}>
                     <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-1.5">{f.q}</h4>
