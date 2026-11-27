@@ -197,6 +197,7 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
       galleryThumbnails={galleryThumbnails}
       galleryStills={galleryStills}
       sectionOrder={sectionOrder}
+      clientReview={sections[0]?.clientReview}
       content={data.content || data.description || ''}
       sections={sections}
       results={results}

@@ -11,7 +11,7 @@ import { CSS } from '@dnd-kit/utilities';
 
 const categories = ['Configurator', 'Architecture', 'Animation'];
 
-export const defaultSectionOrder = ['storyBlocks', 'thumbnails', 'stills', 'results', 'process', 'content'];
+export const defaultSectionOrder = ['storyBlocks', 'thumbnails', 'stills', 'clientReview', 'results', 'process', 'content'];
 
 import { isProjectHidden } from '../utils/projectVisibility';
 import { stripHtml } from '@/utils/formatTitle';
@@ -33,6 +33,11 @@ export const normalizeSectionOrder = (order) => {
   } else {
     if (!list.includes('thumbnails')) list.push('thumbnails');
     if (!list.includes('stills')) list.push('stills');
+  }
+  // Older projects were saved before the Client Review section existed: add it after stills.
+  if (!list.includes('clientReview')) {
+    const stillsIdx = list.indexOf('stills');
+    list.splice(stillsIdx >= 0 ? stillsIdx + 1 : list.length, 0, 'clientReview');
   }
   return list;
 };
@@ -99,6 +104,7 @@ const emptyForm = {
   heroReviewSubtitle: '',
   heroQuoteText: '',
   heroQuoteAuthor: '',
+  crVideo: '', crName: '', crRole: '', crQuote: '', crLogo: '', crLogoWhite: false,
   thumbnailsHeading: '',
   thumbnailsEyebrow: '',
   stillsHeading: '',
@@ -282,6 +288,8 @@ const ProjectDashboard = () => {
   const [storyBlockFiles, setStoryBlockFiles] = useState({});
   const [thumbnailFiles, setThumbnailFiles] = useState([]);
   const [stillFiles, setStillFiles] = useState([]);
+  const [crVideoFile, setCrVideoFile] = useState(null);
+  const [crLogoFile, setCrLogoFile] = useState(null);
   const [msg, setMsg] = useState('');
   const token = getAdminToken();
 
@@ -353,6 +361,8 @@ const ProjectDashboard = () => {
     });
     setStoryBlockFiles({});
     setSelectedVideoFile(null);
+    setCrVideoFile(null);
+    setCrLogoFile(null);
     setThumbnailFiles([]);
     setStillFiles([]);
     setShowForm(true);
@@ -478,6 +488,12 @@ const ProjectDashboard = () => {
       heroReviewSubtitle: firstSec.heroReviewSubtitle !== undefined ? firstSec.heroReviewSubtitle : (project.heroReviewSubtitle || ''),
       heroQuoteText: firstSec.heroQuoteText !== undefined ? firstSec.heroQuoteText : (project.heroQuoteText || ''),
       heroQuoteAuthor: firstSec.heroQuoteAuthor !== undefined ? firstSec.heroQuoteAuthor : (project.heroQuoteAuthor || ''),
+      crVideo: firstSec.clientReview?.video || '',
+      crName: firstSec.clientReview?.name || '',
+      crRole: firstSec.clientReview?.role || '',
+      crQuote: firstSec.clientReview?.quote || '',
+      crLogo: firstSec.clientReview?.logo || '',
+      crLogoWhite: Boolean(firstSec.clientReview?.logoWhite),
       thumbnailsHeading: firstSec.thumbnailsHeading !== undefined ? firstSec.thumbnailsHeading : (project.thumbnailsHeading || ''),
       thumbnailsEyebrow: firstSec.thumbnailsEyebrow !== undefined ? firstSec.thumbnailsEyebrow : (project.thumbnailsEyebrow || ''),
       stillsHeading: firstSec.stillsHeading !== undefined ? firstSec.stillsHeading : (project.stillsHeading || ''),
@@ -504,6 +520,8 @@ const ProjectDashboard = () => {
     });
     setStoryBlockFiles({});
     setSelectedVideoFile(null);
+    setCrVideoFile(null);
+    setCrLogoFile(null);
     setThumbnailFiles([]);
     setStillFiles([]);
     setShowForm(true);
@@ -708,6 +726,38 @@ const ProjectDashboard = () => {
       }
     }
 
+    // Upload client review video / logo (only if a new file was picked; otherwise keep existing URL)
+    let crVideoUrl = form.crVideo || '';
+    if (crVideoFile) {
+      try {
+        const url = await uploadImage(crVideoFile, 'projects');
+        if (url) crVideoUrl = url;
+      } catch (err) {
+        setMsg(`Client review video upload failed: ${err.message}`);
+        setSaving(false);
+        return;
+      }
+    }
+    let crLogoUrl = form.crLogo || '';
+    if (crLogoFile) {
+      try {
+        const url = await uploadImage(crLogoFile, 'projects');
+        if (url) crLogoUrl = url;
+      } catch (err) {
+        setMsg(`Client review logo upload failed: ${err.message}`);
+        setSaving(false);
+        return;
+      }
+    }
+    const clientReviewPayload = {
+      video: crVideoUrl.trim(),
+      name: (form.crName || '').trim(),
+      role: (form.crRole || '').trim(),
+      quote: (form.crQuote || '').trim(),
+      logo: crLogoUrl.trim(),
+      logoWhite: Boolean(form.crLogoWhite),
+    };
+
     // Build galleryCategories array
     const galleryCategoriesPayload = [];
     if (newThumbnailUrls.length > 0) {
@@ -735,6 +785,7 @@ const ProjectDashboard = () => {
       heroReviewSubtitle: form.heroReviewSubtitle || '',
       heroQuoteText: form.heroQuoteText || '',
       heroQuoteAuthor: form.heroQuoteAuthor || '',
+      clientReview: clientReviewPayload,
       ctaUrl: form.ctaUrl || '',
       ctaText: form.ctaText || '',
       thumbnailsHeading: form.thumbnailsHeading || '',
@@ -789,6 +840,7 @@ const ProjectDashboard = () => {
       galleryThumbnails, galleryStills, sectionOrder,
       heroIntroText, heroStars, heroReviewTitle, heroReviewSubtitle,
       heroQuoteText, heroQuoteAuthor,
+      crVideo, crName, crRole, crQuote, crLogo, crLogoWhite,
       thumbnailsHeading, thumbnailsEyebrow, stillsHeading, stillsEyebrow,
       resultsHeading, resultsEyebrow, processHeading, processEyebrow,
       ...formWithoutToggle
@@ -830,6 +882,8 @@ const ProjectDashboard = () => {
       setSelectedVideoFile(null);
       setSelectedHeroFile(null);
       setStoryBlockFiles({});
+      setCrVideoFile(null);
+      setCrLogoFile(null);
       setThumbnailFiles([]);
       setStillFiles([]);
       fetchProjects();
@@ -1358,6 +1412,69 @@ const ProjectDashboard = () => {
                 </div>
               </SectionCard>
 
+              {/* ===== CLIENT REVIEW (video + quote + logo) ===== */}
+              <SectionCard title="Client Review (Video, Quote & Logo)" icon={<FiImage size={12} />}>
+                <p className="text-[#888] text-[8px] uppercase tracking-widest -mt-2">
+                  Optional. Leave everything empty and this section will not appear on the public page (no blank space).
+                </p>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                  <div className="space-y-3">
+                    <label className="block text-[#888] text-[8px] uppercase tracking-widest">Review Video (one video)</label>
+                    <input
+                      type="text"
+                      value={form.crVideo || ''}
+                      onChange={(e) => { setCrVideoFile(null); setForm(f => ({ ...f, crVideo: e.target.value })); }}
+                      className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs placeholder:text-[#444]"
+                      placeholder="YouTube / Shorts link or uploaded video URL"
+                    />
+                    <label className="flex items-center justify-center gap-2 border border-dashed border-[#333] hover:border-[#4169E1] rounded-xl py-3 text-[#888] text-xs cursor-pointer transition-all">
+                      <FiUpload size={12} /> {crVideoFile ? crVideoFile.name : 'Or upload video from computer'}
+                      <input type="file" accept="video/*" className="hidden" onChange={(e) => { const file = e.target.files?.[0]; if (file) setCrVideoFile(file); e.target.value = ''; }} />
+                    </label>
+                    {(crVideoFile || form.crVideo) && (
+                      <div className="flex items-center justify-between text-[10px] text-[#888]">
+                        <span className="truncate">{crVideoFile ? `New file: ${crVideoFile.name}` : form.crVideo}</span>
+                        <button type="button" onClick={() => { setCrVideoFile(null); setForm(f => ({ ...f, crVideo: '' })); }} className="text-red-400 hover:text-red-300 ml-3 shrink-0">Remove</button>
+                      </div>
+                    )}
+                  </div>
+                  <div className="space-y-3">
+                    <div className="grid grid-cols-2 gap-2">
+                      <div>
+                        <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Client Name</label>
+                        <input type="text" value={form.crName || ''} onChange={(e) => setForm(f => ({ ...f, crName: e.target.value }))} placeholder="e.g. Ahmed Al-Rashid" className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs" />
+                      </div>
+                      <div>
+                        <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Designation / Company</label>
+                        <input type="text" value={form.crRole || ''} onChange={(e) => setForm(f => ({ ...f, crRole: e.target.value }))} placeholder="e.g. Marketing Director, Kia" className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs" />
+                      </div>
+                    </div>
+                    <div>
+                      <label className="block text-[#666] text-[8px] uppercase tracking-wider mb-1">Quote</label>
+                      <textarea rows={4} value={form.crQuote || ''} onChange={(e) => setForm(f => ({ ...f, crQuote: e.target.value }))} placeholder="What the client says about the project" className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs resize-y" />
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <div className={`w-20 h-10 rounded-lg border border-[#333] flex items-center justify-center overflow-hidden ${form.crLogoWhite ? 'bg-[#333]' : 'bg-[#0D0D0D]'}`}>
+                        {(crLogoFile || form.crLogo) ? (
+                          <img src={crLogoFile ? URL.createObjectURL(crLogoFile) : resolvePreviewUrl(form.crLogo)} alt="" className="max-w-full max-h-full object-contain" />
+                        ) : <span className="text-[#444] text-[9px]">Logo</span>}
+                      </div>
+                      <label className="px-3 py-2 border border-[#333] hover:border-[#4169E1] rounded-lg text-[#888] text-[10px] cursor-pointer transition-all">
+                        {(crLogoFile || form.crLogo) ? 'Change logo' : 'Upload logo'}
+                        <input type="file" accept="image/*" className="hidden" onChange={(e) => { const file = e.target.files?.[0]; if (file) setCrLogoFile(file); e.target.value = ''; }} />
+                      </label>
+                      {(crLogoFile || form.crLogo) && (
+                        <button type="button" onClick={() => { setCrLogoFile(null); setForm(f => ({ ...f, crLogo: '' })); }} className="text-red-400 hover:text-red-300 text-[10px]">Remove</button>
+                      )}
+                      <label className="flex items-center gap-1.5 text-[#888] text-[10px] ml-auto cursor-pointer">
+                        <input type="checkbox" checked={Boolean(form.crLogoWhite)} onChange={(e) => setForm(f => ({ ...f, crLogoWhite: e.target.checked }))} />
+                        White logo
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </SectionCard>
+
               {/* ===== SECTION ORDER CONTROLLER ===== */}
               <SectionCard title="Page Section Order & Positioning" icon={<FiMove size={12} />}>
                 <p className="text-[#888] text-[8px] uppercase tracking-widest -mt-2">
@@ -1369,6 +1486,7 @@ const ProjectDashboard = () => {
                       storyBlocks: '1. Overview & Challenge (Alternating Story Blocks)',
                       thumbnails: form.thumbnailsHeading ? `2. ${form.thumbnailsHeading}` : '2. Visual Output: Thumbnails (16:9 Aspect Ratio - 3 per row)',
                       stills: form.stillsHeading ? `3. ${form.stillsHeading}` : '3. Visual Output: Still Images (4 per row)',
+                      clientReview: 'Client Review (Video + Quote + Logo)',
                       gallery: 'Visual Output (Combined Thumbnails & Stills)',
                       results: form.resultsHeading ? `4. ${form.resultsHeading}` : '4. Measurable Impact (Results Cards)',
                       process: form.processHeading ? `5. ${form.processHeading}` : '5. How We Did It (Process Steps)',

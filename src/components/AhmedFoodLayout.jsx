@@ -92,6 +92,7 @@ const AhmedFoodLayout = ({
   heroReviewSubtitle,
   heroQuoteText,
   heroQuoteAuthor,
+  clientReview,
   thumbnailsHeading,
   thumbnailsEyebrow,
   stillsHeading,
@@ -403,6 +404,77 @@ const AhmedFoodLayout = ({
               })}
             </div>
           )}
+        </div>
+      </section>
+    );
+  };
+
+  // Client Review: one video + quote + client logo. Renders nothing (no empty space) when nothing is filled in.
+  const renderClientReview = () => {
+    const cr = clientReview || {};
+    const videoRaw = typeof cr.video === 'string' ? cr.video.trim() : '';
+    const quote = typeof cr.quote === 'string' ? cr.quote.trim() : '';
+    const name = typeof cr.name === 'string' ? cr.name.trim() : '';
+    const role = typeof cr.role === 'string' ? cr.role.trim() : '';
+    const logo = typeof cr.logo === 'string' ? cr.logo.trim() : '';
+    if (!videoRaw && !quote) return null;
+
+    const isYoutube = /youtu\.?be/i.test(videoRaw);
+    const embedUrl = isYoutube
+      ? (videoRaw.match(/(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([a-zA-Z0-9_-]+)/)?.[1] || '')
+      : '';
+    const isShort = /youtube\.com\/shorts\//i.test(videoRaw);
+    const hasVideo = Boolean(videoRaw) && (!isYoutube || embedUrl);
+
+    const textBlock = (
+      <div className="flex flex-col justify-center gap-6 min-w-0">
+        {logo && (
+          <img
+            src={resolveImageUrl(logo)}
+            alt={name ? `${name} company logo` : 'Client logo'}
+            className={`h-8 sm:h-10 w-auto max-w-[180px] object-contain object-left ${cr.logoWhite && isLight ? 'invert' : ''}`}
+            loading="lazy"
+          />
+        )}
+        {quote && (
+          <blockquote className={`text-xl sm:text-2xl lg:text-[28px] leading-snug font-medium tracking-tight ${isLight ? 'text-neutral-900' : 'text-[#F2F0EB]'}`}>
+            &ldquo;{quote}&rdquo;
+          </blockquote>
+        )}
+        {(name || role) && (
+          <div>
+            {name && <p className={`text-sm font-semibold ${isLight ? 'text-neutral-900' : 'text-[#F2F0EB]'}`}>{name}</p>}
+            {role && <p className={`text-xs mt-1 ${isLight ? 'text-neutral-500' : 'text-zinc-400'}`}>{role}</p>}
+          </div>
+        )}
+      </div>
+    );
+
+    return (
+      <section className={`px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t border-b overflow-hidden transition-colors duration-300 ${isLight ? 'bg-white border-neutral-200' : 'bg-[#0D0D0D] border-white/5'}`}>
+        <div className="w-full">
+          <p className={`text-xs sm:text-[14px] font-semibold tracking-[0.12em] uppercase mb-8 md:mb-12 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}`}>
+            Client review
+          </p>
+          <div className={`grid gap-8 lg:gap-14 items-center ${hasVideo && (quote || name || logo) ? (isShort ? 'lg:grid-cols-[minmax(0,360px)_minmax(0,1fr)]' : 'lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]') : 'grid-cols-1 max-w-4xl'}`}>
+            {hasVideo && (
+              <div className={`relative w-full overflow-hidden rounded-2xl border shadow-lg ${isShort ? 'aspect-[9/16] max-w-[360px] mx-auto lg:mx-0' : 'aspect-video'} ${isLight ? 'border-neutral-200 bg-neutral-100' : 'border-white/10 bg-black'}`}>
+                {isYoutube ? (
+                  <iframe
+                    src={`https://www.youtube.com/embed/${embedUrl}?rel=0`}
+                    title={name ? `${name} client review` : 'Client review video'}
+                    className="absolute inset-0 w-full h-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allowFullScreen
+                    loading="lazy"
+                  />
+                ) : (
+                  <video src={resolveImageUrl(videoRaw)} controls playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" />
+                )}
+              </div>
+            )}
+            {(quote || name || role || logo) && textBlock}
+          </div>
         </div>
       </section>
     );
@@ -1321,6 +1393,7 @@ const AhmedFoodLayout = ({
           {secKey === 'storyBlocks' && renderStoryBlocks()}
           {secKey === 'thumbnails' && renderThumbnails()}
           {secKey === 'stills' && renderStills()}
+          {secKey === 'clientReview' && renderClientReview()}
           {secKey === 'gallery' && renderGallery()}
           {secKey === 'results' && (
             <>
@@ -1342,6 +1415,8 @@ const AhmedFoodLayout = ({
       ))}
 
       {/* RENDER CREDITS & FAQ IF NOT INCLUDED IN SECTION ORDER */}
+      {/* Older saved orders without clientReview: still show it (after the ordered sections) */}
+      {!sectionOrder?.includes('clientReview') && renderClientReview()}
       {!sectionOrder?.includes('credits') && renderCredits()}
       {!sectionOrder?.includes('faq') && renderFaq()}
 
