@@ -136,19 +136,35 @@ const DataTable = ({ icon: Icon, title, cols, rows }) => (
 
 // ── Tables Data ──
 
-const evidenceRows = [
-  { method: 'Passive video / e-learning', d30: '40–55%', y1: '15–25%', transfer: 'Baseline' },
-  { method: 'Instructor-led classroom', d30: '55–65%', y1: '25–35%', transfer: '+18%' },
-  { method: 'Physical rig with instructor', d30: '70–80%', y1: '50–65%', transfer: '+47%' },
-  { method: 'Fully immersive VR simulation', d30: '80–90%', y1: '72–80%', transfer: '+61%' },
-  { method: 'MR passthrough on real equipment', d30: '85–92%', y1: '75–83%', transfer: '+69%' },
+// External source link (only URLs supplied by the editorial review are linked).
+const SrcLink = ({ href, children }) =>
+  href ? (
+    <a href={href} target="_blank" rel="noopener noreferrer" className="underline font-semibold text-zinc-900 hover:text-[#2563EB]">
+      {children}
+    </a>
+  ) : (
+    <span className="font-semibold text-zinc-800">{children}</span>
+  );
+
+const roleRows = [
+  { role: 'Trainee', capability: 'Full interaction: operates equipment, triggers consequences, completes steps', user: 'Apprentice, field technician' },
+  { role: 'Ghost Observer', capability: 'Invisible presence: sees trainee view, cannot interact; ideal for peer review', user: 'Trainee colleague, assessor' },
+  { role: 'Instructor / God View', capability: 'Elevated overhead view, freeze/branch/reset controls, alert injection, debrief overlay', user: 'Trainer, supervisor' },
+];
+
+const xapiRows = [
+  { stmt: 'attempted', value: 'Feeder-7 LOTO Sequence', use: 'Enrollment tracking' },
+  { stmt: 'completed', value: 'Feeder-7 LOTO Sequence', use: 'Completion certificate trigger' },
+  { stmt: 'passed / failed', value: 'Score 91/100', use: 'Competency record' },
+  { stmt: 'experienced', value: 'Incorrect isolation: high-severity deviation', use: 'Error pattern analysis' },
+  { stmt: 'interacted', value: 'Permit signed with wrong feeder selected', use: 'Root-cause reporting' },
 ];
 
 const modeDecisionRows = [
-  { scenario: 'LOTO practise on real switchboard panel', mode: 'MR Passthrough', why: 'Builds muscle memory on actual hardware geometry' },
-  { scenario: 'Energised equipment isolation (no live panel available)', mode: 'Full VR', why: 'Full simulation of panel needed; no physical anchor' },
+  { scenario: 'LOTO practice on real switchboard panel', mode: 'MR Passthrough', why: 'Builds muscle memory on actual hardware geometry' },
+  { scenario: 'Energized equipment isolation (no live panel available)', mode: 'Full VR', why: 'Full simulation of panel needed; no physical anchor' },
   { scenario: 'Gas turbine internal inspection sequence', mode: 'Full VR', why: 'No physical prop possible; photorealistic 3D model required' },
-  { scenario: 'Electrical test instrument familiarisation', mode: 'MR Passthrough', why: 'Real meter + digital overlay teaches actual device workflow' },
+  { scenario: 'Electrical test instrument familiarization', mode: 'MR Passthrough', why: 'Real meter + digital overlay teaches actual device workflow' },
   { scenario: 'Emergency evacuation drill', mode: 'Full VR', why: 'Scenario requires spatial scale impossible in a training room' },
   { scenario: 'Confined space entry permit procedure', mode: 'MR Passthrough', why: 'Real confined-entry props with virtual hazard overlays' },
   { scenario: 'Substation switching order verification', mode: 'MR Passthrough', why: 'Real one-line diagram + AR annotation layer' },
@@ -156,21 +172,21 @@ const modeDecisionRows = [
 ];
 
 const tcoRows = [
-  { cat: 'Initial build / rig procurement', rig: '$85,000–$220,000', vr: '$65,000–$140,000', save: '~35%' },
-  { cat: 'Annual maintenance & repair', rig: '$12,000–$28,000/yr', vr: '$4,000–$8,000/yr', save: '~68%' },
-  { cat: 'Instructor costs (per cohort)', rig: '$3,200–$5,500', vr: '$800–$1,400', save: '~74%' },
-  { cat: 'Trainee travel (100 trainees/yr)', rig: '$120,000–$280,000/yr', vr: '$0 (deploy to site)', save: '~100%' },
-  { cat: '5-year total cost of ownership', rig: '$820K–$1.98M', vr: '$145K–$320K', save: '~79%' },
+  { cat: 'Initial build / development', rig: '$180,000–$280,000', vr: '$90,000–$160,000', note: 'VR: custom UE5 scenario development' },
+  { cat: 'Hardware & maintenance', rig: '$60,000–$120,000', vr: '$25,000–$50,000', note: 'VR: Quest 3 fleet + replacement cycle' },
+  { cat: 'Instructor time (facilitation)', rig: '$120,000–$200,000', vr: '$40,000–$80,000', note: 'VR reduces ratio; God View scales sessions' },
+  { cat: 'Scenario updates / refreshes', rig: '$80,000–$150,000', vr: '$20,000–$50,000', note: 'VR: asset update vs. rig rebuild' },
+  { cat: 'Compliance logging & admin', rig: '$30,000–$60,000', vr: '$5,000–$15,000', note: 'VR: automated xAPI records' },
+  { cat: 'Estimated 5-year total', rig: '$470,000–$810,000', vr: '$180,000–$355,000', note: 'Illustrative benchmark only' },
 ];
 
 const roadmapRows = [
-  { phase: 'Phase 0', time: 'Weeks 1–2', deliverables: 'Training needs analysis, scenario prioritisation workshop, technical environment survey', sign: 'Approved scenario list' },
+  { phase: 'Phase 0', time: 'Weeks 1–2', deliverables: 'Training needs analysis, scenario prioritization workshop, technical environment survey', sign: 'Approved scenario list' },
   { phase: 'Phase 1', time: 'Weeks 3–8', deliverables: 'Pilot scenario (1 procedure, single-user, Quest 3 standalone): concept art, UE5 grey-box, 3D model integration, interaction logic', sign: 'Pilot demo approved' },
   { phase: 'Phase 2', time: 'Weeks 9–14', deliverables: 'Multi-user session layer, instructor God View dashboard, session logging, xAPI/SCORM LMS integration', sign: '10-trainee live test' },
-  { phase: 'Phase 3', time: 'Weeks 15–20', deliverables: 'MR passthrough mode, scenario branching expansion, error-recovery sub-procedures, localisation', sign: 'Full pilot sign-off' },
+  { phase: 'Phase 3', time: 'Weeks 15–20', deliverables: 'MR passthrough mode, scenario branching expansion, error-recovery sub-procedures, localization', sign: 'Full pilot sign-off' },
   { phase: 'Phase 4', time: 'Weeks 21–28', deliverables: '2–3 additional scenarios, air-gapped deployment package, offline sync utility', sign: 'Curriculum v1 delivered' },
-  { phase: 'Phase 5', time: 'Weeks 29–36', deliverables: 'Instructor certification content, train-the-trainer, LMS admin guide, fleet runbook', sign: 'Client self-sufficient' },
-  { phase: 'Phase 6', time: 'Ongoing', deliverables: 'Annual scenario refresh, quarterly UE5 engine update, performance analytics reporting', sign: 'SLA renewal' },
+  { phase: 'Phase 5', time: 'Weeks 29–36', deliverables: 'Instructor certification content, train-the-trainer program, year-1 support & update SLA', sign: 'Program live' },
 ];
 
 const MrVrTrainingEnergyArticle = () => {
@@ -291,22 +307,32 @@ const MrVrTrainingEnergyArticle = () => {
                 Executive Briefing · Trade &amp; Energy Workforce Training
               </div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-neutral-900 leading-tight mb-4">
-                Practise Energised Panel Isolation Without Risk to People or Hardware
+                Practice Energized Panel Isolation Without Risk to People or Hardware
               </h2>
               <p className="text-base sm:text-lg text-zinc-700 leading-relaxed font-sans mb-3">
-                A single high-voltage switchgear incident costs US utilities an average of $4.1M in equipment damage, regulatory penalties, and lost productivity. Yet most trade and energy training still relies on video modules and static diagrams.
+                Arc-flash incidents represent a severe and costly risk for US utilities and trade contractors. According to Eaton and The Fire Protection Research Foundation, 5 to 10 arc-flash explosions occur in the United States every day, resulting in more than 2,000 burn-center admissions annually. The cost of a single arc-flash burn injury ranges from $10,000 to $15,000,000 USD depending on voltage and severity. In one documented utility, electrical injuries represented more than 2% of accidents but 28% to 52% of total injury costs.
+              </p>
+              <p className="text-[11px] sm:text-xs text-zinc-500 leading-relaxed font-sans mb-3">
+                Sources: <SrcLink>Eaton arc-flash statistics</SrcLink> · <SrcLink href="https://www.osha.gov/electrical/flash-hazards">OSHA electrical flash hazards</SrcLink>
+              </p>
+              <p className="text-xs sm:text-sm md:text-base text-zinc-600 leading-relaxed font-sans mb-3">
+                Yet most trade and energy training still relies on video modules and static diagrams. Meta Quest 3 Mixed Reality passthrough and multi-user Unreal Engine 5 labs let workers repeat dangerous procedures (LOTO sequences, switchgear isolation, arc-flash boundary identification) in a photorealistic environment that mirrors real equipment, without risk to people, hardware or continuity of supply.
               </p>
               <p className="text-xs sm:text-sm md:text-base text-zinc-600 leading-relaxed font-sans">
-                Meta Quest 3 Mixed Reality passthrough and multi-user Unreal Engine 5 labs let workers rehearse panel isolation, gas turbine maintenance sequences and substation lock-out/tag-out in photorealistic environments. This guide is written for technical college directors, utility training managers and industrial safety leads in the US, UK and Australia.
+                This guide is written for technical college directors, utility training managers and industrial safety leads in the US, UK and Australia.
               </p>
             </div>
             <div className="bg-zinc-50 border border-zinc-200 p-3 sm:p-5 rounded-2xl relative shadow-sm">
+              <p className="text-[10px] sm:text-xs uppercase font-bold tracking-wider text-zinc-500 mb-3">Verified Training Outcomes · PwC VR Training Study</p>
               <div className="grid grid-cols-1 gap-3">
-                <Stat v="72%" l="Faster Skill Acquisition" s="vs traditional classroom (PwC VR study)" />
-                <Stat v="4×" l="Better Knowledge Retention" s="At the 1-year post-training benchmark" />
-                <Stat v="88%" l="Reduction in Near-Misses" s="Electrical utilities early adopter data" />
-                <Stat v="2.1×" l="Training ROI" s="vs physical rig programmes at scale" />
+                <Stat v="Up to 4×" l="Faster to Train" s="than classroom learning" />
+                <Stat v="Up to 275%" l="More Confident" s="applying learned skills vs. classroom" />
+                <Stat v="3.75×" l="More Emotionally Connected" s="to content than classroom learners" />
+                <Stat v="52%" l="More Cost-Effective" s="than classroom at 3,000 learners" />
               </div>
+              <p className="text-[11px] text-zinc-500 leading-relaxed mt-3">
+                Cost parity between VR and classroom training is reached at 375 learners. Beyond that threshold, VR training becomes progressively more cost-effective at scale. Source: <SrcLink>PwC Emerging Technology: Virtual Reality Study</SrcLink>
+              </p>
             </div>
           </div>
         </section>
@@ -335,32 +361,23 @@ const MrVrTrainingEnergyArticle = () => {
                   <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">1.1 The Three Transfer-Gap Drivers</h4>
                   <div className="space-y-2.5 text-xs sm:text-sm">
                     <Check title="Context mismatch">Video shows one camera angle; real switchboards need 3D orientation, panel identification from multiple approaches and coordination with colleagues.</Check>
-                    <Check title="Missing consequence feedback">Video cannot register that a trainee would have de-energised the wrong feeder. Simulation makes the consequence immediate.</Check>
+                    <Check title="Missing consequence feedback">Video cannot register that a trainee would have de-energized the wrong feeder. Simulation makes the consequence immediate.</Check>
                     <Check title="No procedural interleaving">Real LOTO sequences branch when conditions change; video plays linearly regardless of operator action.</Check>
                   </div>
                 </div>
                 <Frame
                   src={imgOne}
                   cap="Immersive simulation encodes decisions and muscle memory in the context the work will happen"
-                  alt="Trainee practising procedures in an immersive VR training simulation"
+                  alt="Trainee practicing procedures in an immersive VR training simulation"
                 />
               </div>
 
-              <DataTable
-                icon={FiLayers}
-                title="What the Evidence Shows"
-                cols={[
-                  { key: 'method', label: 'Training Method', span: 4 },
-                  { key: 'd30', label: 'Retention at 30 Days', span: 2 },
-                  { key: 'y1', label: 'Retention at 1 Year', span: 3 },
-                  { key: 'transfer', label: 'Procedural Transfer', span: 3, strong: true },
-                ]}
-                rows={evidenceRows}
-              />
-
-              <Delivers label="Industry Reference">
-                A 2024 study by the Electric Power Research Institute (EPRI) found that utility lineworkers trained on immersive VR simulations committed 76% fewer procedural errors on live equipment checks in the six months post-training, compared with cohorts using updated video-and-quiz curricula.
+              <Delivers label="1.2 Verified Industry Evidence: EPRI VR Initiatives">
+                EPRI&apos;s Virtual Reality Substation initiative enables digital twin training without the safety or logistical burden of live station access. EPRI&apos;s Nuclear Plant Modernization brief (MTA-TR-002) documents that VR eliminates physical mock-up costs, reduces trainee travel, and typically reaches payback within 1 year.
               </Delivers>
+              <p className="text-[11px] sm:text-xs text-zinc-500 leading-relaxed font-sans mt-3">
+                Sources: <SrcLink href="https://transmission.epri.com/mts">EPRI Virtual Reality Substation initiative</SrcLink> · <SrcLink href="https://nuclearplantmod.epri.com/MTA-TR-002">EPRI Nuclear MTA-TR-002</SrcLink>
+              </p>
             </article>
 
             {/* ENTRY 02 */}
@@ -389,7 +406,7 @@ const MrVrTrainingEnergyArticle = () => {
                 />
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mt-8 items-start">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mt-8 items-start md:items-center">
                 <div>
                   <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-3">UE5 MR Passthrough Pipeline on Quest 3:</h4>
                   <div className="space-y-2.5 text-xs sm:text-sm">
@@ -417,42 +434,60 @@ const MrVrTrainingEnergyArticle = () => {
                 <EntryNumber n="03" />
                 <Pill>Multi-User Sync</Pill>
                 <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-zinc-900 leading-tight mb-3">
-                  Multi-User Instructor &amp; Trainee Sync Architecture
+                  Instructor God View, Ghost Observer Mode &amp; Shared Scenario State
                 </h3>
                 <p className="text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed">
-                  Single-player simulations are straightforward. The greater educational value, and the complexity, comes from multiple trainees in a shared space while one instructor monitors and intervenes. Scaling to 10–15 trainees needs deliberate design across network replication, session state, instructor tooling and hardware topology.
+                  Single-trainee simulation is useful for initial skill building; it cannot replicate the communication, coordination and decision-making demands of a multi-person switching order or a permit-to-work handover. Elipse builds multi-user sessions with three participant roles.
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mt-8 items-start">
+              <DataTable
+                icon={FiLayers}
+                title="Participant Roles"
+                cols={[
+                  { key: 'role', label: 'Role', span: 3 },
+                  { key: 'capability', label: 'Capability', span: 6, strong: true },
+                  { key: 'user', label: 'Typical User', span: 3 },
+                ]}
+                rows={roleRows}
+              />
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-10 mt-8 items-start md:items-center">
                 <div>
-                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-3">Instructor Oversight: Three Modes</h4>
+                  <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-3">3.1 Instructor Dashboard Controls</h4>
                   <div className="space-y-2.5 text-xs sm:text-sm">
-                    <Check title="God View (2D tablet/desktop)">Top-down overview of every trainee with procedure progress, error flags and time-on-task. Runs on a standard laptop on the training Wi-Fi.</Check>
-                    <Check title="Ghost Observer (VR headset)">The instructor joins invisibly, flies to any trainee, sees what they see and hears their verbal responses.</Check>
-                    <Check title="Spotlight Intervention">Freeze one trainee, project a 3D annotation only they can see, then resume without interrupting the others.</Check>
-                  </div>
-                  <Delivers label="Pedagogical Note">
-                    Trainees perform better when they know an instructor can observe them, but not if the instructor intervenes too early. Every session is recorded so debriefs happen after the session rather than breaking immersion with live corrections.
-                  </Delivers>
-                </div>
-                <div>
-                  <Frame
-                    src={imgThree}
-                    cap="Instructor dashboard tracks every trainee's progress, errors and time-on-task"
-                    alt="Instructor dashboard monitoring multi-user VR training session"
-                  />
-                  <div className="mt-5 bg-zinc-50 p-4 border border-zinc-200 text-xs sm:text-sm">
-                    <h4 className="font-bold text-sm text-zinc-900 mb-2.5">Session State &amp; Branching Engine</h4>
-                    <div className="space-y-2">
-                      <Check>Tracks each trainee&apos;s current step independently.</Check>
-                      <Check>Evaluates interactions (door opened, isolator rotated, test instrument applied) against expected actions.</Check>
-                      <Check>Branches to error-recovery sub-procedures after an unsafe action.</Check>
-                      <Check>Logs timestamped events per trainee to a local session JSON file, with no cloud upload.</Check>
-                      <Check>Alerts the instructor to high-severity deviations, such as operating equipment with the permit unsigned.</Check>
-                    </div>
+                    <Check title="Freeze frame">Pauses scenario mid-action for group discussion without resetting progress.</Check>
+                    <Check title="Branch injection">Triggers unexpected fault conditions (e.g., breaker fails to open) to test response.</Check>
+                    <Check title="Alert overlay">Highlights the step a trainee is about to perform incorrectly before consequences occur.</Check>
+                    <Check title="Session replay">Full 3D playback of any session for debrief; camera follows any participant.</Check>
+                    <Check title="Automated scoring">Procedural step completion logged against an approved procedure checklist; deviations flagged with severity rating.</Check>
                   </div>
                 </div>
+                <Frame
+                  src={imgThree}
+                  cap="Instructor dashboard tracks every trainee's progress, errors and time-on-task"
+                  alt="Instructor dashboard monitoring multi-user VR training session"
+                />
+              </div>
+
+              <div className="mt-10">
+                <h4 className="font-bold text-sm sm:text-base text-zinc-900 mb-2">3.2 xAPI / SCORM LMS Integration</h4>
+                <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed mb-4">
+                  Every session generates structured xAPI statements: actor, verb, object, result, context. These pipe directly into any LRS (Learning Record Store) or SCORM-compliant LMS.
+                </p>
+                <DataTable
+                  icon={FiLayers}
+                  title="xAPI Statements"
+                  cols={[
+                    { key: 'stmt', label: 'xAPI Statement', span: 3 },
+                    { key: 'value', label: 'Example Value', span: 5, strong: true },
+                    { key: 'use', label: 'LMS Use', span: 4 },
+                  ]}
+                  rows={xapiRows}
+                />
+                <p className="text-zinc-600 font-sans text-xs sm:text-sm leading-relaxed mt-4">
+                  The instructor dashboard flags automatically when a trainee proceeds to high-severity deviations, such as operating equipment with the permit unsigned.
+                </p>
               </div>
             </article>
 
@@ -477,7 +512,7 @@ const MrVrTrainingEnergyArticle = () => {
                     <Check title="Sideloading">Signed APK plus SideQuest or MDM bundle; one-time USB-C/ADB install per headset, no Meta account in Quest for Business mode.</Check>
                     <Check title="Local data">Event logs write to headset storage as JSON; a sync utility pulls them over USB-C to a local PC for HR/LMS import.</Check>
                     <Check title="Updates">New APK versions are distributed on USB drive; no OTA infrastructure required.</Check>
-                    <Check title="Licensing">Hardware-bound token inside the APK; no internet check-in.</Check>
+                    <Check title="Licensing">Hardware-locked license keys; no call-home required for validation.</Check>
                   </div>
                 </div>
                 <div>
@@ -487,9 +522,12 @@ const MrVrTrainingEnergyArticle = () => {
                     <Check title="Batch SCORM export">Where no real-time LRS exists, session JSON converts to SCORM 1.2 completion packages for manual import.</Check>
                     <Check title="LDAP/AD binding">Kiosk mode ties sessions to employee IDs from on-premise Active Directory, with no cloud SSO.</Check>
                   </div>
-                  <Delivers label="Security Consideration">
-                    NERC CIP-004-6 (Personnel and Training) requires documented training-completion records but mandates no specific technology. An air-gapped VR simulation with local xAPI logging satisfies the evidence requirement when the LRS sits inside the Electronic Security Perimeter. Elipse supplies CIP-004 compliance documentation templates.
+                  <Delivers label="4.1 Regulatory Context: NERC CIP Compliance">
+                    Personnel and training requirements for critical infrastructure are governed by NERC CIP-004-6 and its active successor CIP-004-7. These standards mandate documented training programs, personnel risk assessments and access management for anyone with access to BES Cyber Systems. VR training logs and xAPI records serve as audit-ready evidence of CIP-compliant training completion.
                   </Delivers>
+                  <p className="text-[11px] sm:text-xs text-zinc-500 leading-relaxed font-sans mt-3">
+                    Sources: <SrcLink>NERC CIP-004-6</SrcLink> · <SrcLink>NERC CIP-004-7</SrcLink>
+                  </p>
                 </div>
               </div>
             </article>
@@ -501,33 +539,39 @@ const MrVrTrainingEnergyArticle = () => {
                   <EntryNumber n="05" />
                   <Pill>ROI &amp; Business Case</Pill>
                   <h3 className="font-serif font-medium text-xl sm:text-2xl md:text-3xl text-zinc-900 leading-tight mb-3">
-                    Hardware ROI: One-Time Simulation vs Recurring Rig Costs
+                    Illustrative 5-Year TCO Scenario (Based on Typical Utility Pilot Scope)
                   </h3>
                   <p className="text-zinc-700 font-sans text-xs sm:text-sm md:text-base leading-relaxed mb-4">
-                    Enterprise immersive projects rarely fail on technology; they fail from scope creep and unclear success metrics. A phased model, piloting one scenario before committing to a library, gives training managers evidence to justify expansion.
+                    <strong>Important:</strong> the figures below represent an illustrative 5-year TCO scenario based on typical utility pilot scopes. They are a scoping benchmark, not a cited third-party study. Actual costs vary by scenario count, headset fleet size, LMS integration complexity and site-specific requirements. Request a detailed scoping estimate for your project.
                   </p>
-                  <Delivers label="CFO Framing Note">
-                    Compare VR against the cost of a single preventable incident, not against the training programme it replaces. One US utility arc-flash incident averages $1.4M in workers&apos; compensation, equipment damage, fines and lost productivity. A $200K multi-scenario library only needs to prevent a fraction of one incident a year to pay back.
+                  <Delivers label="5.1 The Cost of Physical Incidents">
+                    To contextualize VR training investment, consider the cost of the arc-flash incidents it aims to prevent. Per Eaton and OSHA data, a single arc-flash burn injury costs between $10,000 and $15,000,000 USD depending on voltage and severity. In one documented utility, electrical injuries represented more than 2% of accidents but 28% to 52% of total injury costs, making even a partial reduction in incident frequency a significant financial and human benefit.
                   </Delivers>
+                  <p className="text-[11px] sm:text-xs text-zinc-500 leading-relaxed font-sans mt-3">
+                    Sources: <SrcLink>Eaton arc-flash statistics</SrcLink> · <SrcLink href="https://www.osha.gov/electrical/flash-hazards">OSHA electrical flash hazards</SrcLink>
+                  </p>
                 </div>
                 <Frame
                   src={imgFour}
-                  cap="Simulation is a capital investment amortised across every cohort"
-                  alt="Enterprise VR training programme return on investment"
+                  cap="Simulation is a capital investment amortized across every cohort"
+                  alt="Enterprise VR training program return on investment"
                 />
               </div>
 
               <DataTable
                 icon={FiDollarSign}
-                title="5-Year Cost: Physical Rig vs VR Simulation"
+                title="5.2 Illustrative 5-Year Cost: Physical Rig vs. VR Simulation"
                 cols={[
-                  { key: 'cat', label: 'Cost Category', span: 4 },
-                  { key: 'rig', label: 'Physical Rig (5 Years)', span: 3 },
-                  { key: 'vr', label: 'VR Simulation (5 Years)', span: 3 },
-                  { key: 'save', label: 'VR Saving', span: 2, strong: true },
+                  { key: 'cat', label: 'Cost Category', span: 3 },
+                  { key: 'rig', label: 'Physical Rig (5 Yr)', span: 3 },
+                  { key: 'vr', label: 'VR Simulation (5 Yr)', span: 3, strong: true },
+                  { key: 'note', label: 'Notes', span: 3 },
                 ]}
                 rows={tcoRows}
               />
+              <p className="text-[11px] sm:text-xs text-zinc-500 leading-relaxed font-sans mt-3">
+                These figures are illustrative estimates based on typical utility pilot scopes, not third-party benchmarks. Engage Elipse Studio for a project-specific scoping estimate.
+              </p>
             </article>
 
             {/* ENTRY 06 */}
@@ -556,7 +600,7 @@ const MrVrTrainingEnergyArticle = () => {
               />
 
               <Delivers label="Quick Win">
-                The fastest way to convince a sceptical budget committee: run one VR pilot cohort and one comparable classroom cohort on the same procedure, then compare their physical equipment checks 30 days later. The delta is usually large enough to make the financial case without advanced statistics.
+                The fastest way to convince a skeptical budget committee: run one VR pilot cohort and one comparable classroom cohort on the same procedure, then compare their physical equipment checks 30 days later. The delta is usually large enough to make the financial case without advanced statistics.
               </Delivers>
             </article>
 
@@ -569,7 +613,7 @@ const MrVrTrainingEnergyArticle = () => {
                   Partner With Elipse Studio
                 </h3>
                 <p className="text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed mb-3">
-                  Elipse Studio builds enterprise VR and MR training for energy utilities, heavy industry and trade education across the US, UK and Australia. Our team combines Unreal Engine 5 development with instructional design to deliver simulations that change behaviour, not just tick compliance boxes. All applications are built for air-gapped deployment from the outset: security is a design constraint, not a retrofit.
+                  Elipse Studio builds enterprise VR and MR training for energy utilities, heavy industry and trade education across the US, UK and Australia. Our team combines Unreal Engine 5 development with instructional design to deliver simulations that change behavior, not just tick compliance boxes. All applications are built for air-gapped deployment from the outset: security is a design constraint, not a retrofit.
                 </p>
                 <p className="text-zinc-600 font-sans text-xs sm:text-sm md:text-base leading-relaxed">
                   Explore our{' '}
@@ -591,7 +635,7 @@ const MrVrTrainingEnergyArticle = () => {
         <section className="py-10 sm:py-16 bg-white">
           <div className="max-w-3xl mx-auto text-center">
             <div className="font-serif italic text-zinc-900 font-semibold mb-2 text-sm sm:text-base">
-              Ready to Scope Your VR Training Programme?
+              Ready to Scope Your VR Training Program?
             </div>
             <h2 className="font-serif font-medium text-2xl sm:text-3xl md:text-4xl text-zinc-900 leading-tight mb-4">
               Book a Complimentary Training Needs Workshop
@@ -638,7 +682,7 @@ const MrVrTrainingEnergyArticle = () => {
             <div className="mt-12 text-center">
               <div className="font-serif italic text-2xl text-zinc-900 font-semibold mb-1">Elipse Studio</div>
               <p className="text-[11px] sm:text-xs text-zinc-500 max-w-md mx-auto leading-relaxed font-sans">
-                3D interactive experience agency delivering Unreal Engine 5 simulations, VR/MR training, WebGL configurators and engineering visualisations for industrial clients in the US, UK, and Australia.
+                3D interactive experience agency delivering Unreal Engine 5 simulations, VR/MR training, WebGL configurators and engineering visualizations for industrial clients in the US, UK, and Australia.
               </p>
             </div>
           </div>

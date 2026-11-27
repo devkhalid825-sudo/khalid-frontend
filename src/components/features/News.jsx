@@ -37,6 +37,7 @@ import roohafzaRaw from '../../assets/About-page/roohafza.webp';
 import kumarRaw from '../../assets/About-page/kumar-hd.webp';
 import configuratorBlogsRaw from '../../assets/About-page/configurator-blogs.png';
 import matterportCardRaw from '../../assets/About-page/nevegan-hd.webp';
+import headwearCardRaw from '../../assets/web-app-ui/cap.webp';
 import mrTrainingCardRaw from '../../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223450.jpg';
 
 const configuratorBlogsImg = getImgSrc(configuratorBlogsRaw);
@@ -66,6 +67,7 @@ const highTicketImg = getImgSrc(highTicketRaw);
 const shark = getImgSrc(sharkRaw);
 const marineImg = getImgSrc(marineRaw);
 const mrTrainingCard = getImgSrc(mrTrainingCardRaw);
+const headwearCard = getImgSrc(headwearCardRaw);
 const matterportCard = getImgSrc(matterportCardRaw);
 const timBarth = getImgSrc(timBarthRaw);
 
@@ -102,6 +104,11 @@ const mapBlogs = (data) =>
     url: '/blog/' + b.slug,
   }));
 
+// Blogs whose article page is a hand-built component: the code card must win over a stale database record.
+const STATIC_WINS = new Set([
+    '/blog/mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026',
+]);
+
 const News = ({ initialBlogs = null }) => {
   const [apiBlogs, setApiBlogs] = useState(initialBlogs ? mapBlogs(initialBlogs) : []);
 
@@ -127,6 +134,15 @@ const News = ({ initialBlogs = null }) => {
   }, []);
 
   const staticPosts = [
+    {
+      id: 'custom-headwear-teamwear-3d-configurator-playcanvas-2026',
+      title: '3D Configurators for Custom Apparel, Headwear & Teamwear: Embroidery Shaders, Glitter Finishes & Live Pricing',
+      image: headwearCard,
+      date: 'NOVEMBER 27, 2026',
+      category: '3D Configurators',
+      readTime: '10 min read',
+      url: '/blog/custom-headwear-teamwear-3d-configurator-playcanvas-2026',
+    },
     {
       id: 'unreal-engine-virtual-tour-vs-matterport-off-plan-real-estate-2026',
       title: 'Interactive 3D Virtual Tours vs Matterport for Luxury Real Estate & Off-Plan Pre-Sales',
@@ -429,7 +445,7 @@ const News = ({ initialBlogs = null }) => {
     );
   };
 
-  const filteredApiBlogs = apiBlogs.filter((b) => !isExcluded(b));
+  const filteredApiBlogs = apiBlogs.filter((b) => !isExcluded(b) && !STATIC_WINS.has(b.url));
   const apiUrls = new Set(filteredApiBlogs.map((b) => b.url));
   const mergedApiBlogs = filteredApiBlogs.map((b) => ({ ...b, _key: `api-${b.id}` }));
   const mergedStaticPosts = staticPosts

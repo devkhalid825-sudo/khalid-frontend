@@ -52,6 +52,7 @@ import configuratorTcoRaw from '../assets/About-page/newkia.png';
 import kumarRaw from '../assets/About-page/kumar-hd.webp';
 import configuratorBlogsRaw from '../assets/About-page/configurator-blogs.png';
 import matterportCardRaw from '../assets/About-page/nevegan-hd.webp';
+import headwearCardRaw from '../assets/web-app-ui/cap.webp';
 import mrTrainingCardRaw from '../assets/blogs-image/elipsestudio.com.hyperrealestate-20260522-223450.jpg';
 
 const configuratorBlogs = getImgSrc(configuratorBlogsRaw);
@@ -71,6 +72,7 @@ const shark = getImgSrc(sharkRaw);
 const rendering = getImgSrc(renderingRaw);
 const marine = getImgSrc(marineRaw);
 const mrTrainingCard = getImgSrc(mrTrainingCardRaw);
+const headwearCard = getImgSrc(headwearCardRaw);
 const matterportCard = getImgSrc(matterportCardRaw);
 const timBarth = getImgSrc(timBarthRaw);
 const leapCard = getImgSrc(leapCardRaw);
@@ -103,6 +105,15 @@ const staticImages = {
 
 const staticPosts = [
     {
+        id: 'static-custom-headwear-teamwear-3d-configurator-playcanvas-2026',
+        title: '3D Configurators for Custom Apparel, Headwear & Teamwear: Embroidery Shaders, Glitter Finishes & Live Pricing',
+        excerpt: 'How PlayCanvas WebGL configurators with PBR fabric and embroidery shaders, glitter finishes, dual desktop/mobile builds and live zone pricing replace flat 2D mockups for custom caps, teamwear and apparel.',
+        image: headwearCard,
+        date: 'NOVEMBER 27, 2026',
+        category: '3D Configurators',
+        url: '/blog/custom-headwear-teamwear-3d-configurator-playcanvas-2026',
+    },
+    {
         id: 'static-unreal-engine-virtual-tour-vs-matterport-off-plan-real-estate-2026',
         title: 'Interactive 3D Virtual Tours vs Matterport for Luxury Real Estate & Off-Plan Pre-Sales',
         excerpt: 'Why Matterport cannot sell what does not exist yet, and how Unreal Engine 5 real-time walkthroughs, Meta Quest home delivery and PAK streaming shorten buyer decision cycles for off-plan developers.',
@@ -114,7 +125,7 @@ const staticPosts = [
     {
         id: 'static-mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026',
         title: 'Mixed Reality Passthrough & Multi-User VR Training for Trade & Energy Workforce Upskilling',
-        excerpt: 'How Meta Quest 3 passthrough and multi-user Unreal Engine 5 labs train utility and trade teams on LOTO and switchgear procedures, run 10 trainees with one instructor, deploy air-gapped and prove ROI to a CFO.',
+        excerpt: 'How Meta Quest 3 MR passthrough and multi-user Unreal Engine 5 labs let utility and trade workforces practice LOTO, switchgear isolation and arc-flash procedures without risk to people or hardware, with verified PwC, EPRI and OSHA/Eaton data.',
         image: mrTrainingCard,
         date: 'NOVEMBER 25, 2026',
         category: 'VR & MR Training',
@@ -658,6 +669,11 @@ const BlogCardSkeleton = ({ isLight = false }) => (
     </div>
 );
 
+// Blogs whose article page is a hand-built component: the code card must win over a stale database record.
+const STATIC_WINS = new Set([
+    '/blog/mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026',
+]);
+
 const BlogsPage = ({ initialBlogs }) => {
     const { isLight } = useTheme();
     const isExcluded = (post) => {
@@ -672,7 +688,7 @@ const BlogsPage = ({ initialBlogs }) => {
         );
     };
 
-    const cleanInitial = (initialBlogs || []).filter(b => !isExcluded(b));
+    const cleanInitial = (initialBlogs || []).filter(b => !isExcluded(b) && !STATIC_WINS.has(b.url));
     const [searchTerm, setSearchTerm] = useState('');
     const [apiBlogs, setApiBlogs] = useState(cleanInitial);
     const pinLeapFirst = (list) => {
@@ -701,7 +717,7 @@ const BlogsPage = ({ initialBlogs }) => {
                 const { data, status } = await apiCall('/blogs', 'GET');
                 if (status === 200 && Array.isArray(data)) {
                     const mapped = data
-                        .filter(b => !isExcluded(b))
+                        .filter(b => !isExcluded(b) && !STATIC_WINS.has('/blog/' + b.slug))
                         .map(b => ({
                             id: b.id,
                             title: b.title,

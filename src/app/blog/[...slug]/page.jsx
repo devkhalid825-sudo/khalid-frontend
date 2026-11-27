@@ -61,6 +61,7 @@ const staticArticles = {
   '3d-real-time-configurators-real-estate-dubai': dynamic(() => import('@/components/articles/RealEstateConfiguratorArticle')),
   'architectural-visualization-guide': dynamic(() => import('@/components/articles/ArchitecturalVisualization')),
   'apparel-configurator-fashion-brands-2026': dynamic(() => import('@/components/articles/ApparelConfiguratorArticle')),
+  'custom-headwear-teamwear-3d-configurator-playcanvas-2026': dynamic(() => import('@/components/articles/HeadwearTeamwearConfiguratorArticle')),
   'why-product-photography-budget-3d-rendering-2026': dynamic(() => import('@/components/articles/WhyProductPhotographyBudgetArticle')),
   '3d-animation-services-uk-2026': dynamic(() => import('@/components/articles/UkAnimationServicesArticle')),
   'interactive-web-experiences-au-2026': dynamic(() => import('@/components/articles/AuInteractiveWebArticle')),
@@ -89,18 +90,30 @@ const staticArticleMetadata = {
   },
   'mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026': {
     title: 'Mixed Reality Passthrough & Multi-User VR Training for Trade & Energy Workforce Upskilling (2026 Enterprise Guide) | Elipse Studio',
-    description: 'How Meta Quest 3 mixed reality passthrough and multi-user Unreal Engine 5 labs train energy and trade workers on LOTO, switchgear and turbine procedures, including air-gapped deployment, xAPI/SCORM integration and 5-year ROI.',
+    description: 'How Meta Quest 3 MR passthrough and multi-user Unreal Engine 5 labs let utility and trade workforces practice LOTO, switchgear isolation, and arc-flash procedures without risk to people or hardware, with verified PwC, EPRI, and OSHA/Eaton cost data.',
     keywords: [
-      'vr training energy utilities',
-      'mixed reality passthrough training',
-      'meta quest 3 enterprise training',
-      'multi-user vr training unreal engine 5',
-      'lockout tagout vr simulation',
-      'air-gapped vr training deployment',
-      'vr safety training roi',
+      'mixed reality vr training',
+      'meta quest 3 passthrough training',
+      'unreal engine 5 vr simulation',
+      'loto switchgear training',
+      'energy utility workforce vr',
+      'air-gapped vr deployment',
       'Elipse Studio',
     ],
     canonical: `${SITE_URL}/blog/mixed-reality-passthrough-multi-user-vr-training-trade-energy-2026`,
+    ogImage: `${SITE_URL}/assets/ElipseImages/blogs/blogs-Ar.webp`,
+  },
+  'custom-headwear-teamwear-3d-configurator-playcanvas-2026': {
+    title: '3D Configurators for Custom Apparel, Headwear & Teamwear: Embroidery Shaders, Glitter Finishes & Live Pricing (2026 Guide) | Elipse Studio',
+    description: 'How Elipse Studio builds PlayCanvas WebGL 3D configurators for custom caps, teamwear and apparel: PBR fabric and embroidery shaders, glitter finishes, dual desktop/mobile builds and live zone pricing that feeds checkout.',
+    keywords: [
+      '3d apparel configurator webgl',
+      'custom hat 3d builder playcanvas',
+      '3d embroidery configurator ecommerce',
+      'bespoke headwear 3d customizer',
+      'Elipse Studio',
+    ],
+    canonical: `${SITE_URL}/blog/custom-headwear-teamwear-3d-configurator-playcanvas-2026`,
     ogImage: `${SITE_URL}/assets/ElipseImages/blogs/blogs-Ar.webp`,
   },
   'industrial-equipment-hardware-3d-configurator-2026': {
@@ -770,6 +783,10 @@ const staticArticleMetadata = {
     title: 'Fashion Apparel Configurators',
     description: 'Discover how fashion brands use interactive 3D apparel configurators and digital customization tools to increase average order value.',
   },
+  'custom-headwear-teamwear-3d-configurator-playcanvas-2026': {
+    title: '3D Configurators for Custom Apparel, Headwear & Teamwear',
+    description: 'How PlayCanvas WebGL 3D configurators with embroidery shaders, glitter finishes and live zone pricing replace flat 2D mockups for custom caps, teamwear and apparel.',
+  },
 };
 
 const BLOG_SLUG_ALIASES = {
@@ -816,6 +833,7 @@ function staticArticleSchemas(slugStr, meta) {
   const isNewOctober = isInteractive3d || isUkArchViz || isArProduct || isCadToWebgl || isAutomotiveConfigurator || isAuProductConfigurator;
 
   const getPublishedDate = () => {
+    if (slugStr === 'custom-headwear-teamwear-3d-configurator-playcanvas-2026') return '2026-11-27';
     if (isMatterportOffPlan) return '2026-11-26';
     if (isMrTraining) return '2026-11-25';
     if (isIndustrial) return '2026-11-24';
@@ -1196,19 +1214,19 @@ function staticArticleSchemas(slugStr, meta) {
         },
         {
           q: 'When should I choose Meta Quest 3 mixed reality passthrough over full VR?',
-          a: 'Choose MR passthrough when a physical anchor exists, such as a switchboard panel, a real meter, a confined-entry prop or a one-line diagram, so trainees build muscle memory on real hardware geometry with a digital overlay. Choose full VR when no safe physical prop is possible, such as energised equipment isolation, gas turbine internals, evacuation drills or wind turbine nacelle diagnosis.',
+          a: 'Choose MR passthrough when a physical anchor exists, such as a switchboard panel, a real meter, a confined-entry prop or a one-line diagram, so trainees build muscle memory on real hardware geometry with a digital overlay. Choose full VR when no safe physical prop is possible, such as energized equipment isolation, gas turbine internals, evacuation drills or wind turbine nacelle diagnosis.',
         },
         {
           q: 'How many trainees can run in one multi-user VR session with a single instructor?',
-          a: 'Unreal Engine 5 replication has been tested stable up to 16 concurrent users. We recommend 12 trainees, 2 instructors and 2 observer slots. The instructor uses a 2D God View dashboard, a Ghost Observer VR mode and Spotlight Intervention, and each trainee needs roughly 800 Kbps up and 1.2 Mbps down on Wi-Fi 6.',
+          a: 'Elipse builds multi-user sessions with three roles: Trainee (full interaction), Ghost Observer (invisible, sees the trainee view, cannot interact) and Instructor / God View (overhead view with freeze, branch injection, alert overlay, session replay and automated scoring). Session size is scoped per project based on scenario design and headset fleet.',
         },
         {
           q: 'Can VR training be deployed on an air-gapped refinery or utility campus?',
-          a: 'Yes. Applications are packaged as a signed Android APK for Quest 3 with all assets embedded, sideloaded over USB-C, and run with no internet. Session logs are stored locally as JSON and pulled by a sync utility, with xAPI to an on-premise LRS or batch SCORM 1.2 export for the LMS. Licence validation uses a hardware-bound token, so no cloud check-in is needed.',
+          a: 'Yes. Applications are packaged as a signed Android APK for Quest 3 with all assets embedded, sideloaded over USB-C, and run with no internet. Session logs are stored locally as JSON and pulled by a sync utility, with xAPI to an on-premise LRS or batch SCORM 1.2 export for the LMS. License validation uses hardware-locked license keys, so no call-home is required.',
         },
         {
           q: 'What is the five-year cost of VR training compared with a physical training rig?',
-          a: 'Five-year total cost of ownership is typically $145K–$320K for VR simulation against $820K–$1.98M for physical rigs, a saving of about 79%. Savings come from lower maintenance, lower instructor cost per cohort and no trainee travel. The strongest CFO framing compares VR against the cost of one preventable arc-flash incident, which averages $1.4M in a US utility.',
+          a: 'In an illustrative 5-year scenario based on typical utility pilot scopes, VR simulation totals roughly $180,000–$355,000 against $470,000–$810,000 for a physical rig. This is a scoping benchmark, not a third-party study, and actual costs vary by scenario count, fleet size and LMS integration. For context, a single arc-flash burn injury can cost $10,000 to $15,000,000 according to Eaton and OSHA data.',
         },
       ]),
       authorSchema,
