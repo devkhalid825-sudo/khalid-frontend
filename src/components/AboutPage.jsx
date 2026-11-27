@@ -12,7 +12,7 @@ import { ABOUT_FAQS } from '@/seo/pageFaqs';
 
 import leapHeroRaw from '../assets/ElipseImages/personal/leap-hero.webp';
 import bilalImgRaw from '../assets/About-page/bilalbhaiimage.jpeg';
-import maazImgRaw from '../assets/About-page/maaz-bhai-image.jpeg';
+import maazImgRaw from '../assets/About-page/maaz-bhai-image-centered.jpg';
 import asadImgRaw from '../assets/About-page/Asadbhai.jpeg';
 import fahadImgRaw from '../assets/About-page/fahadbhaiimage.jpeg';
 
@@ -107,8 +107,6 @@ const teamData = [
     credential: 'Technology Strategy & Operational Excellence',
     linkedin: '',
     img: maazImg,
-    imgStyle: { objectPosition: 'center 68%' },
-    imgClass: 'scale-[1.16] origin-[center_68%] group-hover:scale-[1.22]',
   },
   {
     name: 'Asad Khan',
