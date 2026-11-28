@@ -116,7 +116,7 @@ const emptyForm = {
   heroReviewSubtitle: '',
   heroQuoteText: '',
   heroQuoteAuthor: '',
-  crVideo: '', crName: '', crRole: '', crQuote: '', crLogo: '', crLogoWhite: false,
+  crHeading: '', crVideo: '', crName: '', crRole: '', crQuote: '', crLogo: '', crLogoWhite: false,
   thumbnailsHeading: '',
   thumbnailsEyebrow: '',
   stillsHeading: '',
@@ -509,6 +509,7 @@ const ProjectDashboard = () => {
       heroReviewSubtitle: firstSec.heroReviewSubtitle !== undefined ? firstSec.heroReviewSubtitle : (project.heroReviewSubtitle || ''),
       heroQuoteText: firstSec.heroQuoteText !== undefined ? firstSec.heroQuoteText : (project.heroQuoteText || ''),
       heroQuoteAuthor: firstSec.heroQuoteAuthor !== undefined ? firstSec.heroQuoteAuthor : (project.heroQuoteAuthor || ''),
+      crHeading: firstSec.clientReview?.heading || '',
       crVideo: firstSec.clientReview?.video || '',
       crName: firstSec.clientReview?.name || '',
       crRole: firstSec.clientReview?.role || '',
@@ -874,6 +875,7 @@ const ProjectDashboard = () => {
       }
     }
     const clientReviewPayload = {
+      heading: (form.crHeading || '').trim(),
       video: crVideoUrl.trim(),
       name: (form.crName || '').trim(),
       role: (form.crRole || '').trim(),
@@ -965,7 +967,7 @@ const ProjectDashboard = () => {
       galleryThumbnails, galleryStills, sectionOrder,
       heroIntroText, heroStars, heroReviewTitle, heroReviewSubtitle,
       heroQuoteText, heroQuoteAuthor,
-      crVideo, crName, crRole, crQuote, crLogo, crLogoWhite,
+      crHeading, crVideo, crName, crRole, crQuote, crLogo, crLogoWhite,
       thumbnailsHeading, thumbnailsEyebrow, stillsHeading, stillsEyebrow,
       resultsHeading, resultsEyebrow, processHeading, processEyebrow,
       ...formWithoutToggle
@@ -1262,14 +1264,15 @@ const ProjectDashboard = () => {
                   </div>
                 </div>
 
-                {/* Hero Media Format Selector: Wide 16:9, Vertical Reel 9:16, Square 1:1 */}
+                {/* Hero Media Format Selector: Wide 16:9, Vertical Reel 9:16, Square 1:1, Fit Video Size */}
                 <div className="pt-2">
                   <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Hero Video / Media Format</label>
-                  <div className="grid grid-cols-3 gap-2 mb-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mb-3">
                     {[
                       { id: 'video', label: '🎬 Wide Video (16:9)', desc: 'Standard widescreen' },
                       { id: 'reel', label: '📱 Vertical Reel (9:16)', desc: 'Reel / Shorts card' },
                       { id: 'square', label: '⏹ Square Div (1:1)', desc: 'Square video frame' },
+                      { id: 'auto', label: '📐 Fit Video Size', desc: 'Auto-fit exact video ratio' },
                     ].map((r) => (
                       <button
                         key={r.id}
@@ -1373,14 +1376,24 @@ const ProjectDashboard = () => {
                         <p className="text-[10px] text-[#4169E1]">Selected file: {selectedHeroVideoFile.name}</p>
                       )}
                       {form.heroVideo && (
-                        <div className={`mx-auto rounded-xl overflow-hidden border border-[#333] bg-[#0D0D0D] ${form.heroAspectRatio === 'reel' ? 'max-w-[260px] aspect-[9/16]' :
-                          form.heroAspectRatio === 'square' ? 'max-w-[340px] aspect-square' :
-                            'w-full aspect-video'
+                        <div className={`mx-auto rounded-xl overflow-hidden border border-[#333] bg-[#0D0D0D] ${form.heroAspectRatio === 'auto' && getMediaKind(form.heroVideo) !== 'youtube'
+                          ? 'w-fit max-w-full'
+                          : form.heroAspectRatio === 'reel'
+                            ? 'max-w-[260px] aspect-[9/16]'
+                            : form.heroAspectRatio === 'square'
+                              ? 'max-w-[340px] aspect-square'
+                              : 'w-full aspect-video'
                           }`}>
                           {getMediaKind(form.heroVideo) === 'youtube' ? (
                             <iframe src={getYoutubeEmbedUrl(form.heroVideo)} title="Hero video preview" className="w-full h-full" allowFullScreen />
                           ) : (
-                            <video src={stripVideoHash(resolvePreviewUrl(form.heroVideo))} controls playsInline preload="metadata" className="w-full h-full object-cover" />
+                            <video
+                              src={stripVideoHash(resolvePreviewUrl(form.heroVideo))}
+                              controls
+                              playsInline
+                              preload="metadata"
+                              className={form.heroAspectRatio === 'auto' ? 'block max-w-full max-h-[340px] w-auto h-auto object-contain' : 'w-full h-full object-contain bg-black'}
+                            />
                           )}
                         </div>
                       )}
@@ -1463,6 +1476,7 @@ const ProjectDashboard = () => {
                               <option value="video">Wide (16:9)</option>
                               <option value="reel">Reel (9:16)</option>
                               <option value="square">Square (1:1)</option>
+                              <option value="auto">Fit Video Size</option>
                             </select>
                           </div>
                         </div>
@@ -1623,6 +1637,16 @@ const ProjectDashboard = () => {
                 <p className="text-[#888] text-[8px] uppercase tracking-widest -mt-2">
                   Optional. Leave everything empty and this section will not appear on the public page (no blank space).
                 </p>
+                <div>
+                  <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-1">Section Heading (default: Client Review)</label>
+                  <input
+                    type="text"
+                    value={form.crHeading || ''}
+                    onChange={(e) => setForm(f => ({ ...f, crHeading: e.target.value }))}
+                    placeholder="e.g. Client Review, Behind the Scenes, Making Of"
+                    className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                  />
+                </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                   <div className="space-y-3">
                     <label className="block text-[#888] text-[8px] uppercase tracking-widest">Review Video (one video)</label>
@@ -1895,7 +1919,7 @@ const ProjectDashboard = () => {
                                 className="accent-[#4169E1]"
                               />
                               <span className="text-[9px] font-bold uppercase tracking-widest text-[#F2F0EB]">
-                                Reel video (9:16) — show centered in HD frame (empty left &amp; right)
+                                Reel video (9:16) — centered vertical reel beside content
                               </span>
                             </label>
                           )}

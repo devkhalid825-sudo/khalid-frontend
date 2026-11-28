@@ -8,7 +8,7 @@ import Header from './layouts/Header';
 import Footer from './layouts/Footer';
 import { useTheme } from '@/components/providers/ThemeProvider';
 import { BACKEND_ORIGIN, toCdnUrl } from '../utils/api';
-import { getMediaKind, getYoutubeEmbedUrl, getYoutubeId, getYoutubeThumbUrl, isYoutubeShort, stripVideoHash } from '../utils/projectMedia';
+import { getMediaKind, getYoutubeEmbedUrl, getYoutubeId, isYoutubeShort, stripVideoHash } from '../utils/projectMedia';
 import MidArticleCta from '@/components/blog/MidArticleCta';
 
 import { fixCalendlyUrl, CALENDLY_DEFAULT_URL } from '@/components/analytics/tracking';
@@ -28,8 +28,9 @@ const PublicMediaItem = ({
   rawSrc,
   alt,
   imgClassName = 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105',
-  videoClassName = 'w-full h-full object-cover',
+  videoClassName = 'absolute inset-0 w-full h-full object-contain bg-black',
   onImageClick,
+  onVideoLoadedMetadata,
 }) => {
   const [fallbackToVideo, setFallbackToVideo] = useState(false);
   const kind = fallbackToVideo ? 'video' : getMediaKind(rawSrc);
@@ -42,7 +43,7 @@ const PublicMediaItem = ({
       <iframe
         src={embed}
         title={alt || 'Project video'}
-        className="absolute inset-0 w-full h-full border-0"
+        className="absolute inset-0 w-full h-full border-0 bg-black"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
         loading="lazy"
@@ -60,6 +61,7 @@ const PublicMediaItem = ({
         playsInline
         preload="metadata"
         onClick={(e) => e.stopPropagation()}
+        onLoadedMetadata={onVideoLoadedMetadata}
         className={videoClassName}
       />
     );
@@ -148,34 +150,166 @@ const CleanReelYoutube = ({ url, title }) => {
   }
 
   return (
-    <a
-      href={youtubeUrl}
-      target="_blank"
-      rel="noopener noreferrer"
-      aria-label={`Watch ${title || 'reel video'} on YouTube`}
-      className="group/reel absolute inset-0 w-full h-full cursor-pointer block"
-    >
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
-        alt={title || 'Reel video'}
-        loading="lazy"
-        className="absolute inset-0 w-full h-full object-cover scale-[1.02] transition-transform duration-700 group-hover/reel:scale-[1.06]"
-      />
-      <span className="absolute inset-0 bg-black/10 group-hover/reel:bg-black/30 transition-colors duration-300" />
+    <div className="group/reel absolute inset-0 w-full h-full">
+      <a
+        href={youtubeUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={`Watch ${title || 'reel video'} on YouTube`}
+        className="absolute inset-0 w-full h-full cursor-pointer block"
+      >
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+          alt={title || 'Reel video'}
+          loading="lazy"
+          className="absolute inset-0 w-full h-full object-cover scale-[1.02] transition-transform duration-700 group-hover/reel:scale-[1.06]"
+        />
+        <span className="absolute inset-0 bg-black/10 group-hover/reel:bg-black/30 transition-colors duration-300" />
+      </a>
       <button
         type="button"
         aria-label={`Play ${title || 'reel video'} here`}
-        onClick={(e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          setPlaying(true);
-        }}
-        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/90 hover:bg-white hover:scale-110 transition-all duration-300 flex items-center justify-center shadow-xl cursor-pointer z-10"
+        onClick={() => setPlaying(true)}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-14 h-14 sm:w-16 sm:h-16 rounded-full bg-white/90 hover:bg-white hover:scale-110 transition-all duration-300 flex items-center justify-center shadow-xl cursor-pointer z-10"
       >
-        <span className="ml-1 w-0 h-0 border-y-[11px] border-y-transparent border-l-[18px] border-l-neutral-900" />
+        <span className="ml-1 w-0 h-0 border-y-[10px] sm:border-y-[11px] border-y-transparent border-l-[16px] sm:border-l-[18px] border-l-neutral-900" />
       </button>
-    </a>
+    </div>
+  );
+};
+
+/**
+ * Story Block row:
+ * - Portrait / reel videos (YouTube Shorts, mediaFormat === 'reel', or auto-detected vertical <video>):
+ *   clean 9:16 reel card directly beside the content inside a centered max-w-4xl layout
+ *   (equal empty gap on left & right, aligned with Client Review / Credits / FAQ).
+ * - Standard videos & images: 2-column grid with true 16:9 video framing and zero cropping.
+ */
+const StoryBlockRow = ({
+  block,
+  index,
+  isLight,
+  imageAltBase,
+  onImageClick,
+}) => {
+  const [detectedPortrait, setDetectedPortrait] = useState({ src: '', portrait: false });
+  const isLeft = (block.position || (index % 2 === 0 ? 'left' : 'right')) === 'left';
+  const hasImage = Boolean(block.image);
+  const blockKind = hasImage ? getMediaKind(block.image) : 'empty';
+  const isAutoPortrait =
+    block.mediaFormat !== 'landscape' &&
+    detectedPortrait.src === block.image &&
+    detectedPortrait.portrait;
+  const isReel =
+    hasImage &&
+    (isAutoPortrait ||
+      (blockKind !== 'image' &&
+        blockKind !== 'empty' &&
+        (block.mediaFormat === 'reel' || (block.mediaFormat !== 'landscape' && isYoutubeShort(block.image)))));
+
+  const handleVideoMetadata = (e) => {
+    const v = e.currentTarget;
+    if (v && v.videoHeight > v.videoWidth) {
+      setDetectedPortrait({ src: block.image, portrait: true });
+    }
+  };
+
+  const textColumn = (
+    <div
+      className={`space-y-4 min-w-0 ${
+        hasImage
+          ? isReel
+            ? isLeft
+              ? 'md:order-2'
+              : 'md:order-1'
+            : isLeft
+              ? 'lg:order-2'
+              : 'lg:order-1'
+          : ''
+      }`}
+    >
+      {block.tag && (
+        <span className={`inline-block text-xs sm:text-[13px] font-semibold tracking-[0.14em] uppercase ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}`}>
+          {block.tag}
+        </span>
+      )}
+      {block.heading && (
+        <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold tracking-tight leading-[1.18] ${isLight ? 'text-neutral-900' : 'text-[#F2F0EB]'}`}>
+          {block.heading}
+        </h2>
+      )}
+      {block.text && (
+        <div className={`text-sm sm:text-base md:text-lg font-light leading-relaxed whitespace-pre-line ${isLight ? 'text-zinc-600' : 'text-zinc-300'}`}>
+          {block.text}
+        </div>
+      )}
+    </div>
+  );
+
+  if (!hasImage) {
+    return (
+      <div className={`w-full max-w-4xl mx-auto p-6 md:p-10 rounded-2xl border ${isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#111] border-[#222]'}`}>
+        {textColumn}
+      </div>
+    );
+  }
+
+  if (isReel) {
+    return (
+      <div
+        className={`w-full max-w-6xl mx-auto md:px-6 lg:px-8 grid grid-cols-1 gap-8 md:gap-10 lg:gap-12 xl:gap-16 items-center ${
+          isLeft
+            ? 'md:grid-cols-[minmax(0,260px)_minmax(0,1fr)] lg:grid-cols-[minmax(0,310px)_minmax(0,1fr)] xl:grid-cols-[minmax(0,340px)_minmax(0,1fr)]'
+            : 'md:grid-cols-[minmax(0,1fr)_minmax(0,260px)] lg:grid-cols-[minmax(0,1fr)_minmax(0,310px)] xl:grid-cols-[minmax(0,1fr)_minmax(0,340px)]'
+        }`}
+      >
+        <div
+          className={`relative w-full md:max-w-[260px] lg:max-w-[310px] xl:max-w-[340px] mx-auto md:mx-0 aspect-[9/16] rounded-2xl overflow-hidden border bg-black shadow-2xl group ${
+            isLight ? 'border-neutral-200' : 'border-white/10'
+          } ${isLeft ? 'md:order-1' : 'md:order-2'}`}
+        >
+          {blockKind === 'youtube' ? (
+            <CleanReelYoutube
+              url={block.image}
+              title={block.heading || `Story block ${index + 1}`}
+            />
+          ) : (
+            <PublicMediaItem
+              rawSrc={block.image}
+              alt={block.heading || (imageAltBase ? `${imageAltBase} — detail ${index + 1}` : `Story block ${index + 1}`)}
+              videoClassName="absolute inset-0 w-full h-full object-contain bg-black"
+              onVideoLoadedMetadata={handleVideoMetadata}
+            />
+          )}
+        </div>
+        {textColumn}
+      </div>
+    );
+  }
+
+  return (
+    <div className="w-full grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 items-center">
+      <div
+        className={`w-full rounded-2xl overflow-hidden border ${
+          isLight
+            ? `border-neutral-200 ${blockKind === 'image' ? 'bg-neutral-100' : 'bg-black'}`
+            : `border-white/10 ${blockKind === 'image' ? 'bg-[#1A1A1A]' : 'bg-black'}`
+        } shadow-2xl ${blockKind === 'image' ? 'aspect-[16/10] sm:aspect-video' : 'aspect-video'} relative group ${
+          isLeft ? 'lg:order-1' : 'lg:order-2'
+        }`}
+      >
+        <PublicMediaItem
+          rawSrc={block.image}
+          alt={block.heading || (imageAltBase ? `${imageAltBase} — detail ${index + 1}` : `Story block ${index + 1}`)}
+          onImageClick={onImageClick}
+          imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 cursor-pointer"
+          videoClassName="absolute inset-0 w-full h-full object-contain bg-black"
+          onVideoLoadedMetadata={handleVideoMetadata}
+        />
+      </div>
+      {textColumn}
+    </div>
   );
 };
 
@@ -278,6 +412,7 @@ const AhmedFoodLayout = ({
 }) => {
   const router = useRouter();
   const [activeVideo, setActiveVideo] = useState(0);
+  const [heroVideoMeta, setHeroVideoMeta] = useState({ url: '', width: 0, height: 0 });
   const [lightboxImg, setLightboxImg] = useState(null);
   const [copied, setCopied] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
@@ -364,98 +499,16 @@ const AhmedFoodLayout = ({
     if (!effectiveStoryBlocks || effectiveStoryBlocks.length === 0) return null;
     return (
       <section className={`px-4 sm:px-6 md:px-8 py-10 md:py-20 space-y-16 md:space-y-24 transition-colors duration-300 ${isLight ? 'bg-white text-neutral-900' : 'bg-[#0D0D0D] text-[#F2F0EB]'}`}>
-        {effectiveStoryBlocks.map((block, i) => {
-          const isLeft = (block.position || (i % 2 === 0 ? 'left' : 'right')) === 'left';
-          const hasImage = Boolean(block.image);
-          const blockKind = hasImage ? getMediaKind(block.image) : 'empty';
-          const isReel = blockKind !== 'image' && blockKind !== 'empty' && (block.mediaFormat === 'reel' || (!block.mediaFormat && isYoutubeShort(block.image)));
-          return (
-            <div
-              key={i}
-              className={`w-full ${hasImage
-                ? 'grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-14 items-center'
-                : `max-w-4xl mx-auto p-6 md:p-10 rounded-2xl border ${isLight ? 'bg-neutral-50 border-neutral-200' : 'bg-[#111] border-[#222]'}`
-                }`}
-            >
-              {hasImage && (
-                <div
-                  className={`w-full rounded-2xl overflow-hidden border ${isLight ? 'border-neutral-200 bg-neutral-100' : 'border-white/10 bg-[#1A1A1A]'} shadow-2xl ${isReel ? 'aspect-video flex items-center justify-center' : 'aspect-[16/10] sm:aspect-video'} relative group ${isLeft ? 'lg:order-1' : 'lg:order-2'
-                    }`}
-                >
-                  {isReel ? (
-                    <>
-                      {/* Soft blurred backdrop so the empty left/right sides look intentional */}
-                      {blockKind === 'youtube' && getYoutubeThumbUrl(block.image) ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={getYoutubeThumbUrl(block.image)}
-                          alt=""
-                          aria-hidden="true"
-                          className="absolute inset-0 w-full h-full object-cover scale-125 blur-2xl opacity-40 pointer-events-none"
-                        />
-                      ) : null}
-                      <div className={`absolute inset-0 pointer-events-none ${isLight ? 'bg-gradient-to-br from-neutral-100/80 via-white/50 to-neutral-200/80' : 'bg-gradient-to-br from-black/60 via-[#111]/40 to-black/70'}`} />
-                      {/* Subtle dot grid for a clean studio backdrop */}
-                      <div
-                        aria-hidden="true"
-                        className={`absolute inset-0 pointer-events-none ${isLight ? 'opacity-[0.35]' : 'opacity-[0.12]'}`}
-                        style={{ backgroundImage: `radial-gradient(${isLight ? '#94a3b8' : '#ffffff'} 1px, transparent 1px)`, backgroundSize: '18px 18px' }}
-                      />
-                      {/* Phone-style frame: zoomed-out reel with bezel */}
-                      <div className={`relative z-10 h-full aspect-[9/16] p-[4px] rounded-[1.25rem] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] ${isLight ? 'bg-neutral-900' : 'bg-neutral-800 ring-1 ring-white/10'}`}>
-                        <div className="relative w-full h-full bg-black overflow-hidden rounded-[1rem]">
-                          {blockKind === 'youtube' ? (
-                            <CleanReelYoutube
-                              url={block.image}
-                              title={block.heading || `Story block ${i + 1}`}
-                            />
-                          ) : (
-                            <PublicMediaItem
-                              rawSrc={block.image}
-                              alt={block.heading || (imageAltBase ? `${imageAltBase} — detail ${i + 1}` : `Story block ${i + 1}`)}
-                              videoClassName="w-full h-full object-contain bg-black"
-                            />
-                          )}
-                        </div>
-                      </div>
-                    </>
-                  ) : (
-                    <PublicMediaItem
-                      rawSrc={block.image}
-                      alt={block.heading || (imageAltBase ? `${imageAltBase} — detail ${i + 1}` : `Story block ${i + 1}`)}
-                      onImageClick={(resolved) => setLightboxImg(resolved)}
-                      imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 cursor-pointer"
-                    />
-                  )}
-                </div>
-              )}
-              <div
-                className={`space-y-4 ${hasImage
-                  ? isLeft
-                    ? 'lg:order-2'
-                    : 'lg:order-1'
-                  : ''
-                  }`}
-              >
-                {block.tag && (
-                  <span className={`inline-block text-xs sm:text-[13px] font-semibold tracking-[0.14em] uppercase ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}`}>
-                    {block.tag}
-                  </span>
-                )}
-                {block.heading && (
-                  <h2 className={`text-2xl sm:text-3xl md:text-4xl lg:text-[40px] font-bold tracking-tight leading-[1.18] ${isLight ? 'text-neutral-900' : 'text-[#F2F0EB]'}`}>
-                    {block.heading}
-                  </h2>
-                )}
-                {block.text && (
-                  <div className={`text-sm sm:text-base md:text-lg font-light leading-relaxed whitespace-pre-line ${isLight ? 'text-zinc-600' : 'text-zinc-300'}`}>
-                    {block.text}
-                  </div>
-                )}
-              </div>
-            </div>
-          );
-        })}
+        {effectiveStoryBlocks.map((block, i) => (
+          <StoryBlockRow
+            key={i}
+            block={block}
+            index={i}
+            isLight={isLight}
+            imageAltBase={imageAltBase}
+            onImageClick={(resolved) => setLightboxImg(resolved)}
+          />
+        ))}
       </section>
     );
   };
@@ -485,7 +538,7 @@ const AhmedFoodLayout = ({
       return (
         <div
           key={index}
-          className={`group relative aspect-[16/9] w-full rounded-xl overflow-hidden border transition-all duration-300 ${kind === 'image' ? 'cursor-pointer' : ''} shadow-lg shrink-0 ${isLight ? 'border-neutral-200 bg-white hover:border-[#2563EB]' : 'border-zinc-800 bg-[#0D0D0D] hover:border-[#4169E1]/60'
+          className={`group relative aspect-[16/9] w-full rounded-xl overflow-hidden border transition-all duration-300 ${kind === 'image' ? 'cursor-pointer' : ''} shadow-lg shrink-0 ${isLight ? `border-neutral-200 ${kind === 'image' ? 'bg-white' : 'bg-black'} hover:border-[#2563EB]` : `border-zinc-800 ${kind === 'image' ? 'bg-[#0D0D0D]' : 'bg-black'} hover:border-[#4169E1]/60`
             }`}
         >
           <PublicMediaItem
@@ -608,6 +661,8 @@ const AhmedFoodLayout = ({
   // Client Review: one video + quote + client logo. Renders nothing (no empty space) when nothing is filled in.
   const renderClientReview = () => {
     const cr = clientReview || {};
+    const headingRaw = typeof cr.heading === 'string' ? cr.heading.trim().replace(/\.+$/, '').trim() : '';
+    const sectionHeading = headingRaw || 'Client Review';
     const videoRaw = typeof cr.video === 'string' ? cr.video.trim() : '';
     // Strip quote marks typed into the dashboard so the curly quotes below are not doubled.
     const quote = typeof cr.quote === 'string' ? cr.quote.trim().replace(/^["“”']+|["“”']+$/g, '').trim() : '';
@@ -622,6 +677,8 @@ const AhmedFoodLayout = ({
       : '';
     const isShort = /youtube\.com\/shorts\//i.test(videoRaw);
     const hasVideo = Boolean(videoRaw) && (!isYoutube || embedUrl);
+    const hasText = Boolean(quote || name || role || logo);
+    const isVideoOnly = hasVideo && !hasText;
 
     const textBlock = (
       <div className="flex flex-col justify-center gap-6 min-w-0">
@@ -649,29 +706,29 @@ const AhmedFoodLayout = ({
 
     return (
       <section className={`px-4 sm:px-6 md:px-8 py-10 md:py-20 border-t border-b overflow-hidden transition-colors duration-300 ${isLight ? 'bg-white border-neutral-200' : 'bg-[#0D0D0D] border-white/5'}`}>
-        {/* Reel (9:16) layout: heading + reel + quote share the same centred max-w-4xl column as the Credits card below */}
-        <div className={hasVideo && isShort && (quote || name || logo) ? 'w-full max-w-4xl mx-auto' : 'w-full'}>
-          <h2 className={`text-2xl sm:text-4xl lg:text-[44px] font-medium tracking-tight leading-tight mb-8 md:mb-12 ${hasVideo && isShort ? 'text-center md:text-left' : ''} ${isLight ? 'text-neutral-900' : 'text-[#F2F0EB]'}`}>
-            Client Review<span className={isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}>.</span>
+        {/* Centered max-w-4xl column for video-only, text-only, or reel+quote layouts */}
+        <div className={(isVideoOnly || !hasVideo || (hasVideo && isShort && hasText)) ? 'w-full max-w-4xl mx-auto' : 'w-full'}>
+          <h2 className={`text-2xl sm:text-4xl lg:text-[44px] font-medium tracking-tight leading-tight mb-8 md:mb-12 ${isVideoOnly ? 'text-center' : (hasVideo && isShort ? 'text-center md:text-left' : '')} ${isLight ? 'text-neutral-900' : 'text-[#F2F0EB]'}`}>
+            {sectionHeading}<span className={isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'}>.</span>
           </h2>
-          <div className={`grid items-center ${hasVideo && (quote || name || logo) ? (isShort ? 'gap-8 md:gap-12 lg:gap-16 md:grid-cols-[minmax(0,300px)_minmax(0,1fr)]' : 'gap-8 lg:gap-14 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]') : 'gap-8 grid-cols-1 max-w-4xl'}`}>
+          <div className={`grid items-center ${hasVideo && hasText ? (isShort ? 'gap-8 md:gap-12 lg:gap-16 md:grid-cols-[minmax(0,300px)_minmax(0,1fr)]' : 'gap-8 lg:gap-14 lg:grid-cols-[minmax(0,1.3fr)_minmax(0,1fr)]') : 'gap-8 grid-cols-1 justify-items-center max-w-4xl mx-auto'}`}>
             {hasVideo && (
-              <div className={`relative w-full overflow-hidden rounded-2xl border shadow-lg ${isShort ? 'aspect-[9/16] max-w-[300px] mx-auto md:mx-0' : 'aspect-video'} ${isLight ? 'border-neutral-200 bg-neutral-100' : 'border-white/10 bg-black'}`}>
+              <div className={`relative w-full overflow-hidden rounded-2xl border shadow-lg ${isShort ? (isVideoOnly ? 'aspect-[9/16] max-w-[320px] sm:max-w-[340px] mx-auto' : 'aspect-[9/16] max-w-[300px] mx-auto md:mx-0') : 'aspect-video'} ${isLight ? 'border-neutral-200 bg-neutral-100' : 'border-white/10 bg-black'}`}>
                 {isYoutube ? (
                   <iframe
                     src={`https://www.youtube.com/embed/${embedUrl}?rel=0`}
-                    title={name ? `${name} client review` : 'Client review video'}
+                    title={name ? `${name} client review` : `${sectionHeading} video`}
                     className="absolute inset-0 w-full h-full"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                     loading="lazy"
                   />
                 ) : (
-                  <video src={resolveImageUrl(videoRaw)} controls playsInline preload="metadata" className="absolute inset-0 w-full h-full object-cover" />
+                  <video src={resolveImageUrl(videoRaw)} controls playsInline preload="metadata" className="absolute inset-0 w-full h-full object-contain bg-black" />
                 )}
               </div>
             )}
-            {(quote || name || role || logo) && textBlock}
+            {hasText && textBlock}
           </div>
         </div>
       </section>
@@ -1404,148 +1461,224 @@ const AhmedFoodLayout = ({
           )}
 
           {/* ── Hero Content: Optional Left Column | Center Media | Optional Right Column ── */}
-          <div className={`w-full items-center relative mt-2 sm:mt-4 mb-4 sm:mb-6 ${hasLeftColumn && hasRightColumn
-            ? 'lg:grid lg:grid-cols-12 lg:gap-6 xl:gap-8 2xl:gap-10 flex flex-col items-center'
-            : hasLeftColumn || hasRightColumn
-              ? 'lg:grid lg:grid-cols-12 lg:gap-6 xl:gap-8 2xl:gap-10 flex flex-col items-center'
-              : 'flex flex-col items-center justify-center max-w-[1040px] xl:max-w-[1250px] 2xl:max-w-[1450px] min-[2200px]:max-w-[1750px] mx-auto'
-            }`}>
+          {(() => {
+            const hasHeroDims =
+              heroVideoMeta.url === currentVideoUrl &&
+              heroVideoMeta.width > 0 &&
+              heroVideoMeta.height > 0;
+            const heroNaturalRatio = hasHeroDims ? heroVideoMeta.width / heroVideoMeta.height : 0;
+            const isHeroPortrait = hasHeroDims && heroVideoMeta.height > heroVideoMeta.width;
+            const isAutoFitHero = currentAspectRatio === 'auto';
+            const isDirectHeroVid = Boolean(currentVideoUrl) && isDirectVideo(currentVideoUrl);
+            const isCompactHeroLayout =
+              (hasLeftColumn || hasRightColumn) &&
+              (currentAspectRatio === 'reel' ||
+                currentAspectRatio === 'square' ||
+                (isAutoFitHero &&
+                  (isDirectHeroVid ? !hasHeroDims || heroNaturalRatio < 1.35 : isYoutubeShort(currentVideoUrl))));
 
-            {/* Left Column: Only rendered if explicitly provided */}
-            {hasLeftColumn && (
-              <div className={`hidden lg:flex ${hasRightColumn ? 'lg:col-span-2' : 'lg:col-span-3'} text-center lg:text-left space-y-3 px-1 sm:px-0 w-full min-w-0 flex-col items-center lg:items-start`}>
-                <div className={`w-9 h-9 rounded-full ${isLight ? 'bg-blue-50 border-blue-100 text-[#2563EB]' : 'bg-blue-950/40 border-blue-900/50 text-[#4169E1]'} border flex items-center justify-center text-lg shadow-sm mx-auto lg:mx-0`}>
-                  💡
-                </div>
-                <p className={`text-xs sm:text-[13px] xl:text-sm leading-relaxed ${isLight ? 'text-neutral-600' : 'text-zinc-400'}`}>
-                  {leftColumnText}
-                </p>
-              </div>
-            )}
+            const isAutoFitDirectVideo = isAutoFitHero && isDirectHeroVid;
+            const isAutoHeroReel =
+              currentAspectRatio === 'video' &&
+              (isYoutubeShort(currentVideoUrl) || isHeroPortrait);
 
-            {/* Center Column: Media Player Container */}
-            <div className={`${hasLeftColumn && hasRightColumn
-              ? 'lg:col-span-8'
-              : hasLeftColumn || hasRightColumn
-                ? 'lg:col-span-9'
-                : 'w-full'
-              } relative flex flex-col items-center justify-center px-0 sm:px-0 w-full`}>
-              {/* Circular backdrop glow */}
-              <div className={`absolute w-80 h-80 sm:w-[34rem] sm:h-[34rem] lg:w-[44rem] lg:h-[44rem] 2xl:w-[54rem] 2xl:h-[54rem] min-[2200px]:w-[64rem] min-[2200px]:h-[64rem] ${isLight ? 'bg-neutral-100 border-neutral-200/60' : 'bg-white/[0.03] border-white/5'} rounded-full -z-10 border flex items-center justify-center pointer-events-none`}>
-                <span className="absolute bottom-6 text-neutral-400 text-2xl select-none">⚡</span>
-              </div>
+            const heroContainerSizeClass = isAutoFitDirectVideo
+              ? 'w-fit max-w-full sm:max-w-[920px] xl:max-w-[1040px] mx-auto'
+              : isAutoFitHero
+                ? isYoutubeShort(currentVideoUrl)
+                  ? 'w-full sm:w-[21rem] lg:w-[22rem] xl:w-[24rem] aspect-[9/16]'
+                  : 'w-full max-w-[1040px] xl:max-w-[1250px] 2xl:max-w-[1450px] aspect-video'
+                : currentAspectRatio === 'reel'
+                  ? 'w-full sm:w-[20rem] lg:w-[21rem] xl:w-[23rem] 2xl:w-[25rem] aspect-[9/16]'
+                  : currentAspectRatio === 'square'
+                    ? 'w-full max-w-[540px] lg:w-[460px] xl:w-[540px] 2xl:w-[600px] aspect-square'
+                    : isAutoHeroReel
+                      ? 'w-full h-[380px] sm:h-auto sm:max-w-[1040px] xl:max-w-[1250px] 2xl:max-w-[1450px] min-[2200px]:max-w-[1750px] sm:aspect-video'
+                      : 'w-full max-w-[1040px] xl:max-w-[1250px] 2xl:max-w-[1450px] min-[2200px]:max-w-[1750px] aspect-video';
 
-              {/* Media Card Container (Enlarged for prominent video presentation) */}
-              <div className={`relative rounded-2xl overflow-hidden shadow-2xl border-2 sm:border-4 ${isLight ? 'border-white bg-zinc-950' : 'border-zinc-800 bg-black'} z-10 transition-all duration-300 w-full ${currentAspectRatio === 'reel'
-                ? 'w-64 h-[22rem] sm:w-[22rem] sm:h-[29rem] lg:w-[25rem] lg:h-[34rem] xl:w-[27rem] xl:h-[37rem] 2xl:w-[29rem] 2xl:h-[40rem] min-[2200px]:w-[34rem] min-[2200px]:h-[46rem] max-h-[68vh] aspect-[9/16]'
-                : currentAspectRatio === 'square'
-                  ? 'w-full max-w-[880px] xl:max-w-[1080px] 2xl:max-w-[1250px] min-[2200px]:max-w-[1450px] h-[260px] xs:h-[295px] sm:h-auto sm:aspect-[16/10] max-h-[480px] sm:max-h-[560px] 2xl:max-h-[720px]'
-                  : 'w-full max-w-[1040px] xl:max-w-[1250px] 2xl:max-w-[1450px] min-[2200px]:max-w-[1750px] h-[260px] xs:h-[295px] sm:h-auto sm:aspect-video'
-                }`}>
-                {currentVideoUrl ? (
-                  isDirectVideo(currentVideoUrl) ? (
-                    <video
-                      key={currentVideoUrl}
-                      src={stripVideoHash(currentVideoUrl)}
-                      controls
-                      autoPlay
-                      loop
-                      muted
-                      playsInline
-                      className="w-full h-full object-cover"
-                    />
-                  ) : (
-                    <iframe
-                      key={currentVideoUrl}
-                      src={getYoutubeEmbedUrl(currentVideoUrl) || currentVideoUrl}
-                      title={title}
-                      frameBorder="0"
-                      className="w-full h-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  )
-                ) : heroImage ? (
-                  <PublicMediaItem
-                    rawSrc={heroImage}
-                    alt={title}
-                    imgClassName="w-full h-full object-cover"
-                  />
-                ) : null}
-              </div>
-
-              {/* ── Fixed Editorial Pill Bar ── */}
-              <div className="w-full mt-4 sm:mt-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-2">
-                <a
-                  data-track-id="project-hero-calendly"
-                  href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={`inline-flex items-center justify-center gap-1.5 px-5 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-semibold transition-all duration-300 shadow-md hover:scale-105 active:scale-95 whitespace-nowrap shrink-0 ${isLight
-                    ? 'bg-[#2563EB] hover:bg-[#1d4ed8] text-white shadow-blue-500/20'
-                    : 'bg-[#3558D4] hover:bg-[#2A48B8] text-white shadow-[#4169E1]/25'
-                    }`}
-                >
-                  <span>Book a scoping call</span>
-                  <span aria-hidden="true">↗</span>
-                </a>
-
-                <div className={`w-auto flex items-center justify-center gap-3 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-medium z-20 transition-all duration-300 shadow-md shrink-0 ${isLight
-                  ? 'bg-white text-neutral-800 border border-neutral-300'
-                  : 'bg-neutral-900 text-white border border-neutral-800 shadow-xl'
+            return (
+              <>
+                <div className={`w-full items-center relative mt-2 sm:mt-4 mb-4 sm:mb-6 ${
+                  isCompactHeroLayout
+                    ? 'flex flex-col items-center lg:flex-row lg:items-center lg:justify-center lg:gap-8 xl:gap-12'
+                    : hasLeftColumn || hasRightColumn
+                      ? 'lg:grid lg:grid-cols-12 lg:gap-6 xl:gap-8 2xl:gap-10 flex flex-col items-center'
+                      : 'flex flex-col items-center justify-center max-w-[1040px] xl:max-w-[1250px] 2xl:max-w-[1450px] min-[2200px]:max-w-[1750px] mx-auto'
                   }`}>
-                  <span className={`whitespace-nowrap shrink-0 ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
-                    By Elipse Studio
-                  </span>
-                  <span className={`h-3.5 w-px shrink-0 ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
-                  <button
-                    type="button"
-                    onClick={handleCopyLink}
-                    className={`font-semibold transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 ${isLight ? 'text-[#2563EB] hover:text-[#1d4ed8]' : 'text-blue-400 hover:text-blue-300'
+
+                  {/* Left Column: Only rendered if explicitly provided */}
+                  {hasLeftColumn && (
+                    <div className={`hidden lg:flex ${
+                      isCompactHeroLayout
+                        ? 'lg:w-[220px] xl:w-[250px] shrink-0'
+                        : hasRightColumn
+                          ? 'lg:col-span-2 w-full'
+                          : 'lg:col-span-3 w-full'
+                    } text-center lg:text-left space-y-3 px-1 sm:px-0 min-w-0 flex-col items-center lg:items-start`}>
+                      <div className={`w-9 h-9 rounded-full ${isLight ? 'bg-blue-50 border-blue-100 text-[#2563EB]' : 'bg-blue-950/40 border-blue-900/50 text-[#4169E1]'} border flex items-center justify-center text-lg shadow-sm mx-auto lg:mx-0`}>
+                        💡
+                      </div>
+                      <p className={`text-xs sm:text-[13px] xl:text-sm leading-relaxed ${isLight ? 'text-neutral-600' : 'text-zinc-400'}`}>
+                        {leftColumnText}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Center Column: Media Player Container */}
+                  <div className={`${
+                    isCompactHeroLayout
+                      ? 'w-full lg:w-auto shrink-0'
+                      : hasLeftColumn && hasRightColumn
+                        ? 'lg:col-span-8 w-full'
+                        : hasLeftColumn || hasRightColumn
+                          ? 'lg:col-span-9 w-full'
+                          : 'w-full'
+                    } relative flex flex-col items-center justify-center px-0 sm:px-0`}>
+                    {/* Circular backdrop glow */}
+                    <div className={`absolute w-80 h-80 sm:w-[34rem] sm:h-[34rem] lg:w-[44rem] lg:h-[44rem] 2xl:w-[54rem] 2xl:h-[54rem] min-[2200px]:w-[64rem] min-[2200px]:h-[64rem] ${isLight ? 'bg-neutral-100 border-neutral-200/60' : 'bg-white/[0.03] border-white/5'} rounded-full -z-10 border flex items-center justify-center pointer-events-none`}>
+                      <span className="absolute bottom-6 text-neutral-400 text-2xl select-none">⚡</span>
+                    </div>
+
+                    {/* Media Card Container */}
+                    <div className={`relative rounded-2xl overflow-hidden shadow-2xl border-2 sm:border-4 ${
+                      isLight
+                        ? 'border-white bg-gradient-to-br from-neutral-100 via-white to-neutral-200'
+                        : 'border-zinc-800 bg-gradient-to-br from-[#141414] via-[#0D0D0D] to-black'
+                    } z-10 transition-all duration-300 ${heroContainerSizeClass}`}>
+                      {!isAutoFitDirectVideo && (
+                        <div
+                          aria-hidden="true"
+                          className={`absolute inset-0 pointer-events-none ${isLight ? 'opacity-[0.35]' : 'opacity-[0.12]'}`}
+                          style={{
+                            backgroundImage: `radial-gradient(${isLight ? '#94a3b8' : '#ffffff'} 1px, transparent 1px)`,
+                            backgroundSize: '18px 18px',
+                          }}
+                        />
+                      )}
+                      {currentVideoUrl ? (
+                        isDirectHeroVid ? (
+                          <video
+                            key={currentVideoUrl}
+                            src={stripVideoHash(currentVideoUrl)}
+                            controls
+                            autoPlay
+                            loop
+                            muted
+                            playsInline
+                            onLoadedMetadata={(e) => {
+                              const v = e.currentTarget;
+                              if (v && v.videoWidth > 0 && v.videoHeight > 0) {
+                                setHeroVideoMeta({ url: currentVideoUrl, width: v.videoWidth, height: v.videoHeight });
+                              }
+                            }}
+                            className={
+                              isAutoFitDirectVideo
+                                ? 'relative z-10 block w-auto h-auto max-w-full max-h-[70vh] sm:max-h-[72vh] object-contain bg-transparent'
+                                : 'absolute inset-0 z-10 w-full h-full object-contain bg-transparent'
+                            }
+                          />
+                        ) : (
+                          <iframe
+                            key={currentVideoUrl}
+                            src={getYoutubeEmbedUrl(currentVideoUrl) || currentVideoUrl}
+                            title={title}
+                            frameBorder="0"
+                            className="absolute inset-0 z-10 w-full h-full border-0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            allowFullScreen
+                          />
+                        )
+                      ) : heroImage ? (
+                        <PublicMediaItem
+                          rawSrc={heroImage}
+                          alt={title}
+                          imgClassName="relative z-10 w-full h-full object-cover"
+                          videoClassName="absolute inset-0 z-10 w-full h-full object-contain bg-transparent"
+                        />
+                      ) : null}
+                    </div>
+                  </div>
+
+                  {/* Right Column: Only rendered if explicitly provided */}
+                  {hasRightColumn && (
+                    <div className={`hidden lg:flex ${
+                      isCompactHeroLayout
+                        ? 'lg:w-[240px] xl:w-[275px] shrink-0'
+                        : hasLeftColumn
+                          ? 'lg:col-span-2 w-full'
+                          : 'lg:col-span-3 w-full'
+                    } text-center lg:text-left flex-col items-center lg:items-start justify-center space-y-2 lg:pl-1 px-1 sm:px-0`}>
+                      <div className={`flex gap-1 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} justify-center lg:justify-start text-sm sm:text-base`}>
+                        {[...Array(starsCount)].map((_, i) => <span key={i}>★</span>)}
+                      </div>
+                      <div className={`text-xl sm:text-2xl font-extrabold tracking-tight leading-none ${isLight ? 'text-neutral-900' : 'text-white'}`}>
+                        {rightColTitle}
+                      </div>
+                      {rightColSubtitle && (
+                        <p className="text-[11px] sm:text-xs text-neutral-500 uppercase tracking-wider font-semibold">
+                          {rightColSubtitle}
+                        </p>
+                      )}
+                      <div className={`mt-2 ${isLight ? 'bg-blue-50 border-blue-100 text-zinc-700' : 'bg-[#141414] border-zinc-800 text-zinc-300'} border p-3.5 rounded-2xl text-center lg:text-left w-full shadow-sm`}>
+                        <p className="text-[11px] sm:text-[12px] font-medium leading-snug">
+                          &ldquo;{quoteText}&rdquo;
+                        </p>
+                        {quoteAuthor && (
+                          <p className={`text-[10px] sm:text-[11px] font-bold ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} mt-1`}>— {quoteAuthor}</p>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                </div>
+
+                {/* ── Fixed Editorial Pill Bar ── */}
+                <div className="w-full mt-2 sm:mt-4 mb-4 sm:mb-6 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 px-2">
+                  <a
+                    data-track-id="project-hero-calendly"
+                    href="https://calendly.com/bilal-lania-elipsestudio/15-mins-meeting"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={`inline-flex items-center justify-center gap-1.5 px-5 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-semibold transition-all duration-300 shadow-md hover:scale-105 active:scale-95 whitespace-nowrap shrink-0 ${isLight
+                      ? 'bg-[#2563EB] hover:bg-[#1d4ed8] text-white shadow-blue-500/20'
+                      : 'bg-[#3558D4] hover:bg-[#2A48B8] text-white shadow-[#4169E1]/25'
                       }`}
                   >
-                    {copied ? (
-                      <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                        <polyline points="20 6 9 17 4 12" />
-                      </svg>
-                    ) : (
-                      <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
-                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
-                      </svg>
-                    )}
-                    <span>{copied ? 'Link Copied!' : 'Share Article'}</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+                    <span>Book a scoping call</span>
+                    <span aria-hidden="true">↗</span>
+                  </a>
 
-            {/* Right Column: Only rendered if explicitly provided */}
-            {hasRightColumn && (
-              <div className={`hidden lg:flex ${hasLeftColumn ? 'lg:col-span-2' : 'lg:col-span-3'} text-center lg:text-left flex-col items-center lg:items-start justify-center space-y-2 lg:pl-1 px-1 sm:px-0 w-full`}>
-                <div className={`flex gap-1 ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} justify-center lg:justify-start text-sm sm:text-base`}>
-                  {[...Array(starsCount)].map((_, i) => <span key={i}>★</span>)}
+                  <div className={`w-auto flex items-center justify-center gap-3 px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] xs:text-xs sm:text-[13px] font-medium z-20 transition-all duration-300 shadow-md shrink-0 ${isLight
+                    ? 'bg-white text-neutral-800 border border-neutral-300'
+                    : 'bg-neutral-900 text-white border border-neutral-800 shadow-xl'
+                    }`}>
+                    <span className={`whitespace-nowrap shrink-0 ${isLight ? 'text-neutral-700' : 'text-neutral-300'}`}>
+                      By Elipse Studio
+                    </span>
+                    <span className={`h-3.5 w-px shrink-0 ${isLight ? 'bg-neutral-300' : 'bg-neutral-700'}`} aria-hidden="true" />
+                    <button
+                      type="button"
+                      onClick={handleCopyLink}
+                      className={`font-semibold transition-colors flex items-center gap-1.5 cursor-pointer whitespace-nowrap shrink-0 ${isLight ? 'text-[#2563EB] hover:text-[#1d4ed8]' : 'text-blue-400 hover:text-blue-300'
+                        }`}
+                    >
+                      {copied ? (
+                        <svg className="w-3.5 h-3.5 text-emerald-500 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                          <polyline points="20 6 9 17 4 12" />
+                        </svg>
+                      ) : (
+                        <svg className="w-3.5 h-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <rect x="9" y="9" width="13" height="13" rx="2" ry="2" />
+                          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1" />
+                        </svg>
+                      )}
+                      <span>{copied ? 'Link Copied!' : 'Share Article'}</span>
+                    </button>
+                  </div>
                 </div>
-                <div className={`text-xl sm:text-2xl font-extrabold tracking-tight leading-none ${isLight ? 'text-neutral-900' : 'text-white'}`}>
-                  {rightColTitle}
-                </div>
-                {rightColSubtitle && (
-                  <p className="text-[11px] sm:text-xs text-neutral-500 uppercase tracking-wider font-semibold">
-                    {rightColSubtitle}
-                  </p>
-                )}
-                <div className={`mt-2 ${isLight ? 'bg-blue-50 border-blue-100 text-zinc-700' : 'bg-[#141414] border-zinc-800 text-zinc-300'} border p-3.5 rounded-2xl text-center lg:text-left w-full shadow-sm`}>
-                  <p className="text-[11px] sm:text-[12px] font-medium leading-snug">
-                    &ldquo;{quoteText}&rdquo;
-                  </p>
-                  {quoteAuthor && (
-                    <p className={`text-[10px] sm:text-[11px] font-bold ${isLight ? 'text-[#2563EB]' : 'text-[#4169E1]'} mt-1`}>— {quoteAuthor}</p>
-                  )}
-                </div>
-              </div>
-            )}
-
-          </div>
+              </>
+            );
+          })()}
 
         </div>
 

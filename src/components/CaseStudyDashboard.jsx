@@ -1370,7 +1370,7 @@ const CaseStudyDashboard = () => {
                                 className="accent-[#4169E1]"
                               />
                               <span className="text-[9px] font-bold uppercase tracking-widest text-[#F2F0EB]">
-                                Reel video (9:16) — show centered in HD frame (empty left &amp; right)
+                                Reel video (9:16) — centered vertical reel beside content
                               </span>
                             </label>
                           )}
