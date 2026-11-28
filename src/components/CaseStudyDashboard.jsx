@@ -1,8 +1,18 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { apiCall, API_BASE_URL, BACKEND_ORIGIN, getYoutubeEmbed } from '../utils/api';
+import { apiCall, API_BASE_URL, BACKEND_ORIGIN } from '../utils/api';
 import { getAdminToken } from '../utils/auth';
+import {
+  isVideoFile,
+  tagUploadedMediaUrl,
+  createLocalPreviewUrl,
+  DashboardMediaThumb,
+  splitMediaList,
+  getMediaKind,
+  isYoutubeShort,
+  MAX_VIDEO_BYTES,
+} from '../utils/projectMedia';
 import { FiPlus, FiEdit2, FiTrash2, FiX, FiSave, FiUpload, FiChevronUp, FiChevronDown, FiChevronLeft, FiChevronRight, FiMove, FiImage, FiFolder, FiStar, FiEye, FiEyeOff } from '@/components/ui/Icons';
 import HtmlEditor from './ui/HtmlEditor';
 import { DndContext, closestCenter, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
@@ -195,8 +205,11 @@ const CaseStudyDashboard = () => {
   const [uploadingBanner, setUploadingBanner] = useState(false);
   const [uploadingSmall, setUploadingSmall] = useState(false);
   const [storyBlockFiles, setStoryBlockFiles] = useState({});
-  const [thumbnailFiles, setThumbnailFiles] = useState([]);
-  const [stillFiles, setStillFiles] = useState([]);
+  const [selectedHeroVideoFile, setSelectedHeroVideoFile] = useState(null);
+  const [videoTabFiles, setVideoTabFiles] = useState({});
+  const [mediaBlobMap, setMediaBlobMap] = useState({});
+  const [thumbUrlDraft, setThumbUrlDraft] = useState('');
+  const [stillUrlDraft, setStillUrlDraft] = useState('');
   const [msg, setMsg] = useState('');
   const [selectedBannerFile, setSelectedBannerFile] = useState(null);
   const [selectedSmallFile, setSelectedSmallFile] = useState(null);
@@ -251,6 +264,7 @@ const CaseStudyDashboard = () => {
     }
   };
 
+  // eslint-disable-next-line react-hooks/set-state-in-effect
   useEffect(() => { fetchCaseStudies(); }, []);
 
   const sensors = useSensors(useSensor(PointerSensor, { activationConstraint: { distance: 8 } }));
@@ -312,9 +326,12 @@ const CaseStudyDashboard = () => {
     });
     setSelectedBannerFile(null);
     setSelectedSmallFile(null);
+    setSelectedHeroVideoFile(null);
+    setVideoTabFiles({});
     setStoryBlockFiles({});
-    setThumbnailFiles([]);
-    setStillFiles([]);
+    setMediaBlobMap({});
+    setThumbUrlDraft('');
+    setStillUrlDraft('');
     setShowForm(true);
   };
 
@@ -341,6 +358,7 @@ const CaseStudyDashboard = () => {
         heading: s.heading !== undefined ? s.heading : '',
         text: s.text || s.content || '',
         image: s.image || '',
+        mediaFormat: s.mediaFormat || '',
         position: s.position || (idx % 2 === 0 ? 'left' : 'right'),
       }));
     } else {
@@ -423,10 +441,12 @@ const CaseStudyDashboard = () => {
     });
     setSelectedBannerFile(null);
     setSelectedSmallFile(null);
-    setGalleryFiles({});
+    setSelectedHeroVideoFile(null);
+    setVideoTabFiles({});
     setStoryBlockFiles({});
-    setThumbnailFiles([]);
-    setStillFiles([]);
+    setMediaBlobMap({});
+    setThumbUrlDraft('');
+    setStillUrlDraft('');
     setShowForm(true);
   };
 
@@ -439,14 +459,44 @@ const CaseStudyDashboard = () => {
     });
   };
 
+  const reindexFileMapOnRemove = (setter, removeIdx) => {
+    setter(prev => {
+      const next = {};
+      Object.entries(prev).forEach(([k, v]) => {
+        const n = Number(k);
+        if (n < removeIdx) next[n] = v;
+        else if (n > removeIdx) next[n - 1] = v;
+      });
+      return next;
+    });
+  };
+
+  const reindexFileMapOnSwap = (setter, a, b) => {
+    setter(prev => {
+      const next = { ...prev };
+      const va = prev[a];
+      const vb = prev[b];
+      if (vb !== undefined) next[a] = vb; else delete next[a];
+      if (va !== undefined) next[b] = va; else delete next[b];
+      return next;
+    });
+  };
+
   const addArrayItem = (key, template) => setForm(f => ({ ...f, [key]: [...f[key], { ...template }] }));
-  const removeArrayItem = (key, index) => setForm(f => ({ ...f, [key]: f[key].filter((_, i) => i !== index) }));
+  const removeArrayItem = (key, index) => {
+    if (key === 'storyBlocks') reindexFileMapOnRemove(setStoryBlockFiles, index);
+    if (key === 'videoTabs') reindexFileMapOnRemove(setVideoTabFiles, index);
+    setForm(f => ({ ...f, [key]: f[key].filter((_, i) => i !== index) }));
+  };
 
   const moveArrayItem = (key, index, direction) => {
+    const targetIndex = index + direction;
+    if (targetIndex < 0) return;
     setForm(f => {
       const arr = [...f[key]];
-      const targetIndex = index + direction;
-      if (targetIndex < 0 || targetIndex >= arr.length) return f;
+      if (targetIndex >= arr.length) return f;
+      if (key === 'storyBlocks') reindexFileMapOnSwap(setStoryBlockFiles, index, targetIndex);
+      if (key === 'videoTabs') reindexFileMapOnSwap(setVideoTabFiles, index, targetIndex);
       const temp = arr[index];
       arr[index] = arr[targetIndex];
       arr[targetIndex] = temp;
@@ -468,7 +518,7 @@ const CaseStudyDashboard = () => {
   };
 
   const moveGalleryImage = (key, idx, direction) => {
-    const urls = (form[key] || '').split(',').map(s => s.trim()).filter(Boolean);
+    const urls = splitMediaList(form[key]);
     const targetIdx = idx + direction;
     if (targetIdx < 0 || targetIdx >= urls.length) return;
     const temp = urls[idx];
@@ -477,12 +527,47 @@ const CaseStudyDashboard = () => {
     setForm(f => ({ ...f, [key]: urls.join(', ') }));
   };
 
+  const appendGalleryFiles = (key, fileList) => {
+    const files = Array.from(fileList || []);
+    if (!files.length) return;
+    const valid = [];
+    for (const file of files) {
+      if (isVideoFile(file) && file.size > MAX_VIDEO_BYTES) {
+        setMsg(`Video "${file.name}" is ${(file.size / 1024 / 1024).toFixed(1)}MB — max 50MB. Please compress it first.`);
+        continue;
+      }
+      valid.push(file);
+    }
+    if (!valid.length) return;
+    const addedMap = {};
+    const addedUrls = valid.map((f) => {
+      const u = createLocalPreviewUrl(f);
+      addedMap[u] = f;
+      return u;
+    });
+    setMediaBlobMap((prev) => ({ ...prev, ...addedMap }));
+    setForm((f) => {
+      const existing = splitMediaList(f[key]);
+      return { ...f, [key]: [...existing, ...addedUrls].join(', ') };
+    });
+  };
+
+  const appendGalleryUrlsFromDraft = (key, draftValue, clearDraft) => {
+    const toAdd = splitMediaList(draftValue);
+    if (!toAdd.length) return;
+    setForm((f) => {
+      const existing = splitMediaList(f[key]);
+      return { ...f, [key]: [...existing, ...toAdd].join(', ') };
+    });
+    clearDraft('');
+  };
+
   const uploadImage = async (file) => {
     const currentToken = getAdminToken() || token;
     const formData = new FormData();
     formData.append('image', file);
     const { data, status } = await apiCall(`/upload?type=case-studies`, 'POST', formData, currentToken, true);
-    if (status === 200 && data?.url) return data.url;
+    if (status === 200 && data?.url) return tagUploadedMediaUrl(data.url, file);
     throw new Error(data?.message || data?.error || `Upload failed with status ${status}`);
   };
 
@@ -520,7 +605,34 @@ const CaseStudyDashboard = () => {
       setUploadingSmall(false);
     }
 
-    // Upload story block images
+    let heroVideoUrl = form.heroVideo || form.videoUrl || '';
+    if (selectedHeroVideoFile) {
+      try {
+        const url = await uploadImage(selectedHeroVideoFile);
+        if (url) heroVideoUrl = url;
+      } catch (err) {
+        setMsg(`Hero video upload failed: ${err.message}`);
+        setSaving(false);
+        return;
+      }
+    }
+
+    const updatedVideoTabs = [...(form.videoTabs || [])];
+    for (let i = 0; i < updatedVideoTabs.length; i++) {
+      const tabFile = videoTabFiles[i];
+      if (tabFile) {
+        try {
+          const url = await uploadImage(tabFile);
+          if (url) updatedVideoTabs[i] = { ...updatedVideoTabs[i], url };
+        } catch (err) {
+          setMsg(`Video tab #${i + 1} upload failed: ${err.message}`);
+          setSaving(false);
+          return;
+        }
+      }
+    }
+
+    // Upload story block media (image or video)
     const updatedStoryBlocks = [...(form.storyBlocks || [])];
     for (let i = 0; i < updatedStoryBlocks.length; i++) {
       const file = storyBlockFiles[i];
@@ -529,47 +641,45 @@ const CaseStudyDashboard = () => {
           const url = await uploadImage(file);
           if (url) updatedStoryBlocks[i] = { ...updatedStoryBlocks[i], image: url };
         } catch (err) {
-          setMsg(`Story block #${i + 1} image upload failed: ${err.message}`);
+          setMsg(`Story block #${i + 1} media upload failed: ${err.message}`);
           setSaving(false);
           return;
         }
       }
     }
 
-    // Upload thumbnail images
-    let newThumbnailUrls = (form.galleryThumbnails || '')
-      .split(',')
-      .map(s => s.trim())
-      .filter(s => s && !s.startsWith('blob:'));
-    if (thumbnailFiles.length > 0) {
-      for (const file of thumbnailFiles) {
-        try {
-          const url = await uploadImage(file);
-          if (url) newThumbnailUrls.push(url);
-        } catch (err) {
-          setMsg(`Thumbnail upload failed: ${err.message}`);
-          setSaving(false);
-          return;
+    const resolveGalleryList = async (csvString, draftString, label) => {
+      const combined = [...splitMediaList(csvString), ...splitMediaList(draftString)];
+      const resolved = [];
+      for (const item of combined) {
+        if (mediaBlobMap[item]) {
+          const url = await uploadImage(mediaBlobMap[item]);
+          if (url) resolved.push(url);
+        } else if (!item.startsWith('blob:')) {
+          resolved.push(item);
+        } else {
+          throw new Error(`A pending ${label} file lost its reference — please re-select it.`);
         }
       }
+      return resolved;
+    };
+
+    let newThumbnailUrls = [];
+    try {
+      newThumbnailUrls = await resolveGalleryList(form.galleryThumbnails, thumbUrlDraft, 'thumbnail');
+    } catch (err) {
+      setMsg(`Thumbnail upload failed: ${err.message}`);
+      setSaving(false);
+      return;
     }
 
-    // Upload still images
-    let newStillUrls = (form.galleryStills || '')
-      .split(',')
-      .map(s => s.trim())
-      .filter(s => s && !s.startsWith('blob:'));
-    if (stillFiles.length > 0) {
-      for (const file of stillFiles) {
-        try {
-          const url = await uploadImage(file);
-          if (url) newStillUrls.push(url);
-        } catch (err) {
-          setMsg(`Still image upload failed: ${err.message}`);
-          setSaving(false);
-          return;
-        }
-      }
+    let newStillUrls = [];
+    try {
+      newStillUrls = await resolveGalleryList(form.galleryStills, stillUrlDraft, 'still');
+    } catch (err) {
+      setMsg(`Still media upload failed: ${err.message}`);
+      setSaving(false);
+      return;
     }
 
     // Build galleryCategories array
@@ -594,6 +704,7 @@ const CaseStudyDashboard = () => {
         heading: b.heading || '',
         text: b.text || '',
         image: b.image || '',
+        mediaFormat: b.mediaFormat || '',
         position: b.position || (idx % 2 === 0 ? 'left' : 'right'),
         ...(idx === 0 ? {
           sectionOrder: form.sectionOrder || defaultSectionOrder,
@@ -650,8 +761,8 @@ const CaseStudyDashboard = () => {
       largeBanner: largeBannerUrl,
       smallBanner: smallBannerUrl,
       heroImage: largeBannerUrl,
-      heroVideo: form.heroVideo || form.videoUrl,
-      videoUrl: form.heroVideo || form.videoUrl,
+      heroVideo: heroVideoUrl,
+      videoUrl: heroVideoUrl,
       overviewHeading: updatedStoryBlocks[0]?.heading || '',
       overviewText: updatedStoryBlocks[0]?.text || '',
       challengeHeading: updatedStoryBlocks[1]?.heading || '',
@@ -660,7 +771,7 @@ const CaseStudyDashboard = () => {
       results: JSON.stringify(form.results.filter(r => r.stat || r.label)),
       processSteps: JSON.stringify(form.processSteps.filter(p => p.phase || p.title)),
       galleryCategories: JSON.stringify(galleryCategoriesPayload),
-      videoTabs: JSON.stringify(form.videoTabs.filter(v => v.label || v.url)),
+      videoTabs: JSON.stringify(updatedVideoTabs.filter(v => (v.label || v.url) && !(v.url && v.url.startsWith('blob:')))),
       creditsEyebrow: form.creditsEyebrow || '',
       creditsHeading: form.creditsHeading || '',
       creditsToolsLabel: form.creditsToolsLabel || '',
@@ -959,16 +1070,85 @@ const CaseStudyDashboard = () => {
                 </div>
 
                 <div className="pt-2">
-                  <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Hero Video (Optional YouTube URL)</label>
-                  <input type="text" value={form.heroVideo} onChange={(e) => setForm(f => ({ ...f, heroVideo: e.target.value, videoUrl: e.target.value }))} className="w-full bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs" placeholder="https://youtube.com/watch?v=..." />
+                  <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Hero Video (Optional YouTube / Shorts URL or Upload from Computer)</label>
+                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-3">
+                    {form.heroVideo && (
+                      <div className="relative w-16 h-12 rounded-xl overflow-hidden border border-[#333] shrink-0 group bg-black">
+                        <DashboardMediaThumb url={form.heroVideo} resolveUrl={resolvePreviewUrl} showBadge={false} />
+                        <button type="button" onClick={() => { setSelectedHeroVideoFile(null); setForm(f => ({ ...f, heroVideo: '', videoUrl: '' })); }} className="absolute inset-0 bg-[#0D0D0D]/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all z-20"><FiX className="text-white text-xs" /></button>
+                      </div>
+                    )}
+                    <input
+                      type="text"
+                      value={form.heroVideo || ''}
+                      onChange={(e) => {
+                        setSelectedHeroVideoFile(null);
+                        setForm(f => ({ ...f, heroVideo: e.target.value, videoUrl: e.target.value }));
+                      }}
+                      className="flex-1 min-w-[200px] bg-[#1A1A1A] border border-[#333] rounded-xl px-4 py-3 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs"
+                      placeholder="Paste YouTube / Shorts / MP4 link, or upload video..."
+                    />
+                    <label className="flex items-center justify-center gap-2 border border-dashed border-[#333] rounded-xl px-4 py-3 cursor-pointer hover:border-[#4169E1]/50 transition-all shrink-0">
+                      <FiUpload className="text-[#4169E1]" />
+                      <span className="text-[#F2F0EB] text-[9px] font-bold uppercase tracking-widest">
+                        {selectedHeroVideoFile ? 'Change Video' : 'Upload Video'}
+                      </span>
+                      <input
+                        type="file"
+                        accept="video/*"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          e.target.value = '';
+                          if (!file) return;
+                          if (file.size > MAX_VIDEO_BYTES) {
+                            setMsg(`Hero video is ${(file.size / 1024 / 1024).toFixed(1)}MB — max 50MB. Please compress it first.`);
+                            return;
+                          }
+                          const preview = createLocalPreviewUrl(file);
+                          setSelectedHeroVideoFile(file);
+                          setForm(f => ({ ...f, heroVideo: preview, videoUrl: preview }));
+                        }}
+                        className="hidden"
+                      />
+                    </label>
+                  </div>
                 </div>
 
                 <div>
-                  <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Video Tabs (Optional)</label>
+                  <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-2">Video Tabs (Optional — YouTube URL or Upload Video)</label>
                   {form.videoTabs.map((tab, i) => (
-                    <div key={i} className="flex items-center gap-2 mb-2">
-                      <input type="text" value={tab.label} onChange={(e) => updateArray('videoTabs', i, 'label', e.target.value)} placeholder="Tab label" className="flex-1 bg-[#1A1A1A] border border-[#333] rounded-xl px-3 py-2.5 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs" />
-                      <input type="text" value={tab.url} onChange={(e) => updateArray('videoTabs', i, 'url', e.target.value)} placeholder="YouTube URL" className="flex-[2] bg-[#1A1A1A] border border-[#333] rounded-xl px-3 py-2.5 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs" />
+                    <div key={i} className="flex flex-wrap sm:flex-nowrap items-center gap-2 mb-2">
+                      <input type="text" value={tab.label} onChange={(e) => updateArray('videoTabs', i, 'label', e.target.value)} placeholder="Tab label" className="w-full sm:flex-1 bg-[#1A1A1A] border border-[#333] rounded-xl px-3 py-2.5 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs" />
+                      <input
+                        type="text"
+                        value={tab.url}
+                        onChange={(e) => {
+                          setVideoTabFiles(prev => ({ ...prev, [i]: null }));
+                          updateArray('videoTabs', i, 'url', e.target.value);
+                        }}
+                        placeholder="YouTube / Shorts / Video URL"
+                        className="flex-[2] min-w-[180px] bg-[#1A1A1A] border border-[#333] rounded-xl px-3 py-2.5 text-[#F2F0EB] focus:border-[#4169E1] outline-none transition-all text-xs"
+                      />
+                      <label className="flex items-center gap-1.5 px-3 py-2.5 bg-[#1A1A1A] border border-dashed border-[#444] hover:border-[#4169E1] rounded-xl cursor-pointer transition-all shrink-0">
+                        <FiUpload className="text-[#4169E1] text-xs" />
+                        <span className="text-[8px] font-bold uppercase tracking-wider text-[#F2F0EB]">Upload Video</span>
+                        <input
+                          type="file"
+                          accept="video/*"
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            e.target.value = '';
+                            if (!file) return;
+                            if (file.size > MAX_VIDEO_BYTES) {
+                              setMsg(`Tab video is ${(file.size / 1024 / 1024).toFixed(1)}MB — max 50MB. Please compress it first.`);
+                              return;
+                            }
+                            setVideoTabFiles(prev => ({ ...prev, [i]: file }));
+                            updateArray('videoTabs', i, 'url', createLocalPreviewUrl(file));
+                          }}
+                          className="hidden"
+                        />
+                      </label>
                       {form.videoTabs.length > 1 && <button type="button" onClick={() => removeArrayItem('videoTabs', i)} className="p-2 text-red-400 hover:text-red-300"><FiX size={14} /></button>}
                     </div>
                   ))}
@@ -1115,22 +1295,20 @@ const CaseStudyDashboard = () => {
                         </div>
 
                         <div>
-                          <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-1">Block Image</label>
-                          <div className="flex items-center gap-3">
+                          <label className="block text-[#888] text-[8px] uppercase tracking-widest mb-1">
+                            Block Media (Image, System Video Upload, or YouTube URL)
+                          </label>
+                          <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5">
                             {block.image && (
-                              <div className="relative w-16 h-12 rounded-lg overflow-hidden border border-[#333] shrink-0 group">
-                                <img
-                                  src={resolvePreviewUrl(block.image)}
-                                  alt=""
-                                  className="w-full h-full object-cover"
-                                />
+                              <div className="relative w-20 h-12 rounded-lg overflow-hidden border border-[#333] shrink-0 group bg-black">
+                                <DashboardMediaThumb url={block.image} resolveUrl={resolvePreviewUrl} showBadge={true} />
                                 <button
                                   type="button"
                                   onClick={() => {
                                     updateArray('storyBlocks', i, 'image', '');
                                     setStoryBlockFiles(prev => ({ ...prev, [i]: null }));
                                   }}
-                                  className="absolute inset-0 bg-[#0D0D0D]/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all"
+                                  className="absolute inset-0 bg-[#0D0D0D]/80 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all z-20"
                                 >
                                   <FiX className="text-white text-xs" />
                                 </button>
@@ -1139,26 +1317,63 @@ const CaseStudyDashboard = () => {
                             <input
                               type="text"
                               value={block.image || ''}
-                              onChange={(e) => updateArray('storyBlocks', i, 'image', e.target.value)}
-                              placeholder="Paste image URL..."
-                              className="flex-1 bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                              onChange={(e) => {
+                                setStoryBlockFiles(prev => ({ ...prev, [i]: null }));
+                                updateArray('storyBlocks', i, 'image', e.target.value);
+                              }}
+                              placeholder="Paste Image URL, Video URL, or YouTube / Shorts link..."
+                              className="flex-1 min-w-[180px] bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
                             />
                             <label className="flex items-center gap-1.5 px-3 py-2 bg-[#0D0D0D] border border-dashed border-[#333] rounded-lg cursor-pointer hover:border-[#4169E1] transition-all shrink-0">
-                              <FiUpload className="text-[#666] text-xs" />
-                              <span className="text-[8px] font-bold uppercase tracking-widest text-[#aaa]">Upload</span>
+                              <FiUpload className="text-[#4169E1] text-xs" />
+                              <span className="text-[8px] font-bold uppercase tracking-widest text-[#F2F0EB]">Upload Image</span>
                               <input
                                 type="file"
                                 accept="image/*"
                                 onChange={(e) => {
-                                  const file = e.target.files[0];
+                                  const file = e.target.files?.[0];
+                                  e.target.value = '';
                                   if (!file) return;
                                   setStoryBlockFiles(prev => ({ ...prev, [i]: file }));
-                                  updateArray('storyBlocks', i, 'image', URL.createObjectURL(file));
+                                  updateArray('storyBlocks', i, 'image', createLocalPreviewUrl(file));
+                                }}
+                                className="hidden"
+                              />
+                            </label>
+                            <label className="flex items-center gap-1.5 px-3 py-2 bg-[#0D0D0D] border border-dashed border-[#333] rounded-lg cursor-pointer hover:border-[#4169E1] transition-all shrink-0">
+                              <FiUpload className="text-[#4169E1] text-xs" />
+                              <span className="text-[8px] font-bold uppercase tracking-widest text-[#F2F0EB]">Upload Video</span>
+                              <input
+                                type="file"
+                                accept="video/*"
+                                onChange={(e) => {
+                                  const file = e.target.files?.[0];
+                                  e.target.value = '';
+                                  if (!file) return;
+                                  if (file.size > MAX_VIDEO_BYTES) {
+                                    setMsg(`Block video is ${(file.size / 1024 / 1024).toFixed(1)}MB — max 50MB. Please compress it first.`);
+                                    return;
+                                  }
+                                  setStoryBlockFiles(prev => ({ ...prev, [i]: file }));
+                                  updateArray('storyBlocks', i, 'image', createLocalPreviewUrl(file));
                                 }}
                                 className="hidden"
                               />
                             </label>
                           </div>
+                          {block.image && getMediaKind(block.image) !== 'image' && (
+                            <label className="mt-2 inline-flex items-center gap-2 cursor-pointer select-none">
+                              <input
+                                type="checkbox"
+                                checked={block.mediaFormat === 'reel' || (!block.mediaFormat && isYoutubeShort(block.image))}
+                                onChange={(e) => updateArray('storyBlocks', i, 'mediaFormat', e.target.checked ? 'reel' : 'landscape')}
+                                className="accent-[#4169E1]"
+                              />
+                              <span className="text-[9px] font-bold uppercase tracking-widest text-[#F2F0EB]">
+                                Reel video (9:16) — show centered in HD frame (empty left &amp; right)
+                              </span>
+                            </label>
+                          )}
                         </div>
                       </div>
                     );
@@ -1180,50 +1395,80 @@ const CaseStudyDashboard = () => {
               </SectionCard>
 
               {/* ===== SECTION 5: GALLERY (THUMBNAILS & STILLS) ===== */}
-              <SectionCard title="5. Gallery (16:9 Thumbnails & Still Images)" icon="🖼">
+              <SectionCard title="5. Gallery (16:9 Thumbnails & Still Images / Videos / YouTube)" icon="🖼">
                 <p className="text-[#888] text-[8px] uppercase tracking-widest -mt-2">
-                  Thumbnails are 16:9 ratio in a row of 3. Stills are displayed below in a row of 3. If either is omitted, no empty gap is shown.
+                  Upload images or videos from your computer, or add YouTube / Shorts / media URLs. Thumbnails display 3 per row (16:9); Stills display 4 per row.
                 </p>
 
                 {/* Sub-section: 16:9 Thumbnails */}
                 <div className="p-4 bg-[#1A1A1A] rounded-xl border border-[#26262e] space-y-3">
-                  <div className="flex items-center justify-between border-b border-[#26262e] pb-2">
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#26262e] pb-2">
                     <span className="text-xs font-bold text-[#F2F0EB]">Thumbnails (16:9 Aspect Ratio - 3 per row)</span>
-                    <label className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0D0D0D] border border-dashed border-[#444] rounded-lg cursor-pointer hover:border-[#4169E1] transition-all">
-                      <FiUpload className="text-[#4169E1] text-xs" />
-                      <span className="text-[8px] font-bold uppercase tracking-wider text-[#F2F0EB]">Upload Thumbnails</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        onChange={(e) => {
-                          const files = Array.from(e.target.files);
-                          if (!files.length) return;
-                          setThumbnailFiles(prev => [...prev, ...files]);
-                          const newUrls = files.map(f => URL.createObjectURL(f));
-                          const existing = form.galleryThumbnails ? form.galleryThumbnails.split(',').map(s => s.trim()).filter(Boolean) : [];
-                          setForm(f => ({ ...f, galleryThumbnails: [...existing, ...newUrls].join(', ') }));
-                        }}
-                        className="hidden"
-                      />
-                    </label>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <label className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0D0D0D] border border-dashed border-[#444] rounded-lg cursor-pointer hover:border-[#4169E1] transition-all">
+                        <FiUpload className="text-[#4169E1] text-xs" />
+                        <span className="text-[8px] font-bold uppercase tracking-wider text-[#F2F0EB]">Upload Images</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={(e) => {
+                            appendGalleryFiles('galleryThumbnails', e.target.files);
+                            e.target.value = '';
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                      <label className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0D0D0D] border border-dashed border-[#444] rounded-lg cursor-pointer hover:border-[#4169E1] transition-all">
+                        <FiUpload className="text-[#4169E1] text-xs" />
+                        <span className="text-[8px] font-bold uppercase tracking-wider text-[#F2F0EB]">Upload Videos</span>
+                        <input
+                          type="file"
+                          accept="video/*"
+                          multiple
+                          onChange={(e) => {
+                            appendGalleryFiles('galleryThumbnails', e.target.files);
+                            e.target.value = '';
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={thumbUrlDraft}
+                      onChange={(e) => setThumbUrlDraft(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          appendGalleryUrlsFromDraft('galleryThumbnails', thumbUrlDraft, setThumbUrlDraft);
+                        }
+                      }}
+                      placeholder="Paste YouTube / Shorts URL, Video URL, or Image URL and click Add..."
+                      className="flex-1 bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => appendGalleryUrlsFromDraft('galleryThumbnails', thumbUrlDraft, setThumbUrlDraft)}
+                      className="px-3.5 py-2 bg-[#3558D4] hover:bg-[#2A48B8] text-white rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all shrink-0 inline-flex items-center gap-1"
+                    >
+                      <FiPlus size={12} /> Add URL
+                    </button>
                   </div>
                   <input
                     type="text"
                     value={form.galleryThumbnails || ''}
                     onChange={(e) => setForm(f => ({ ...f, galleryThumbnails: e.target.value }))}
-                    placeholder="Paste thumbnail URLs (comma-separated)..."
-                    className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                    placeholder="All thumbnail URLs (comma-separated — images, uploaded videos, or YouTube links)..."
+                    className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#888] focus:text-[#F2F0EB] focus:border-[#4169E1] outline-none text-[11px]"
                   />
-                  {form.galleryThumbnails && form.galleryThumbnails.split(',').filter(s => s.trim()).length > 0 && (
+                  {splitMediaList(form.galleryThumbnails).length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 pt-1">
-                      {form.galleryThumbnails.split(',').filter(s => s.trim()).map((url, idx, allUrls) => (
-                        <div key={idx} className="relative aspect-[16/9] rounded-lg overflow-hidden border border-[#333] group bg-[#0D0D0D]">
-                          <img
-                            src={resolvePreviewUrl(url)}
-                            alt=""
-                            className="w-full h-full object-cover"
-                          />
+                      {splitMediaList(form.galleryThumbnails).map((url, idx, allUrls) => (
+                        <div key={`${idx}-${url}`} className="relative aspect-[16/9] rounded-lg overflow-hidden border border-[#333] group bg-[#0D0D0D]">
+                          <DashboardMediaThumb url={url} resolveUrl={resolvePreviewUrl} />
                           <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-black/70 backdrop-blur-sm rounded text-[9px] font-bold text-white/90 z-10">
                             #{idx + 1}
                           </span>
@@ -1249,7 +1494,7 @@ const CaseStudyDashboard = () => {
                             <button
                               type="button"
                               onClick={() => {
-                                const urls = form.galleryThumbnails.split(',').map(s => s.trim()).filter(Boolean);
+                                const urls = splitMediaList(form.galleryThumbnails);
                                 urls.splice(idx, 1);
                                 setForm(f => ({ ...f, galleryThumbnails: urls.join(', ') }));
                               }}
@@ -1265,45 +1510,75 @@ const CaseStudyDashboard = () => {
                   )}
                 </div>
 
-                {/* Sub-section: Still Images */}
+                {/* Sub-section: Still Images & Videos */}
                 <div className="p-4 bg-[#1A1A1A] rounded-xl border border-[#26262e] space-y-3">
-                  <div className="flex items-center justify-between border-b border-[#26262e] pb-2">
-                    <span className="text-xs font-bold text-[#F2F0EB]">Still Images (4 per row)</span>
-                    <label className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0D0D0D] border border-dashed border-[#444] rounded-lg cursor-pointer hover:border-[#4169E1] transition-all">
-                      <FiUpload className="text-[#4169E1] text-xs" />
-                      <span className="text-[8px] font-bold uppercase tracking-wider text-[#F2F0EB]">Upload Stills</span>
-                      <input
-                        type="file"
-                        accept="image/*"
-                        multiple
-                        onChange={(e) => {
-                          const files = Array.from(e.target.files);
-                          if (!files.length) return;
-                          setStillFiles(prev => [...prev, ...files]);
-                          const newUrls = files.map(f => URL.createObjectURL(f));
-                          const existing = form.galleryStills ? form.galleryStills.split(',').map(s => s.trim()).filter(Boolean) : [];
-                          setForm(f => ({ ...f, galleryStills: [...existing, ...newUrls].join(', ') }));
-                        }}
-                        className="hidden"
-                      />
-                    </label>
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-[#26262e] pb-2">
+                    <span className="text-xs font-bold text-[#F2F0EB]">Still Images / Gallery Media (4 per row)</span>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <label className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0D0D0D] border border-dashed border-[#444] rounded-lg cursor-pointer hover:border-[#4169E1] transition-all">
+                        <FiUpload className="text-[#4169E1] text-xs" />
+                        <span className="text-[8px] font-bold uppercase tracking-wider text-[#F2F0EB]">Upload Images</span>
+                        <input
+                          type="file"
+                          accept="image/*"
+                          multiple
+                          onChange={(e) => {
+                            appendGalleryFiles('galleryStills', e.target.files);
+                            e.target.value = '';
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                      <label className="flex items-center gap-1.5 px-3 py-1.5 bg-[#0D0D0D] border border-dashed border-[#444] rounded-lg cursor-pointer hover:border-[#4169E1] transition-all">
+                        <FiUpload className="text-[#4169E1] text-xs" />
+                        <span className="text-[8px] font-bold uppercase tracking-wider text-[#F2F0EB]">Upload Videos</span>
+                        <input
+                          type="file"
+                          accept="video/*"
+                          multiple
+                          onChange={(e) => {
+                            appendGalleryFiles('galleryStills', e.target.files);
+                            e.target.value = '';
+                          }}
+                          className="hidden"
+                        />
+                      </label>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={stillUrlDraft}
+                      onChange={(e) => setStillUrlDraft(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter') {
+                          e.preventDefault();
+                          appendGalleryUrlsFromDraft('galleryStills', stillUrlDraft, setStillUrlDraft);
+                        }
+                      }}
+                      placeholder="Paste YouTube / Shorts URL, Video URL, or Image URL and click Add..."
+                      className="flex-1 bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => appendGalleryUrlsFromDraft('galleryStills', stillUrlDraft, setStillUrlDraft)}
+                      className="px-3.5 py-2 bg-[#3558D4] hover:bg-[#2A48B8] text-white rounded-lg text-[9px] font-bold uppercase tracking-wider transition-all shrink-0 inline-flex items-center gap-1"
+                    >
+                      <FiPlus size={12} /> Add URL
+                    </button>
                   </div>
                   <input
                     type="text"
                     value={form.galleryStills || ''}
                     onChange={(e) => setForm(f => ({ ...f, galleryStills: e.target.value }))}
-                    placeholder="Paste still image URLs (comma-separated)..."
-                    className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#F2F0EB] focus:border-[#4169E1] outline-none text-xs"
+                    placeholder="All gallery media URLs (comma-separated — images, uploaded videos, or YouTube links)..."
+                    className="w-full bg-[#0D0D0D] border border-[#333] rounded-lg px-3 py-2 text-[#888] focus:text-[#F2F0EB] focus:border-[#4169E1] outline-none text-[11px]"
                   />
-                  {form.galleryStills && form.galleryStills.split(',').filter(s => s.trim()).length > 0 && (
+                  {splitMediaList(form.galleryStills).length > 0 && (
                     <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 pt-1">
-                      {form.galleryStills.split(',').filter(s => s.trim()).map((url, idx, allUrls) => (
-                        <div key={idx} className="relative aspect-[4/5] rounded-lg overflow-hidden border border-[#333] group bg-[#0D0D0D] flex items-center justify-center">
-                          <img
-                            src={resolvePreviewUrl(url)}
-                            alt=""
-                            className="w-full h-full object-cover object-center"
-                          />
+                      {splitMediaList(form.galleryStills).map((url, idx, allUrls) => (
+                        <div key={`${idx}-${url}`} className="relative aspect-[4/5] rounded-lg overflow-hidden border border-[#333] group bg-[#0D0D0D] flex items-center justify-center">
+                          <DashboardMediaThumb url={url} resolveUrl={resolvePreviewUrl} className="w-full h-full object-cover object-center" />
                           <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 bg-black/70 backdrop-blur-sm rounded text-[9px] font-bold text-white/90 z-10">
                             #{idx + 1}
                           </span>
@@ -1329,7 +1604,7 @@ const CaseStudyDashboard = () => {
                             <button
                               type="button"
                               onClick={() => {
-                                const urls = form.galleryStills.split(',').map(s => s.trim()).filter(Boolean);
+                                const urls = splitMediaList(form.galleryStills);
                                 urls.splice(idx, 1);
                                 setForm(f => ({ ...f, galleryStills: urls.join(', ') }));
                               }}

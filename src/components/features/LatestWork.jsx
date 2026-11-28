@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useSearchParams } from 'next/navigation';
 import { apiCall, BACKEND_ORIGIN } from '@/utils/api';
+import { getMediaKind, getYoutubeEmbedUrl, getYoutubeThumbUrl, stripVideoHash } from '@/utils/projectMedia';
 import { getProjectValueProposition } from '@/constants/projectValueProps';
 import { useTheme } from '@/components/providers/ThemeProvider';
 import { AnimatePresence, motion, useInView, useReducedMotion } from 'framer-motion';
@@ -160,12 +161,23 @@ const useIsMobile = () =>
     () => false
   );
 
-// "Card Video" uploaded in the admin dashboard; the card image is its poster.
-// Use a static image (not a GIF) as the card image — next/image can't resize GIFs.
+// "Card Video" uploaded in the admin dashboard (MP4/WebM or YouTube link); the card image is its poster.
 const getCardVideo = (project, imageSrc) => {
   const v = project.video;
   if (!v) return undefined;
-  return { video: v.startsWith('http') ? v : `${BACKEND_ORIGIN}${v}`, poster: imageSrc };
+  if (getMediaKind(v) === 'youtube') {
+    return {
+      video: getYoutubeEmbedUrl(v, { autoplay: true, mute: true, loop: true, controls: false }),
+      poster: imageSrc || getYoutubeThumbUrl(v),
+      isYoutube: true,
+    };
+  }
+  const clean = stripVideoHash(v);
+  return {
+    video: clean.startsWith('http') ? clean : `${BACKEND_ORIGIN}${clean}`,
+    poster: imageSrc,
+    isYoutube: false,
+  };
 };
 
 // Fades in once it is actually playing. Its state resets on every remount.
@@ -189,13 +201,35 @@ const LoopingVideo = ({ src }) => {
 // The lightweight poster always shows. The video mounts only when the card is
 // near the viewport and unmounts again once it scrolls away, so off-screen
 // cards don't keep downloading, decoding or holding memory.
-const CardVideo = ({ video, poster, alt }) => {
+const CardVideo = ({ video, poster, alt, isYoutube = false }) => {
   const ref = useRef(null);
   const near = useInView(ref, { margin: '300px 0px' });
   return (
     <div ref={ref} className="absolute inset-0">
-      {poster && <Image src={poster} alt={alt} fill sizes="(max-width: 767px) 100vw, 700px" className="object-cover" />}
-      {near && <LoopingVideo src={video} />}
+      {poster && (
+        <Image
+          src={poster}
+          alt={alt}
+          fill
+          unoptimized={poster.includes('ytimg.com')}
+          sizes="(max-width: 767px) 100vw, 700px"
+          className="object-cover"
+        />
+      )}
+      {near && (
+        isYoutube ? (
+          <iframe
+            src={video}
+            title={alt}
+            tabIndex={-1}
+            aria-hidden="true"
+            allow="autoplay; encrypted-media"
+            className="absolute inset-0 w-full h-full pointer-events-none scale-[1.32] border-0"
+          />
+        ) : (
+          <LoopingVideo src={video} />
+        )
+      )}
     </div>
   );
 };
@@ -253,7 +287,7 @@ const VideoHoverCard = ({ project, isLight, index = 0 }) => {
                 original — far cheaper to decode and to animate the blur over. */}
             {cardVideo ? (
               <div className="absolute inset-0 transition-transform duration-700 ease-out group-hover:scale-[1.04]">
-                <CardVideo video={cardVideo.video} poster={cardVideo.poster} alt={stripHtml(project.title)} />
+                <CardVideo video={cardVideo.video} poster={cardVideo.poster} alt={stripHtml(project.title)} isYoutube={cardVideo.isYoutube} />
               </div>
             ) : (
             <Image

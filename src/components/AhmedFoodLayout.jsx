@@ -8,6 +8,7 @@ import Header from './layouts/Header';
 import Footer from './layouts/Footer';
 import { useTheme } from '@/components/providers/ThemeProvider';
 import { BACKEND_ORIGIN, toCdnUrl } from '../utils/api';
+import { getMediaKind, getYoutubeEmbedUrl, getYoutubeId, getYoutubeThumbUrl, isYoutubeShort, stripVideoHash } from '../utils/projectMedia';
 import MidArticleCta from '@/components/blog/MidArticleCta';
 
 import { fixCalendlyUrl, CALENDLY_DEFAULT_URL } from '@/components/analytics/tracking';
@@ -19,16 +20,172 @@ export const resolveImageUrl = (src) => {
   return toCdnUrl(src);
 };
 
-const RenderCard = ({ src, title }) => (
-  <div className="group relative overflow-hidden border border-zinc-800 hover:border-zinc-700 transition-all duration-300 cursor-pointer shadow-md hover:shadow-xl aspect-[16/9] w-[360px] sm:w-[480px] md:w-[560px] shrink-0 snap-start rounded-lg">
-    <div className="relative h-full w-full overflow-hidden rounded-lg">
-      <img
-        src={src}
-        alt={title || "Render showcase"}
-        width="560"
-        height="315"
+/**
+ * Renders an image, an uploaded/direct video, or a YouTube/Shorts embed inside any
+ * project card (Story Blocks, 16:9 Thumbnails, 4:5 Stills, or Custom Gallery rows).
+ */
+const PublicMediaItem = ({
+  rawSrc,
+  alt,
+  imgClassName = 'w-full h-full object-cover transition-transform duration-700 group-hover:scale-105',
+  videoClassName = 'w-full h-full object-cover',
+  onImageClick,
+}) => {
+  const [fallbackToVideo, setFallbackToVideo] = useState(false);
+  const kind = fallbackToVideo ? 'video' : getMediaKind(rawSrc);
+
+  if (kind === 'empty') return null;
+
+  if (kind === 'youtube') {
+    const embed = getYoutubeEmbedUrl(rawSrc);
+    return (
+      <iframe
+        src={embed}
+        title={alt || 'Project video'}
+        className="absolute inset-0 w-full h-full border-0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
         loading="lazy"
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+      />
+    );
+  }
+
+  const resolved = stripVideoHash(resolveImageUrl(rawSrc));
+
+  if (kind === 'video') {
+    return (
+      <video
+        src={resolved}
+        controls
+        playsInline
+        preload="metadata"
+        onClick={(e) => e.stopPropagation()}
+        className={videoClassName}
+      />
+    );
+  }
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
+      src={resolved}
+      alt={alt || 'Project showcase'}
+      loading="lazy"
+      onClick={onImageClick ? () => onImageClick(resolved) : undefined}
+      onError={() => {
+        if (!fallbackToVideo && (/\/media\/\d+/i.test(resolved) || /\/uploads\//i.test(resolved))) {
+          setFallbackToVideo(true);
+        }
+      }}
+      className={imgClassName}
+    />
+  );
+};
+
+/**
+ * Clean YouTube reel card for reel blocks:
+ * - Click anywhere on the card  -> opens the video directly on YouTube (new tab)
+ * - Click the centre play button -> plays the video right here on the page
+ */
+const CleanReelYoutube = ({ url, title }) => {
+  const [playing, setPlaying] = useState(false);
+  const [paused, setPaused] = useState(false);
+  const iframeRef = useRef(null);
+  const id = getYoutubeId(url);
+  if (!id) return null;
+  const youtubeUrl = isYoutubeShort(url)
+    ? `https://www.youtube.com/shorts/${id}`
+    : `https://www.youtube.com/watch?v=${id}`;
+
+  if (playing) {
+    const params = new URLSearchParams({
+      autoplay: '1',
+      controls: '0',
+      rel: '0',
+      playsinline: '1',
+      modestbranding: '1',
+      iv_load_policy: '3',
+      fs: '0',
+      disablekb: '1',
+      cc_load_policy: '0',
+      enablejsapi: '1',
+      loop: '1',
+      playlist: id,
+    });
+    const sendCommand = (func) => {
+      iframeRef.current?.contentWindow?.postMessage(
+        JSON.stringify({ event: 'command', func, args: [] }),
+        '*'
+      );
+    };
+    return (
+      <>
+        <iframe
+          ref={iframeRef}
+          src={`https://www.youtube.com/embed/${id}?${params.toString()}`}
+          title={title || 'Reel video'}
+          className="absolute inset-0 w-full h-full border-0 pointer-events-none"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        />
+        {/* Transparent click layer: hides YouTube's hover UI (volume, CC, settings) and toggles play/pause */}
+        <button
+          type="button"
+          aria-label={paused ? 'Play video' : 'Pause video'}
+          onClick={() => {
+            sendCommand(paused ? 'playVideo' : 'pauseVideo');
+            setPaused((p) => !p);
+          }}
+          className="absolute inset-0 w-full h-full cursor-pointer z-10 flex items-center justify-center bg-transparent"
+        >
+          {paused && (
+            <span className="w-16 h-16 rounded-full bg-white/90 flex items-center justify-center shadow-xl">
+              <span className="ml-1 w-0 h-0 border-y-[11px] border-y-transparent border-l-[18px] border-l-neutral-900" />
+            </span>
+          )}
+        </button>
+      </>
+    );
+  }
+
+  return (
+    <a
+      href={youtubeUrl}
+      target="_blank"
+      rel="noopener noreferrer"
+      aria-label={`Watch ${title || 'reel video'} on YouTube`}
+      className="group/reel absolute inset-0 w-full h-full cursor-pointer block"
+    >
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={`https://i.ytimg.com/vi/${id}/hqdefault.jpg`}
+        alt={title || 'Reel video'}
+        loading="lazy"
+        className="absolute inset-0 w-full h-full object-cover scale-[1.02] transition-transform duration-700 group-hover/reel:scale-[1.06]"
+      />
+      <span className="absolute inset-0 bg-black/10 group-hover/reel:bg-black/30 transition-colors duration-300" />
+      <button
+        type="button"
+        aria-label={`Play ${title || 'reel video'} here`}
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setPlaying(true);
+        }}
+        className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-16 h-16 rounded-full bg-white/90 hover:bg-white hover:scale-110 transition-all duration-300 flex items-center justify-center shadow-xl cursor-pointer z-10"
+      >
+        <span className="ml-1 w-0 h-0 border-y-[11px] border-y-transparent border-l-[18px] border-l-neutral-900" />
+      </button>
+    </a>
+  );
+};
+
+const RenderCard = ({ src, title }) => (
+  <div className="group relative overflow-hidden border border-zinc-800 hover:border-zinc-700 transition-all duration-300 shadow-md hover:shadow-xl aspect-[16/9] w-[360px] sm:w-[480px] md:w-[560px] shrink-0 snap-start rounded-lg bg-black">
+    <div className="relative h-full w-full overflow-hidden rounded-lg">
+      <PublicMediaItem
+        rawSrc={src}
+        alt={title || 'Render showcase'}
+        imgClassName="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
       />
     </div>
   </div>
@@ -144,7 +301,8 @@ const AhmedFoodLayout = ({
 
   const isDirectVideo = (url) => {
     if (!url || typeof url !== 'string') return false;
-    return /\.(mp4|webm|mov|m4v)(\?.*)?$/i.test(url) || url.includes('/media/') || url.includes('/uploads/');
+    if (/youtu\.?be/i.test(url)) return false;
+    return getMediaKind(url) === 'video' || url.includes('/media/') || url.includes('/uploads/');
   };
 
   const cleanContent = React.useMemo(() => {
@@ -209,6 +367,8 @@ const AhmedFoodLayout = ({
         {effectiveStoryBlocks.map((block, i) => {
           const isLeft = (block.position || (i % 2 === 0 ? 'left' : 'right')) === 'left';
           const hasImage = Boolean(block.image);
+          const blockKind = hasImage ? getMediaKind(block.image) : 'empty';
+          const isReel = blockKind !== 'image' && blockKind !== 'empty' && (block.mediaFormat === 'reel' || (!block.mediaFormat && isYoutubeShort(block.image)));
           return (
             <div
               key={i}
@@ -219,15 +379,54 @@ const AhmedFoodLayout = ({
             >
               {hasImage && (
                 <div
-                  className={`w-full rounded-2xl overflow-hidden border ${isLight ? 'border-neutral-200 bg-neutral-100' : 'border-white/10 bg-[#1A1A1A]'} shadow-2xl aspect-[16/10] sm:aspect-video relative group ${isLeft ? 'lg:order-1' : 'lg:order-2'
+                  className={`w-full rounded-2xl overflow-hidden border ${isLight ? 'border-neutral-200 bg-neutral-100' : 'border-white/10 bg-[#1A1A1A]'} shadow-2xl ${isReel ? 'aspect-video flex items-center justify-center' : 'aspect-[16/10] sm:aspect-video'} relative group ${isLeft ? 'lg:order-1' : 'lg:order-2'
                     }`}
                 >
-                  <img
-                    src={resolveImageUrl(block.image)}
-                    alt={block.heading || (imageAltBase ? `${imageAltBase} — detail ${i + 1}` : `Story block ${i + 1}`)}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    loading="lazy"
-                  />
+                  {isReel ? (
+                    <>
+                      {/* Soft blurred backdrop so the empty left/right sides look intentional */}
+                      {blockKind === 'youtube' && getYoutubeThumbUrl(block.image) ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={getYoutubeThumbUrl(block.image)}
+                          alt=""
+                          aria-hidden="true"
+                          className="absolute inset-0 w-full h-full object-cover scale-125 blur-2xl opacity-40 pointer-events-none"
+                        />
+                      ) : null}
+                      <div className={`absolute inset-0 pointer-events-none ${isLight ? 'bg-gradient-to-br from-neutral-100/80 via-white/50 to-neutral-200/80' : 'bg-gradient-to-br from-black/60 via-[#111]/40 to-black/70'}`} />
+                      {/* Subtle dot grid for a clean studio backdrop */}
+                      <div
+                        aria-hidden="true"
+                        className={`absolute inset-0 pointer-events-none ${isLight ? 'opacity-[0.35]' : 'opacity-[0.12]'}`}
+                        style={{ backgroundImage: `radial-gradient(${isLight ? '#94a3b8' : '#ffffff'} 1px, transparent 1px)`, backgroundSize: '18px 18px' }}
+                      />
+                      {/* Phone-style frame: zoomed-out reel with bezel */}
+                      <div className={`relative z-10 h-full aspect-[9/16] p-[4px] rounded-[1.25rem] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.6)] ${isLight ? 'bg-neutral-900' : 'bg-neutral-800 ring-1 ring-white/10'}`}>
+                        <div className="relative w-full h-full bg-black overflow-hidden rounded-[1rem]">
+                          {blockKind === 'youtube' ? (
+                            <CleanReelYoutube
+                              url={block.image}
+                              title={block.heading || `Story block ${i + 1}`}
+                            />
+                          ) : (
+                            <PublicMediaItem
+                              rawSrc={block.image}
+                              alt={block.heading || (imageAltBase ? `${imageAltBase} — detail ${i + 1}` : `Story block ${i + 1}`)}
+                              videoClassName="w-full h-full object-contain bg-black"
+                            />
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  ) : (
+                    <PublicMediaItem
+                      rawSrc={block.image}
+                      alt={block.heading || (imageAltBase ? `${imageAltBase} — detail ${i + 1}` : `Story block ${i + 1}`)}
+                      onImageClick={(resolved) => setLightboxImg(resolved)}
+                      imgClassName="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105 cursor-pointer"
+                    />
+                  )}
                 </div>
               )}
               <div
@@ -272,7 +471,7 @@ const AhmedFoodLayout = ({
     const remainingItems = fullGridCount > 0 ? galleryThumbnails.slice(fullGridCount) : galleryThumbnails;
 
     const renderThumbnailCard = (rawSrc, index) => {
-      const src = resolveImageUrl(rawSrc);
+      const kind = getMediaKind(rawSrc);
       const altText = isAhmedFood
         ? (index < 6
           ? `Ahmed Foods Mixed Fruit Jam 3D Commercial Render - Frame ${index + 1}`
@@ -286,15 +485,13 @@ const AhmedFoodLayout = ({
       return (
         <div
           key={index}
-          onClick={() => setLightboxImg(src)}
-          className={`group relative aspect-[16/9] w-full rounded-xl overflow-hidden border transition-all duration-300 cursor-pointer shadow-lg shrink-0 ${isLight ? 'border-neutral-200 bg-white hover:border-[#2563EB]' : 'border-zinc-800 bg-[#0D0D0D] hover:border-[#4169E1]/60'
+          className={`group relative aspect-[16/9] w-full rounded-xl overflow-hidden border transition-all duration-300 ${kind === 'image' ? 'cursor-pointer' : ''} shadow-lg shrink-0 ${isLight ? 'border-neutral-200 bg-white hover:border-[#2563EB]' : 'border-zinc-800 bg-[#0D0D0D] hover:border-[#4169E1]/60'
             }`}
         >
-          <img
-            src={src}
+          <PublicMediaItem
+            rawSrc={rawSrc}
             alt={altText}
-            className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-            loading="lazy"
+            onImageClick={(resolved) => setLightboxImg(resolved)}
           />
         </div>
       );
@@ -347,7 +544,7 @@ const AhmedFoodLayout = ({
     const remainingItems = fullGridCount > 0 ? galleryStills.slice(fullGridCount) : galleryStills;
 
     const renderStillCard = (rawSrc, index) => {
-      const src = resolveImageUrl(rawSrc);
+      const kind = getMediaKind(rawSrc);
       const altText = isAhmedFood
         ? `Ahmed Foods 3D CGI Commercial Production Still - Shot ${index + 1}`
         : imageAltBase
@@ -357,15 +554,14 @@ const AhmedFoodLayout = ({
       return (
         <div
           key={index}
-          onClick={() => setLightboxImg(src)}
-          className={`group relative aspect-[4/5] w-full rounded-xl overflow-hidden border transition-all duration-300 cursor-pointer shadow-lg shrink-0 ${isLight ? 'border-neutral-200 bg-white hover:border-[#2563EB]' : 'border-white/10 bg-[#111] hover:border-[#4169E1]/60'
+          className={`group relative aspect-[4/5] w-full rounded-xl overflow-hidden border transition-all duration-300 ${kind === 'image' ? 'cursor-pointer' : ''} shadow-lg shrink-0 ${isLight ? 'border-neutral-200 bg-white hover:border-[#2563EB]' : 'border-white/10 bg-[#111] hover:border-[#4169E1]/60'
             }`}
         >
-          <img
-            src={src}
+          <PublicMediaItem
+            rawSrc={rawSrc}
             alt={altText}
-            className="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
-            loading="lazy"
+            onImageClick={(resolved) => setLightboxImg(resolved)}
+            imgClassName="w-full h-full object-cover object-center transition-transform duration-700 group-hover:scale-105"
           />
         </div>
       );
@@ -1250,7 +1446,7 @@ const AhmedFoodLayout = ({
                   isDirectVideo(currentVideoUrl) ? (
                     <video
                       key={currentVideoUrl}
-                      src={currentVideoUrl}
+                      src={stripVideoHash(currentVideoUrl)}
                       controls
                       autoPlay
                       loop
@@ -1261,7 +1457,7 @@ const AhmedFoodLayout = ({
                   ) : (
                     <iframe
                       key={currentVideoUrl}
-                      src={currentVideoUrl}
+                      src={getYoutubeEmbedUrl(currentVideoUrl) || currentVideoUrl}
                       title={title}
                       frameBorder="0"
                       className="w-full h-full"
@@ -1270,12 +1466,10 @@ const AhmedFoodLayout = ({
                     />
                   )
                 ) : heroImage ? (
-                  <img
-                    src={heroImage}
+                  <PublicMediaItem
+                    rawSrc={heroImage}
                     alt={title}
-                    width="1920"
-                    height="1080"
-                    className="w-full h-full object-cover"
+                    imgClassName="w-full h-full object-cover"
                   />
                 ) : null}
               </div>

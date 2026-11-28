@@ -6,7 +6,8 @@ import CaseStudyLayout from "./projects/CaseStudyLayout";
 import AhmedFoodLayout from "./AhmedFoodLayout";
 import { OverviewSection, ResultsSection, ProcessSection, GallerySection } from "./projects/projectSections";
 import { projectList, caseStudyEntries } from "./projects/projectData";
-import { apiCall, getYoutubeEmbed, BACKEND_ORIGIN, toCdnUrl } from "../utils/api";
+import { apiCall, BACKEND_ORIGIN, toCdnUrl } from "../utils/api";
+import { getYoutubeEmbedUrl, splitMediaList } from "../utils/projectMedia";
 import { getProjectValueProposition } from "@/constants/projectValueProps";
 import { getProjectSeoOverride } from "@/constants/projectSeoOverrides";
 import { stripHtml } from "@/utils/formatTitle";
@@ -89,7 +90,9 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
 
   const heroImage = toCdnUrl(data.heroImage || data.largeBanner || data.image || undefined);
   const heroVideoUrl = data.heroVideo || data.videoUrl;
-  const heroVideo = heroVideoUrl ? getYoutubeEmbed(heroVideoUrl) : undefined;
+  const heroVideo = heroVideoUrl
+    ? (getYoutubeEmbedUrl(heroVideoUrl) || toCdnUrl(heroVideoUrl))
+    : undefined;
 
   const sections = safeJson(data.sections, []);
   const results = safeJson(data.results, []).filter((r) => r.stat || r.label);
@@ -113,6 +116,7 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
       heading: s.heading || (idx === 0 ? data.overviewHeading : data.challengeHeading) || '',
       text: (s.text || s.content || '').trim(),
       image: toCdnUrl(s.image),
+      mediaFormat: s.mediaFormat || '',
       position: s.position || (idx % 2 === 0 ? 'left' : 'right'),
     }));
   } else if (!Array.isArray(sections) || sections.length === 0) {
@@ -149,7 +153,7 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
 
   if (Array.isArray(rawGalleryCategories)) {
     rawGalleryCategories.forEach((g) => {
-      const imgs = (Array.isArray(g.images) ? g.images : String(g.images || '').split(',').map((s) => s.trim()).filter(Boolean)).map(toCdnUrl);
+      const imgs = splitMediaList(g.images).map(toCdnUrl);
       const nameLower = String(g.name || '').toLowerCase();
       if (g.type === 'thumbnails' || nameLower === 'thumbnails') {
         galleryThumbnails = [...galleryThumbnails, ...imgs];
@@ -167,7 +171,7 @@ const DynamicProjectView = ({ data, type = 'project' }) => {
     .filter((t) => t && typeof t.url === 'string' && t.url.trim().length > 0)
     .map((t) => ({
       ...t,
-      url: getYoutubeEmbed(t.url) || t.url,
+      url: getYoutubeEmbedUrl(t.url) || toCdnUrl(t.url),
     }));
 
   const heroAspectRatio = sections[0]?.heroAspectRatio || data.heroAspectRatio || 'video';
