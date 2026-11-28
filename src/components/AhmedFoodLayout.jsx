@@ -412,7 +412,8 @@ const AhmedFoodLayout = ({
 }) => {
   const router = useRouter();
   const [activeVideo, setActiveVideo] = useState(0);
-  const [heroVideoMeta, setHeroVideoMeta] = useState({ url: '', width: 0, height: 0 });
+  const [heroVideoMeta, setHeroVideoMeta] = useState({ url: '', width: 0, height: 0, ready: false });
+  const heroVideoRef = useRef(null);
   const [lightboxImg, setLightboxImg] = useState(null);
   const [copied, setCopied] = useState(false);
   const [openFaq, setOpenFaq] = useState(null);
@@ -1237,6 +1238,33 @@ const AhmedFoodLayout = ({
   const currentVideoUrl = activeTabObj?.url || heroVideo;
   const currentAspectRatio = activeTabObj?.aspectRatio || heroAspectRatio || 'video';
 
+  useEffect(() => {
+    const v = heroVideoRef.current;
+    if (!v || !currentVideoUrl) return undefined;
+    const raf = requestAnimationFrame(() => {
+      if (v.readyState >= 1) {
+        setHeroVideoMeta((prev) => {
+          const nextReady = v.readyState >= 2;
+          if (
+            prev.url === currentVideoUrl &&
+            prev.width === v.videoWidth &&
+            prev.height === v.videoHeight &&
+            prev.ready === nextReady
+          ) {
+            return prev;
+          }
+          return {
+            url: currentVideoUrl,
+            width: v.videoWidth || prev.width,
+            height: v.videoHeight || prev.height,
+            ready: nextReady,
+          };
+        });
+      }
+    });
+    return () => cancelAnimationFrame(raf);
+  }, [currentVideoUrl]);
+
   // Only display ticker words when explicitly provided by the user
   const effectiveTickerWords = React.useMemo(() => {
     if (Array.isArray(tickerWords) && tickerWords.length > 0) return tickerWords.filter(Boolean);
@@ -1462,12 +1490,10 @@ const AhmedFoodLayout = ({
 
           {/* ── Hero Content: Optional Left Column | Center Media | Optional Right Column ── */}
           {(() => {
-            const hasHeroDims =
-              heroVideoMeta.url === currentVideoUrl &&
-              heroVideoMeta.width > 0 &&
-              heroVideoMeta.height > 0;
+            const isSameMetaUrl = heroVideoMeta.url === currentVideoUrl;
+            const hasHeroDims = isSameMetaUrl && heroVideoMeta.width > 0 && heroVideoMeta.height > 0;
+            const isHeroVideoReady = isSameMetaUrl && heroVideoMeta.ready;
             const heroNaturalRatio = hasHeroDims ? heroVideoMeta.width / heroVideoMeta.height : 0;
-            const isHeroPortrait = hasHeroDims && heroVideoMeta.height > heroVideoMeta.width;
             const isAutoFitHero = currentAspectRatio === 'auto';
             const isDirectHeroVid = Boolean(currentVideoUrl) && isDirectVideo(currentVideoUrl);
             const isCompactHeroLayout =
@@ -1478,12 +1504,14 @@ const AhmedFoodLayout = ({
                   (isDirectHeroVid ? !hasHeroDims || heroNaturalRatio < 1.35 : isYoutubeShort(currentVideoUrl))));
 
             const isAutoFitDirectVideo = isAutoFitHero && isDirectHeroVid;
-            const isAutoHeroReel =
-              currentAspectRatio === 'video' &&
-              (isYoutubeShort(currentVideoUrl) || isHeroPortrait);
+            const isAutoLandscape = isAutoFitDirectVideo && hasHeroDims && heroNaturalRatio > 1.25;
+            const heroPosterUrl =
+              heroImage && getMediaKind(heroImage) === 'image' ? resolveImageUrl(heroImage) : undefined;
 
             const heroContainerSizeClass = isAutoFitDirectVideo
-              ? 'w-fit max-w-full sm:max-w-[920px] xl:max-w-[1040px] mx-auto'
+              ? isAutoLandscape
+                ? 'w-full max-w-[1040px] xl:max-w-[1250px] 2xl:max-w-[1450px]'
+                : 'w-auto max-w-full h-[400px] sm:h-[66vh] max-h-[680px] mx-auto'
               : isAutoFitHero
                 ? isYoutubeShort(currentVideoUrl)
                   ? 'w-full sm:w-[21rem] lg:w-[22rem] xl:w-[24rem] aspect-[9/16]'
@@ -1492,9 +1520,21 @@ const AhmedFoodLayout = ({
                   ? 'w-full sm:w-[20rem] lg:w-[21rem] xl:w-[23rem] 2xl:w-[25rem] aspect-[9/16]'
                   : currentAspectRatio === 'square'
                     ? 'w-full max-w-[540px] lg:w-[460px] xl:w-[540px] 2xl:w-[600px] aspect-square'
-                    : isAutoHeroReel
-                      ? 'w-full h-[380px] sm:h-auto sm:max-w-[1040px] xl:max-w-[1250px] 2xl:max-w-[1450px] min-[2200px]:max-w-[1750px] sm:aspect-video'
-                      : 'w-full max-w-[1040px] xl:max-w-[1250px] 2xl:max-w-[1450px] min-[2200px]:max-w-[1750px] aspect-video';
+                    : 'w-full max-w-[1040px] xl:max-w-[1250px] 2xl:max-w-[1450px] min-[2200px]:max-w-[1750px] aspect-video';
+
+            const heroContainerStyle = isAutoFitDirectVideo
+              ? { aspectRatio: hasHeroDims ? `${heroVideoMeta.width} / ${heroVideoMeta.height}` : '1 / 1' }
+              : undefined;
+
+            const markHeroReady = (v) => {
+              if (!v) return;
+              setHeroVideoMeta((prev) => ({
+                url: currentVideoUrl,
+                width: v.videoWidth || (prev.url === currentVideoUrl ? prev.width : 0),
+                height: v.videoHeight || (prev.url === currentVideoUrl ? prev.height : 0),
+                ready: true,
+              }));
+            };
 
             return (
               <>
@@ -1540,11 +1580,14 @@ const AhmedFoodLayout = ({
                     </div>
 
                     {/* Media Card Container */}
-                    <div className={`relative rounded-2xl overflow-hidden shadow-2xl border-2 sm:border-4 ${
-                      isLight
-                        ? 'border-white bg-gradient-to-br from-neutral-100 via-white to-neutral-200'
-                        : 'border-zinc-800 bg-gradient-to-br from-[#141414] via-[#0D0D0D] to-black'
-                    } z-10 transition-all duration-300 ${heroContainerSizeClass}`}>
+                    <div
+                      style={heroContainerStyle}
+                      className={`relative rounded-2xl overflow-hidden shadow-2xl border-2 sm:border-4 ${
+                        isLight
+                          ? 'border-white bg-gradient-to-br from-neutral-100 via-white to-neutral-200'
+                          : 'border-zinc-800 bg-gradient-to-br from-[#141414] via-[#0D0D0D] to-black'
+                      } z-10 transition-colors duration-300 ${heroContainerSizeClass}`}
+                    >
                       {!isAutoFitDirectVideo && (
                         <div
                           aria-hidden="true"
@@ -1557,26 +1600,45 @@ const AhmedFoodLayout = ({
                       )}
                       {currentVideoUrl ? (
                         isDirectHeroVid ? (
-                          <video
-                            key={currentVideoUrl}
-                            src={stripVideoHash(currentVideoUrl)}
-                            controls
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            onLoadedMetadata={(e) => {
-                              const v = e.currentTarget;
-                              if (v && v.videoWidth > 0 && v.videoHeight > 0) {
-                                setHeroVideoMeta({ url: currentVideoUrl, width: v.videoWidth, height: v.videoHeight });
-                              }
-                            }}
-                            className={
-                              isAutoFitDirectVideo
-                                ? 'relative z-10 block w-auto h-auto max-w-full max-h-[70vh] sm:max-h-[72vh] object-contain bg-transparent'
-                                : 'absolute inset-0 z-10 w-full h-full object-contain bg-transparent'
-                            }
-                          />
+                          <>
+                            {!isHeroVideoReady && (
+                              <div
+                                aria-hidden="true"
+                                className={`absolute inset-0 z-0 pointer-events-none animate-pulse ${
+                                  isLight ? 'bg-neutral-200/50' : 'bg-white/[0.04]'
+                                }`}
+                              />
+                            )}
+                            <video
+                              ref={heroVideoRef}
+                              key={currentVideoUrl}
+                              src={stripVideoHash(currentVideoUrl)}
+                              poster={heroPosterUrl}
+                              controls
+                              autoPlay
+                              loop
+                              muted
+                              playsInline
+                              preload="auto"
+                              onLoadedMetadata={(e) => {
+                                const v = e.currentTarget;
+                                if (v && v.videoWidth > 0 && v.videoHeight > 0) {
+                                  setHeroVideoMeta((prev) => ({
+                                    url: currentVideoUrl,
+                                    width: v.videoWidth,
+                                    height: v.videoHeight,
+                                    ready: (prev.url === currentVideoUrl && prev.ready) || v.readyState >= 2,
+                                  }));
+                                }
+                              }}
+                              onLoadedData={(e) => markHeroReady(e.currentTarget)}
+                              onCanPlay={(e) => markHeroReady(e.currentTarget)}
+                              onPlaying={(e) => markHeroReady(e.currentTarget)}
+                              className={`absolute inset-0 z-10 w-full h-full object-contain bg-transparent transition-opacity duration-300 ${
+                                isHeroVideoReady ? 'opacity-100' : 'opacity-0'
+                              }`}
+                            />
+                          </>
                         ) : (
                           <iframe
                             key={currentVideoUrl}
